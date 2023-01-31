@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #383d5b #060f2f;
+}
+
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #060f2f;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #383d5b;
+  border-radius: 20px;
+  border: 3px solid #383d5b;
+}
+
+.highcharts-background {
+  fill: transparent;
+}
+
+.highcharts-stack-labels text {
+  fill: white;
+}
+
+.highcharts-axis-labels text {
+  fill: white;
+}
+
+.highcharts-data-label text,
+text.highcharts-data-label {
+  fill: white;
+}
+
+.highcharts-range-selector-buttons .highcharts-button {
+  stroke-width: 0px;
+}
+
+.highcharts-color-0 {
+  fill: #1054a1;
+}
+
+.highcharts-color-1 {
+  fill: #a0075b;
+}
+
+.highcharts-yaxis .highcharts-axis-line {
+  stroke-width: 2px;
+}
+
+.highcharts-range-label rect {
+  fill: none;
+}
+
+.highcharts-range-label text {
+  fill: #ffff;
+}
+
+.highcharts-range-input rect {
+  fill: none;
+}
+
+.highcharts-range-input text {
+  fill: #ffff;
+}
+
+.highcharts-range-input {
+  stroke-width: 1px;
+  stroke: #505053;
+}
