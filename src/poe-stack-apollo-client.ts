@@ -11,7 +11,7 @@ const api = "https://api.poestack.com/graphql";
 const local = "http://localhost:4000/graphql";
 
 const httpLink = createHttpLink({
-  uri: local,
+  uri: api,
 });
 
 const authLink = setContext((_, { headers }) => {
