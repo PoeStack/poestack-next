@@ -40,6 +40,8 @@ export default function CreateBulkListingModal({
     itemGroupValueOverrides: [],
   });
 
+  const [generatingImage, setGeneratingImage] = useState(false);
+
   useEffect(() => {
     setExporterInput((p) => ({
       ...p,
@@ -178,6 +180,8 @@ export default function CreateBulkListingModal({
                         "incubator",
                         "resonator",
                         "artifacts",
+                        "unidentified watcher's eyes",
+                        "blood-filled vessels",
                       ]}
                       onSelectChange={(e) => {
                         setExporterInput({
@@ -290,6 +294,29 @@ export default function CreateBulkListingModal({
                       }
                       onClick={() => {
                         generateListingToClipboard();
+                      }}
+                    />
+                    <StyledButton
+                      text={generatingImage ? "Loading..." : "Copy Image"}
+                      onClick={() => {
+                        console.log("xxxx", bulkListing);
+                        setGeneratingImage(true);
+                        const cpy = async () => {
+                          const response = await fetch(
+                            `/api/bulk-export/test?input=${JSON.stringify(
+                              exporterInput
+                            )}`
+                          );
+                          const blob = await response.blob();
+                          await navigator.clipboard.write([
+                            new ClipboardItem({
+                              [blob.type]: blob,
+                            }),
+                          ]);
+                        };
+                        cpy().finally(() => {
+                          setGeneratingImage(false);
+                        });
                       }}
                     />
                   </div>

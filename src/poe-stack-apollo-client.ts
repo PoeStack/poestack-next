@@ -11,11 +11,15 @@ const api = "https://api.poestack.com/graphql";
 const local = "http://localhost:4000/graphql";
 
 const httpLink = createHttpLink({
-  uri: api,
+  uri: local,
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem(localStorageJwtName);
+  let token = "";
+  if (typeof window !== "undefined") {
+    token = localStorage.getItem(localStorageJwtName) ?? "";
+  }
+
   return {
     headers: {
       ...headers,
@@ -57,6 +61,7 @@ function omitDeepArrayWalk(arr, key) {
 }
 
 const client = new ApolloClient({
+  ssrMode: typeof window === "undefined",
   link: ApolloLink.from([cleanTypenameLink, authLink, httpLink]),
   cache: new InMemoryCache(),
 });

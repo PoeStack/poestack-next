@@ -167,6 +167,7 @@ export type Query = {
   stashSnapshot: StashSnapshot;
   stashSnapshotItemGroupSummaries: StashSnapshotItemGroupSummarySearchResponse;
   stashSnapshotItemGroupSummariesAggregation: StashSnapshotItemGroupSummarySearchAggregationResponse;
+  stashSnapshotProfile: StashSnapshotProfile;
   stashSnapshotProfiles: Array<StashSnapshotProfile>;
   stashSnapshots: Array<StashSnapshot>;
   stashTabs: Array<PoeStashTab>;
@@ -208,6 +209,11 @@ export type QueryStashSnapshotItemGroupSummariesArgs = {
 export type QueryStashSnapshotItemGroupSummariesAggregationArgs = {
   aggregation: Scalars['String'];
   search: StashSnapshotItemGroupSummarySearchInput;
+};
+
+
+export type QueryStashSnapshotProfileArgs = {
+  snapshotProfileId: Scalars['String'];
 };
 
 
@@ -305,6 +311,7 @@ export type StashSnapshotItemGroupSummary = {
 export type StashSnapshotItemGroupSummarySearch = {
   __typename?: 'StashSnapshotItemGroupSummarySearch';
   excludedItemGroupHashStrings?: Maybe<Array<Scalars['String']>>;
+  keys?: Maybe<Array<Scalars['String']>>;
   limit?: Maybe<Scalars['Float']>;
   minTotalValueChaos?: Maybe<Scalars['Float']>;
   minValueChaos?: Maybe<Scalars['Float']>;
@@ -324,6 +331,7 @@ export type StashSnapshotItemGroupSummarySearchAggregationResponse = {
 
 export type StashSnapshotItemGroupSummarySearchInput = {
   excludedItemGroupHashStrings?: InputMaybe<Array<Scalars['String']>>;
+  keys?: InputMaybe<Array<Scalars['String']>>;
   limit?: InputMaybe<Scalars['Float']>;
   minTotalValueChaos?: InputMaybe<Scalars['Float']>;
   minValueChaos?: InputMaybe<Scalars['Float']>;
@@ -634,6 +642,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   stashSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<QueryStashSnapshotArgs, 'stashSnapshotId' | 'stashSnapshotProfileId'>>;
   stashSnapshotItemGroupSummaries?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesArgs, 'search'>>;
   stashSnapshotItemGroupSummariesAggregation?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchAggregationResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesAggregationArgs, 'aggregation' | 'search'>>;
+  stashSnapshotProfile?: Resolver<ResolversTypes['StashSnapshotProfile'], ParentType, ContextType, RequireFields<QueryStashSnapshotProfileArgs, 'snapshotProfileId'>>;
   stashSnapshotProfiles?: Resolver<Array<ResolversTypes['StashSnapshotProfile']>, ParentType, ContextType>;
   stashSnapshots?: Resolver<Array<ResolversTypes['StashSnapshot']>, ParentType, ContextType, RequireFields<QueryStashSnapshotsArgs, 'stashSnapshotProfileId'>>;
   stashTabs?: Resolver<Array<ResolversTypes['PoeStashTab']>, ParentType, ContextType, RequireFields<QueryStashTabsArgs, 'league'>>;
@@ -703,6 +712,7 @@ export type StashSnapshotItemGroupSummaryResolvers<ContextType = any, ParentType
 
 export type StashSnapshotItemGroupSummarySearchResolvers<ContextType = any, ParentType extends ResolversParentTypes['StashSnapshotItemGroupSummarySearch'] = ResolversParentTypes['StashSnapshotItemGroupSummarySearch']> = ResolversObject<{
   excludedItemGroupHashStrings?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
+  keys?: Resolver<Maybe<Array<ResolversTypes['String']>>, ParentType, ContextType>;
   limit?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   minTotalValueChaos?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   minValueChaos?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
