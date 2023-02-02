@@ -69,6 +69,12 @@ export default function EconomyKeyGroup() {
     }
   );
 
+  if (itemValueTimeseries.length === 1) {
+    router.push(
+      `/poe/economy/${league}/item-group/${itemValueTimeseries[0].itemGroup.hashString}`
+    );
+  }
+
   const cols = [
     ...new Set<string>(
       itemValueTimeseries.flatMap((ivt) =>
