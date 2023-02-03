@@ -14,7 +14,63 @@ export type Scalars = {
   Float: number;
   BigInt: any;
   DateTime: any;
+  JSON: any;
   JSONObject: any;
+};
+
+export type CharacterPassivesSnapshot = {
+  __typename?: 'CharacterPassivesSnapshot';
+  banditChoice?: Maybe<Scalars['String']>;
+  hashes: Array<Scalars['Float']>;
+  hashesEx: Array<Scalars['Float']>;
+  jewelData: Scalars['JSON'];
+  masteryEffects: Scalars['JSON'];
+  pantheonMajor?: Maybe<Scalars['String']>;
+  pantheonMinor?: Maybe<Scalars['String']>;
+  snapshotId: Scalars['String'];
+};
+
+export type CharacterSnapshot = {
+  __typename?: 'CharacterSnapshot';
+  characterClass: Scalars['String'];
+  characterId: Scalars['String'];
+  characterPassivesSnapshot?: Maybe<CharacterPassivesSnapshot>;
+  characterSnapshotItems?: Maybe<Array<CharacterSnapshotItem>>;
+  current: Scalars['Boolean'];
+  experience: Scalars['BigInt'];
+  id: Scalars['String'];
+  league: Scalars['String'];
+  level: Scalars['Float'];
+  poeCharacter?: Maybe<PoeCharacter>;
+  timestamp: Scalars['DateTime'];
+};
+
+export type CharacterSnapshotItem = {
+  __typename?: 'CharacterSnapshotItem';
+  baseType?: Maybe<Scalars['String']>;
+  corrupted?: Maybe<Scalars['Boolean']>;
+  description?: Maybe<Scalars['String']>;
+  explicitMods: Array<Scalars['String']>;
+  flavourText: Array<Scalars['String']>;
+  frameType: Scalars['Float'];
+  gemColor?: Maybe<Scalars['String']>;
+  h: Scalars['Float'];
+  icon: Scalars['String'];
+  id: Scalars['String'];
+  ilvl: Scalars['Float'];
+  inventoryId?: Maybe<Scalars['String']>;
+  itemGroupHashString?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  properties: Array<Scalars['JSON']>;
+  requirements: Array<Scalars['JSON']>;
+  snapshotId: Scalars['String'];
+  socket?: Maybe<Scalars['Float']>;
+  socketedInId?: Maybe<Scalars['String']>;
+  sockets: Array<Scalars['JSON']>;
+  support?: Maybe<Scalars['Boolean']>;
+  typeLine?: Maybe<Scalars['String']>;
+  utilityMods: Array<Scalars['String']>;
+  w: Scalars['Float'];
 };
 
 export type GlobalSearch = {
@@ -111,6 +167,8 @@ export type Mutation = {
   deleteStashSnapshotProfile: Scalars['Boolean'];
   exchangeAuthCode: Scalars['String'];
   exportStashSnapshot: StashSnapshotExport;
+  refreshPoeCharacters: Scalars['Boolean'];
+  takeCharacterSnapshot: Scalars['Boolean'];
   takeSnapshot: StashSnapshot;
   updateStashsnapshotProfile: Scalars['Boolean'];
 };
@@ -136,6 +194,11 @@ export type MutationExportStashSnapshotArgs = {
 };
 
 
+export type MutationTakeCharacterSnapshotArgs = {
+  characterId: Scalars['String'];
+};
+
+
 export type MutationTakeSnapshotArgs = {
   stashSnapshotProfileId: Scalars['String'];
 };
@@ -143,6 +206,15 @@ export type MutationTakeSnapshotArgs = {
 
 export type MutationUpdateStashsnapshotProfileArgs = {
   update: StashSnapshotProfileInput;
+};
+
+export type PoeCharacter = {
+  __typename?: 'PoeCharacter';
+  createdAtTimestamp: Scalars['DateTime'];
+  id: Scalars['String'];
+  lastSnapshotTimestamp?: Maybe<Scalars['DateTime']>;
+  name: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type PoeStashTab = {
@@ -159,11 +231,14 @@ export type PoeStashTab = {
 
 export type Query = {
   __typename?: 'Query';
+  characterSnapshot: CharacterSnapshot;
+  characterSnapshots: Array<CharacterSnapshot>;
   globalSearch: GlobalSearchResponse;
   itemGroupTags: Array<Scalars['String']>;
   itemGroupValueChaos: Scalars['Float'];
   itemGroupValueTimeseriesSearch: ItemGroupValueTimeseriesResult;
   myProfile: UserProfile;
+  poeCharacters: Array<PoeCharacter>;
   stashSnapshot: StashSnapshot;
   stashSnapshotItemGroupSummaries: StashSnapshotItemGroupSummarySearchResponse;
   stashSnapshotItemGroupSummariesAggregation: StashSnapshotItemGroupSummarySearchAggregationResponse;
@@ -171,6 +246,17 @@ export type Query = {
   stashSnapshotProfiles: Array<StashSnapshotProfile>;
   stashSnapshots: Array<StashSnapshot>;
   stashTabs: Array<PoeStashTab>;
+};
+
+
+export type QueryCharacterSnapshotArgs = {
+  characterId: Scalars['String'];
+  snapshotId: Scalars['String'];
+};
+
+
+export type QueryCharacterSnapshotsArgs = {
+  characterId: Scalars['String'];
 };
 
 
@@ -192,6 +278,11 @@ export type QueryItemGroupValueChaosArgs = {
 
 export type QueryItemGroupValueTimeseriesSearchArgs = {
   search: ItemGroupValueTimeseriesSearchInput;
+};
+
+
+export type QueryPoeCharactersArgs = {
+  userId: Scalars['String'];
 };
 
 
@@ -458,6 +549,9 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 export type ResolversTypes = ResolversObject<{
   BigInt: ResolverTypeWrapper<Scalars['BigInt']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CharacterPassivesSnapshot: ResolverTypeWrapper<CharacterPassivesSnapshot>;
+  CharacterSnapshot: ResolverTypeWrapper<CharacterSnapshot>;
+  CharacterSnapshotItem: ResolverTypeWrapper<CharacterSnapshotItem>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GlobalSearch: GlobalSearch;
@@ -472,8 +566,10 @@ export type ResolversTypes = ResolversObject<{
   ItemGroupValueTimeseriesGroupSeries: ResolverTypeWrapper<ItemGroupValueTimeseriesGroupSeries>;
   ItemGroupValueTimeseriesResult: ResolverTypeWrapper<ItemGroupValueTimeseriesResult>;
   ItemGroupValueTimeseriesSearchInput: ItemGroupValueTimeseriesSearchInput;
+  JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   Mutation: ResolverTypeWrapper<{}>;
+  PoeCharacter: ResolverTypeWrapper<PoeCharacter>;
   PoeStashTab: ResolverTypeWrapper<PoeStashTab>;
   Query: ResolverTypeWrapper<{}>;
   StashLocation: ResolverTypeWrapper<StashLocation>;
@@ -498,6 +594,9 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   BigInt: Scalars['BigInt'];
   Boolean: Scalars['Boolean'];
+  CharacterPassivesSnapshot: CharacterPassivesSnapshot;
+  CharacterSnapshot: CharacterSnapshot;
+  CharacterSnapshotItem: CharacterSnapshotItem;
   DateTime: Scalars['DateTime'];
   Float: Scalars['Float'];
   GlobalSearch: GlobalSearch;
@@ -512,8 +611,10 @@ export type ResolversParentTypes = ResolversObject<{
   ItemGroupValueTimeseriesGroupSeries: ItemGroupValueTimeseriesGroupSeries;
   ItemGroupValueTimeseriesResult: ItemGroupValueTimeseriesResult;
   ItemGroupValueTimeseriesSearchInput: ItemGroupValueTimeseriesSearchInput;
+  JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
   Mutation: {};
+  PoeCharacter: PoeCharacter;
   PoeStashTab: PoeStashTab;
   Query: {};
   StashLocation: StashLocation;
@@ -537,6 +638,61 @@ export type ResolversParentTypes = ResolversObject<{
 export interface BigIntScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['BigInt'], any> {
   name: 'BigInt';
 }
+
+export type CharacterPassivesSnapshotResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterPassivesSnapshot'] = ResolversParentTypes['CharacterPassivesSnapshot']> = ResolversObject<{
+  banditChoice?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  hashes?: Resolver<Array<ResolversTypes['Float']>, ParentType, ContextType>;
+  hashesEx?: Resolver<Array<ResolversTypes['Float']>, ParentType, ContextType>;
+  jewelData?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  masteryEffects?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  pantheonMajor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  pantheonMinor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshot'] = ResolversParentTypes['CharacterSnapshot']> = ResolversObject<{
+  characterClass?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  characterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  characterPassivesSnapshot?: Resolver<Maybe<ResolversTypes['CharacterPassivesSnapshot']>, ParentType, ContextType>;
+  characterSnapshotItems?: Resolver<Maybe<Array<ResolversTypes['CharacterSnapshotItem']>>, ParentType, ContextType>;
+  current?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  experience?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  league?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  poeCharacter?: Resolver<Maybe<ResolversTypes['PoeCharacter']>, ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotItemResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotItem'] = ResolversParentTypes['CharacterSnapshotItem']> = ResolversObject<{
+  baseType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  corrupted?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  explicitMods?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  flavourText?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  frameType?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  gemColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  h?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  icon?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ilvl?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  inventoryId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  itemGroupHashString?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  properties?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
+  requirements?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
+  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  socket?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  socketedInId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  sockets?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
+  support?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  typeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  utilityMods?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  w?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['DateTime'], any> {
   name: 'DateTime';
@@ -608,6 +764,10 @@ export type ItemGroupValueTimeseriesResultResolvers<ContextType = any, ParentTyp
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface JsonScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSON'], any> {
+  name: 'JSON';
+}
+
 export interface JsonObjectScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['JSONObject'], any> {
   name: 'JSONObject';
 }
@@ -617,8 +777,19 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteStashSnapshotProfile?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationDeleteStashSnapshotProfileArgs, 'stashSnapshotProfileId'>>;
   exchangeAuthCode?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationExchangeAuthCodeArgs, 'authCode'>>;
   exportStashSnapshot?: Resolver<ResolversTypes['StashSnapshotExport'], ParentType, ContextType, RequireFields<MutationExportStashSnapshotArgs, 'input'>>;
+  refreshPoeCharacters?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  takeCharacterSnapshot?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationTakeCharacterSnapshotArgs, 'characterId'>>;
   takeSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<MutationTakeSnapshotArgs, 'stashSnapshotProfileId'>>;
   updateStashsnapshotProfile?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateStashsnapshotProfileArgs, 'update'>>;
+}>;
+
+export type PoeCharacterResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoeCharacter'] = ResolversParentTypes['PoeCharacter']> = ResolversObject<{
+  createdAtTimestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastSnapshotTimestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type PoeStashTabResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoeStashTab'] = ResolversParentTypes['PoeStashTab']> = ResolversObject<{
@@ -634,11 +805,14 @@ export type PoeStashTabResolvers<ContextType = any, ParentType extends Resolvers
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  characterSnapshot?: Resolver<ResolversTypes['CharacterSnapshot'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotArgs, 'characterId' | 'snapshotId'>>;
+  characterSnapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotsArgs, 'characterId'>>;
   globalSearch?: Resolver<ResolversTypes['GlobalSearchResponse'], ParentType, ContextType, RequireFields<QueryGlobalSearchArgs, 'search'>>;
   itemGroupTags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryItemGroupTagsArgs, 'league'>>;
   itemGroupValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryItemGroupValueChaosArgs, 'key' | 'league'>>;
   itemGroupValueTimeseriesSearch?: Resolver<ResolversTypes['ItemGroupValueTimeseriesResult'], ParentType, ContextType, RequireFields<QueryItemGroupValueTimeseriesSearchArgs, 'search'>>;
   myProfile?: Resolver<ResolversTypes['UserProfile'], ParentType, ContextType>;
+  poeCharacters?: Resolver<Array<ResolversTypes['PoeCharacter']>, ParentType, ContextType, RequireFields<QueryPoeCharactersArgs, 'userId'>>;
   stashSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<QueryStashSnapshotArgs, 'stashSnapshotId' | 'stashSnapshotProfileId'>>;
   stashSnapshotItemGroupSummaries?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesArgs, 'search'>>;
   stashSnapshotItemGroupSummariesAggregation?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchAggregationResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesAggregationArgs, 'aggregation' | 'search'>>;
@@ -764,6 +938,9 @@ export type UserProfileResolvers<ContextType = any, ParentType extends Resolvers
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   BigInt?: GraphQLScalarType;
+  CharacterPassivesSnapshot?: CharacterPassivesSnapshotResolvers<ContextType>;
+  CharacterSnapshot?: CharacterSnapshotResolvers<ContextType>;
+  CharacterSnapshotItem?: CharacterSnapshotItemResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   GlobalSearchResponse?: GlobalSearchResponseResolvers<ContextType>;
   GlobalSearchResponseEntry?: GlobalSearchResponseEntryResolvers<ContextType>;
@@ -773,8 +950,10 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   ItemGroupValueTimeseriesGroupEntry?: ItemGroupValueTimeseriesGroupEntryResolvers<ContextType>;
   ItemGroupValueTimeseriesGroupSeries?: ItemGroupValueTimeseriesGroupSeriesResolvers<ContextType>;
   ItemGroupValueTimeseriesResult?: ItemGroupValueTimeseriesResultResolvers<ContextType>;
+  JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  PoeCharacter?: PoeCharacterResolvers<ContextType>;
   PoeStashTab?: PoeStashTabResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   StashLocation?: StashLocationResolvers<ContextType>;

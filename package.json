@@ -21,6 +21,7 @@
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
     "graphql": "^16.6.0",
+    "graphql-scalars": "^1.20.1",
     "highcharts": "^10.3.2",
     "highcharts-react-official": "^3.1.0",
     "jsonwebtoken": "^9.0.0",

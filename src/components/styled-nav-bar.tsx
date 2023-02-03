@@ -24,8 +24,11 @@ export default function StyledNavBar() {
           </div>
           <Link href="/poe/economy/Sanctum?tag=currency">Economy</Link>
           {profile && (
-            <Link href="/poe/stash/snapshot/profiles">My Profiles</Link>
+            <Link href={`/poe/characters/${profile.userId}`}>
+              My Characters
+            </Link>
           )}
+          {profile && <Link href="/poe/stash/snapshot/profiles">Stash</Link>}
         </div>
         <div className="grow">
           <SearchBar />
