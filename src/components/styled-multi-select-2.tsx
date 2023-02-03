@@ -13,7 +13,7 @@ export default function StyledMultiSelect2({
   const mappedSelected = [selected].flat().filter((e) => !!e);
 
   return (
-    <div className="flex flex-row w-full">
+    <div className="flex flex-row w-full ">
       <Listbox
         value={mappedSelected}
         onChange={(s) => {
@@ -22,7 +22,7 @@ export default function StyledMultiSelect2({
         multiple
       >
         <div className="relative mt-1 grow">
-          <Listbox.Button className="relative overflow-x-hidden bg-theme-color-2 text-white w-full cursor-default rounded-l-lg  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
+          <Listbox.Button className="relative overflow-x-hidden bg-skin-primary text-skin-base w-full cursor-default rounded-l-lg  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
             <span className="block truncate">
               {mappedSelected?.length < 1
                 ? "...."
@@ -43,8 +43,8 @@ export default function StyledMultiSelect2({
                 <Listbox.Option
                   key={itemIndex}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 ${
-                      active ? "bg-theme-color-3 text-white" : "text-white"
+                    `relative cursor-default select-none py-2  ${
+                      active ? "bg-skin-secondary text-white" : "text-white"
                     }`
                   }
                   value={item}
@@ -52,7 +52,7 @@ export default function StyledMultiSelect2({
                   {({ selected }) => (
                     <>
                       <div
-                        className={`block grow text-white truncate ${
+                        className={`block grow text-skin-base truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
@@ -68,7 +68,7 @@ export default function StyledMultiSelect2({
         </div>
       </Listbox>
       <button
-        className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1 text-white rounded-r-lg h-[36px] mt-[4px]"
+        className="bg-skin-secondary hover:bg-skin-secondary-dark py-1 px-1 text-white rounded-r-lg h-[36px] mt-[4px]"
         onClick={() => {
           if (selected?.length > 0) {
             onSelectChange?.([]);

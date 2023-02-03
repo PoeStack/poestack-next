@@ -10,7 +10,7 @@ export default function StyledNavBar() {
 
   return (
     <>
-      <div className="flex h-12 w-full bg-theme-color-1 items-center pl-2 pr-2">
+      <div className="flex h-12 w-full bg-skin-tertiary-light items-center pl-2 pr-2">
         <div className="flex space-x-2 items-center">
           <div className="flex space-x-1">
             <Link href={"/"}>
@@ -22,20 +22,39 @@ export default function StyledNavBar() {
               />
             </Link>
           </div>
-          <Link href="/poe/economy/Sanctum?tag=currency">Economy</Link>
+          <Link
+            className="font-semibold hover:text-skin-accent"
+            href="/poe/economy/Sanctum?tag=currency"
+          >
+            Economy
+          </Link>
           {profile && (
-            <Link href={`/poe/characters/${profile.userId}`}>
+            <Link
+              className="font-semibold hover:text-skin-accent"
+              href={`/poe/characters/${profile.userId}`}
+            >
               My Characters
             </Link>
           )}
-          {profile && <Link href="/poe/stash/snapshot/profiles">Stash</Link>}
+          {profile && (
+            <Link
+              className="font-semibold hover:text-skin-accent"
+              href="/poe/stash/snapshot/profiles"
+            >
+              Stash
+            </Link>
+          )}
         </div>
         <div className="grow">
           <SearchBar />
         </div>
-        <div className="flex space-x-6">
-          <a href="https://discord.gg/zqeTWZvb76">Join Discord</a>
-          <GggAuthBtn />
+        <div className="flex space-x-6  text-skin-base">
+          <div className="font-semibold hover:text-skin-accent">
+            <a href="https://discord.gg/zqeTWZvb76">Join Discord</a>
+          </div>
+          <div className="font-semibold hover:text-skin-accent">
+            <GggAuthBtn />
+          </div>
         </div>
       </div>
     </>

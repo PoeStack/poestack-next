@@ -14,8 +14,9 @@ export default function StyledPaginate({
 }) {
   return (
     <>
-      <div className="flex flex-row space-x-2">
-        <div
+      <div className="flex flex-row justify-center space-x-40 pt-4">
+        <button
+          className="w-20 h-10 hover:bg-skin-primary hover:text-skin-accent rounded-lg"
           onClick={() => {
             const newSkip = Math.max(currentSkip - limit, 0);
             if (newSkip != currentSkip) {
@@ -24,8 +25,9 @@ export default function StyledPaginate({
           }}
         >
           Previous
-        </div>
-        <div
+        </button>
+        <button
+          className="w-20 h-10 hover:bg-skin-primary hover:text-skin-accent rounded-lg"
           onClick={() => {
             if (hasMore) {
               onSelectionChange(currentSkip + limit, limit);
@@ -33,7 +35,7 @@ export default function StyledPaginate({
           }}
         >
           Next
-        </div>
+        </button>
       </div>
     </>
   );
