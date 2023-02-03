@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { CharacterSnapshot } from "../../../../../__generated__/resolvers-types";
 import StyledCard from "../../../../../components/styled-card";
@@ -140,19 +140,35 @@ export default function Character() {
   );
 
   const [passiveTreeData, setPassiveTreeData] = useState<any | null>(null);
-  useQuery(
+  const { refetch: refetchPassiveTreeData } = useQuery(
     gql`
       query Query($league: String!) {
         passiveTree(league: $league)
       }
     `,
     {
+      skip: true,
       variables: { league: "3.20" },
       onCompleted(data) {
         setPassiveTreeData(data.passiveTree);
+        localStorage.setItem(
+          "3.20_passive_data_1",
+          JSON.stringify(data.passiveTree)
+        );
       },
     }
   );
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !passiveTreeData) {
+      const localData = localStorage.getItem("3.20_passive_data_1");
+      if (localData) {
+        setPassiveTreeData(JSON.parse(localData));
+      } else {
+        refetchPassiveTreeData();
+      }
+    }
+  }, [passiveTreeData, refetchPassiveTreeData]);
 
   const [takeSnapshot] = useMutation(
     gql`
