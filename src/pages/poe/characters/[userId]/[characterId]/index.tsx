@@ -1,18 +1,14 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import Link from "next/link";
-
 import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  PoeCharacter,
-  CharacterSnapshot,
-} from "../../../../../__generated__/resolvers-types";
+import { CharacterSnapshot } from "../../../../../__generated__/resolvers-types";
 import StyledCard from "../../../../../components/styled-card";
 import EquipmentDisplay from "../../../../../components/equipment-display";
 import SecondaryEquipmentDisplay from "../../../../../components/secondary-equipment-display";
 import StyledButton from "../../../../../components/styled-button";
 import CharacterStatsDisplay from "../../../../../components/character-stats-display";
+import SkillTree from "../../../../../components/skill-tree/skill-tree";
 
 export default function Character() {
   const router = useRouter();
@@ -143,6 +139,21 @@ export default function Character() {
     }
   );
 
+  const [passiveTreeData, setPassiveTreeData] = useState<any | null>(null);
+  useQuery(
+    gql`
+      query Query($league: String!) {
+        passiveTree(league: $league)
+      }
+    `,
+    {
+      variables: { league: "3.20" },
+      onCompleted(data) {
+        setPassiveTreeData(data.passiveTree);
+      },
+    }
+  );
+
   const [takeSnapshot] = useMutation(
     gql`
       mutation TakeCharacterSnapshot($characterId: String!) {
@@ -199,13 +210,46 @@ export default function Character() {
             />
           </StyledCard>
         </div>
-        <div>
-          <StyledCard title={"Pob Stats"}>
-            <CharacterStatsDisplay
-              pobStats={currentSnapshot?.characterSnapshotPobStats}
-            />
+        <div className="flex flex-row space-x-2">
+          <div className="grow">
+            <StyledCard title={"Pob Stats"}>
+              <CharacterStatsDisplay
+                pobStats={currentSnapshot?.characterSnapshotPobStats}
+              />
+            </StyledCard>
+          </div>
+          <StyledCard title={"Info"}>
+            <div>
+              <div>
+                Bandit:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
+              </div>
+              <div>
+                Pantheon Major:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
+              </div>
+              <div>
+                Pantheon Minor:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
+              </div>
+            </div>
           </StyledCard>
         </div>
+
+        <StyledCard title={"Passive Tree"}>
+          {passiveTreeData && (
+            <SkillTree
+              data={passiveTreeData}
+              selectedNodes={
+                new Set(
+                  currentSnapshot?.characterPassivesSnapshot?.hashes.map((h) =>
+                    h.toString()
+                  ) ?? []
+                )
+              }
+            />
+          )}
+        </StyledCard>
       </div>
     </>
   );
