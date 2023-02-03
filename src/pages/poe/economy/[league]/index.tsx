@@ -130,7 +130,7 @@ export default function Economy() {
               </thead>
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
-                  <tr key={index}>
+                  <tr key={index} className="hover:text-skin-accent">
                     <td>
                       <Image
                         src={groupSeries.itemGroup?.icon ?? ""}

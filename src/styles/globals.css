@@ -2,6 +2,83 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  /* using names that don't designate any design opinions */
+  /* Base Template Themeing:
+  base = white or black depending on theme use for text and basic backgrounds
+  primary = 1st focus of a color theme (vaal = red, neon = lightgreen, etc)
+  secondary = 2nd focus of a theme if it exists
+  accent = highlights
+  muted = luminent drop offs
+  */
+  :root {
+    --color-text-base: #ffffff;
+    --color-text-inverted: #000;
+    --color-primary: #49558c;
+    --color-primary-light:#7184D9;
+    --color-primary-dark:#2E3659;
+    --color-secondary: #1054A1;
+    --color-secondary-light: #5FA1ED;
+    --color-secondary-dark: #0B396E;
+    --color-tertiary: #060F2F;
+    --color-tertiary-light: #1B2240;
+    --color-accent: #d9b445;
+    --color-accent-light: #F0D641;
+    --color-accent-dark: #E6973E;
+  }
+
+  /* colors: {
+    "theme-color-0": "#060F2F",
+    "theme-color-1": "#1B2240",
+    "theme-color-2": "#383D5B",
+    "theme-color-3": "#1054A1",
+    "theme-color-4": "#99A6DB",
+  }, */
+
+  /* placeholders for future themes WIP*/
+  .theme-dark {
+    --color-text-base: #ffffff;
+    --color-text-inverted: #000;
+    --color-primary: #49558c;
+    --color-primary-light:#7184D9
+    --color-primary-dark:#1B2240
+    --color-secondary: #1054A1;
+    --color-secondary-light: #5FA1ED;
+    --color-secondary-dark: #0B396E;
+    --color-accent: #d9b445;
+    --color-accent-light: #F0D641;
+    --color-accent-dark: #E6973E;
+  }
+  /* placeholders for future themes WIP*/
+  .theme-white {
+    --color-text-base: #ffffff;
+    --color-text-inverted: #000;
+    --color-primary: #49558c;
+    --color-primary-light:#7184D9
+    --color-primary-dark:#2E3659
+    --color-secondary: #1054A1;
+    --color-secondary-light: #5FA1ED;
+    --color-secondary-dark: #0B396E;
+    --color-accent: #d9b445;
+    --color-accent-light: #F0D641;
+    --color-accent-dark: #E6973E;
+  }
+  /* placeholders for future themes WIP*/
+  .theme-vaal {
+    --color-text-base: #000;
+    --color-text-inverted: #ffffff;
+    --color-primary: #A80501;
+    --color-primary-light:#FA0801
+    --color-primary-dark:#780301
+    --color-secondary: #1054A1;
+    --color-secondary-light: #5FA1ED;
+    --color-secondary-dark: #0B396E;
+    --color-accent: #d9b445;
+    --color-accent-light: #F0D641;
+    --color-accent-dark: #E6973E;
+  }
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #383d5b #060f2f;
