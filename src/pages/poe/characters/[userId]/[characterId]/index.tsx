@@ -12,6 +12,7 @@ import StyledCard from "../../../../../components/styled-card";
 import EquipmentDisplay from "../../../../../components/equipment-display";
 import SecondaryEquipmentDisplay from "../../../../../components/secondary-equipment-display";
 import StyledButton from "../../../../../components/styled-button";
+import CharacterStatsDisplay from "../../../../../components/character-stats-display";
 
 export default function Character() {
   const router = useRouter();
@@ -111,6 +112,25 @@ export default function Character() {
             createdAtTimestamp
             lastSnapshotTimestamp
           }
+          characterSnapshotPobStats {
+            snapshotId
+            accuracy
+            armour
+            blockChance
+            spellBlockChance
+            chaosResist
+            coldResist
+            dex
+            energyShield
+            fireResist
+            int
+            life
+            lightningResist
+            mana
+            str
+            evasion
+            pobCode
+          }
         }
       }
     `,
@@ -176,6 +196,13 @@ export default function Character() {
           <StyledCard title="Other Items">
             <SecondaryEquipmentDisplay
               items={currentSnapshot?.characterSnapshotItems!}
+            />
+          </StyledCard>
+        </div>
+        <div>
+          <StyledCard title={"Pob Stats"}>
+            <CharacterStatsDisplay
+              pobStats={currentSnapshot?.characterSnapshotPobStats}
             />
           </StyledCard>
         </div>

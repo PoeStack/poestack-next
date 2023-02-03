@@ -48,7 +48,12 @@ export default function EquipmentDisplay({
           <div></div>
           <div className="col-span-2 row-span-3">
             <ItemMouseOver item={weapon}>
-              <Image height={200} width={50} src={weapon?.icon!} alt={""} />
+              <Image
+                height={200}
+                width={50 * weapon!.w}
+                src={weapon?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-3">
@@ -58,7 +63,12 @@ export default function EquipmentDisplay({
           </div>
           <div className="col-span-2 row-span-3">
             <ItemMouseOver item={offHand}>
-              <Image height={200} width={100} src={offHand?.icon!} alt={""} />
+              <Image
+                height={200}
+                width={50 * offHand!.w}
+                src={offHand?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div></div>

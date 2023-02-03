@@ -36,6 +36,7 @@ export type CharacterSnapshot = {
   characterId: Scalars['String'];
   characterPassivesSnapshot?: Maybe<CharacterPassivesSnapshot>;
   characterSnapshotItems?: Maybe<Array<CharacterSnapshotItem>>;
+  characterSnapshotPobStats?: Maybe<CharacterSnapshotPobStats>;
   current: Scalars['Boolean'];
   experience: Scalars['BigInt'];
   id: Scalars['String'];
@@ -71,6 +72,27 @@ export type CharacterSnapshotItem = {
   typeLine?: Maybe<Scalars['String']>;
   utilityMods: Array<Scalars['String']>;
   w: Scalars['Float'];
+};
+
+export type CharacterSnapshotPobStats = {
+  __typename?: 'CharacterSnapshotPobStats';
+  accuracy?: Maybe<Scalars['Float']>;
+  armour?: Maybe<Scalars['Float']>;
+  blockChance?: Maybe<Scalars['Float']>;
+  chaosResist?: Maybe<Scalars['Float']>;
+  coldResist?: Maybe<Scalars['Float']>;
+  dex?: Maybe<Scalars['Float']>;
+  energyShield?: Maybe<Scalars['Float']>;
+  evasion?: Maybe<Scalars['Float']>;
+  fireResist?: Maybe<Scalars['Float']>;
+  int?: Maybe<Scalars['Float']>;
+  life?: Maybe<Scalars['Float']>;
+  lightningResist?: Maybe<Scalars['Float']>;
+  mana?: Maybe<Scalars['Float']>;
+  pobCode?: Maybe<Scalars['String']>;
+  snapshotId: Scalars['String'];
+  spellBlockChance?: Maybe<Scalars['Float']>;
+  str?: Maybe<Scalars['Float']>;
 };
 
 export type GlobalSearch = {
@@ -552,6 +574,7 @@ export type ResolversTypes = ResolversObject<{
   CharacterPassivesSnapshot: ResolverTypeWrapper<CharacterPassivesSnapshot>;
   CharacterSnapshot: ResolverTypeWrapper<CharacterSnapshot>;
   CharacterSnapshotItem: ResolverTypeWrapper<CharacterSnapshotItem>;
+  CharacterSnapshotPobStats: ResolverTypeWrapper<CharacterSnapshotPobStats>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GlobalSearch: GlobalSearch;
@@ -597,6 +620,7 @@ export type ResolversParentTypes = ResolversObject<{
   CharacterPassivesSnapshot: CharacterPassivesSnapshot;
   CharacterSnapshot: CharacterSnapshot;
   CharacterSnapshotItem: CharacterSnapshotItem;
+  CharacterSnapshotPobStats: CharacterSnapshotPobStats;
   DateTime: Scalars['DateTime'];
   Float: Scalars['Float'];
   GlobalSearch: GlobalSearch;
@@ -656,6 +680,7 @@ export type CharacterSnapshotResolvers<ContextType = any, ParentType extends Res
   characterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   characterPassivesSnapshot?: Resolver<Maybe<ResolversTypes['CharacterPassivesSnapshot']>, ParentType, ContextType>;
   characterSnapshotItems?: Resolver<Maybe<Array<ResolversTypes['CharacterSnapshotItem']>>, ParentType, ContextType>;
+  characterSnapshotPobStats?: Resolver<Maybe<ResolversTypes['CharacterSnapshotPobStats']>, ParentType, ContextType>;
   current?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   experience?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -691,6 +716,27 @@ export type CharacterSnapshotItemResolvers<ContextType = any, ParentType extends
   typeLine?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   utilityMods?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   w?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotPobStatsResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotPobStats'] = ResolversParentTypes['CharacterSnapshotPobStats']> = ResolversObject<{
+  accuracy?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  armour?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  blockChance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  chaosResist?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  coldResist?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  dex?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  energyShield?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  evasion?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  fireResist?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  int?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  life?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  lightningResist?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  mana?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  pobCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  spellBlockChance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  str?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -941,6 +987,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CharacterPassivesSnapshot?: CharacterPassivesSnapshotResolvers<ContextType>;
   CharacterSnapshot?: CharacterSnapshotResolvers<ContextType>;
   CharacterSnapshotItem?: CharacterSnapshotItemResolvers<ContextType>;
+  CharacterSnapshotPobStats?: CharacterSnapshotPobStatsResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   GlobalSearchResponse?: GlobalSearchResponseResolvers<ContextType>;
   GlobalSearchResponseEntry?: GlobalSearchResponseEntryResolvers<ContextType>;
