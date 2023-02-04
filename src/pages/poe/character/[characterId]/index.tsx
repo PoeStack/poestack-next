@@ -5,19 +5,19 @@ import { useRouter } from "next/router";
 import {
   CharacterSnapshot,
   PassiveTreeResponse,
-} from "../../../../../__generated__/resolvers-types";
-import StyledCard from "../../../../../components/styled-card";
-import EquipmentDisplay from "../../../../../components/equipment-display";
-import SecondaryEquipmentDisplay from "../../../../../components/secondary-equipment-display";
-import StyledButton from "../../../../../components/styled-button";
-import CharacterStatsDisplay from "../../../../../components/character-stats-display";
-import SkillTree from "../../../../../components/skill-tree/skill-tree";
-import StyledMultiSelect2 from "../../../../../components/styled-multi-select-2";
-import StyledSelect2 from "../../../../../components/styled-select-2";
+} from "../../../../__generated__/resolvers-types";
+import StyledCard from "../../../../components/styled-card";
+import EquipmentDisplay from "../../../../components/equipment-display";
+import SecondaryEquipmentDisplay from "../../../../components/secondary-equipment-display";
+import StyledButton from "../../../../components/styled-button";
+import CharacterStatsDisplay from "../../../../components/character-stats-display";
+import SkillTree from "../../../../components/skill-tree/skill-tree";
+import StyledMultiSelect2 from "../../../../components/styled-multi-select-2";
+import StyledSelect2 from "../../../../components/styled-select-2";
 
 export default function Character() {
   const router = useRouter();
-  const { userId, characterId, snapshotId } = router.query;
+  const { characterId, snapshotId } = router.query;
 
   const [characterSnapshots, setCharacterSnapshots] = useState<
     CharacterSnapshot[]
@@ -48,7 +48,6 @@ export default function Character() {
         if (data.characterSnapshots.length > 0) {
           router.push({
             query: {
-              userId: userId,
               characterId: characterId,
               snapshotId:
                 data.characterSnapshots[data.characterSnapshots.length - 1].id,
@@ -226,7 +225,6 @@ export default function Character() {
                 onSelectChange={(e) => {
                   router.push({
                     query: {
-                      userId: userId,
                       characterId: characterId,
                       snapshotId: e?.id,
                     },

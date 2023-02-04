@@ -31,6 +31,14 @@ export default function StyledNavBar() {
           {profile && (
             <Link
               className="font-semibold hover:text-skin-accent"
+              href={`/poe/characters`}
+            >
+              Characters
+            </Link>
+          )}
+          {profile && (
+            <Link
+              className="font-semibold hover:text-skin-accent"
               href={`/poe/characters/${profile.userId}`}
             >
               My Characters

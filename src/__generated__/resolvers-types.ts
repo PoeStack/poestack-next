@@ -96,6 +96,17 @@ export type CharacterSnapshotPobStats = {
   str?: Maybe<Scalars['Float']>;
 };
 
+export type CharacterSnapshotSearch = {
+  excludedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
+  includedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
+};
+
+export type CharacterSnapshotSearchResponse = {
+  __typename?: 'CharacterSnapshotSearchResponse';
+  hasMore: Scalars['Boolean'];
+  snapshots: Array<CharacterSnapshot>;
+};
+
 export type GlobalSearch = {
   league: Scalars['String'];
   searchText: Scalars['String'];
@@ -311,6 +322,7 @@ export type Query = {
   __typename?: 'Query';
   characterSnapshot: CharacterSnapshot;
   characterSnapshots: Array<CharacterSnapshot>;
+  characterSnapshotsSearch: CharacterSnapshotSearchResponse;
   globalSearch: GlobalSearchResponse;
   itemGroupTags: Array<Scalars['String']>;
   itemGroupValueChaos: Scalars['Float'];
@@ -336,6 +348,11 @@ export type QueryCharacterSnapshotArgs = {
 
 export type QueryCharacterSnapshotsArgs = {
   characterId: Scalars['String'];
+};
+
+
+export type QueryCharacterSnapshotsSearchArgs = {
+  search: CharacterSnapshotSearch;
 };
 
 
@@ -637,6 +654,8 @@ export type ResolversTypes = ResolversObject<{
   CharacterSnapshot: ResolverTypeWrapper<CharacterSnapshot>;
   CharacterSnapshotItem: ResolverTypeWrapper<CharacterSnapshotItem>;
   CharacterSnapshotPobStats: ResolverTypeWrapper<CharacterSnapshotPobStats>;
+  CharacterSnapshotSearch: CharacterSnapshotSearch;
+  CharacterSnapshotSearchResponse: ResolverTypeWrapper<CharacterSnapshotSearchResponse>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GlobalSearch: GlobalSearch;
@@ -687,6 +706,8 @@ export type ResolversParentTypes = ResolversObject<{
   CharacterSnapshot: CharacterSnapshot;
   CharacterSnapshotItem: CharacterSnapshotItem;
   CharacterSnapshotPobStats: CharacterSnapshotPobStats;
+  CharacterSnapshotSearch: CharacterSnapshotSearch;
+  CharacterSnapshotSearchResponse: CharacterSnapshotSearchResponse;
   DateTime: Scalars['DateTime'];
   Float: Scalars['Float'];
   GlobalSearch: GlobalSearch;
@@ -808,6 +829,12 @@ export type CharacterSnapshotPobStatsResolvers<ContextType = any, ParentType ext
   snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spellBlockChance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   str?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotSearchResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotSearchResponse'] = ResolversParentTypes['CharacterSnapshotSearchResponse']> = ResolversObject<{
+  hasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  snapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -979,6 +1006,7 @@ export type PoeStashTabResolvers<ContextType = any, ParentType extends Resolvers
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   characterSnapshot?: Resolver<ResolversTypes['CharacterSnapshot'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotArgs, 'characterId' | 'snapshotId'>>;
   characterSnapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotsArgs, 'characterId'>>;
+  characterSnapshotsSearch?: Resolver<ResolversTypes['CharacterSnapshotSearchResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchArgs, 'search'>>;
   globalSearch?: Resolver<ResolversTypes['GlobalSearchResponse'], ParentType, ContextType, RequireFields<QueryGlobalSearchArgs, 'search'>>;
   itemGroupTags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryItemGroupTagsArgs, 'league'>>;
   itemGroupValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryItemGroupValueChaosArgs, 'key' | 'league'>>;
@@ -1115,6 +1143,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CharacterSnapshot?: CharacterSnapshotResolvers<ContextType>;
   CharacterSnapshotItem?: CharacterSnapshotItemResolvers<ContextType>;
   CharacterSnapshotPobStats?: CharacterSnapshotPobStatsResolvers<ContextType>;
+  CharacterSnapshotSearchResponse?: CharacterSnapshotSearchResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   GlobalSearchResponse?: GlobalSearchResponseResolvers<ContextType>;
   GlobalSearchResponseEntry?: GlobalSearchResponseEntryResolvers<ContextType>;

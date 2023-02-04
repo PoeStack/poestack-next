@@ -60,7 +60,7 @@ export default function Characters() {
             {poeCharacters?.map((character) => (
               <>
                 <div>
-                  <Link href={`/poe/characters/${userId}/${character.id}`}>
+                  <Link href={`/poe/character/${character.id}`}>
                     {character.name}
                   </Link>
                 </div>
