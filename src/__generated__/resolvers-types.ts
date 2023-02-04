@@ -231,6 +231,61 @@ export type MutationUpdateStashsnapshotProfileArgs = {
   update: StashSnapshotProfileInput;
 };
 
+export type PassiveTreeConnection = {
+  __typename?: 'PassiveTreeConnection';
+  curved: Scalars['Boolean'];
+  fromNode: Scalars['String'];
+  toNode: Scalars['String'];
+};
+
+export type PassiveTreeConstants = {
+  __typename?: 'PassiveTreeConstants';
+  maxX: Scalars['Float'];
+  maxY: Scalars['Float'];
+  minX: Scalars['Float'];
+  minY: Scalars['Float'];
+  orbitRadii: Array<Scalars['Float']>;
+  skillsPerOrbit: Array<Scalars['Float']>;
+};
+
+export type PassiveTreeNode = {
+  __typename?: 'PassiveTreeNode';
+  activeEffectImage?: Maybe<Scalars['String']>;
+  activeIcon?: Maybe<Scalars['String']>;
+  ascendancyName?: Maybe<Scalars['String']>;
+  flavourText: Array<Scalars['String']>;
+  group: Scalars['Float'];
+  hash: Scalars['String'];
+  icon: Scalars['String'];
+  in: Array<Scalars['String']>;
+  inactiveIcon?: Maybe<Scalars['String']>;
+  isJewelSocket?: Maybe<Scalars['Boolean']>;
+  isKeystone?: Maybe<Scalars['Boolean']>;
+  isMastery?: Maybe<Scalars['Boolean']>;
+  isMultipleChoiceOption?: Maybe<Scalars['Boolean']>;
+  isNotable?: Maybe<Scalars['Boolean']>;
+  masteryEffects?: Maybe<Array<Scalars['JSON']>>;
+  name: Scalars['String'];
+  orbit: Scalars['Float'];
+  orbitIndex: Scalars['Float'];
+  out: Array<Scalars['String']>;
+  recipe: Array<Scalars['String']>;
+  reminderText: Array<Scalars['String']>;
+  size: Scalars['Float'];
+  stats: Array<Scalars['String']>;
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
+export type PassiveTreeResponse = {
+  __typename?: 'PassiveTreeResponse';
+  allConnections?: Maybe<Array<PassiveTreeConnection>>;
+  allNodes?: Maybe<Array<PassiveTreeNode>>;
+  connectionMap: Scalars['JSON'];
+  constants: PassiveTreeConstants;
+  nodeMap: Scalars['JSON'];
+};
+
 export type PoeCharacter = {
   __typename?: 'PoeCharacter';
   createdAtTimestamp: Scalars['DateTime'];
@@ -261,7 +316,7 @@ export type Query = {
   itemGroupValueChaos: Scalars['Float'];
   itemGroupValueTimeseriesSearch: ItemGroupValueTimeseriesResult;
   myProfile: UserProfile;
-  passiveTree: Scalars['JSON'];
+  passiveTree: PassiveTreeResponse;
   poeCharacters: Array<PoeCharacter>;
   stashSnapshot: StashSnapshot;
   stashSnapshotItemGroupSummaries: StashSnapshotItemGroupSummarySearchResponse;
@@ -306,7 +361,7 @@ export type QueryItemGroupValueTimeseriesSearchArgs = {
 
 
 export type QueryPassiveTreeArgs = {
-  league: Scalars['String'];
+  passiveTreeVersion: Scalars['String'];
 };
 
 
@@ -599,6 +654,10 @@ export type ResolversTypes = ResolversObject<{
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
   JSONObject: ResolverTypeWrapper<Scalars['JSONObject']>;
   Mutation: ResolverTypeWrapper<{}>;
+  PassiveTreeConnection: ResolverTypeWrapper<PassiveTreeConnection>;
+  PassiveTreeConstants: ResolverTypeWrapper<PassiveTreeConstants>;
+  PassiveTreeNode: ResolverTypeWrapper<PassiveTreeNode>;
+  PassiveTreeResponse: ResolverTypeWrapper<PassiveTreeResponse>;
   PoeCharacter: ResolverTypeWrapper<PoeCharacter>;
   PoeStashTab: ResolverTypeWrapper<PoeStashTab>;
   Query: ResolverTypeWrapper<{}>;
@@ -645,6 +704,10 @@ export type ResolversParentTypes = ResolversObject<{
   JSON: Scalars['JSON'];
   JSONObject: Scalars['JSONObject'];
   Mutation: {};
+  PassiveTreeConnection: PassiveTreeConnection;
+  PassiveTreeConstants: PassiveTreeConstants;
+  PassiveTreeNode: PassiveTreeNode;
+  PassiveTreeResponse: PassiveTreeResponse;
   PoeCharacter: PoeCharacter;
   PoeStashTab: PoeStashTab;
   Query: {};
@@ -837,6 +900,61 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   updateStashsnapshotProfile?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType, RequireFields<MutationUpdateStashsnapshotProfileArgs, 'update'>>;
 }>;
 
+export type PassiveTreeConnectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['PassiveTreeConnection'] = ResolversParentTypes['PassiveTreeConnection']> = ResolversObject<{
+  curved?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  fromNode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  toNode?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PassiveTreeConstantsResolvers<ContextType = any, ParentType extends ResolversParentTypes['PassiveTreeConstants'] = ResolversParentTypes['PassiveTreeConstants']> = ResolversObject<{
+  maxX?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  maxY?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  minX?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  minY?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  orbitRadii?: Resolver<Array<ResolversTypes['Float']>, ParentType, ContextType>;
+  skillsPerOrbit?: Resolver<Array<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PassiveTreeNodeResolvers<ContextType = any, ParentType extends ResolversParentTypes['PassiveTreeNode'] = ResolversParentTypes['PassiveTreeNode']> = ResolversObject<{
+  activeEffectImage?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  activeIcon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  ascendancyName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  flavourText?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  group?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  hash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  icon?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  in?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  inactiveIcon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isJewelSocket?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isKeystone?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isMastery?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isMultipleChoiceOption?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isNotable?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  masteryEffects?: Resolver<Maybe<Array<ResolversTypes['JSON']>>, ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  orbit?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  orbitIndex?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  out?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  recipe?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  reminderText?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  size?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  stats?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  x?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  y?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type PassiveTreeResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['PassiveTreeResponse'] = ResolversParentTypes['PassiveTreeResponse']> = ResolversObject<{
+  allConnections?: Resolver<Maybe<Array<ResolversTypes['PassiveTreeConnection']>>, ParentType, ContextType>;
+  allNodes?: Resolver<Maybe<Array<ResolversTypes['PassiveTreeNode']>>, ParentType, ContextType>;
+  connectionMap?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  constants?: Resolver<ResolversTypes['PassiveTreeConstants'], ParentType, ContextType>;
+  nodeMap?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type PoeCharacterResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoeCharacter'] = ResolversParentTypes['PoeCharacter']> = ResolversObject<{
   createdAtTimestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -866,7 +984,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   itemGroupValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryItemGroupValueChaosArgs, 'key' | 'league'>>;
   itemGroupValueTimeseriesSearch?: Resolver<ResolversTypes['ItemGroupValueTimeseriesResult'], ParentType, ContextType, RequireFields<QueryItemGroupValueTimeseriesSearchArgs, 'search'>>;
   myProfile?: Resolver<ResolversTypes['UserProfile'], ParentType, ContextType>;
-  passiveTree?: Resolver<ResolversTypes['JSON'], ParentType, ContextType, RequireFields<QueryPassiveTreeArgs, 'league'>>;
+  passiveTree?: Resolver<ResolversTypes['PassiveTreeResponse'], ParentType, ContextType, RequireFields<QueryPassiveTreeArgs, 'passiveTreeVersion'>>;
   poeCharacters?: Resolver<Array<ResolversTypes['PoeCharacter']>, ParentType, ContextType, RequireFields<QueryPoeCharactersArgs, 'userId'>>;
   stashSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<QueryStashSnapshotArgs, 'stashSnapshotId' | 'stashSnapshotProfileId'>>;
   stashSnapshotItemGroupSummaries?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesArgs, 'search'>>;
@@ -1009,6 +1127,10 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   JSON?: GraphQLScalarType;
   JSONObject?: GraphQLScalarType;
   Mutation?: MutationResolvers<ContextType>;
+  PassiveTreeConnection?: PassiveTreeConnectionResolvers<ContextType>;
+  PassiveTreeConstants?: PassiveTreeConstantsResolvers<ContextType>;
+  PassiveTreeNode?: PassiveTreeNodeResolvers<ContextType>;
+  PassiveTreeResponse?: PassiveTreeResponseResolvers<ContextType>;
   PoeCharacter?: PoeCharacterResolvers<ContextType>;
   PoeStashTab?: PoeStashTabResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;

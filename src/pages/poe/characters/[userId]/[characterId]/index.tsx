@@ -2,7 +2,10 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { CharacterSnapshot } from "../../../../../__generated__/resolvers-types";
+import {
+  CharacterSnapshot,
+  PassiveTreeResponse,
+} from "../../../../../__generated__/resolvers-types";
 import StyledCard from "../../../../../components/styled-card";
 import EquipmentDisplay from "../../../../../components/equipment-display";
 import SecondaryEquipmentDisplay from "../../../../../components/secondary-equipment-display";
@@ -142,29 +145,43 @@ export default function Character() {
     }
   );
 
-  const [passiveTreeData, setPassiveTreeData] = useState<any | null>(null);
+  const [passiveTreeData, setPassiveTreeData] =
+    useState<PassiveTreeResponse | null>(null);
   const { refetch: refetchPassiveTreeData } = useQuery(
     gql`
-      query Query($league: String!) {
-        passiveTree(league: $league)
+      query PassiveTree($passiveTreeVersion: String!) {
+        passiveTree(passiveTreeVersion: $passiveTreeVersion) {
+          constants {
+            minX
+            minY
+            maxX
+            maxY
+            skillsPerOrbit
+            orbitRadii
+          }
+          nodeMap
+          connectionMap
+        }
       }
     `,
     {
       skip: true,
-      variables: { league: "3.20" },
+      variables: { passiveTreeVersion: "3.20" },
       onCompleted(data) {
         setPassiveTreeData(data.passiveTree);
-        localStorage.setItem(
-          "3.20_passive_data_1",
-          JSON.stringify(data.passiveTree)
-        );
+        if (data.passiveTree) {
+          localStorage.setItem(
+            "3.20_passive_data_5",
+            JSON.stringify(data.passiveTree)
+          );
+        }
       },
     }
   );
 
   useEffect(() => {
     if (typeof window !== "undefined" && !passiveTreeData) {
-      const localData = localStorage.getItem("3.20_passive_data_1");
+      const localData = localStorage.getItem("3.20_passive_data_5");
       if (localData) {
         setPassiveTreeData(JSON.parse(localData));
       } else {

@@ -1,21 +1,23 @@
+import {
+  PassiveTreeNode,
+  PassiveTreeResponse,
+} from "../../__generated__/resolvers-types";
 import { MemoisedSkillTreeConnection } from "./skill-tree-connection";
 import { MemoisedSkillTreeNode } from "./skill-tree-node";
 
-export default function SkillTree({ data, selectedNodes }) {
-  const minX = data.min_x;
-  const minY = data.min_y;
-  const maxX = data.max_x;
-  const maxY = data.max_y;
+export default function SkillTree({
+  data,
+  selectedNodes,
+}: {
+  data: PassiveTreeResponse;
+  selectedNodes: Set<string>;
+}) {
+  const minX = data.constants.minX;
+  const minY = data.constants.minY;
+  const maxX = data.constants.maxX;
+  const maxY = data.constants.maxY;
   const width = maxX - minX;
   const height = maxY - minY;
-
-  const nodeFilter = (node) => {
-    return node.render;
-  };
-
-  const connectionFilter = (connection) => {
-    return nodeFilter(connection.fromNode) && nodeFilter(connection.toNode);
-  };
 
   return (
     <>
@@ -24,34 +26,25 @@ export default function SkillTree({ data, selectedNodes }) {
         preserveAspectRatio="xMidYMid meet"
         viewBox={`${minX} ${minY} ${width} ${height}`}
       >
-        {Object.keys(data.connectionMap)
-          .map((fromNodeId) => data.connectionMap[fromNodeId])
-          .reduce(
-            (acc, cur) =>
-              cur.reduce((innerAcc, innerCur) => [...innerAcc, innerCur], acc),
-            []
-          )
-          .filter(connectionFilter)
-          .map((connection) => (
-            <>
-              <MemoisedSkillTreeConnection
-                connection={connection}
-                constants={data.constants}
-                selectedNodes={selectedNodes}
-              />
-            </>
-          ))}
+        {data.connectionMap.map((connection) => (
+          <>
+            <MemoisedSkillTreeConnection
+              connection={connection}
+              constants={data.constants}
+              selectedNodes={selectedNodes}
+              nodeMap={data.nodeMap}
+            />
+          </>
+        ))}
 
-        {Object.values(data.nodeMap)
-          .filter(nodeFilter)
-          .map((node) => (
-            <>
-              <MemoisedSkillTreeNode
-                node={node}
-                selectedNodes={selectedNodes}
-              />
-            </>
-          ))}
+        {Object.values(data.nodeMap).map((node) => (
+          <>
+            <MemoisedSkillTreeNode
+              node={node as PassiveTreeNode}
+              selectedNodes={selectedNodes}
+            />
+          </>
+        ))}
       </svg>
     </>
   );

@@ -1,7 +1,24 @@
 import { memo } from "react";
+import {
+  PassiveTreeConnection,
+  PassiveTreeConstants,
+  PassiveTreeNode,
+} from "../../__generated__/resolvers-types";
 
-export function SkillTreeConnection({ connection, constants, selectedNodes }) {
-  const { fromNode, toNode, isCurved } = connection;
+export function SkillTreeConnection({
+  connection,
+  constants,
+  selectedNodes,
+  nodeMap,
+}: {
+  connection: PassiveTreeConnection;
+  constants: PassiveTreeConstants;
+  selectedNodes: Set<string>;
+  nodeMap: Record<string, PassiveTreeNode>;
+}) {
+  const fromNode = nodeMap[connection.fromNode];
+  const toNode = nodeMap[connection.toNode];
+
   const orbitRadius = constants.orbitRadii[fromNode.orbit!];
 
   const x1 = fromNode.x;
@@ -23,21 +40,21 @@ export function SkillTreeConnection({ connection, constants, selectedNodes }) {
     }
   }
 
-  if (isCurved) {
+  if (connection.curved) {
     return (
       <>
         <path
           stroke={
-            selectedNodes.has(fromNode.id) && selectedNodes.has(toNode.id)
+            selectedNodes.has(fromNode.hash) && selectedNodes.has(toNode.hash)
               ? "red"
               : "black"
           }
           strokeWidth={6}
           d={`M ${x1} ${y1} A ${orbitRadius} ${orbitRadius}, 0, 0 ${sweepFlag}, ${x2} ${y2}`}
-          key={`${fromNode.id},${toNode.id}`}
+          key={`${fromNode.hash},${toNode.hash}`}
           fill="transparent"
-          data-from={fromNode.id}
-          data-to={toNode.id}
+          data-from={fromNode.hash}
+          data-to={toNode.hash}
         />
       </>
     );
@@ -50,14 +67,14 @@ export function SkillTreeConnection({ connection, constants, selectedNodes }) {
           x2={x2}
           y2={y2}
           stroke={
-            selectedNodes.has(fromNode.id) && selectedNodes.has(toNode.id)
+            selectedNodes.has(fromNode.hash) && selectedNodes.has(toNode.hash)
               ? "red"
               : "black"
           }
           strokeWidth={6}
-          key={`${fromNode.id},${toNode.id}`}
-          data-from={fromNode.id}
-          data-to={toNode.id}
+          key={`${fromNode.hash},${toNode.hash}`}
+          data-from={fromNode.hash}
+          data-to={toNode.hash}
         />
       </>
     );
