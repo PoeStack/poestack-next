@@ -61,6 +61,7 @@ export type CharacterSnapshotItem = {
   ilvl: Scalars['Float'];
   inventoryId?: Maybe<Scalars['String']>;
   itemGroupHashString?: Maybe<Scalars['String']>;
+  itemId?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   properties: Array<Scalars['JSON']>;
   requirements: Array<Scalars['JSON']>;
@@ -260,6 +261,7 @@ export type Query = {
   itemGroupValueChaos: Scalars['Float'];
   itemGroupValueTimeseriesSearch: ItemGroupValueTimeseriesResult;
   myProfile: UserProfile;
+  passiveTree: Scalars['JSON'];
   poeCharacters: Array<PoeCharacter>;
   stashSnapshot: StashSnapshot;
   stashSnapshotItemGroupSummaries: StashSnapshotItemGroupSummarySearchResponse;
@@ -300,6 +302,11 @@ export type QueryItemGroupValueChaosArgs = {
 
 export type QueryItemGroupValueTimeseriesSearchArgs = {
   search: ItemGroupValueTimeseriesSearchInput;
+};
+
+
+export type QueryPassiveTreeArgs = {
+  league: Scalars['String'];
 };
 
 
@@ -705,6 +712,7 @@ export type CharacterSnapshotItemResolvers<ContextType = any, ParentType extends
   ilvl?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   inventoryId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   itemGroupHashString?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  itemId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   properties?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
   requirements?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
@@ -858,6 +866,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   itemGroupValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryItemGroupValueChaosArgs, 'key' | 'league'>>;
   itemGroupValueTimeseriesSearch?: Resolver<ResolversTypes['ItemGroupValueTimeseriesResult'], ParentType, ContextType, RequireFields<QueryItemGroupValueTimeseriesSearchArgs, 'search'>>;
   myProfile?: Resolver<ResolversTypes['UserProfile'], ParentType, ContextType>;
+  passiveTree?: Resolver<ResolversTypes['JSON'], ParentType, ContextType, RequireFields<QueryPassiveTreeArgs, 'league'>>;
   poeCharacters?: Resolver<Array<ResolversTypes['PoeCharacter']>, ParentType, ContextType, RequireFields<QueryPoeCharactersArgs, 'userId'>>;
   stashSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<QueryStashSnapshotArgs, 'stashSnapshotId' | 'stashSnapshotProfileId'>>;
   stashSnapshotItemGroupSummaries?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesArgs, 'search'>>;

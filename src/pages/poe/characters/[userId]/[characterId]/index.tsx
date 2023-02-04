@@ -9,6 +9,8 @@ import SecondaryEquipmentDisplay from "../../../../../components/secondary-equip
 import StyledButton from "../../../../../components/styled-button";
 import CharacterStatsDisplay from "../../../../../components/character-stats-display";
 import SkillTree from "../../../../../components/skill-tree/skill-tree";
+import StyledMultiSelect2 from "../../../../../components/styled-multi-select-2";
+import StyledSelect2 from "../../../../../components/styled-select-2";
 
 export default function Character() {
   const router = useRouter();
@@ -45,7 +47,8 @@ export default function Character() {
             query: {
               userId: userId,
               characterId: characterId,
-              snapshotId: data.characterSnapshots[0].id,
+              snapshotId:
+                data.characterSnapshots[data.characterSnapshots.length - 1].id,
             },
           });
         }
@@ -76,7 +79,7 @@ export default function Character() {
             masteryEffects
           }
           characterSnapshotItems {
-            id
+            itemId
             snapshotId
             inventoryId
             socketedInId
@@ -198,19 +201,28 @@ export default function Character() {
             </div>
           </StyledCard>
           <StyledCard title="Snapshots">
-            {characterSnapshots.map((snapshot, i) => (
-              <>
-                <div key={i}>
-                  {snapshot.timestamp}: {snapshot.experience}
-                </div>
-              </>
-            ))}
-            <StyledButton
-              text={"Take Snapshot"}
-              onClick={() => {
-                takeSnapshot();
-              }}
-            />
+            <div className="flex flex-col space-y-2">
+              <StyledSelect2
+                selected={currentSnapshot}
+                items={[...characterSnapshots].reverse() ?? []}
+                mapToText={(e) => new Date(e?.timestamp).toLocaleString()}
+                onSelectChange={(e) => {
+                  router.push({
+                    query: {
+                      userId: userId,
+                      characterId: characterId,
+                      snapshotId: e?.id,
+                    },
+                  });
+                }}
+              />
+              <StyledButton
+                text={"Take Snapshot"}
+                onClick={() => {
+                  takeSnapshot();
+                }}
+              />
+            </div>
           </StyledCard>
         </div>
 

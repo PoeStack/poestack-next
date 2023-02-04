@@ -35,19 +35,19 @@ export default function EquipmentDisplay({
         <div className="grid grid-cols-6 justify-items-center">
           <div className="col-span-2 row-span-2"></div>
           <div className="col-span-2 row-span-2">
-            <ItemMouseOver item={helm}>
+            <ItemMouseOver item={helm} items={items}>
               <Image height={94} width={94} src={helm?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div className="col-span-2"></div>
           <div>
-            <ItemMouseOver item={amulet}>
+            <ItemMouseOver item={amulet} items={items}>
               <Image height={40} width={40} src={amulet?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div></div>
           <div className="col-span-2 row-span-3">
-            <ItemMouseOver item={weapon}>
+            <ItemMouseOver item={weapon} items={items}>
               <Image
                 height={200}
                 width={50 * weapon!.w}
@@ -57,12 +57,12 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-3">
-            <ItemMouseOver item={body}>
+            <ItemMouseOver item={body} items={items}>
               <Image height={200} width={100} src={body?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-3">
-            <ItemMouseOver item={offHand}>
+            <ItemMouseOver item={offHand} items={items}>
               <Image
                 height={200}
                 width={50 * offHand!.w}
@@ -73,29 +73,29 @@ export default function EquipmentDisplay({
           </div>
           <div></div>
           <div>
-            <ItemMouseOver item={ring1}>
+            <ItemMouseOver item={ring1} items={items}>
               <Image height={40} width={40} src={ring1?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div className="col-span-2">
-            <ItemMouseOver item={belt}>
+            <ItemMouseOver item={belt} items={items}>
               <Image height={40} width={80} src={belt?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div>
-            <ItemMouseOver item={ring2}>
+            <ItemMouseOver item={ring2} items={items}>
               <Image height={40} width={40} src={ring2?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div></div>
           <div className="row-span-2"></div>
           <div className="col-span-2 row-span-2">
-            <ItemMouseOver item={gloves}>
+            <ItemMouseOver item={gloves} items={items}>
               <Image height={94} width={94} src={gloves?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-2">
-            <ItemMouseOver item={boots}>
+            <ItemMouseOver item={boots} items={items}>
               <Image height={94} width={94} src={boots?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
