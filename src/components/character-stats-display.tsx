@@ -40,6 +40,7 @@ export default function CharacterStatsDisplay({
           <div>
             <div>Block: {pobStats.blockChance}</div>
             <div>Spell Block: {pobStats.spellBlockChance}</div>
+            <div>Supression: {pobStats.supression}</div>
           </div>
         </div>
         <div>

@@ -98,6 +98,7 @@ export default function Character() {
             flavourText
             description
             icon
+            mainSkill
             w
             h
             corrupted
@@ -131,6 +132,8 @@ export default function Character() {
             str
             evasion
             pobCode
+            supression
+            totalDpsWithIgnite
           }
         }
       }
@@ -213,6 +216,18 @@ export default function Character() {
               <div>{currentSnapshot?.poeCharacter?.name}</div>
               <div>
                 Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
+              </div>
+              <div>
+                Main Skill{" "}
+                {
+                  currentSnapshot?.characterSnapshotItems?.find(
+                    (e) => e.mainSkill === true
+                  )?.typeLine
+                }
+              </div>
+              <div>
+                DPS{" "}
+                {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
               </div>
             </div>
           </StyledCard>
