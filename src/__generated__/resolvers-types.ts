@@ -99,6 +99,7 @@ export type CharacterSnapshotPobStats = {
 export type CharacterSnapshotSearch = {
   excludedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
   includedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
+  league: Scalars['String'];
 };
 
 export type CharacterSnapshotSearchResponse = {

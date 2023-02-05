@@ -50,7 +50,7 @@ export default function EquipmentDisplay({
             <ItemMouseOver item={weapon} items={items}>
               <Image
                 height={200}
-                width={50 * weapon!.w}
+                width={50 * (weapon?.w ?? 1)}
                 src={weapon?.icon!}
                 alt={""}
               />
@@ -65,7 +65,7 @@ export default function EquipmentDisplay({
             <ItemMouseOver item={offHand} items={items}>
               <Image
                 height={200}
-                width={50 * offHand!.w}
+                width={50 * (offHand?.w ?? 1)}
                 src={offHand?.icon!}
                 alt={""}
               />

@@ -28,14 +28,12 @@ export default function StyledNavBar() {
           >
             Economy
           </Link>
-          {profile && (
-            <Link
-              className="font-semibold hover:text-skin-accent"
-              href={`/poe/characters`}
-            >
-              Characters
-            </Link>
-          )}
+          <Link
+            className="font-semibold hover:text-skin-accent"
+            href={`/poe/characters`}
+          >
+            Characters
+          </Link>
           {profile && (
             <Link
               className="font-semibold hover:text-skin-accent"

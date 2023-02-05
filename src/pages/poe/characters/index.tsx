@@ -6,9 +6,12 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "../../../components/styled-card";
 import { CharacterSnapshotSearchResponse } from "../../../__generated__/resolvers-types";
+import { usePoeLeagueCtx } from "../../../contexts/league-context";
 
 export default function Characters() {
   const router = useRouter();
+
+  const { league, setLeague } = usePoeLeagueCtx();
 
   const [searchResponse, setSearchResponse] = useState<
     CharacterSnapshotSearchResponse | undefined | null
@@ -31,7 +34,7 @@ export default function Characters() {
       }
     `,
     {
-      variables: { search: {} },
+      variables: { search: { league: league } },
       onCompleted(data) {
         setSearchResponse(data.characterSnapshotsSearch);
       },

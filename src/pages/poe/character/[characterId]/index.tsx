@@ -46,7 +46,7 @@ export default function Character() {
       onCompleted(data) {
         setCharacterSnapshots(data.characterSnapshots);
         if (data.characterSnapshots.length > 0) {
-          router.push({
+          router.replace({
             query: {
               characterId: characterId,
               snapshotId:
@@ -223,7 +223,7 @@ export default function Character() {
                 items={[...characterSnapshots].reverse() ?? []}
                 mapToText={(e) => new Date(e?.timestamp).toLocaleString()}
                 onSelectChange={(e) => {
-                  router.push({
+                  router.replace({
                     query: {
                       characterId: characterId,
                       snapshotId: e?.id,
