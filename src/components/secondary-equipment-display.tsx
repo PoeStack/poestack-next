@@ -5,6 +5,7 @@ import StyledDropdown from "./styled-dropdown";
 import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
 import Image from "next/image";
 import ItemMouseOver from "./item-mouseover";
+import { myLoader } from "../utils/general-util";
 
 export default function SecondaryEquipmentDisplay({
   items,
@@ -26,7 +27,13 @@ export default function SecondaryEquipmentDisplay({
             <>
               <div>
                 <ItemMouseOver item={f}>
-                  <Image width={40} height={60} src={f.icon!} alt={""} />
+                  <Image
+                    loader={myLoader}
+                    width={40}
+                    height={60}
+                    src={f.icon!}
+                    alt={""}
+                  />
                 </ItemMouseOver>
               </div>
             </>
@@ -37,7 +44,13 @@ export default function SecondaryEquipmentDisplay({
             <>
               <div>
                 <ItemMouseOver item={f}>
-                  <Image width={40} height={60} src={f.icon!} alt={""} />
+                  <Image
+                    loader={myLoader}
+                    width={40}
+                    height={60}
+                    src={f.icon!}
+                    alt={""}
+                  />
                 </ItemMouseOver>
               </div>
             </>

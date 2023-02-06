@@ -89,7 +89,7 @@ export default function EconomyOne() {
     <>
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row space-x-2">
-          <StyledCard title={"Info"}>
+          <StyledCard title={"Info"} className="flex-1">
             <h3>
               Item:{" "}
               {GeneralUtils.itemGroupToDisplayName(
@@ -98,7 +98,7 @@ export default function EconomyOne() {
             </h3>
             <h3>Tag: {itemValueTimeseries.itemGroup?.tag}</h3>
           </StyledCard>
-          <StyledCard title={"Properties"}>
+          <StyledCard title={"Properties"} className="flex-1">
             {itemValueTimeseries.itemGroup?.properties?.map((p) => (
               <>
                 <div>{`${p?.key} = ${GeneralUtils.hashPropValue(p)}`}</div>

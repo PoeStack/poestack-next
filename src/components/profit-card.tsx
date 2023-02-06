@@ -47,7 +47,7 @@ export default function ProfitCard({
 
   return (
     <>
-      <StyledCard title={"Income"}>
+      <StyledCard title={"Income"} className="flex-1">
         <div className="flex flex-col grow align-bottom">
           <div className="grow">
             <div className="flex space-x-1">

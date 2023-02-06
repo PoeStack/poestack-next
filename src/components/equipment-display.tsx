@@ -3,16 +3,15 @@ import { usePoeStackAuth } from "../contexts/user-context";
 import Link from "next/link";
 import StyledDropdown from "./styled-dropdown";
 import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
-import Image from "next/image";
+import Image, { ImageLoaderProps } from "next/image";
 import ItemMouseOver from "./item-mouseover";
+import { myLoader } from "../utils/general-util";
 
 export default function EquipmentDisplay({
   items,
 }: {
   items: CharacterSnapshotItem[];
 }) {
-  console.log("items", items);
-
   if (!items) {
     return <>Loading...</>;
   }
@@ -42,13 +41,20 @@ export default function EquipmentDisplay({
           <div className="col-span-2"></div>
           <div>
             <ItemMouseOver item={amulet} items={items}>
-              <Image height={40} width={40} src={amulet?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={40}
+                width={40}
+                src={amulet?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div></div>
           <div className="col-span-2 row-span-3">
             <ItemMouseOver item={weapon} items={items}>
               <Image
+                loader={myLoader}
                 height={200}
                 width={50 * (weapon?.w ?? 1)}
                 src={weapon?.icon!}
@@ -58,12 +64,19 @@ export default function EquipmentDisplay({
           </div>
           <div className="col-span-2 row-span-3">
             <ItemMouseOver item={body} items={items}>
-              <Image height={200} width={100} src={body?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={200}
+                width={100}
+                src={body?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-3">
             <ItemMouseOver item={offHand} items={items}>
               <Image
+                loader={myLoader}
                 height={200}
                 width={50 * (offHand?.w ?? 1)}
                 src={offHand?.icon!}
@@ -74,29 +87,59 @@ export default function EquipmentDisplay({
           <div></div>
           <div>
             <ItemMouseOver item={ring1} items={items}>
-              <Image height={40} width={40} src={ring1?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={40}
+                width={40}
+                src={ring1?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div className="col-span-2">
             <ItemMouseOver item={belt} items={items}>
-              <Image height={40} width={80} src={belt?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={40}
+                width={80}
+                src={belt?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div>
             <ItemMouseOver item={ring2} items={items}>
-              <Image height={40} width={40} src={ring2?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={40}
+                width={40}
+                src={ring2?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div></div>
           <div className="row-span-2"></div>
           <div className="col-span-2 row-span-2">
             <ItemMouseOver item={gloves} items={items}>
-              <Image height={94} width={94} src={gloves?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={94}
+                width={94}
+                src={gloves?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
           <div className="col-span-2 row-span-2">
             <ItemMouseOver item={boots} items={items}>
-              <Image height={94} width={94} src={boots?.icon!} alt={""} />
+              <Image
+                loader={myLoader}
+                height={94}
+                width={94}
+                src={boots?.icon!}
+                alt={""}
+              />
             </ItemMouseOver>
           </div>
         </div>

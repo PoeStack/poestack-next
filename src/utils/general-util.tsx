@@ -1,3 +1,4 @@
+import { ImageLoaderProps } from "next/dist/client/image";
 import { ItemGroup } from "../__generated__/resolvers-types";
 
 export class GeneralUtils {
@@ -41,3 +42,7 @@ export class GeneralUtils {
     return prop["value"];
   }
 }
+
+export const myLoader = (p: ImageLoaderProps) => {
+  return `${p.src}`;
+};

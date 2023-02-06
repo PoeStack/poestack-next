@@ -7,7 +7,6 @@ import { useRouter } from "next/router";
 import StyledCard from "../../../../components/styled-card";
 import StyledButton from "../../../../components/styled-button";
 import { usePoeLeagueCtx } from "../../../../contexts/league-context";
-import CharacterAggreationDisplay from "../../../../components/character-aggregation-display";
 
 export default function Characters() {
   const router = useRouter();

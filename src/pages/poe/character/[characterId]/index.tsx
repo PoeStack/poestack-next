@@ -210,63 +210,82 @@ export default function Character() {
     <>
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row space-x-2">
-          <StyledCard title="Character">
-            <div>
-              <div>{currentSnapshot?.league}</div>
-              <div>{currentSnapshot?.poeCharacter?.name}</div>
-              <div>
-                Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
-              </div>
-              <div>
-                Main Skill{" "}
-                {
-                  currentSnapshot?.characterSnapshotItems?.find(
-                    (e) => e.mainSkill === true
-                  )?.typeLine
-                }
-              </div>
-              <div>
-                DPS{" "}
-                {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
-              </div>
-            </div>
-          </StyledCard>
-          <StyledCard title="Snapshots">
+          <StyledCard title="Equipment" className="flex-1">
             <div className="flex flex-col space-y-2">
-              <StyledSelect2
-                selected={currentSnapshot}
-                items={[...characterSnapshots].reverse() ?? []}
-                mapToText={(e) => new Date(e?.timestamp).toLocaleString()}
-                onSelectChange={(e) => {
-                  router.replace({
-                    query: {
-                      characterId: characterId,
-                      snapshotId: e?.id,
-                    },
-                  });
-                }}
+              <EquipmentDisplay
+                items={currentSnapshot?.characterSnapshotItems!}
               />
-              <StyledButton
-                text={"Take Snapshot"}
-                onClick={() => {
-                  takeSnapshot();
-                }}
+              <SecondaryEquipmentDisplay
+                items={currentSnapshot?.characterSnapshotItems!}
               />
             </div>
           </StyledCard>
-        </div>
-
-        <div className="flex flex-row space-x-2">
-          <StyledCard title="Equipment">
-            <EquipmentDisplay
-              items={currentSnapshot?.characterSnapshotItems!}
-            />
-          </StyledCard>
-          <StyledCard title="Other Items">
-            <SecondaryEquipmentDisplay
-              items={currentSnapshot?.characterSnapshotItems!}
-            />
-          </StyledCard>
+          <div className="flex flex-col space-y-2 flex-1">
+            <StyledCard title="Character">
+              <div>
+                <div>{currentSnapshot?.league}</div>
+                <div>{currentSnapshot?.poeCharacter?.name}</div>
+                <div>
+                  Level {currentSnapshot?.level}{" "}
+                  {currentSnapshot?.characterClass}
+                </div>
+                <div>
+                  Main Skill{" "}
+                  {
+                    currentSnapshot?.characterSnapshotItems?.find(
+                      (e) => e.mainSkill === true
+                    )?.typeLine
+                  }
+                </div>
+                <div>
+                  DPS{" "}
+                  {
+                    currentSnapshot?.characterSnapshotPobStats
+                      ?.totalDpsWithIgnite
+                  }
+                </div>
+              </div>
+            </StyledCard>
+            <StyledCard title="Snapshots">
+              <div className="flex flex-col space-y-2">
+                <StyledSelect2
+                  selected={currentSnapshot}
+                  items={[...characterSnapshots].reverse() ?? []}
+                  mapToText={(e) => new Date(e?.timestamp).toLocaleString()}
+                  onSelectChange={(e) => {
+                    router.replace({
+                      query: {
+                        characterId: characterId,
+                        snapshotId: e?.id,
+                      },
+                    });
+                  }}
+                />
+                <StyledButton
+                  text={"Take Snapshot"}
+                  onClick={() => {
+                    takeSnapshot();
+                  }}
+                />
+              </div>
+            </StyledCard>
+            <StyledCard title={"Info"} className="flex-1">
+              <div>
+                <div>
+                  Bandit:{" "}
+                  {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
+                </div>
+                <div>
+                  Pantheon Major:{" "}
+                  {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
+                </div>
+                <div>
+                  Pantheon Minor:{" "}
+                  {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
+                </div>
+              </div>
+            </StyledCard>
+          </div>
         </div>
         <div className="flex flex-row space-x-2">
           <div className="grow">
@@ -276,22 +295,6 @@ export default function Character() {
               />
             </StyledCard>
           </div>
-          <StyledCard title={"Info"}>
-            <div>
-              <div>
-                Bandit:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
-              </div>
-              <div>
-                Pantheon Major:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
-              </div>
-              <div>
-                Pantheon Minor:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
-              </div>
-            </div>
-          </StyledCard>
         </div>
 
         <StyledCard title={"Passive Tree"}>

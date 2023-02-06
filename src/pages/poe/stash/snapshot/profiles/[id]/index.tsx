@@ -107,7 +107,7 @@ export default function ViewProfile() {
     <>
       <div className="flex flex-col space-y-4">
         <div className="flex flex-row space-x-2">
-          <StyledCard title="Info">
+          <StyledCard title="Info" className="flex-1">
             <h4>Profile Name: {profile.name}</h4>
             <h4>League: {profile.league}</h4>
             <div className="flex flex-row space-x-1">
@@ -146,11 +146,11 @@ export default function ViewProfile() {
         </StyledCard>
 
         <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3">
-          <StyledCard title="Value By Tag">
+          <StyledCard title="Value By Tag" className="flex-1">
             <ValueBreakdownTable snapshot={snapshot} />
           </StyledCard>
 
-          <StyledCard title="Snapshots">
+          <StyledCard title="Snapshots" className="flex-1">
             <SnapshotTable snapshots={snapshots ?? []} />
           </StyledCard>
         </div>

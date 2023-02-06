@@ -100,8 +100,12 @@ export type CharacterSnapshotPobStats = {
 };
 
 export type CharacterSnapshotSearch = {
+  excludedCharacterClasses?: InputMaybe<Array<Scalars['String']>>;
   excludedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
+  excludedMainSkills?: InputMaybe<Array<Scalars['String']>>;
+  includedCharacterClasses?: InputMaybe<Array<Scalars['String']>>;
   includedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
+  includedMainSkills?: InputMaybe<Array<Scalars['String']>>;
   league: Scalars['String'];
 };
 
@@ -115,7 +119,22 @@ export type CharacterSnapshotSearchAggregationsResponse = {
 export type CharacterSnapshotSearchResponse = {
   __typename?: 'CharacterSnapshotSearchResponse';
   hasMore: Scalars['Boolean'];
-  snapshots: Array<CharacterSnapshot>;
+  snapshots: Array<CharacterSnapshotSearchResponseEntry>;
+};
+
+export type CharacterSnapshotSearchResponseEntry = {
+  __typename?: 'CharacterSnapshotSearchResponseEntry';
+  characterClass: Scalars['String'];
+  characterId: Scalars['String'];
+  level: Scalars['Float'];
+  name: Scalars['String'];
+};
+
+export type CharacterSnapshotUniqueAggregationKeysResponse = {
+  __typename?: 'CharacterSnapshotUniqueAggregationKeysResponse';
+  characterClassKeys: Array<Scalars['String']>;
+  keystoneKeys: Array<Scalars['String']>;
+  mainSkillKeys: Array<Scalars['String']>;
 };
 
 export type GenericAggregation = {
@@ -125,8 +144,8 @@ export type GenericAggregation = {
 
 export type GenericIntKeyValue = {
   __typename?: 'GenericIntKeyValue';
-  key: Scalars['String'];
-  value: Scalars['Float'];
+  key?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['Float']>;
 };
 
 export type GlobalSearch = {
@@ -346,6 +365,7 @@ export type Query = {
   characterSnapshots: Array<CharacterSnapshot>;
   characterSnapshotsSearch: CharacterSnapshotSearchResponse;
   characterSnapshotsSearchAggregations: CharacterSnapshotSearchAggregationsResponse;
+  characterSnapshotsUniqueAggregationKeys: CharacterSnapshotUniqueAggregationKeysResponse;
   globalSearch: GlobalSearchResponse;
   itemGroupTags: Array<Scalars['String']>;
   itemGroupValueChaos: Scalars['Float'];
@@ -381,6 +401,11 @@ export type QueryCharacterSnapshotsSearchArgs = {
 
 export type QueryCharacterSnapshotsSearchAggregationsArgs = {
   search: CharacterSnapshotSearch;
+};
+
+
+export type QueryCharacterSnapshotsUniqueAggregationKeysArgs = {
+  league: Scalars['String'];
 };
 
 
@@ -686,6 +711,8 @@ export type ResolversTypes = ResolversObject<{
   CharacterSnapshotSearch: CharacterSnapshotSearch;
   CharacterSnapshotSearchAggregationsResponse: ResolverTypeWrapper<CharacterSnapshotSearchAggregationsResponse>;
   CharacterSnapshotSearchResponse: ResolverTypeWrapper<CharacterSnapshotSearchResponse>;
+  CharacterSnapshotSearchResponseEntry: ResolverTypeWrapper<CharacterSnapshotSearchResponseEntry>;
+  CharacterSnapshotUniqueAggregationKeysResponse: ResolverTypeWrapper<CharacterSnapshotUniqueAggregationKeysResponse>;
   DateTime: ResolverTypeWrapper<Scalars['DateTime']>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   GenericAggregation: ResolverTypeWrapper<GenericAggregation>;
@@ -741,6 +768,8 @@ export type ResolversParentTypes = ResolversObject<{
   CharacterSnapshotSearch: CharacterSnapshotSearch;
   CharacterSnapshotSearchAggregationsResponse: CharacterSnapshotSearchAggregationsResponse;
   CharacterSnapshotSearchResponse: CharacterSnapshotSearchResponse;
+  CharacterSnapshotSearchResponseEntry: CharacterSnapshotSearchResponseEntry;
+  CharacterSnapshotUniqueAggregationKeysResponse: CharacterSnapshotUniqueAggregationKeysResponse;
   DateTime: Scalars['DateTime'];
   Float: Scalars['Float'];
   GenericAggregation: GenericAggregation;
@@ -879,7 +908,22 @@ export type CharacterSnapshotSearchAggregationsResponseResolvers<ContextType = a
 
 export type CharacterSnapshotSearchResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotSearchResponse'] = ResolversParentTypes['CharacterSnapshotSearchResponse']> = ResolversObject<{
   hasMore?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  snapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType>;
+  snapshots?: Resolver<Array<ResolversTypes['CharacterSnapshotSearchResponseEntry']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotSearchResponseEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotSearchResponseEntry'] = ResolversParentTypes['CharacterSnapshotSearchResponseEntry']> = ResolversObject<{
+  characterClass?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  characterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotUniqueAggregationKeysResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotUniqueAggregationKeysResponse'] = ResolversParentTypes['CharacterSnapshotUniqueAggregationKeysResponse']> = ResolversObject<{
+  characterClassKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  keystoneKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  mainSkillKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -893,8 +937,8 @@ export type GenericAggregationResolvers<ContextType = any, ParentType extends Re
 }>;
 
 export type GenericIntKeyValueResolvers<ContextType = any, ParentType extends ResolversParentTypes['GenericIntKeyValue'] = ResolversParentTypes['GenericIntKeyValue']> = ResolversObject<{
-  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  value?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  value?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1064,6 +1108,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   characterSnapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotsArgs, 'characterId'>>;
   characterSnapshotsSearch?: Resolver<ResolversTypes['CharacterSnapshotSearchResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchArgs, 'search'>>;
   characterSnapshotsSearchAggregations?: Resolver<ResolversTypes['CharacterSnapshotSearchAggregationsResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchAggregationsArgs, 'search'>>;
+  characterSnapshotsUniqueAggregationKeys?: Resolver<ResolversTypes['CharacterSnapshotUniqueAggregationKeysResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsUniqueAggregationKeysArgs, 'league'>>;
   globalSearch?: Resolver<ResolversTypes['GlobalSearchResponse'], ParentType, ContextType, RequireFields<QueryGlobalSearchArgs, 'search'>>;
   itemGroupTags?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType, RequireFields<QueryItemGroupTagsArgs, 'league'>>;
   itemGroupValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType, RequireFields<QueryItemGroupValueChaosArgs, 'key' | 'league'>>;
@@ -1202,6 +1247,8 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CharacterSnapshotPobStats?: CharacterSnapshotPobStatsResolvers<ContextType>;
   CharacterSnapshotSearchAggregationsResponse?: CharacterSnapshotSearchAggregationsResponseResolvers<ContextType>;
   CharacterSnapshotSearchResponse?: CharacterSnapshotSearchResponseResolvers<ContextType>;
+  CharacterSnapshotSearchResponseEntry?: CharacterSnapshotSearchResponseEntryResolvers<ContextType>;
+  CharacterSnapshotUniqueAggregationKeysResponse?: CharacterSnapshotUniqueAggregationKeysResponseResolvers<ContextType>;
   DateTime?: GraphQLScalarType;
   GenericAggregation?: GenericAggregationResolvers<ContextType>;
   GenericIntKeyValue?: GenericIntKeyValueResolvers<ContextType>;

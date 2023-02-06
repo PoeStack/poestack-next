@@ -2,6 +2,7 @@ import React from "react";
 import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
 import Image from "next/image";
 import { useState } from "react";
+import { myLoader } from "../utils/general-util";
 
 export default function ItemMouseOver({
   children,
@@ -49,6 +50,7 @@ export default function ItemMouseOver({
                   }}
                 >
                   <Image
+                    loader={myLoader}
                     height={30}
                     width={30}
                     src={gem?.icon ?? ""}
