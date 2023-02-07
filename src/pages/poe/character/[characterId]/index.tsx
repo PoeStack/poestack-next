@@ -14,6 +14,7 @@ import CharacterStatsDisplay from "../../../../components/character-stats-displa
 import SkillTree from "../../../../components/skill-tree/skill-tree";
 import StyledMultiSelect2 from "../../../../components/styled-multi-select-2";
 import StyledSelect2 from "../../../../components/styled-select-2";
+import CharacterLevelChart from "../../../../components/character-level-chart";
 
 export default function Character() {
   const router = useRouter();
@@ -210,43 +211,20 @@ export default function Character() {
     <>
       <div className="flex flex-col space-y-2">
         <div className="flex flex-row space-x-2">
-          <StyledCard title="Equipment" className="flex-1">
+          <StyledCard title="Equipment" className="min-w-[450px]">
             <div className="flex flex-col space-y-2">
               <EquipmentDisplay
                 items={currentSnapshot?.characterSnapshotItems!}
               />
+
               <SecondaryEquipmentDisplay
                 items={currentSnapshot?.characterSnapshotItems!}
               />
             </div>
           </StyledCard>
+
           <div className="flex flex-col space-y-2 flex-1">
-            <StyledCard title="Character">
-              <div>
-                <div>{currentSnapshot?.league}</div>
-                <div>{currentSnapshot?.poeCharacter?.name}</div>
-                <div>
-                  Level {currentSnapshot?.level}{" "}
-                  {currentSnapshot?.characterClass}
-                </div>
-                <div>
-                  Main Skill{" "}
-                  {
-                    currentSnapshot?.characterSnapshotItems?.find(
-                      (e) => e.mainSkill === true
-                    )?.typeLine
-                  }
-                </div>
-                <div>
-                  DPS{" "}
-                  {
-                    currentSnapshot?.characterSnapshotPobStats
-                      ?.totalDpsWithIgnite
-                  }
-                </div>
-              </div>
-            </StyledCard>
-            <StyledCard title="Snapshots">
+            <StyledCard title="Snapshots" className="flex-1">
               <div className="flex flex-col space-y-2">
                 <StyledSelect2
                   selected={currentSnapshot}
@@ -261,40 +239,105 @@ export default function Character() {
                     });
                   }}
                 />
-                <StyledButton
-                  text={"Take Snapshot"}
-                  onClick={() => {
-                    takeSnapshot();
-                  }}
-                />
+                <div className="flex flex-row space-x-2 w-full">
+                  <StyledButton
+                    className="flex-1"
+                    text={"Prev"}
+                    onClick={() => {
+                      const nextIndex =
+                        (characterSnapshots.findIndex(
+                          (e) => e.id === snapshotId
+                        ) ?? 0) - 1;
+                      const nextSnapshot = characterSnapshots[nextIndex];
+                      if (nextSnapshot) {
+                        router.replace({
+                          query: {
+                            characterId: characterId,
+                            snapshotId: nextSnapshot?.id,
+                          },
+                        });
+                      }
+                    }}
+                  />
+                  <StyledButton
+                    className="flex-1"
+                    text={"Take Snapshot"}
+                    onClick={() => {
+                      takeSnapshot();
+                    }}
+                  />
+                  <StyledButton
+                    className="flex-1"
+                    text={"Next"}
+                    onClick={() => {
+                      const nextIndex =
+                        (characterSnapshots.findIndex(
+                          (e) => e.id === snapshotId
+                        ) ?? 0) + 1;
+                      const nextSnapshot = characterSnapshots[nextIndex];
+                      if (nextSnapshot) {
+                        router.replace({
+                          query: {
+                            characterId: characterId,
+                            snapshotId: nextSnapshot?.id,
+                          },
+                        });
+                      }
+                    }}
+                  />
+                </div>
               </div>
             </StyledCard>
-            <StyledCard title={"Info"} className="flex-1">
-              <div>
-                <div>
-                  Bandit:{" "}
-                  {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
-                </div>
-                <div>
-                  Pantheon Major:{" "}
-                  {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
-                </div>
-                <div>
-                  Pantheon Minor:{" "}
-                  {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
-                </div>
-              </div>
+            <StyledCard title={"Progression"} className="flex-1">
+              <CharacterLevelChart snapshots={characterSnapshots} />
             </StyledCard>
           </div>
         </div>
         <div className="flex flex-row space-x-2">
-          <div className="grow">
-            <StyledCard title={"Pob Stats"}>
-              <CharacterStatsDisplay
-                pobStats={currentSnapshot?.characterSnapshotPobStats}
-              />
-            </StyledCard>
-          </div>
+          <StyledCard title="Character" className="flex-1">
+            <div>
+              <div>{currentSnapshot?.league}</div>
+              <div>{currentSnapshot?.poeCharacter?.name}</div>
+              <div>
+                Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
+              </div>
+              <div>
+                Main Skill{" "}
+                {
+                  currentSnapshot?.characterSnapshotItems?.find(
+                    (e) => e.mainSkill === true
+                  )?.typeLine
+                }
+              </div>
+              <div>
+                DPS{" "}
+                {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
+              </div>
+            </div>
+          </StyledCard>
+          <StyledCard title={"Info"} className="flex-1">
+            <div>
+              <div>
+                Bandit:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
+              </div>
+              <div>
+                Pantheon Major:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
+              </div>
+              <div>
+                Pantheon Minor:{" "}
+                {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
+              </div>
+            </div>
+          </StyledCard>
+        </div>
+        <div className="flex flex-row space-x-2">
+          <StyledCard title={"Pob Stats"} className="flex-1">
+            <CharacterStatsDisplay
+              pobStats={currentSnapshot?.characterSnapshotPobStats}
+            />
+          </StyledCard>
         </div>
 
         <StyledCard title={"Passive Tree"}>

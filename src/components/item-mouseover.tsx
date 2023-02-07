@@ -21,48 +21,52 @@ export default function ItemMouseOver({
 
   return (
     <>
-      <div className="group relative flex justify-center">
-        <div
-          className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
-        >
-          <div className="flex flex-row space-x-5">
-            <ItemStatDisplay item={item} />
-            {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+      {item && (
+        <div className="group relative flex justify-center">
+          <div
+            className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
+          >
+            <div className="flex flex-row space-x-5">
+              <ItemStatDisplay item={item} />
+              {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+            </div>
           </div>
+          <div
+            className={`absolute scale-0 group-hover:scale-100 w-full h-full grid ${
+              item?.w! > 1 ? "grid-cols-2" : "grid-cols-1"
+            } items-center`}
+          >
+            {item?.sockets?.map((s, i) => {
+              const gem = socketedGems?.find((e) => e.socket === i);
+              return (
+                <>
+                  {gem && (
+                    <div
+                      className="items-center"
+                      key={i}
+                      onMouseEnter={() => {
+                        setHoveredGem(gem);
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredGem(null);
+                      }}
+                    >
+                      <Image
+                        loader={myLoader}
+                        height={30}
+                        width={30}
+                        src={gem?.icon ?? ""}
+                        alt={""}
+                      />
+                    </div>
+                  )}
+                </>
+              );
+            })}
+          </div>
+          {children}
         </div>
-        <div
-          className={`absolute scale-0 group-hover:scale-100 w-full h-full grid ${
-            item?.w! > 1 ? "grid-cols-2" : "grid-cols-1"
-          } items-center`}
-        >
-          {item?.sockets?.map((s, i) => {
-            const gem = socketedGems?.find((e) => e.socket === i);
-            return (
-              <>
-                <div
-                  className="items-center"
-                  key={i}
-                  onMouseEnter={() => {
-                    setHoveredGem(gem);
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredGem(null);
-                  }}
-                >
-                  <Image
-                    loader={myLoader}
-                    height={30}
-                    width={30}
-                    src={gem?.icon ?? ""}
-                    alt={""}
-                  />
-                </div>
-              </>
-            );
-          })}
-        </div>
-        {children}
-      </div>
+      )}
     </>
   );
 }
