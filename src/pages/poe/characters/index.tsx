@@ -11,6 +11,7 @@ import {
 } from "../../../__generated__/resolvers-types";
 import { usePoeLeagueCtx } from "../../../contexts/league-context";
 import CharacterAggreationDisplay from "../../../components/character-aggregation-display";
+import StyledInput from "../../../components/styled-input";
 import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
@@ -29,7 +30,11 @@ export default function Characters() {
     excludedCharacterClasses: [],
     includedMainSkills: [],
     excludedMainSkills: [],
+    includedItemKeys: [],
+    excludedItemKeys: [],
   });
+
+  const [localSearchString, setLocalSearchString] = useState<string>("");
 
   const [unqiueKeysResponse, setUnqiueKeysResponse] = useState<
     CharacterSnapshotUniqueAggregationKeysResponse | null | undefined
@@ -41,7 +46,7 @@ export default function Characters() {
   const [aggregationSearchResponse, setAggregationSearchResponse] = useState<
     CharacterSnapshotSearchAggregationsResponse | undefined | null
   >(null);
-  const { refetch: reftechSearch } = useQuery(
+  const { refetch: reftechGeneralSearch } = useQuery(
     gql`
       query Snapshots($search: CharacterSnapshotSearch!) {
         characterSnapshotsSearch(search: $search) {
@@ -50,10 +55,14 @@ export default function Characters() {
             name
             level
             characterClass
+            mainSkillKey
+            energyShield
+            life
           }
           hasMore
         }
         characterSnapshotsSearchAggregations(search: $search) {
+          totalMatches
           characterClassAggregation {
             values {
               key
@@ -76,10 +85,40 @@ export default function Characters() {
       }
     `,
     {
-      variables: { search: search },
+      variables: { search: { ...search, ...{ league: league } } },
       onCompleted(data) {
-        setSearchResponse(data.characterSnapshotsSearch);
-        setAggregationSearchResponse(data.characterSnapshotsSearchAggregations);
+        setSearchResponse({
+          ...searchResponse,
+          ...data.characterSnapshotsSearch,
+        });
+        setAggregationSearchResponse({
+          ...aggregationSearchResponse,
+          ...data.characterSnapshotsSearchAggregations,
+        });
+      },
+    }
+  );
+
+  const { refetch: reftechItemSearch } = useQuery(
+    gql`
+      query Snapshots($search: CharacterSnapshotSearch!) {
+        characterSnapshotsSearchAggregations(search: $search) {
+          itemKeyAggreagtion {
+            values {
+              value
+              key
+            }
+          }
+        }
+      }
+    `,
+    {
+      variables: { search: { ...search, ...{ league: league } } },
+      onCompleted(data) {
+        setAggregationSearchResponse({
+          ...aggregationSearchResponse,
+          ...data.characterSnapshotsSearchAggregations,
+        });
       },
     }
   );
@@ -91,11 +130,12 @@ export default function Characters() {
           characterClassKeys
           keystoneKeys
           mainSkillKeys
+          itemKeys
         }
       }
     `,
     {
-      variables: { league: "Sanctum" },
+      variables: { league: league },
       onCompleted(data) {
         setUnqiueKeysResponse(data.characterSnapshotsUniqueAggregationKeys);
       },
@@ -103,9 +143,9 @@ export default function Characters() {
   );
 
   useEffect(() => {
-    console.log("search", search);
-    reftechSearch();
-  }, [search, reftechSearch]);
+    reftechGeneralSearch();
+    reftechItemSearch();
+  }, [search, reftechGeneralSearch, reftechItemSearch, league]);
 
   const updateIncludeExclude = (entry, includedKey, excludedKey) => {
     if (search[includedKey]?.includes(entry.key)) {
@@ -141,64 +181,90 @@ export default function Characters() {
     <>
       <div className="flex flex-row space-x-2">
         <div className="flex flex-col space-y-2 w-1/6">
+          <StyledCard title={"Search"}>
+            <StyledInput
+              value={localSearchString}
+              onChange={(e) => {
+                setLocalSearchString(e);
+              }}
+            />
+          </StyledCard>
           <StyledCard title="Skills" className="h-[400px]">
-            <div className="overflow-y-auto pr-3">
-              <CharacterAggreationDisplay
-                aggregation={aggregationSearchResponse?.mainSkillAggreagtion}
-                onSelectionChanged={(mainSkill) => {
-                  updateIncludeExclude(
-                    mainSkill,
-                    "includedMainSkills",
-                    "excludedMainSkills"
-                  );
-                }}
-                includedRows={search.includedMainSkills!}
-                excludedRows={search.excludedMainSkills!}
-                allKeys={unqiueKeysResponse?.mainSkillKeys ?? []}
-              />
-            </div>
+            <CharacterAggreationDisplay
+              aggregation={aggregationSearchResponse?.mainSkillAggreagtion}
+              onSelectionChanged={(mainSkill) => {
+                updateIncludeExclude(
+                  mainSkill,
+                  "includedMainSkills",
+                  "excludedMainSkills"
+                );
+              }}
+              includedRows={search.includedMainSkills!}
+              excludedRows={search.excludedMainSkills!}
+              allKeys={unqiueKeysResponse?.mainSkillKeys ?? []}
+              totalMatches={aggregationSearchResponse?.totalMatches ?? 0}
+              localSearchString={localSearchString}
+            />
           </StyledCard>
           <StyledCard title="Class" className="h-[400px]">
-            <div className="overflow-y-auto pr-3">
-              <CharacterAggreationDisplay
-                aggregation={
-                  aggregationSearchResponse?.characterClassAggregation
-                }
-                onSelectionChanged={(characterClass) => {
-                  updateIncludeExclude(
-                    characterClass,
-                    "includedCharacterClasses",
-                    "excludedCharacterClasses"
-                  );
-                }}
-                includedRows={search.includedCharacterClasses!}
-                excludedRows={search.excludedCharacterClasses!}
-                allKeys={unqiueKeysResponse?.characterClassKeys ?? []}
-              />
-            </div>
+            <CharacterAggreationDisplay
+              aggregation={aggregationSearchResponse?.characterClassAggregation}
+              onSelectionChanged={(characterClass) => {
+                updateIncludeExclude(
+                  characterClass,
+                  "includedCharacterClasses",
+                  "excludedCharacterClasses"
+                );
+              }}
+              includedRows={search.includedCharacterClasses!}
+              excludedRows={search.excludedCharacterClasses!}
+              allKeys={unqiueKeysResponse?.characterClassKeys ?? []}
+              totalMatches={aggregationSearchResponse?.totalMatches ?? 0}
+              localSearchString={localSearchString}
+            />
+          </StyledCard>
+          <StyledCard title="Items" className="h-[400px]">
+            <CharacterAggreationDisplay
+              aggregation={aggregationSearchResponse?.itemKeyAggreagtion}
+              onSelectionChanged={(item) => {
+                updateIncludeExclude(
+                  item,
+                  "includedItemKeys",
+                  "excludedItemKeys"
+                );
+              }}
+              includedRows={search.includedItemKeys!}
+              excludedRows={search.excludedItemKeys!}
+              allKeys={unqiueKeysResponse?.itemKeys ?? []}
+              totalMatches={aggregationSearchResponse?.totalMatches ?? 0}
+              localSearchString={localSearchString}
+            />
           </StyledCard>
           <StyledCard title="Keystones" className="h-[400px]">
-            <div className="overflow-y-auto pr-3">
-              <CharacterAggreationDisplay
-                aggregation={aggregationSearchResponse?.keystoneAggregation}
-                onSelectionChanged={(keyStone) => {
-                  updateIncludeExclude(
-                    keyStone,
-                    "includedKeyStoneNames",
-                    "excludedKeyStoneNames"
-                  );
-                }}
-                includedRows={search.includedKeyStoneNames!}
-                excludedRows={search.excludedKeyStoneNames!}
-                allKeys={unqiueKeysResponse?.keystoneKeys ?? []}
-              />
-            </div>
+            <CharacterAggreationDisplay
+              aggregation={aggregationSearchResponse?.keystoneAggregation}
+              onSelectionChanged={(keyStone) => {
+                updateIncludeExclude(
+                  keyStone,
+                  "includedKeyStoneNames",
+                  "excludedKeyStoneNames"
+                );
+              }}
+              includedRows={search.includedKeyStoneNames!}
+              excludedRows={search.excludedKeyStoneNames!}
+              allKeys={unqiueKeysResponse?.keystoneKeys ?? []}
+              totalMatches={aggregationSearchResponse?.totalMatches ?? 0}
+              localSearchString={localSearchString}
+            />
           </StyledCard>
         </div>
         <StyledCard title="Characters" className="flex-1">
           <table>
             <thead>
               <th>Name</th>
+              <th>Skill</th>
+              <th>Life</th>
+              <th>Es</th>
               <th>Ascendancy</th>
               <th>Level</th>
             </thead>
@@ -211,6 +277,9 @@ export default function Characters() {
                         {snapshot?.name}
                       </Link>
                     </td>
+                    <td>{snapshot.mainSkillKey}</td>
+                    <td>{snapshot.life}</td>
+                    <td>{snapshot.energyShield}</td>
                     <td>{snapshot.characterClass}</td>
                     <td>{snapshot.level}</td>
                   </tr>

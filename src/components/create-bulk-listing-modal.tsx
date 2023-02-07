@@ -27,7 +27,6 @@ export default function CreateBulkListingModal({
   itemValueOverrides: Record<string, number | null>;
 }) {
   const [exporterInput, setExporterInput] = useState<StashSnapshotExportInput>({
-    save: false,
     search: itemGroupSearch,
     alwaysPriceInChaos: false,
     visualDecimalPrecision: 2,
@@ -99,7 +98,6 @@ export default function CreateBulkListingModal({
       variables: {
         input: {
           ...exporterInput,
-          ...{ save: true },
         },
       },
       onCompleted(data, clientOptions) {

@@ -101,9 +101,11 @@ export type CharacterSnapshotPobStats = {
 
 export type CharacterSnapshotSearch = {
   excludedCharacterClasses?: InputMaybe<Array<Scalars['String']>>;
+  excludedItemKeys?: InputMaybe<Array<Scalars['String']>>;
   excludedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
   excludedMainSkills?: InputMaybe<Array<Scalars['String']>>;
   includedCharacterClasses?: InputMaybe<Array<Scalars['String']>>;
+  includedItemKeys?: InputMaybe<Array<Scalars['String']>>;
   includedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
   includedMainSkills?: InputMaybe<Array<Scalars['String']>>;
   league: Scalars['String'];
@@ -112,8 +114,10 @@ export type CharacterSnapshotSearch = {
 export type CharacterSnapshotSearchAggregationsResponse = {
   __typename?: 'CharacterSnapshotSearchAggregationsResponse';
   characterClassAggregation?: Maybe<GenericAggregation>;
+  itemKeyAggreagtion?: Maybe<GenericAggregation>;
   keystoneAggregation?: Maybe<GenericAggregation>;
   mainSkillAggreagtion?: Maybe<GenericAggregation>;
+  totalMatches?: Maybe<Scalars['Float']>;
 };
 
 export type CharacterSnapshotSearchResponse = {
@@ -126,13 +130,17 @@ export type CharacterSnapshotSearchResponseEntry = {
   __typename?: 'CharacterSnapshotSearchResponseEntry';
   characterClass: Scalars['String'];
   characterId: Scalars['String'];
+  energyShield?: Maybe<Scalars['Float']>;
   level: Scalars['Float'];
+  life?: Maybe<Scalars['Float']>;
+  mainSkillKey?: Maybe<Scalars['String']>;
   name: Scalars['String'];
 };
 
 export type CharacterSnapshotUniqueAggregationKeysResponse = {
   __typename?: 'CharacterSnapshotUniqueAggregationKeysResponse';
   characterClassKeys: Array<Scalars['String']>;
+  itemKeys: Array<Scalars['String']>;
   keystoneKeys: Array<Scalars['String']>;
   mainSkillKeys: Array<Scalars['String']>;
 };
@@ -164,21 +172,6 @@ export type GlobalSearchResponseEntry = {
   group: Scalars['String'];
   icon?: Maybe<Scalars['String']>;
   target: Scalars['String'];
-};
-
-export type GqlStashSnapshotExportInput = {
-  __typename?: 'GqlStashSnapshotExportInput';
-  absoluteMinValueChaos: Scalars['Float'];
-  alwaysPriceInChaos: Scalars['Boolean'];
-  exportType: Scalars['String'];
-  ign: Scalars['String'];
-  itemGroupValueOverrides: Array<StashSnapshotExportItemValueOverride>;
-  listedValueMultiplier: Scalars['Float'];
-  maxStackSizeSetting: Scalars['String'];
-  save: Scalars['Boolean'];
-  search: StashSnapshotItemGroupSummarySearch;
-  stashIndexOffset: Scalars['Float'];
-  visualDecimalPrecision: Scalars['Float'];
 };
 
 export type ItemGroup = {
@@ -502,7 +495,7 @@ export type StashSnapshotExport = {
   divineChaosValue: Scalars['Float'];
   exportRaw: Scalars['String'];
   id: Scalars['String'];
-  input: GqlStashSnapshotExportInput;
+  input: StashSnapshotExportInputObject;
   itemGroupSummaries: Array<StashSnapshotItemGroupSummary>;
   totalValueChaos: Scalars['Float'];
   userId: Scalars['String'];
@@ -516,8 +509,21 @@ export type StashSnapshotExportInput = {
   itemGroupValueOverrides: Array<StashSnapshotExportItemValueOverrideInput>;
   listedValueMultiplier: Scalars['Float'];
   maxStackSizeSetting: Scalars['String'];
-  save: Scalars['Boolean'];
   search: StashSnapshotItemGroupSummarySearchInput;
+  stashIndexOffset: Scalars['Float'];
+  visualDecimalPrecision: Scalars['Float'];
+};
+
+export type StashSnapshotExportInputObject = {
+  __typename?: 'StashSnapshotExportInputObject';
+  absoluteMinValueChaos: Scalars['Float'];
+  alwaysPriceInChaos: Scalars['Boolean'];
+  exportType: Scalars['String'];
+  ign: Scalars['String'];
+  itemGroupValueOverrides: Array<StashSnapshotExportItemValueOverride>;
+  listedValueMultiplier: Scalars['Float'];
+  maxStackSizeSetting: Scalars['String'];
+  search: StashSnapshotItemGroupSummarySearch;
   stashIndexOffset: Scalars['Float'];
   visualDecimalPrecision: Scalars['Float'];
 };
@@ -720,7 +726,6 @@ export type ResolversTypes = ResolversObject<{
   GlobalSearch: GlobalSearch;
   GlobalSearchResponse: ResolverTypeWrapper<GlobalSearchResponse>;
   GlobalSearchResponseEntry: ResolverTypeWrapper<GlobalSearchResponseEntry>;
-  GqlStashSnapshotExportInput: ResolverTypeWrapper<GqlStashSnapshotExportInput>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   ItemGroup: ResolverTypeWrapper<ItemGroup>;
   ItemGroupSearchInput: ItemGroupSearchInput;
@@ -743,6 +748,7 @@ export type ResolversTypes = ResolversObject<{
   StashSnapshot: ResolverTypeWrapper<StashSnapshot>;
   StashSnapshotExport: ResolverTypeWrapper<StashSnapshotExport>;
   StashSnapshotExportInput: StashSnapshotExportInput;
+  StashSnapshotExportInputObject: ResolverTypeWrapper<StashSnapshotExportInputObject>;
   StashSnapshotExportItemValueOverride: ResolverTypeWrapper<StashSnapshotExportItemValueOverride>;
   StashSnapshotExportItemValueOverrideInput: StashSnapshotExportItemValueOverrideInput;
   StashSnapshotItemGroupSearchSummaryAggregationEntry: ResolverTypeWrapper<StashSnapshotItemGroupSearchSummaryAggregationEntry>;
@@ -777,7 +783,6 @@ export type ResolversParentTypes = ResolversObject<{
   GlobalSearch: GlobalSearch;
   GlobalSearchResponse: GlobalSearchResponse;
   GlobalSearchResponseEntry: GlobalSearchResponseEntry;
-  GqlStashSnapshotExportInput: GqlStashSnapshotExportInput;
   Int: Scalars['Int'];
   ItemGroup: ItemGroup;
   ItemGroupSearchInput: ItemGroupSearchInput;
@@ -800,6 +805,7 @@ export type ResolversParentTypes = ResolversObject<{
   StashSnapshot: StashSnapshot;
   StashSnapshotExport: StashSnapshotExport;
   StashSnapshotExportInput: StashSnapshotExportInput;
+  StashSnapshotExportInputObject: StashSnapshotExportInputObject;
   StashSnapshotExportItemValueOverride: StashSnapshotExportItemValueOverride;
   StashSnapshotExportItemValueOverrideInput: StashSnapshotExportItemValueOverrideInput;
   StashSnapshotItemGroupSearchSummaryAggregationEntry: StashSnapshotItemGroupSearchSummaryAggregationEntry;
@@ -901,8 +907,10 @@ export type CharacterSnapshotPobStatsResolvers<ContextType = any, ParentType ext
 
 export type CharacterSnapshotSearchAggregationsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotSearchAggregationsResponse'] = ResolversParentTypes['CharacterSnapshotSearchAggregationsResponse']> = ResolversObject<{
   characterClassAggregation?: Resolver<Maybe<ResolversTypes['GenericAggregation']>, ParentType, ContextType>;
+  itemKeyAggreagtion?: Resolver<Maybe<ResolversTypes['GenericAggregation']>, ParentType, ContextType>;
   keystoneAggregation?: Resolver<Maybe<ResolversTypes['GenericAggregation']>, ParentType, ContextType>;
   mainSkillAggreagtion?: Resolver<Maybe<ResolversTypes['GenericAggregation']>, ParentType, ContextType>;
+  totalMatches?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -915,13 +923,17 @@ export type CharacterSnapshotSearchResponseResolvers<ContextType = any, ParentTy
 export type CharacterSnapshotSearchResponseEntryResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotSearchResponseEntry'] = ResolversParentTypes['CharacterSnapshotSearchResponseEntry']> = ResolversObject<{
   characterClass?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   characterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  energyShield?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  life?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  mainSkillKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type CharacterSnapshotUniqueAggregationKeysResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotUniqueAggregationKeysResponse'] = ResolversParentTypes['CharacterSnapshotUniqueAggregationKeysResponse']> = ResolversObject<{
   characterClassKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  itemKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   keystoneKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   mainSkillKeys?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -952,21 +964,6 @@ export type GlobalSearchResponseEntryResolvers<ContextType = any, ParentType ext
   group?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   icon?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   target?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
-}>;
-
-export type GqlStashSnapshotExportInputResolvers<ContextType = any, ParentType extends ResolversParentTypes['GqlStashSnapshotExportInput'] = ResolversParentTypes['GqlStashSnapshotExportInput']> = ResolversObject<{
-  absoluteMinValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  alwaysPriceInChaos?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  exportType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  ign?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  itemGroupValueOverrides?: Resolver<Array<ResolversTypes['StashSnapshotExportItemValueOverride']>, ParentType, ContextType>;
-  listedValueMultiplier?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  maxStackSizeSetting?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  save?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  search?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearch'], ParentType, ContextType>;
-  stashIndexOffset?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
-  visualDecimalPrecision?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1153,10 +1150,24 @@ export type StashSnapshotExportResolvers<ContextType = any, ParentType extends R
   divineChaosValue?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   exportRaw?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  input?: Resolver<ResolversTypes['GqlStashSnapshotExportInput'], ParentType, ContextType>;
+  input?: Resolver<ResolversTypes['StashSnapshotExportInputObject'], ParentType, ContextType>;
   itemGroupSummaries?: Resolver<Array<ResolversTypes['StashSnapshotItemGroupSummary']>, ParentType, ContextType>;
   totalValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type StashSnapshotExportInputObjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['StashSnapshotExportInputObject'] = ResolversParentTypes['StashSnapshotExportInputObject']> = ResolversObject<{
+  absoluteMinValueChaos?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  alwaysPriceInChaos?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  exportType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  ign?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  itemGroupValueOverrides?: Resolver<Array<ResolversTypes['StashSnapshotExportItemValueOverride']>, ParentType, ContextType>;
+  listedValueMultiplier?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  maxStackSizeSetting?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  search?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearch'], ParentType, ContextType>;
+  stashIndexOffset?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  visualDecimalPrecision?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1254,7 +1265,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   GenericIntKeyValue?: GenericIntKeyValueResolvers<ContextType>;
   GlobalSearchResponse?: GlobalSearchResponseResolvers<ContextType>;
   GlobalSearchResponseEntry?: GlobalSearchResponseEntryResolvers<ContextType>;
-  GqlStashSnapshotExportInput?: GqlStashSnapshotExportInputResolvers<ContextType>;
   ItemGroup?: ItemGroupResolvers<ContextType>;
   ItemGroupValueTimeseries?: ItemGroupValueTimeseriesResolvers<ContextType>;
   ItemGroupValueTimeseriesGroupEntry?: ItemGroupValueTimeseriesGroupEntryResolvers<ContextType>;
@@ -1273,6 +1283,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   StashLocation?: StashLocationResolvers<ContextType>;
   StashSnapshot?: StashSnapshotResolvers<ContextType>;
   StashSnapshotExport?: StashSnapshotExportResolvers<ContextType>;
+  StashSnapshotExportInputObject?: StashSnapshotExportInputObjectResolvers<ContextType>;
   StashSnapshotExportItemValueOverride?: StashSnapshotExportItemValueOverrideResolvers<ContextType>;
   StashSnapshotItemGroupSearchSummaryAggregationEntry?: StashSnapshotItemGroupSearchSummaryAggregationEntryResolvers<ContextType>;
   StashSnapshotItemGroupSummary?: StashSnapshotItemGroupSummaryResolvers<ContextType>;
