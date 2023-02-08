@@ -71,7 +71,10 @@ export default function Profiles() {
                 {profiles?.map((profile, index) => (
                   <tr key={index}>
                     <td>
-                      <Link href={"/poe/stash/snapshot/profiles/" + profile.id}>
+                      <Link
+                        className="hover:text-skin-accent"
+                        href={"/poe/stash/snapshot/profiles/" + profile.id}
+                      >
                         {profile?.name}
                       </Link>
                     </td>
@@ -79,6 +82,7 @@ export default function Profiles() {
                     <td>
                       <div className="flex flex-row space-x-3">
                         <Link
+                          className="hover:text-skin-accent"
                           href={
                             "/poe/stash/snapshot/profiles/" +
                             profile.id +
@@ -88,6 +92,7 @@ export default function Profiles() {
                           Edit
                         </Link>
                         <div
+                          className="hover:text-skin-accent"
                           onClick={() => {
                             deleteProfile({
                               variables: { stashSnapshotProfileId: profile.id },

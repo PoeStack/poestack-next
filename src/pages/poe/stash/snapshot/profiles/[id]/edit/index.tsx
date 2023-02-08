@@ -118,7 +118,7 @@ export default function ViewProfile() {
             </>
           )}
           <StyledInput
-            placeholder="Name"
+            placeholder="Enter Profile Name..."
             onChange={(e) => {
               setProfile({ ...profile, ...{ name: e } });
             }}
@@ -196,12 +196,13 @@ export default function ViewProfile() {
           />
 
           {stashTabs.stashTabs.map((tab) => (
-            <div key={tab.id}>
+            <div key={tab.id} className="hover:text-skin-accent">
               <input
                 type="checkbox"
                 id="topping"
                 name="topping"
                 value="Paneer"
+                className="mr-2"
                 checked={profile.poeStashTabIds?.includes(tab.id!)}
                 onChange={(e) => {
                   if (profile.poeStashTabIds?.includes(tab.id!)) {
