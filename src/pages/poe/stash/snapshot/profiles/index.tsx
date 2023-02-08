@@ -1,6 +1,12 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { nanoid } from "nanoid";
 import StyledCard from "../../../../../components/styled-card";
+import {
+  StyledTooltip,
+  StyledTooltipWIcon,
+} from "../../../../../components/styled-tooltip";
+
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 import { useState, useEffect } from "react";
 import { StashSnapshotProfile } from "../../../../../__generated__/resolvers-types";
@@ -53,12 +59,17 @@ export default function Profiles() {
     <>
       <StyledCard title={"Profiles"}>
         <div>
-          <Link
-            className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1  rounded-lg"
-            href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
-          >
-            Create Profile
-          </Link>
+          <div className="flex flex-row items-center">
+            <StyledTooltipWIcon tooltip="icon tooltip text" />
+            <Link
+              className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1  rounded-lg"
+              href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
+            >
+              <StyledTooltip tooltip="create profile text">
+                Create Profile
+              </StyledTooltip>
+            </Link>
+          </div>
           <div className="overflow-y-auto">
             <table className="table-auto w-full">
               <thead>
