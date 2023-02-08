@@ -20,6 +20,8 @@
     "@vercel/og": "^0.0.27",
     "eslint": "8.30.0",
     "eslint-config-next": "13.1.1",
+    "flowbite": "^1.6.3",
+    "flowbite-react": "^0.3.8",
     "graphql": "^16.6.0",
     "graphql-scalars": "^1.20.1",
     "highcharts": "^10.3.2",

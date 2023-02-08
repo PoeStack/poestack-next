@@ -152,12 +152,5 @@ text.highcharts-data-label {
   stroke: #505053;
 }
 
-.tooltip {
-  @apply invisible absolute;
-}
-
-.has-tooltip:hover .tooltip {
-  @apply visible z-50;
-}
 
 /* https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker */
