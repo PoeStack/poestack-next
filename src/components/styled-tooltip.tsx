@@ -17,8 +17,8 @@ export const StyledTooltip: FC<Props> = ({
       ref={container}
       onMouseEnter={(clientX: any) => {
         if (!tooltipRef.current || !container.current) return;
-        const { right } = container.current.getBoundingClientRect();
-        tooltipRef.current.style.left = clientX - right + "px";
+        const { left } = container.current.getBoundingClientRect();
+        tooltipRef.current.style.left = clientX - left + "px";
       }}
       className="group relative inline-block"
     >
