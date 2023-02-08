@@ -196,10 +196,10 @@ export default function ViewProfile() {
           />
 
           {stashTabs.stashTabs.map((tab) => (
-            <div key={tab.id} className="hover:text-skin-accent">
+            <div key={tab.id} className="flex flex-row hover:text-skin-accent">
               <input
                 type="checkbox"
-                id="topping"
+                id={tab.id}
                 name="topping"
                 value="Paneer"
                 className="mr-2"
@@ -226,7 +226,7 @@ export default function ViewProfile() {
                   }
                 }}
               />
-              {tab.name}
+              <label htmlFor={tab.id}>{tab.name}</label>
             </div>
           ))}
 
