@@ -15,8 +15,87 @@ import CharacterStatsDisplay from "../../../../components/character-stats-displa
 import SkillTree from "../../../../components/skill-tree/skill-tree";
 import StyledSelect2 from "../../../../components/styled-select-2";
 import CharacterLevelChart from "../../../../components/character-level-chart";
+import Head from "next/head";
+import client from "../../../../poe-stack-apollo-client";
 
-export default function Character() {
+const snapshotQuery = gql`
+  query CharacterSnapshotsSearch($snapshotId: String!) {
+    characterSnapshot(snapshotId: $snapshotId) {
+      id
+      characterId
+      timestamp
+      characterClass
+      league
+      experience
+      level
+      current
+      poeCharacter {
+        id
+        userId
+        name
+        createdAtTimestamp
+        lastSnapshotTimestamp
+      }
+      characterPassivesSnapshot {
+        banditChoice
+        pantheonMajor
+        pantheonMinor
+        hashes
+        hashesEx
+        jewelData
+        masteryEffects
+      }
+      characterSnapshotItems {
+        itemId
+        inventoryId
+        socketedInId
+        baseType
+        typeLine
+        name
+        ilvl
+        explicitMods
+        utilityMods
+        properties
+        requirements
+        sockets
+        frameType
+
+        description
+        icon
+        w
+        h
+        corrupted
+        support
+        socket
+        gemColor
+        mainSkill
+        itemGroupHashString
+      }
+      characterSnapshotPobStats {
+        accuracy
+        armour
+        blockChance
+        spellBlockChance
+        chaosResist
+        coldResist
+        dex
+        energyShield
+        fireResist
+        int
+        life
+        lightningResist
+        mana
+        str
+        evasion
+        supression
+        totalDpsWithIgnite
+        pobCode
+      }
+    }
+  }
+`;
+
+export default function Character({ characterSnapshot }) {
   const router = useRouter();
   const { characterId, snapshotId } = router.query;
 
@@ -24,7 +103,7 @@ export default function Character() {
     CharacterSnapshotRecord[]
   >([]);
   const [currentSnapshot, setCurrentSnapshot] =
-    useState<CharacterSnapshot | null>(null);
+    useState<CharacterSnapshot | null>(characterSnapshot);
 
   const { refetch: refetchSnapshots } = useQuery(
     gql`
@@ -43,7 +122,7 @@ export default function Character() {
       variables: { characterId: characterId },
       onCompleted(data) {
         setCharacterSnapshots(data.characterSnapshotRecords);
-        if (data.characterSnapshotRecords.length > 0) {
+        if (data.characterSnapshotRecords.length > 0 && !snapshotId) {
           router.replace({
             query: {
               characterId: characterId,
@@ -58,91 +137,13 @@ export default function Character() {
     }
   );
 
-  useQuery(
-    gql`
-      query CharacterSnapshotsSearch($snapshotId: String!) {
-        characterSnapshot(snapshotId: $snapshotId) {
-          id
-          characterId
-          timestamp
-          characterClass
-          league
-          experience
-          level
-          current
-          poeCharacter {
-            id
-            userId
-            name
-            createdAtTimestamp
-            lastSnapshotTimestamp
-          }
-          characterPassivesSnapshot {
-            banditChoice
-            pantheonMajor
-            pantheonMinor
-            hashes
-            hashesEx
-            jewelData
-            masteryEffects
-          }
-          characterSnapshotItems {
-            itemId
-            inventoryId
-            socketedInId
-            baseType
-            typeLine
-            name
-            ilvl
-            explicitMods
-            utilityMods
-            properties
-            requirements
-            sockets
-            frameType
-
-            description
-            icon
-            w
-            h
-            corrupted
-            support
-            socket
-            gemColor
-            mainSkill
-            itemGroupHashString
-          }
-          characterSnapshotPobStats {
-            accuracy
-            armour
-            blockChance
-            spellBlockChance
-            chaosResist
-            coldResist
-            dex
-            energyShield
-            fireResist
-            int
-            life
-            lightningResist
-            mana
-            str
-            evasion
-            supression
-            totalDpsWithIgnite
-            pobCode
-          }
-        }
-      }
-    `,
-    {
-      skip: !snapshotId,
-      variables: { snapshotId: snapshotId },
-      onCompleted(data) {
-        setCurrentSnapshot(data.characterSnapshot);
-      },
-    }
-  );
+  useQuery(snapshotQuery, {
+    skip: !snapshotId,
+    variables: { snapshotId: snapshotId },
+    onCompleted(data) {
+      setCurrentSnapshot(data.characterSnapshot);
+    },
+  });
 
   const [passiveTreeData, setPassiveTreeData] =
     useState<PassiveTreeResponse | null>(null);
@@ -203,9 +204,30 @@ export default function Character() {
     }
   );
 
+  const mainSkill = currentSnapshot?.characterSnapshotItems?.find(
+    (e) => e.mainSkill === true
+  )?.typeLine;
+
+  const embeddedDesc = `Life ${currentSnapshot?.characterSnapshotPobStats?.life} ES ${currentSnapshot?.characterSnapshotPobStats?.energyShield}
+  Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
+  DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
+
   return (
     <>
       <div className="flex flex-col space-y-2">
+        <Head>
+          <meta property="og:type" content="website" />
+          <meta property="og:site_name" content="PobStack" />
+          <meta
+            property="og:title"
+            content={`Level ${currentSnapshot?.level} ${mainSkill} ${currentSnapshot?.characterClass}`}
+          />
+          <meta property="og:description" content={embeddedDesc} />
+          <meta
+            property="og:image"
+            content={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
+          />
+        </Head>
         <div className="flex flex-row space-x-2">
           <StyledCard title="Equipment" className="min-w-[450px]">
             <div className="flex flex-col space-y-2">
@@ -353,4 +375,25 @@ export default function Character() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const { characterId, snapshotId } = context.query;
+
+  if (characterId && snapshotId) {
+    const resp: any = await client.query({
+      query: snapshotQuery,
+      variables: { snapshotId: snapshotId },
+    });
+
+    if (resp?.data?.characterSnapshot) {
+      return {
+        props: { characterSnapshot: resp?.data?.characterSnapshot },
+      };
+    }
+  }
+
+  return {
+    props: {},
+  };
 }
