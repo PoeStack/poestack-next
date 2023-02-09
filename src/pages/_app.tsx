@@ -43,11 +43,11 @@ export default function App({ Component, pageProps }: AppProps) {
               <div className="flex flex-col w-full h-full min-h-screen overflow-x-auto">
                 <StyledNavBar />
                 <div className="flex grow space-x-2 pt-4">
-                  <div className="lg:basis-1/4"></div>
-                  <div className="grow lg:basis-1/2">
+                  <div className="lg:basis-1/12"></div>
+                  <div className="grow lg:basis-5/6">
                     <Component {...pageProps} />
                   </div>
-                  <div className="lg:basis-1/4"></div>
+                  <div className="lg:basis-1/12"></div>
                 </div>
                 <div className="flex flex-row space-x-3">
                   <div>
