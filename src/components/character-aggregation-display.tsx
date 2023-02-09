@@ -3,6 +3,7 @@ import { GenericAggregation } from "../__generated__/resolvers-types";
 import { useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { GeneralUtils } from "../utils/general-util";
 
 export default function CharacterAggreationDisplay({
   aggregation,
@@ -59,7 +60,7 @@ export default function CharacterAggreationDisplay({
           includedRows.includes(mappedRow[index].key) ? "text-green-400" : ""
         }
       >
-        {mappedRow[index].key}
+        {GeneralUtils.capitalize(mappedRow[index].key)}
       </div>
       <div className={"text-right"}>
         {+(((mappedRow[index]?.value ?? 0) / totalMatches) * 100).toFixed(2)}%
