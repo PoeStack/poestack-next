@@ -2,6 +2,11 @@
 
 The frontend app for PoeStack
 
+### GraphQL Api
+- Ui for building/executing queries https://api.poestack.com/graphql
+
+
+
 ### Running Locally (Docker)
 
 Can replace "poestack" with any name you want in the below and can change the first port number to the host port you want to use.
