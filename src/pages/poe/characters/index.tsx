@@ -10,7 +10,7 @@ import {
   CharacterSnapshotSearchAggregationsResponse,
 } from "../../../__generated__/resolvers-types";
 import { usePoeLeagueCtx } from "../../../contexts/league-context";
-import CharacterAggreationDisplay from "../../../components/character-aggregation-display";
+import CharacterAggregationDisplay from "../../../components/character-aggregation-display";
 import StyledInput from "../../../components/styled-input";
 import {
   CharacterSnapshotSearch,
@@ -191,7 +191,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Skills" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.mainSkillAggreagtion}
               onSelectionChanged={(mainSkill) => {
                 updateIncludeExclude(
@@ -208,7 +208,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Class" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.characterClassAggregation}
               onSelectionChanged={(characterClass) => {
                 updateIncludeExclude(
@@ -225,7 +225,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Items" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.itemKeyAggreagtion}
               onSelectionChanged={(item) => {
                 updateIncludeExclude(
@@ -242,7 +242,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Keystones" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.keystoneAggregation}
               onSelectionChanged={(keyStone) => {
                 updateIncludeExclude(
