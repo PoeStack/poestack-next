@@ -54,8 +54,8 @@ export default function Characters() {
             characterId
             name
             level
-            characterClass
             mainSkillKey
+            characterClass
             energyShield
             life
           }

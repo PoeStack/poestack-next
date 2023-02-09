@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import {
   CharacterSnapshot,
+  CharacterSnapshotRecord,
   PassiveTreeResponse,
 } from "../../../../__generated__/resolvers-types";
 import StyledCard from "../../../../components/styled-card";
@@ -12,7 +13,6 @@ import SecondaryEquipmentDisplay from "../../../../components/secondary-equipmen
 import StyledButton from "../../../../components/styled-button";
 import CharacterStatsDisplay from "../../../../components/character-stats-display";
 import SkillTree from "../../../../components/skill-tree/skill-tree";
-import StyledMultiSelect2 from "../../../../components/styled-multi-select-2";
 import StyledSelect2 from "../../../../components/styled-select-2";
 import CharacterLevelChart from "../../../../components/character-level-chart";
 
@@ -21,23 +21,20 @@ export default function Character() {
   const { characterId, snapshotId } = router.query;
 
   const [characterSnapshots, setCharacterSnapshots] = useState<
-    CharacterSnapshot[]
+    CharacterSnapshotRecord[]
   >([]);
   const [currentSnapshot, setCurrentSnapshot] =
     useState<CharacterSnapshot | null>(null);
 
   const { refetch: refetchSnapshots } = useQuery(
     gql`
-      query CharacterSnapshots($characterId: String!) {
-        characterSnapshots(characterId: $characterId) {
+      query CharacterSnapshotRecords($characterId: String!) {
+        characterSnapshotRecords(characterId: $characterId) {
           id
           characterId
           timestamp
-          characterClass
-          league
           experience
           level
-          current
         }
       }
     `,
@@ -45,13 +42,15 @@ export default function Character() {
       skip: !characterId,
       variables: { characterId: characterId },
       onCompleted(data) {
-        setCharacterSnapshots(data.characterSnapshots);
-        if (data.characterSnapshots.length > 0) {
+        setCharacterSnapshots(data.characterSnapshotRecords);
+        if (data.characterSnapshotRecords.length > 0) {
           router.replace({
             query: {
               characterId: characterId,
               snapshotId:
-                data.characterSnapshots[data.characterSnapshots.length - 1].id,
+                data.characterSnapshotRecords[
+                  data.characterSnapshotRecords.length - 1
+                ].id,
             },
           });
         }
@@ -61,8 +60,8 @@ export default function Character() {
 
   useQuery(
     gql`
-      query CharacterSnapshot($snapshotId: String!, $characterId: String!) {
-        characterSnapshot(snapshotId: $snapshotId, characterId: $characterId) {
+      query CharacterSnapshotsSearch($snapshotId: String!) {
+        characterSnapshot(snapshotId: $snapshotId) {
           id
           characterId
           timestamp
@@ -71,8 +70,14 @@ export default function Character() {
           experience
           level
           current
+          poeCharacter {
+            id
+            userId
+            name
+            createdAtTimestamp
+            lastSnapshotTimestamp
+          }
           characterPassivesSnapshot {
-            snapshotId
             banditChoice
             pantheonMajor
             pantheonMinor
@@ -83,7 +88,6 @@ export default function Character() {
           }
           characterSnapshotItems {
             itemId
-            snapshotId
             inventoryId
             socketedInId
             baseType
@@ -96,27 +100,19 @@ export default function Character() {
             requirements
             sockets
             frameType
-            flavourText
+
             description
             icon
-            mainSkill
             w
             h
             corrupted
             support
             socket
             gemColor
+            mainSkill
             itemGroupHashString
           }
-          poeCharacter {
-            id
-            userId
-            name
-            createdAtTimestamp
-            lastSnapshotTimestamp
-          }
           characterSnapshotPobStats {
-            snapshotId
             accuracy
             armour
             blockChance
@@ -132,16 +128,16 @@ export default function Character() {
             mana
             str
             evasion
-            pobCode
             supression
             totalDpsWithIgnite
+            pobCode
           }
         }
       }
     `,
     {
-      skip: !characterId || !snapshotId,
-      variables: { characterId: characterId, snapshotId: snapshotId },
+      skip: !snapshotId,
+      variables: { snapshotId: snapshotId },
       onCompleted(data) {
         setCurrentSnapshot(data.characterSnapshot);
       },

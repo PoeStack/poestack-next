@@ -3,14 +3,15 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import moment from "moment";
 import "moment-timezone";
-import { CharacterSnapshot } from "../__generated__/resolvers-types";
+import { CharacterSnapshotRecord } from "../__generated__/resolvers-types";
 import { useRef, useEffect } from "react";
 
 export default function CharacterLevelChart({
   snapshots,
 }: {
-  snapshots: CharacterSnapshot[];
+  snapshots: CharacterSnapshotRecord[];
 }) {
+  console.log("ss", snapshots);
   const chart = useRef<any>();
 
   const options = {

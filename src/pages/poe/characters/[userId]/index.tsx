@@ -53,13 +53,8 @@ export default function Characters() {
   return (
     <>
       <div className="flex flex-row space-x-2">
-        <StyledCard title="Characters">
+        <StyledCard title="Characters" className="flex-1">
           <div className="flex flex-col space-y-4">
-            <div>
-              This is very beta, there are many things that need to be
-              added/improved feel free to try it out though. Snapshots will
-              likely be cleared out a few times before it is fully released.
-            </div>
             <div>
               {poeCharacters?.map((character) => (
                 <>
