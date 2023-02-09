@@ -3,7 +3,11 @@ module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/flowbite/**/*.js",
+    "./pages/**/*.{ts,tsx}",
+    "./public/**/*.html",
   ],
+  plugins: [require("flowbite/plugin")],
   theme: {
     extend: {
       // Trying to use the exact same utility class for everything. Using a single "key" that encompasses all the different possible themes.
@@ -66,5 +70,4 @@ module.exports = {
       },
     },
   },
-  plugins: [],
 };

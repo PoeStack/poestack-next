@@ -2,9 +2,12 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { nanoid } from "nanoid";
 import StyledCard from "../../../../../components/styled-card";
 
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
+
 import { useState, useEffect } from "react";
 import { StashSnapshotProfile } from "../../../../../__generated__/resolvers-types";
 import Link from "next/link";
+import { StyledTooltip } from "../../../../../components/styled-tooltip";
 
 export default function Profiles() {
   const [profiles, setProfiles] = useState<StashSnapshotProfile[]>([]);
@@ -53,12 +56,28 @@ export default function Profiles() {
     <>
       <StyledCard title={"Profiles"}>
         <div>
-          <Link
-            className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1  rounded-lg"
-            href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
-          >
-            Create Profile
-          </Link>
+          <div className="flex flex-row items-center">
+            <div className="flex flex-row items-center mr-2">
+              <StyledTooltip
+                texts={[
+                  "Create Profile to save custom stash profiles.",
+                  "You can have numerous profiles.",
+                ]}
+                placement="left"
+              >
+                <button className="w-5 h-5 ">
+                  <InformationCircleIcon />
+                </button>
+              </StyledTooltip>
+              <Link
+                className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1  rounded-lg"
+                href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
+              >
+                {" "}
+                <p>Create Profile</p>
+              </Link>
+            </div>
+          </div>
           <div className="overflow-y-auto">
             <table className="table-auto w-full">
               <thead>
@@ -71,7 +90,10 @@ export default function Profiles() {
                 {profiles?.map((profile, index) => (
                   <tr key={index}>
                     <td>
-                      <Link href={"/poe/stash/snapshot/profiles/" + profile.id}>
+                      <Link
+                        className="hover:text-skin-accent"
+                        href={"/poe/stash/snapshot/profiles/" + profile.id}
+                      >
                         {profile?.name}
                       </Link>
                     </td>
@@ -79,6 +101,7 @@ export default function Profiles() {
                     <td>
                       <div className="flex flex-row space-x-3">
                         <Link
+                          className="hover:text-skin-accent"
                           href={
                             "/poe/stash/snapshot/profiles/" +
                             profile.id +
@@ -88,6 +111,7 @@ export default function Profiles() {
                           Edit
                         </Link>
                         <div
+                          className="hover:text-skin-accent"
                           onClick={() => {
                             deleteProfile({
                               variables: { stashSnapshotProfileId: profile.id },

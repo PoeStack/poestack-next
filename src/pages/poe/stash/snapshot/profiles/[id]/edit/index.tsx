@@ -13,7 +13,11 @@ import {
   StashSnapshotProfile,
   StashSnapshotProfileInput,
 } from "../../../../../../../__generated__/resolvers-types";
+
 import { nanoid } from "nanoid";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { Tooltip } from "flowbite-react";
+import { StyledTooltip } from "../../../../../../../components/styled-tooltip";
 
 export default function ViewProfile() {
   const router = useRouter();
@@ -117,73 +121,155 @@ export default function ViewProfile() {
               </div>
             </>
           )}
+
           <StyledInput
-            placeholder="Name"
+            placeholder="Enter Profile Name..."
             onChange={(e) => {
               setProfile({ ...profile, ...{ name: e } });
             }}
             value={profile?.name ?? ""}
           />
+          {/* Select League */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={["Select the league you want"]}
+              placement="top"
+              className="mr-2 "
+            >
+              <h4 className="w-20 cursor-help">League: </h4>
+            </StyledTooltip>
+            <div className=" w-full">
+              <LeagueSelect
+                onLeagueChanged={(l) => {
+                  setProfile({ ...profile, ...{ league: l } });
+                }}
+              />
+            </div>
+          </div>
+          {/* Public or Private Select */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={[
+                "Public = You can share profile with anyone ",
+                "Private = Only you can see it",
+              ]}
+              placement="top"
+              className="mr-2 relative"
+            >
+              <h4 className="w-20 cursor-help">Privacy: </h4>
+            </StyledTooltip>
 
-          <LeagueSelect
-            onLeagueChanged={(l) => {
-              setProfile({ ...profile, ...{ league: l } });
-            }}
-          />
+            <div className="w-full">
+              <StyledSelect
+                items={["Public", "Private"]}
+                onSelectChange={(s) =>
+                  setProfile({ ...profile, ...{ public: s === "Public" } })
+                }
+                initalValue={profile.public ? "Public" : "Private"}
+              />
+            </div>
+          </div>
+          {/* Stock Influence - Smart or Not */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={[
+                "None: Normal pricing model",
+                "Smart: Systems attempts to price based upon stock of currency.",
+                "If not enough data defaults to normal model",
+              ]}
+              placement="top"
+              className="mr-2 "
+            >
+              <h4 className="w-20 cursor-help">Stock Influence: </h4>
+            </StyledTooltip>
 
-          <StyledSelect
-            items={["Public", "Private"]}
-            onSelectChange={(s) =>
-              setProfile({ ...profile, ...{ public: s === "Public" } })
-            }
-            initalValue={profile.public ? "Public" : "Private"}
-          />
+            <div className="w-full">
+              <StyledSelect2
+                items={["none", "smart-influence"]}
+                onSelectChange={(s) =>
+                  setProfile({
+                    ...profile,
+                    ...{
+                      valuationStockInfluence: s,
+                    },
+                  })
+                }
+                selected={profile.valuationStockInfluence}
+              />
+            </div>
+          </div>
+          {/* Valuation Select - */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={[
+                "These " +
+                  `"` +
+                  "p values" +
+                  `"` +
+                  " determine the percentile of listings at which you want ",
+                "your item prices to fall. The higher the p value, the higher the item ",
+                "price. P10 has been the standard up to this point. To familiarize yourself",
+                "with these values, you can refer to the " +
+                  `"` +
+                  "Economy" +
+                  `"` +
+                  " Page for common items.",
+              ]}
+              placement="top"
+              className="mr-2 "
+            >
+              <h4 className="w-20 cursor-help">Valuation: </h4>
+            </StyledTooltip>
 
-          <StyledSelect2
-            items={["none", "smart-influence"]}
-            onSelectChange={(s) =>
-              setProfile({
-                ...profile,
-                ...{
-                  valuationStockInfluence: s,
-                },
-              })
-            }
-            selected={profile.valuationStockInfluence}
-          />
-
-          <StyledSelect2
-            items={["p5", "p7", "p10", "p15", "p20", "p50"]}
-            onSelectChange={(s) =>
-              setProfile({
-                ...profile,
-                ...{
-                  valuationTargetPValue: s,
-                },
-              })
-            }
-            selected={profile.valuationTargetPValue}
-          />
-
-          <StyledSelect2
-            items={["...", "10", "15", "30", "60", "120"]}
-            onSelectChange={(s) => {
-              const v = s === "..." ? null : parseInt(s) * 60;
-              setProfile({
-                ...profile,
-                ...{
-                  automaticSnapshotIntervalSeconds: v,
-                },
-              });
-            }}
-            selected={
-              profile.automaticSnapshotIntervalSeconds
-                ? `Snapshot every ${
-                    profile.automaticSnapshotIntervalSeconds / 60
-                  } mins`
-                : null
-            }
-          />
+            <div className="w-full">
+              <StyledSelect2
+                items={["p5", "p7", "p10", "p15", "p20", "p50"]}
+                onSelectChange={(s) =>
+                  setProfile({
+                    ...profile,
+                    ...{
+                      valuationTargetPValue: s,
+                    },
+                  })
+                }
+                selected={profile.valuationTargetPValue}
+              />
+            </div>
+          </div>
+          {/* SnapShot Interval */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={[
+                "In minutes, how often an automatic snapshot will occur. ",
+                "You DO NOT need to keep the page open!",
+              ]}
+              placement="top"
+              className="mr-2"
+            >
+              <h4 className="w-20 cursor-help">Snapshot Interval: </h4>
+            </StyledTooltip>
+            <div className="w-full">
+              <StyledSelect2
+                items={["...", "10", "15", "30", "60", "120"]}
+                onSelectChange={(s) => {
+                  const v = s === "..." ? null : parseInt(s) * 60;
+                  setProfile({
+                    ...profile,
+                    ...{
+                      automaticSnapshotIntervalSeconds: v,
+                    },
+                  });
+                }}
+                selected={
+                  profile.automaticSnapshotIntervalSeconds
+                    ? `Snapshot every ${
+                        profile.automaticSnapshotIntervalSeconds / 60
+                      } mins`
+                    : null
+                }
+              />
+            </div>
+          </div>
 
           <StyledButton
             text={"Refresh Tabs"}
@@ -196,12 +282,13 @@ export default function ViewProfile() {
           />
 
           {stashTabs.stashTabs.map((tab) => (
-            <div key={tab.id}>
+            <div key={tab.id} className="flex flex-row hover:text-skin-accent">
               <input
                 type="checkbox"
-                id="topping"
+                id={tab.id}
                 name="topping"
                 value="Paneer"
+                className="mr-2"
                 checked={profile.poeStashTabIds?.includes(tab.id!)}
                 onChange={(e) => {
                   if (profile.poeStashTabIds?.includes(tab.id!)) {
@@ -225,7 +312,7 @@ export default function ViewProfile() {
                   }
                 }}
               />
-              {tab.name}
+              <label htmlFor={tab.id}>{tab.name}</label>
             </div>
           ))}
 

@@ -151,3 +151,16 @@ text.highcharts-data-label {
   stroke-width: 1px;
   stroke: #505053;
 }
+
+.popper-arrow::before {
+  position: absolute;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+
+.popper-arrow.bottom {top: -5px;}
+.popper-arrow.left {right: -5px;}
+.popper-arrow.right { left: -5px;}
+.popper-arrow.top { bottom: -5px;}
+
+/* https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker */

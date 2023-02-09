@@ -188,6 +188,7 @@ export default function Characters() {
               onChange={(e) => {
                 setLocalSearchString(e);
               }}
+              placeholder="Search Filters..."
             />
           </StyledCard>
           <StyledCard title="Skills" className="h-[400px]">
