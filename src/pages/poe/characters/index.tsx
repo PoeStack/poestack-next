@@ -1,7 +1,5 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-
+import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "../../../components/styled-card";

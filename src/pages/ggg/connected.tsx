@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect, useRef } from "react";
-
+import { useEffect } from "react";
 import { usePoeStackAuth } from "../../contexts/user-context";
 
 export default function Connected() {

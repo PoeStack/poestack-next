@@ -1,7 +1,4 @@
 import React from "react";
-import { usePoeStackAuth } from "../contexts/user-context";
-import Link from "next/link";
-import StyledDropdown from "./styled-dropdown";
 import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
 import Image from "next/image";
 import ItemMouseOver from "./item-mouseover";

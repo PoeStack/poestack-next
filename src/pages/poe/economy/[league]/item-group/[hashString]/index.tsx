@@ -1,6 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-
 import "moment-timezone";
 import { useEffect, useState } from "react";
 import { ItemGroupValueTimeseries } from "../../../../../../__generated__/resolvers-types";

@@ -1,21 +1,16 @@
 import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import HSparkline from "../../../../components/hsparkline";
-import StyledSelect from "../../../../components/styled-select";
 import Image from "next/image";
 import StyledCard from "../../../../components/styled-card";
 import StyledPaginate from "../../../../components/styled-paginate";
-import LeagueSelect from "../../../../components/league-select";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { GeneralUtils } from "../../../../utils/general-util";
 import _ from "lodash";
 import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/resolvers-types";
 import ItemGroupTagSelect from "../../../../components/item-group-tag-select";
-import {
-  ItemGroupValueTimeseries,
-  StashSnapshotItemGroupSummarySearchInput,
-} from "../../../../__generated__/resolvers-types";
+import { ItemGroupValueTimeseries } from "../../../../__generated__/resolvers-types";
 import { usePoeLeagueCtx } from "../../../../contexts/league-context";
 import CurrencyValueDisplay from "../../../../components/currency-value-display";
 

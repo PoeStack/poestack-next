@@ -1,5 +1,4 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-
 import Link from "next/link";
 import { PoeCharacter } from "../../../../__generated__/resolvers-types";
 import { useState } from "react";

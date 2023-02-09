@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import StyledCard from "../../../../../../../components/styled-card";
 import StyledButton from "../../../../../../../components/styled-button";
 import StyledInput from "../../../../../../../components/styled-input";
@@ -10,7 +9,6 @@ import StyledSelect from "../../../../../../../components/styled-select";
 import StyledSelect2 from "../../../../../../../components/styled-select-2";
 import {
   PoeStashTab,
-  StashSnapshotProfile,
   StashSnapshotProfileInput,
 } from "../../../../../../../__generated__/resolvers-types";
 import { nanoid } from "nanoid";

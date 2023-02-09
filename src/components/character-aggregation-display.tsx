@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from "react";
+import React from "react";
 import { GenericAggregation } from "../__generated__/resolvers-types";
-import { useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "../utils/general-util";

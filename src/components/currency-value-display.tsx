@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
-import { nanoid } from "nanoid";
 
 export default function CurrencyValueDisplay({
   valueChaos,

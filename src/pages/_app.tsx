@@ -4,10 +4,8 @@ import type { AppProps } from "next/app";
 import client from "../poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
 import {
-  PoeStackAuthProvider,
-  usePoeStackAuth,
+  PoeStackAuthProvider
 } from "../contexts/user-context";
-import GggAuthBtn from "../components/ggg-auth-btn";
 import Link from "next/link";
 import Script from "next/script";
 import StyledNavBar from "../components/styled-nav-bar";

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect } from "react";
-
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import StyledSelect from "./styled-select";
 import StyledButton from "./styled-button";
 import StyledInput from "./styled-input";

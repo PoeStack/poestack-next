@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "@vercel/og";
-
 import { NextRequest } from "next/server";
 import client from "../../../../poe-stack-apollo-client";
 import { gql } from "@apollo/client";
