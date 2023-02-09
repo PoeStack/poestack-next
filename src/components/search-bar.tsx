@@ -39,7 +39,7 @@ export default function SearchBar() {
     <div className="relative mx-10">
       <div className="flex flex-row space-x-2">
         <input
-          className="bg-transparent border w-full border-skin-primary focus:border-skin-base rounded-lg outline-none pl-2"
+          className="bg-transparent border min-w-[100px] w-full border-skin-primary focus:border-skin-base rounded-lg outline-none pl-2"
           placeholder="Search"
           onChange={GeneralUtils.debounce((e) => {
             setSearchText(e.target.value);
