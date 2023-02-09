@@ -1,5 +1,6 @@
 import Image from "next/image";
 import StyledCard from "../components/styled-card";
+
 export default function Home() {
   return (
     <>
