@@ -133,14 +133,12 @@ export default function ViewProfile() {
           <div className="flex flex-row items-center space-x-2">
             <StyledTooltip
               texts={["Select the league you want"]}
-              placement="left"
+              placement="top"
               className="mr-2 "
             >
-              <button className="w-5 h-5 ">
-                <InformationCircleIcon />
-              </button>
+              <h4 className="w-20 cursor-help">League: </h4>
             </StyledTooltip>
-            <div className="w-full">
+            <div className=" w-full">
               <LeagueSelect
                 onLeagueChanged={(l) => {
                   setProfile({ ...profile, ...{ league: l } });
@@ -155,12 +153,10 @@ export default function ViewProfile() {
                 "Public = You can share profile with anyone ",
                 "Private = Only you can see it",
               ]}
-              placement="left"
+              placement="top"
               className="mr-2 relative"
             >
-              <button className="w-5 h-5 ">
-                <InformationCircleIcon />
-              </button>
+              <h4 className="w-20 cursor-help">Privacy: </h4>
             </StyledTooltip>
 
             <div className="w-full">
@@ -176,14 +172,17 @@ export default function ViewProfile() {
           {/* Stock Influence - Smart or Not */}
           <div className="flex flex-row items-center space-x-2">
             <StyledTooltip
-              texts={["info here"]}
-              placement="left"
+              texts={[
+                "None: Normal pricing model",
+                "Smart: Systems attempts to price based upon stock of currency.",
+                "If not enough data defaults to normal model",
+              ]}
+              placement="top"
               className="mr-2 "
             >
-              <button className="w-5 h-5 ">
-                <InformationCircleIcon />
-              </button>
+              <h4 className="w-20 cursor-help">Stock Influence: </h4>
             </StyledTooltip>
+
             <div className="w-full">
               <StyledSelect2
                 items={["none", "smart-influence"]}
@@ -199,17 +198,29 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-          {/* Valuation Select */}
+          {/* Valuation Select - */}
           <div className="flex flex-row items-center space-x-2">
             <StyledTooltip
-              texts={["Valuation Selection"]}
-              placement="left"
+              texts={[
+                "These " +
+                  `"` +
+                  "p values" +
+                  `"` +
+                  " determine the percentile of listings at which you want ",
+                "your item prices to fall. The higher the p value, the higher the item ",
+                "price. P10 has been the standard up to this point. To familiarize yourself",
+                "with these values, you can refer to the " +
+                  `"` +
+                  "Economy" +
+                  `"` +
+                  " Page for common items.",
+              ]}
+              placement="top"
               className="mr-2 "
             >
-              <button className="w-5 h-5 ">
-                <InformationCircleIcon />
-              </button>
+              <h4 className="w-20 cursor-help">Valuation: </h4>
             </StyledTooltip>
+
             <div className="w-full">
               <StyledSelect2
                 items={["p5", "p7", "p10", "p15", "p20", "p50"]}
@@ -225,15 +236,17 @@ export default function ViewProfile() {
               />
             </div>
           </div>
+          {/* SnapShot Interval */}
           <div className="flex flex-row items-center space-x-2">
             <StyledTooltip
-              texts={["Info here"]}
-              placement="left"
+              texts={[
+                "In minutes, how often an automatic snapshot will occur. ",
+                "You DO NOT need to keep the page open!",
+              ]}
+              placement="top"
               className="mr-2"
             >
-              <button className="w-5 h-5 ">
-                <InformationCircleIcon />
-              </button>
+              <h4 className="w-20 cursor-help">Snapshot Interval: </h4>
             </StyledTooltip>
             <div className="w-full">
               <StyledSelect2
