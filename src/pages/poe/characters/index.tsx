@@ -16,6 +16,7 @@ import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
 } from "../../../__generated__/resolvers-types";
+import { GeneralUtils } from "../../../utils/general-util";
 
 export default function Characters() {
   const router = useRouter();
@@ -277,7 +278,7 @@ export default function Characters() {
                         {snapshot?.name}
                       </Link>
                     </td>
-                    <td>{snapshot.mainSkillKey}</td>
+                    <td>{GeneralUtils.capitalize(snapshot.mainSkillKey)}</td>
                     <td>{snapshot.life}</td>
                     <td>{snapshot.energyShield}</td>
                     <td>{snapshot.characterClass}</td>
