@@ -129,12 +129,17 @@ export default function ViewProfile() {
             }}
             value={profile?.name ?? ""}
           />
-          <div className="flex flex-row w-full items-center">
-            <div className="h-5 w-5 mr-1">
-              <Tooltip content="Select League" placement="left">
+          {/* Select League */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={["Select the league you want"]}
+              placement="left"
+              className="mr-2 "
+            >
+              <button className="w-5 h-5 ">
                 <InformationCircleIcon />
-              </Tooltip>
-            </div>
+              </button>
+            </StyledTooltip>
             <div className="w-full">
               <LeagueSelect
                 onLeagueChanged={(l) => {
@@ -143,20 +148,21 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-
-          <div className="flex flex-row w-full items-center">
-            <div className="h-5 w-5 mr-1 z-40">
-              <Tooltip
-                content={
-                  `- public: can you share the profile link with people and they can view it. ie my profile: ` +
-                  <br /> +
-                  ` other text`
-                }
-                placement="bottom"
-              >
+          {/* Public or Private Select */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={[
+                "Public = You can share profile with anyone ",
+                "Private = Only you can see it",
+              ]}
+              placement="left"
+              className="mr-2 relative"
+            >
+              <button className="w-5 h-5 ">
                 <InformationCircleIcon />
-              </Tooltip>
-            </div>
+              </button>
+            </StyledTooltip>
+
             <div className="w-full">
               <StyledSelect
                 items={["Public", "Private"]}
@@ -167,54 +173,17 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-          {/* ToolTip Test Custom  */}
-          <div>
+          {/* Stock Influence - Smart or Not */}
+          <div className="flex flex-row items-center space-x-2">
             <StyledTooltip
-              message="tooltip Message left"
+              texts={["info here"]}
               placement="left"
-              arrow="yes"
+              className="mr-2 "
             >
-              <p>Hover here - left</p>
-            </StyledTooltip>
-            <button>
-              <StyledTooltip
-                message="tooltip Message right"
-                placement="right"
-                arrow="yes"
-              >
-                <div>
-                  <p>Hover here - right</p>
-                </div>
-              </StyledTooltip>
-            </button>
-            <div>
-              <button>
-                <StyledTooltip message="tooltip Message top" placement="top">
-                  <p>Hover here - top</p>
-                </StyledTooltip>
-              </button>
-            </div>
-            {/* bottom */}
-            <div>
-              <button>
-                <StyledTooltip
-                  message="tooltip Message bottom"
-                  placement="bottom"
-                >
-                  <p>Hover here - bottom</p>
-                </StyledTooltip>
-              </button>
-            </div>
-
-            {/* bottom end */}
-          </div>
-          {/* ToolTip Test Custom  */}
-          <div className="flex flex-row w-full items-center">
-            <div className="h-5 w-5 mr-1">
-              <Tooltip content="placeholder tooltip" placement="left">
+              <button className="w-5 h-5 ">
                 <InformationCircleIcon />
-              </Tooltip>
-            </div>
+              </button>
+            </StyledTooltip>
             <div className="w-full">
               <StyledSelect2
                 items={["none", "smart-influence"]}
@@ -230,12 +199,17 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-          <div className="flex flex-row w-full items-center">
-            <div className="h-5 w-5 mr-1">
-              <Tooltip content="placeholder tooltip" placement="left">
+          {/* Valuation Select */}
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={["Valuation Selection"]}
+              placement="left"
+              className="mr-2 "
+            >
+              <button className="w-5 h-5 ">
                 <InformationCircleIcon />
-              </Tooltip>
-            </div>
+              </button>
+            </StyledTooltip>
             <div className="w-full">
               <StyledSelect2
                 items={["p5", "p7", "p10", "p15", "p20", "p50"]}
@@ -251,12 +225,16 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-          <div className="flex flex-row w-full items-center">
-            <div className="h-5 w-5 mr-1">
-              <Tooltip content="placeholder tooltip" placement="left">
+          <div className="flex flex-row items-center space-x-2">
+            <StyledTooltip
+              texts={["Info here"]}
+              placement="left"
+              className="mr-2"
+            >
+              <button className="w-5 h-5 ">
                 <InformationCircleIcon />
-              </Tooltip>
-            </div>
+              </button>
+            </StyledTooltip>
             <div className="w-full">
               <StyledSelect2
                 items={["...", "10", "15", "30", "60", "120"]}
@@ -279,7 +257,7 @@ export default function ViewProfile() {
               />
             </div>
           </div>
-          <div>info button</div>
+
           <StyledButton
             text={"Refresh Tabs"}
             onClick={() => {

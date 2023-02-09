@@ -15,20 +15,23 @@ import { usePopper } from "react-popper";
 
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Portal from "./portal";
-import ReactPortal from "./portal2";
 
 interface Props {
   children?: ReactNode;
   tooltip?: string;
   id?: string;
-  message: string;
+  text_one?: string;
+  text_two?: string;
+  texts: string[];
   placement: Placement;
   className?: string;
   arrow?: string;
 }
 
 export const StyledTooltip: FC<Props> = ({
-  message,
+  text_one,
+  text_two,
+  texts,
   placement,
   children,
   className,
@@ -78,21 +81,89 @@ export const StyledTooltip: FC<Props> = ({
           style={styles.popper}
           {...attributes.popper}
         >
-          <div
-            className={`px-2 grid place-items-center text-sm font-medium text-white bg-pink-700 h-[30px] min-w-64 w-fit rounded shadow-sm ${className}`}
-          >
-            <span> {message}</span>
-            {arrow ? (
-              <div
-                ref={setArrowElement}
-                data-popper-arrow
-                className={`popper-arrow z-10 ${
-                  placement ?? "auto"
-                } h-5 w-5 before:absolute before:inset-0 before:bg-gray-700`}
-                style={styles.arrow}
-              />
-            ) : null}
-          </div>
+          {/* New Texts Approach */}
+              {texts?.length > 1 ?   <div
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary  min-w-64 w-fit rounded shadow-sm ${className}`}
+            >
+              <div>
+                <span>{texts[0]}</span>
+                  <br/>
+                <span>{texts[1]}</span>
+              </div>
+              {arrow ? (
+                <div
+                  ref={setArrowElement}
+                  data-popper-arrow
+                  className={`popper-arrow z-10 ${
+                    placement ?? "auto"
+                  } h-5 w-5 before:absolute before:inset-0 before:bg-gray-700`}
+                  style={styles.arrow}
+                />
+              ) : null}
+            </div> 
+               :  <div
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary h-[40px] min-w-64 w-fit rounded shadow-sm ${className}`}
+            >
+              
+              <span>{texts}</span>
+              {arrow ? (
+                <div
+                  ref={setArrowElement}
+                  data-popper-arrow
+                  className={`popper-arrow z-10 ${
+                    placement ?? "auto"
+                  } h-5 w-5 before:absolute before:inset-0 before:bg-gray-700`}
+                  style={styles.arrow}
+                />
+              ) : null}
+            </div> 
+              
+              
+              
+              }
+
+             
+         
+
+
+          {/* Old TextTwo Approach */}
+          {/* {text_two ? (
+            <div
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+            >
+              <div>
+                <span> {text_one}</span>
+                <br />
+                <span> {text_two}</span>
+              </div>
+              {arrow ? (
+                <div
+                  ref={setArrowElement}
+                  data-popper-arrow
+                  className={`popper-arrow z-10 ${
+                    placement ?? "auto"
+                  } h-5 w-5 before:absolute before:inset-0 before:bg-gray-700`}
+                  style={styles.arrow}
+                />
+              ) : null}
+            </div>
+          ) : (
+            <div
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary h-[30px] min-w-64 w-fit rounded shadow-sm ${className}`}
+            >
+              <span> {text_one}</span>
+              {arrow ? (
+                <div
+                  ref={setArrowElement}
+                  data-popper-arrow
+                  className={`popper-arrow z-10 ${
+                    placement ?? "auto"
+                  } h-5 w-5 before:absolute before:inset-0 before:bg-gray-700`}
+                  style={styles.arrow}
+                />
+              ) : null}
+            </div> */}
+          )}
         </div>
       </Portal>
     </>
