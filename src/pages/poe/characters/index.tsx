@@ -16,6 +16,7 @@ import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
 } from "../../../__generated__/resolvers-types";
+import { GeneralUtils } from "../../../utils/general-util";
 
 export default function Characters() {
   const router = useRouter();
@@ -54,8 +55,8 @@ export default function Characters() {
             characterId
             name
             level
-            characterClass
             mainSkillKey
+            characterClass
             energyShield
             life
           }
@@ -180,7 +181,7 @@ export default function Characters() {
   return (
     <>
       <div className="flex flex-row space-x-2">
-        <div className="flex flex-col space-y-2 w-1/6">
+        <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
           <StyledCard title={"Search"}>
             <StyledInput
               value={localSearchString}
@@ -278,7 +279,7 @@ export default function Characters() {
                         {snapshot?.name}
                       </Link>
                     </td>
-                    <td>{snapshot.mainSkillKey}</td>
+                    <td>{GeneralUtils.capitalize(snapshot.mainSkillKey)}</td>
                     <td>{snapshot.life}</td>
                     <td>{snapshot.energyShield}</td>
                     <td>{snapshot.characterClass}</td>

@@ -27,7 +27,6 @@ export type CharacterPassivesSnapshot = {
   masteryEffects: Scalars['JSON'];
   pantheonMajor?: Maybe<Scalars['String']>;
   pantheonMinor?: Maybe<Scalars['String']>;
-  snapshotId: Scalars['String'];
 };
 
 export type CharacterSnapshot = {
@@ -43,7 +42,7 @@ export type CharacterSnapshot = {
   league: Scalars['String'];
   level: Scalars['Float'];
   poeCharacter?: Maybe<PoeCharacter>;
-  timestamp: Scalars['DateTime'];
+  timestamp: Scalars['String'];
 };
 
 export type CharacterSnapshotItem = {
@@ -57,7 +56,6 @@ export type CharacterSnapshotItem = {
   gemColor?: Maybe<Scalars['String']>;
   h: Scalars['Float'];
   icon: Scalars['String'];
-  id: Scalars['String'];
   ilvl: Scalars['Float'];
   inventoryId?: Maybe<Scalars['String']>;
   itemGroupHashString?: Maybe<Scalars['String']>;
@@ -66,7 +64,6 @@ export type CharacterSnapshotItem = {
   name?: Maybe<Scalars['String']>;
   properties: Array<Scalars['JSON']>;
   requirements: Array<Scalars['JSON']>;
-  snapshotId: Scalars['String'];
   socket?: Maybe<Scalars['Float']>;
   socketedInId?: Maybe<Scalars['String']>;
   sockets: Array<Scalars['JSON']>;
@@ -92,11 +89,19 @@ export type CharacterSnapshotPobStats = {
   lightningResist?: Maybe<Scalars['Float']>;
   mana?: Maybe<Scalars['Float']>;
   pobCode?: Maybe<Scalars['String']>;
-  snapshotId: Scalars['String'];
   spellBlockChance?: Maybe<Scalars['Float']>;
   str?: Maybe<Scalars['Float']>;
   supression?: Maybe<Scalars['Float']>;
   totalDpsWithIgnite?: Maybe<Scalars['Float']>;
+};
+
+export type CharacterSnapshotRecord = {
+  __typename?: 'CharacterSnapshotRecord';
+  characterId: Scalars['String'];
+  experience: Scalars['BigInt'];
+  id: Scalars['String'];
+  level: Scalars['Float'];
+  timestamp: Scalars['DateTime'];
 };
 
 export type CharacterSnapshotSearch = {
@@ -355,7 +360,7 @@ export type PoeStashTab = {
 export type Query = {
   __typename?: 'Query';
   characterSnapshot: CharacterSnapshot;
-  characterSnapshots: Array<CharacterSnapshot>;
+  characterSnapshotRecords: Array<CharacterSnapshotRecord>;
   characterSnapshotsSearch: CharacterSnapshotSearchResponse;
   characterSnapshotsSearchAggregations: CharacterSnapshotSearchAggregationsResponse;
   characterSnapshotsUniqueAggregationKeys: CharacterSnapshotUniqueAggregationKeysResponse;
@@ -377,12 +382,11 @@ export type Query = {
 
 
 export type QueryCharacterSnapshotArgs = {
-  characterId: Scalars['String'];
   snapshotId: Scalars['String'];
 };
 
 
-export type QueryCharacterSnapshotsArgs = {
+export type QueryCharacterSnapshotRecordsArgs = {
   characterId: Scalars['String'];
 };
 
@@ -714,6 +718,7 @@ export type ResolversTypes = ResolversObject<{
   CharacterSnapshot: ResolverTypeWrapper<CharacterSnapshot>;
   CharacterSnapshotItem: ResolverTypeWrapper<CharacterSnapshotItem>;
   CharacterSnapshotPobStats: ResolverTypeWrapper<CharacterSnapshotPobStats>;
+  CharacterSnapshotRecord: ResolverTypeWrapper<CharacterSnapshotRecord>;
   CharacterSnapshotSearch: CharacterSnapshotSearch;
   CharacterSnapshotSearchAggregationsResponse: ResolverTypeWrapper<CharacterSnapshotSearchAggregationsResponse>;
   CharacterSnapshotSearchResponse: ResolverTypeWrapper<CharacterSnapshotSearchResponse>;
@@ -771,6 +776,7 @@ export type ResolversParentTypes = ResolversObject<{
   CharacterSnapshot: CharacterSnapshot;
   CharacterSnapshotItem: CharacterSnapshotItem;
   CharacterSnapshotPobStats: CharacterSnapshotPobStats;
+  CharacterSnapshotRecord: CharacterSnapshotRecord;
   CharacterSnapshotSearch: CharacterSnapshotSearch;
   CharacterSnapshotSearchAggregationsResponse: CharacterSnapshotSearchAggregationsResponse;
   CharacterSnapshotSearchResponse: CharacterSnapshotSearchResponse;
@@ -832,7 +838,6 @@ export type CharacterPassivesSnapshotResolvers<ContextType = any, ParentType ext
   masteryEffects?: Resolver<ResolversTypes['JSON'], ParentType, ContextType>;
   pantheonMajor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   pantheonMinor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -848,7 +853,7 @@ export type CharacterSnapshotResolvers<ContextType = any, ParentType extends Res
   league?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   poeCharacter?: Resolver<Maybe<ResolversTypes['PoeCharacter']>, ParentType, ContextType>;
-  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -862,7 +867,6 @@ export type CharacterSnapshotItemResolvers<ContextType = any, ParentType extends
   gemColor?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   h?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   icon?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   ilvl?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   inventoryId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   itemGroupHashString?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -871,7 +875,6 @@ export type CharacterSnapshotItemResolvers<ContextType = any, ParentType extends
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   properties?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
   requirements?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
-  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   socket?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   socketedInId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   sockets?: Resolver<Array<ResolversTypes['JSON']>, ParentType, ContextType>;
@@ -897,11 +900,19 @@ export type CharacterSnapshotPobStatsResolvers<ContextType = any, ParentType ext
   lightningResist?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   mana?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   pobCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  snapshotId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   spellBlockChance?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   str?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   supression?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   totalDpsWithIgnite?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CharacterSnapshotRecordResolvers<ContextType = any, ParentType extends ResolversParentTypes['CharacterSnapshotRecord'] = ResolversParentTypes['CharacterSnapshotRecord']> = ResolversObject<{
+  characterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  experience?: Resolver<ResolversTypes['BigInt'], ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  level?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  timestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1101,8 +1112,8 @@ export type PoeStashTabResolvers<ContextType = any, ParentType extends Resolvers
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  characterSnapshot?: Resolver<ResolversTypes['CharacterSnapshot'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotArgs, 'characterId' | 'snapshotId'>>;
-  characterSnapshots?: Resolver<Array<ResolversTypes['CharacterSnapshot']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotsArgs, 'characterId'>>;
+  characterSnapshot?: Resolver<ResolversTypes['CharacterSnapshot'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotArgs, 'snapshotId'>>;
+  characterSnapshotRecords?: Resolver<Array<ResolversTypes['CharacterSnapshotRecord']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotRecordsArgs, 'characterId'>>;
   characterSnapshotsSearch?: Resolver<ResolversTypes['CharacterSnapshotSearchResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchArgs, 'search'>>;
   characterSnapshotsSearchAggregations?: Resolver<ResolversTypes['CharacterSnapshotSearchAggregationsResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchAggregationsArgs, 'search'>>;
   characterSnapshotsUniqueAggregationKeys?: Resolver<ResolversTypes['CharacterSnapshotUniqueAggregationKeysResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsUniqueAggregationKeysArgs, 'league'>>;
@@ -1256,6 +1267,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CharacterSnapshot?: CharacterSnapshotResolvers<ContextType>;
   CharacterSnapshotItem?: CharacterSnapshotItemResolvers<ContextType>;
   CharacterSnapshotPobStats?: CharacterSnapshotPobStatsResolvers<ContextType>;
+  CharacterSnapshotRecord?: CharacterSnapshotRecordResolvers<ContextType>;
   CharacterSnapshotSearchAggregationsResponse?: CharacterSnapshotSearchAggregationsResponseResolvers<ContextType>;
   CharacterSnapshotSearchResponse?: CharacterSnapshotSearchResponseResolvers<ContextType>;
   CharacterSnapshotSearchResponseEntry?: CharacterSnapshotSearchResponseEntryResolvers<ContextType>;
