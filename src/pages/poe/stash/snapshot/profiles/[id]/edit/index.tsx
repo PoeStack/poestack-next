@@ -13,7 +13,11 @@ import {
   StashSnapshotProfile,
   StashSnapshotProfileInput,
 } from "../../../../../../../__generated__/resolvers-types";
+
 import { nanoid } from "nanoid";
+import { InformationCircleIcon } from "@heroicons/react/24/solid";
+import { Tooltip } from "flowbite-react";
+import { StyledTooltip } from "../../../../../../../components/styled-tooltip";
 
 export default function ViewProfile() {
   const router = useRouter();
@@ -117,6 +121,7 @@ export default function ViewProfile() {
               </div>
             </>
           )}
+
           <StyledInput
             placeholder="Enter Profile Name..."
             onChange={(e) => {
@@ -124,67 +129,157 @@ export default function ViewProfile() {
             }}
             value={profile?.name ?? ""}
           />
+          <div className="flex flex-row w-full items-center">
+            <div className="h-5 w-5 mr-1">
+              <Tooltip content="Select League" placement="left">
+                <InformationCircleIcon />
+              </Tooltip>
+            </div>
+            <div className="w-full">
+              <LeagueSelect
+                onLeagueChanged={(l) => {
+                  setProfile({ ...profile, ...{ league: l } });
+                }}
+              />
+            </div>
+          </div>
 
-          <LeagueSelect
-            onLeagueChanged={(l) => {
-              setProfile({ ...profile, ...{ league: l } });
-            }}
-          />
+          <div className="flex flex-row w-full items-center">
+            <div className="h-5 w-5 mr-1 z-40">
+              <Tooltip
+                content={
+                  `- public: can you share the profile link with people and they can view it. ie my profile: ` +
+                  <br /> +
+                  ` other text`
+                }
+                placement="bottom"
+              >
+                <InformationCircleIcon />
+              </Tooltip>
+            </div>
+            <div className="w-full">
+              <StyledSelect
+                items={["Public", "Private"]}
+                onSelectChange={(s) =>
+                  setProfile({ ...profile, ...{ public: s === "Public" } })
+                }
+                initalValue={profile.public ? "Public" : "Private"}
+              />
+            </div>
+          </div>
+          {/* ToolTip Test Custom  */}
+          <div>
+            <StyledTooltip
+              message="tooltip Message left"
+              placement="left"
+              arrow="yes"
+            >
+              <p>Hover here - left</p>
+            </StyledTooltip>
+            <button>
+              <StyledTooltip
+                message="tooltip Message right"
+                placement="right"
+                arrow="yes"
+              >
+                <div>
+                  <p>Hover here - right</p>
+                </div>
+              </StyledTooltip>
+            </button>
+            <div>
+              <button>
+                <StyledTooltip message="tooltip Message top" placement="top">
+                  <p>Hover here - top</p>
+                </StyledTooltip>
+              </button>
+            </div>
+            {/* bottom */}
+            <div>
+              <button>
+                <StyledTooltip
+                  message="tooltip Message bottom"
+                  placement="bottom"
+                >
+                  <p>Hover here - bottom</p>
+                </StyledTooltip>
+              </button>
+            </div>
 
-          <StyledSelect
-            items={["Public", "Private"]}
-            onSelectChange={(s) =>
-              setProfile({ ...profile, ...{ public: s === "Public" } })
-            }
-            initalValue={profile.public ? "Public" : "Private"}
-          />
-
-          <StyledSelect2
-            items={["none", "smart-influence"]}
-            onSelectChange={(s) =>
-              setProfile({
-                ...profile,
-                ...{
-                  valuationStockInfluence: s,
-                },
-              })
-            }
-            selected={profile.valuationStockInfluence}
-          />
-
-          <StyledSelect2
-            items={["p5", "p7", "p10", "p15", "p20", "p50"]}
-            onSelectChange={(s) =>
-              setProfile({
-                ...profile,
-                ...{
-                  valuationTargetPValue: s,
-                },
-              })
-            }
-            selected={profile.valuationTargetPValue}
-          />
-
-          <StyledSelect2
-            items={["...", "10", "15", "30", "60", "120"]}
-            onSelectChange={(s) => {
-              const v = s === "..." ? null : parseInt(s) * 60;
-              setProfile({
-                ...profile,
-                ...{
-                  automaticSnapshotIntervalSeconds: v,
-                },
-              });
-            }}
-            selected={
-              profile.automaticSnapshotIntervalSeconds
-                ? `Snapshot every ${
-                    profile.automaticSnapshotIntervalSeconds / 60
-                  } mins`
-                : null
-            }
-          />
-
+            {/* bottom end */}
+          </div>
+          {/* ToolTip Test Custom  */}
+          <div className="flex flex-row w-full items-center">
+            <div className="h-5 w-5 mr-1">
+              <Tooltip content="placeholder tooltip" placement="left">
+                <InformationCircleIcon />
+              </Tooltip>
+            </div>
+            <div className="w-full">
+              <StyledSelect2
+                items={["none", "smart-influence"]}
+                onSelectChange={(s) =>
+                  setProfile({
+                    ...profile,
+                    ...{
+                      valuationStockInfluence: s,
+                    },
+                  })
+                }
+                selected={profile.valuationStockInfluence}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row w-full items-center">
+            <div className="h-5 w-5 mr-1">
+              <Tooltip content="placeholder tooltip" placement="left">
+                <InformationCircleIcon />
+              </Tooltip>
+            </div>
+            <div className="w-full">
+              <StyledSelect2
+                items={["p5", "p7", "p10", "p15", "p20", "p50"]}
+                onSelectChange={(s) =>
+                  setProfile({
+                    ...profile,
+                    ...{
+                      valuationTargetPValue: s,
+                    },
+                  })
+                }
+                selected={profile.valuationTargetPValue}
+              />
+            </div>
+          </div>
+          <div className="flex flex-row w-full items-center">
+            <div className="h-5 w-5 mr-1">
+              <Tooltip content="placeholder tooltip" placement="left">
+                <InformationCircleIcon />
+              </Tooltip>
+            </div>
+            <div className="w-full">
+              <StyledSelect2
+                items={["...", "10", "15", "30", "60", "120"]}
+                onSelectChange={(s) => {
+                  const v = s === "..." ? null : parseInt(s) * 60;
+                  setProfile({
+                    ...profile,
+                    ...{
+                      automaticSnapshotIntervalSeconds: v,
+                    },
+                  });
+                }}
+                selected={
+                  profile.automaticSnapshotIntervalSeconds
+                    ? `Snapshot every ${
+                        profile.automaticSnapshotIntervalSeconds / 60
+                      } mins`
+                    : null
+                }
+              />
+            </div>
+          </div>
+          <div>info button</div>
           <StyledButton
             text={"Refresh Tabs"}
             onClick={() => {
