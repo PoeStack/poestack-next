@@ -217,7 +217,7 @@ export default function Character({ characterSnapshot }) {
       <div className="flex flex-col space-y-2">
         <Head>
           <meta property="og:type" content="website" />
-          <meta property="og:site_name" content="PobStack" />
+          <meta property="og:site_name" content="PoeStack" />
           <meta
             property="og:title"
             content={`Level ${currentSnapshot?.level} ${mainSkill} ${currentSnapshot?.characterClass}`}
