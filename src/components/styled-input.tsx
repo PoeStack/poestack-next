@@ -24,7 +24,7 @@ export default function StyledInput({
           type={type}
           id={id}
           value={value ?? ""}
-          className="bg-transparent border border-theme-color-2 focus:border-theme-color-2 rounded-lg m-2"
+          className="bg-transparent border w-full border-theme-color-2 focus:border-theme-color-2 rounded-lg m-2"
           placeholder={placeholder}
           required
           onChange={(e) => {
