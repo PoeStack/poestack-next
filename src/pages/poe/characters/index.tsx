@@ -181,7 +181,7 @@ export default function Characters() {
   return (
     <>
       <div className="flex flex-row space-x-2">
-        <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
+        <div className="flex flex-col space-y-2 min-w-[185px] w-1/6 lg:w-1/5">
           <StyledCard title={"Search"}>
             <StyledInput
               value={localSearchString}
