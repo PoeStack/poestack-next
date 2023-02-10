@@ -340,6 +340,7 @@ export type PoeCharacter = {
   __typename?: 'PoeCharacter';
   createdAtTimestamp: Scalars['DateTime'];
   id: Scalars['String'];
+  lastLeague: Scalars['String'];
   lastSnapshotTimestamp?: Maybe<Scalars['DateTime']>;
   name: Scalars['String'];
   userId: Scalars['String'];
@@ -433,7 +434,6 @@ export type QueryPassiveTreeArgs = {
 
 
 export type QueryPoeCharactersArgs = {
-  league: Scalars['String'];
   userId: Scalars['String'];
 };
 
@@ -1093,6 +1093,7 @@ export type PassiveTreeResponseResolvers<ContextType = any, ParentType extends R
 export type PoeCharacterResolvers<ContextType = any, ParentType extends ResolversParentTypes['PoeCharacter'] = ResolversParentTypes['PoeCharacter']> = ResolversObject<{
   createdAtTimestamp?: Resolver<ResolversTypes['DateTime'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  lastLeague?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lastSnapshotTimestamp?: Resolver<Maybe<ResolversTypes['DateTime']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   userId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -1123,7 +1124,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   itemGroupValueTimeseriesSearch?: Resolver<ResolversTypes['ItemGroupValueTimeseriesResult'], ParentType, ContextType, RequireFields<QueryItemGroupValueTimeseriesSearchArgs, 'search'>>;
   myProfile?: Resolver<ResolversTypes['UserProfile'], ParentType, ContextType>;
   passiveTree?: Resolver<ResolversTypes['PassiveTreeResponse'], ParentType, ContextType, RequireFields<QueryPassiveTreeArgs, 'passiveTreeVersion'>>;
-  poeCharacters?: Resolver<Array<ResolversTypes['PoeCharacter']>, ParentType, ContextType, RequireFields<QueryPoeCharactersArgs, 'league' | 'userId'>>;
+  poeCharacters?: Resolver<Array<ResolversTypes['PoeCharacter']>, ParentType, ContextType, RequireFields<QueryPoeCharactersArgs, 'userId'>>;
   stashSnapshot?: Resolver<ResolversTypes['StashSnapshot'], ParentType, ContextType, RequireFields<QueryStashSnapshotArgs, 'stashSnapshotId' | 'stashSnapshotProfileId'>>;
   stashSnapshotItemGroupSummaries?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesArgs, 'search'>>;
   stashSnapshotItemGroupSummariesAggregation?: Resolver<ResolversTypes['StashSnapshotItemGroupSummarySearchAggregationResponse'], ParentType, ContextType, RequireFields<QueryStashSnapshotItemGroupSummariesAggregationArgs, 'aggregation' | 'search'>>;

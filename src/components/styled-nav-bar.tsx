@@ -40,7 +40,7 @@ export default function StyledNavBar() {
             href={`/poe/characters`}
           >
             <StyledTooltip
-              texts={["Search Characters like PoeNinja"]}
+              texts={["Search Characters"]}
               placement="bottom"
               className="mt-2"
             >
