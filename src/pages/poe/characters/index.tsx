@@ -80,7 +80,7 @@ const uniqueKeysQuery = gql`
 
 export default function Characters({
   initialSearchResponse,
-  initialUnqiueKeys,
+  unqiueKeysResponse,
 }) {
   const router = useRouter();
 
@@ -99,10 +99,6 @@ export default function Characters({
   });
 
   const [localSearchString, setLocalSearchString] = useState<string>("");
-
-  const [unqiueKeysResponse, setUnqiueKeysResponse] = useState<
-    CharacterSnapshotUniqueAggregationKeysResponse | null | undefined
-  >(initialUnqiueKeys);
 
   const [searchResponse, setSearchResponse] = useState<
     CharacterSnapshotSearchResponse | undefined | null
@@ -325,12 +321,17 @@ export default function Characters({
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps({ req, res, query }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=600, stale-while-revalidate=1200"
+  );
+
   const resp = {
     props: {},
   };
 
-  const { league } = context.query;
+  const { league } = query;
 
   const generalSearchResult: any = await client.query({
     query: generalSearch,
@@ -359,7 +360,7 @@ export async function getServerSideProps(context) {
     },
   });
   if (unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys) {
-    resp.props["initialUnqiueKeys"] =
+    resp.props["unqiueKeysResponse"] =
       unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys;
   }
 
