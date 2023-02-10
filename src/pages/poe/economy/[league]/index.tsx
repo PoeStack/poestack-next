@@ -8,9 +8,9 @@ import ItemGroupTagSelect from "../../../../components/item-group-tag-select";
 import { ItemGroupValueTimeseries } from "../../../../__generated__/resolvers-types";
 import { usePoeLeagueCtx } from "../../../../contexts/league-context";
 import StyledLoadingIndicator from "../../../../components/styled-loading-indicator";
-import ItemsTable from "./items-table/items-table";
+import ItemsTable from "../../../../components/items-table/items-table";
 
-export const ItemGroupsQuery = gql`
+const ItemGroupsQuery = gql`
     query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
       itemGroupValueTimeseriesSearch(search: $search) {
         results {

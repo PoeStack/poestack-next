@@ -1,10 +1,10 @@
 import React from 'react';
 import Link from "next/link";
 import Image from "next/image";
-import CurrencyValueDisplay from "../../../../../components/currency-value-display";
-import HSparkline from "../../../../../components/hsparkline";
-import { GeneralUtils } from "../../../../../utils/general-util";
-import { ItemGroupValueTimeseries } from "../../../../../__generated__/resolvers-types";
+import CurrencyValueDisplay from "../currency-value-display";
+import HSparkline from "../hsparkline";
+import { GeneralUtils } from "../../utils/general-util";
+import { ItemGroupValueTimeseries } from "../../__generated__/resolvers-types";
 
 type ItemsProps = {items: ItemGroupValueTimeseries[], league: string};
 
