@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "../utils/general-util";
+import { StyledTooltip } from "./styled-tooltip";
 
 export default function CharacterAggregationDisplay({
   aggregation,
@@ -50,17 +51,30 @@ export default function CharacterAggregationDisplay({
     <div
       key={key}
       style={style}
-      className="grid grid-cols-2 items-center pr-3"
+      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center pr-3 hover:bg-skin-primary"
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
     >
       <div
-        className={
-          includedRows.includes(mappedRow[index].key) ? "text-green-400" : ""
-        }
+        className={`
+        truncate mr-2
+          ${
+            includedRows.includes(mappedRow[index].key)
+              ? "bg-skin-primary text-skin-accent"
+              : ""
+          }`}
       >
-        {GeneralUtils.capitalize(mappedRow[index].key)}
+        <StyledTooltip
+          texts={[`${GeneralUtils.capitalize(mappedRow[index].key)}`]}
+          placement="left"
+          className="mr-2"
+          noDuration={true}
+        >
+          <li className="list-none w-full">
+            {GeneralUtils.capitalize(mappedRow[index].key)}
+          </li>
+        </StyledTooltip>
       </div>
       <div className={"text-right"}>
         {+(((mappedRow[index]?.value ?? 0) / totalMatches) * 100).toFixed(2)}%
@@ -71,17 +85,24 @@ export default function CharacterAggregationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="flex flex-col space-y-2">
+        <div className="cursor-pointer capitalize flex flex-col space-y-2">
           {excludedRows.map((e) => (
             <>
               <div
                 key={e.key}
-                className="text-red-400"
+                className="bg-red-600/50 text-skin-base"
                 onClick={() => {
                   onSelectionChanged({ key: e, value: 0 });
                 }}
               >
-                {e}
+                <StyledTooltip
+                  texts={[`${e}`]}
+                  placement="left"
+                  className="mr-2 capitalize bg-red-900/50"
+                  noDuration={true}
+                >
+                  <li className="list-none w-full">{e}</li>
+                </StyledTooltip>
               </div>
             </>
           ))}
@@ -93,7 +114,7 @@ export default function CharacterAggregationDisplay({
                 width={width}
                 height={height}
                 itemCount={mappedRow.length}
-                itemSize={60}
+                itemSize={20}
               >
                 {Row}
               </List>
