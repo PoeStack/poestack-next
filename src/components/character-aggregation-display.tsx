@@ -51,7 +51,7 @@ export default function CharacterAggreationDisplay({
     <div
       key={key}
       style={style}
-      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center pr-3 hover:bg-skin-primary"
+      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-skin-primary  text-sm space-x-1 pr-2 "
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
@@ -68,7 +68,7 @@ export default function CharacterAggreationDisplay({
         <StyledTooltip
           texts={[`${GeneralUtils.capitalize(mappedRow[index].key)}`]}
           placement="left"
-          className="mr-2"
+          className="mr-2 delay-500"
           noDuration={true}
         >
           <li className="list-none w-full">
