@@ -49,6 +49,23 @@
     --color-accent-light: #F0D641;
     --color-accent-dark: #E6973E;
   }
+
+  .theme-spotify {
+    --color-text-base: #ffffff;
+    --color-text-inverted: #121212;
+    --color-primary: #181818;
+    --color-primary-light:#404040
+    --color-primary-dark:#282828
+    --color-secondary: #192734;
+    --color-secondary-light: #5FA1ED;
+    --color-secondary-dark: #0B396E;
+    --color-tertiary: #060F2F;
+    --color-tertiary-light: #1B2240;
+  
+    --color-accent: #29d944e6;
+    --color-accent-light: #9febaa;
+    --color-accent-dark: #1a7328c5;
+  }
   /* placeholders for future themes WIP*/
   .theme-white {
     --color-text-base: #ffffff;

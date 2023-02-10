@@ -69,5 +69,9 @@ module.exports = {
         "theme-color-4": "#99A6DB",
       },
     },
+    gridTemplateColumns: {
+      // Simple 16 column grid
+      skillSidebar: "6fr 1fr",
+    },
   },
 };
