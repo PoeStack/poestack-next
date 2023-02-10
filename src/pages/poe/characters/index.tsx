@@ -19,7 +19,7 @@ import {
 } from "../../../__generated__/resolvers-types";
 import { GeneralUtils } from "../../../utils/general-util";
 import {
-  StyledImageTooltip,
+  StyledSkillImageTooltip,
   StyledTooltip,
 } from "../../../components/styled-tooltip";
 
@@ -314,7 +314,7 @@ export default function Characters() {
                     <td>
                       {snapshot.mainSkillKey ? (
                         <li className="list-none">
-                          <StyledImageTooltip
+                          <StyledSkillImageTooltip
                             texts={[`${snapshot.mainSkillKey}`]}
                             placement="left"
                             title="Skills"
@@ -327,7 +327,7 @@ export default function Characters() {
                               width={39}
                               height={30}
                             />
-                          </StyledImageTooltip>
+                          </StyledSkillImageTooltip>
                         </li>
                       ) : null}
                     </td>

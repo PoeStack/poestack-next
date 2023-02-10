@@ -131,7 +131,7 @@ export const StyledTooltip: FC<Props> = ({
   );
 };
 
-export const StyledImageTooltip: FC<Props> = ({
+export const StyledSkillImageTooltip: FC<Props> = ({
   texts,
   placement,
   children,
