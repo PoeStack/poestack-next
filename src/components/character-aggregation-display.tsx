@@ -5,7 +5,7 @@ import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "../utils/general-util";
 
-export default function CharacterAggreationDisplay({
+export default function CharacterAggregationDisplay({
   aggregation,
   allKeys,
   totalMatches,
