@@ -119,18 +119,21 @@ export default function Economy() {
 
           <div className="min-h-[20rem]">
             <table className="w-full">
-              <thead>
+              <thead className="text-left">
                 <tr className="w-full">
-                  <th></th>
-                  <th>Name</th>
-                  <th>History</th>
-                  <th>Listings</th>
-                  <th>Value</th>
+                  <th className="pl-2"></th>
+                  <th className="pl-2">Name</th>
+                  <th className="pl-2 text-center">History</th>
+                  <th className="pl-2 text-center">Listings</th>
+                  <th className="pl-2 text-center">Value</th>
                 </tr>
               </thead>
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
-                  <tr key={index} className="hover:text-skin-accent">
+                  <tr
+                    key={index}
+                    className="hover:text-skin-accent  pl-3 hover:bg-skin-primary"
+                  >
                     <td>
                       <Image
                         src={groupSeries.itemGroup?.icon ?? ""}
@@ -149,10 +152,10 @@ export default function Economy() {
                         )}
                       </Link>
                     </td>
-                    <td>
+                    <td className="flex flex-col items-center">
                       <HSparkline data={groupSeries.series} />
                     </td>
-                    <td>
+                    <td className="text-center">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "totalValidListings"
@@ -168,7 +171,7 @@ export default function Economy() {
                         );
                       })()}
                     </td>
-                    <td>
+                    <td className="flex flex-col items-center">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "p10"
