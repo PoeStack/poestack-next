@@ -125,6 +125,7 @@ export const StyledTooltip: FC<Props> = ({
   );
 };
 
+// Refined for Skill Images only, as information and styling requirements for other elements, such as items, may vary greatly and warrant separate components.
 export const StyledSkillImageTooltip: FC<Props> = ({
   texts,
   placement,
