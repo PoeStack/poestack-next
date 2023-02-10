@@ -11,9 +11,9 @@ export default function StyledNavBar() {
 
   return (
     <>
-      <div className="flex h-12 w-full bg-skin-tertiary-light items-center pl-2 pr-2">
-        <div className="flex space-x-2 items-center">
-          <div className="flex space-x-1">
+      <div className="flex h-12 w-full min-w-fit bg-skin-tertiary-light items-center pl-2 pr-2">
+        <div className="flex min-w-fit space-x-2 items-center">
+          <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
               <Image
                 height={48}
@@ -40,7 +40,7 @@ export default function StyledNavBar() {
             href={`/poe/characters`}
           >
             <StyledTooltip
-              texts={["Search Characters like PoeNinja"]}
+              texts={["Search Characters"]}
               placement="bottom"
               className="mt-2"
             >
@@ -79,7 +79,7 @@ export default function StyledNavBar() {
         <div className="grow">
           <SearchBar />
         </div>
-        <div className="flex space-x-6  text-skin-base">
+        <div className="flex space-x-6 min-w-[200px] text-skin-base">
           <div className="font-semibold hover:text-skin-accent">
             <a href="https://discord.gg/zqeTWZvb76">
               <StyledTooltip

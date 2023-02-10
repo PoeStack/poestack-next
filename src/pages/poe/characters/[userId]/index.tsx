@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import StyledCard from "../../../../components/styled-card";
 import StyledButton from "../../../../components/styled-button";
 import { usePoeLeagueCtx } from "../../../../contexts/league-context";
+import _ from "lodash";
 
 export default function Characters() {
   const router = useRouter();
@@ -18,11 +19,12 @@ export default function Characters() {
 
   const { refetch: refetchPoeCharacters } = useQuery(
     gql`
-      query PoeCharacters($league: String!, $userId: String!) {
-        poeCharacters(league: $league, userId: $userId) {
+      query PoeCharacters($userId: String!) {
+        poeCharacters(userId: $userId) {
           id
           userId
           name
+          lastLeague
           createdAtTimestamp
           lastSnapshotTimestamp
         }
@@ -50,29 +52,36 @@ export default function Characters() {
     }
   );
 
+  const characterGroups = _.groupBy(poeCharacters, (e) => e.lastLeague);
+
   return (
     <>
       <div className="flex flex-row space-x-2">
         <StyledCard title="Characters" className="flex-1">
-          <div className="flex flex-col space-y-4">
-            <div>
-              {poeCharacters?.map((character) => (
-                <>
-                  <div>
-                    <Link href={`/poe/character/${character.id}`}>
-                      {character.name}
-                    </Link>
-                  </div>
-                </>
-              ))}
-            </div>
-            <StyledButton
-              text={"Refresh"}
-              onClick={() => {
-                takeSnapshot();
-              }}
-            />
+          <div className="flex flex-col space-y-10">
+            {Object.entries(characterGroups)?.map(([league, characters]) => (
+              <>
+                <div>
+                  <h3>{league}</h3>
+                  {characters.map((character) => (
+                    <>
+                      <div>
+                        <Link href={`/poe/character/${character.id}`}>
+                          {character.name}
+                        </Link>
+                      </div>
+                    </>
+                  ))}
+                </div>
+              </>
+            ))}
           </div>
+          <StyledButton
+            text={"Refresh"}
+            onClick={() => {
+              takeSnapshot();
+            }}
+          />
         </StyledCard>
       </div>
     </>

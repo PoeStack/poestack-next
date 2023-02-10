@@ -6,7 +6,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "../utils/general-util";
 import { StyledTooltip } from "./styled-tooltip";
 
-export default function CharacterAggreationDisplay({
+export default function CharacterAggregationDisplay({
   aggregation,
   allKeys,
   totalMatches,
