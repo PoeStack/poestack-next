@@ -51,14 +51,14 @@ export default function CharacterAggregationDisplay({
     <div
       key={key}
       style={style}
-      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-skin-primary  text-sm space-x-1 pr-2 "
+      className=" truncate grid capitalize cursor-pointer grid-cols-2 items-center hover:bg-skin-primary text-sm pr-2 "
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
     >
       <div
         className={`
-        truncate mr-2
+        truncate
           ${
             includedRows.includes(mappedRow[index].key)
               ? "bg-skin-primary text-skin-accent"
@@ -76,7 +76,13 @@ export default function CharacterAggregationDisplay({
           </li>
         </StyledTooltip>
       </div>
-      <div className={"text-right"}>
+      <div
+        className={`text-right ${
+          includedRows.includes(mappedRow[index].key)
+            ? "bg-skin-primary text-skin-accent"
+            : ""
+        }`}
+      >
         {+(((mappedRow[index]?.value ?? 0) / totalMatches) * 100).toFixed(2)}%
       </div>
     </div>
@@ -85,12 +91,12 @@ export default function CharacterAggregationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-skin-primary  text-sm space-x-1 pr-2 ">
+        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-skin-primary text-sm pr-2 ">
           {excludedRows.map((e) => (
             <>
               <div
                 key={e.key}
-                className="bg-red-600/50 text-skin-base "
+                className="bg-red-600/50 text-skin-base"
                 onClick={() => {
                   onSelectionChanged({ key: e, value: 0 });
                 }}
@@ -101,7 +107,7 @@ export default function CharacterAggregationDisplay({
                   className="mr-2 capitalize bg-red-900/50"
                   noDuration={true}
                 >
-                  <li className="list-none w-full">{e}</li>
+                  <div>{e}</div>
                 </StyledTooltip>
               </div>
             </>

@@ -5,7 +5,10 @@ import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { GeneralUtils } from "../../../../../utils/general-util";
 import StyledCard from "../../../../../components/styled-card";
-import { usePoeLeagueCtx } from "../../../../../contexts/league-context";
+import {
+  POE_LEAGUES,
+  usePoeLeagueCtx,
+} from "../../../../../contexts/league-context";
 
 export default function EconomyKeyGroup() {
   const router = useRouter();
@@ -52,7 +55,7 @@ export default function EconomyKeyGroup() {
           itemGroupSearch: {
             itemGroupHashStrings: [],
             itemGroupHashKeys: [key],
-            league: league?.toString() ?? "Sanctum",
+            league: league?.toString() ?? POE_LEAGUES[0],
             skip: null,
             limit: null,
             searchString: null,

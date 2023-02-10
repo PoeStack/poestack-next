@@ -18,15 +18,18 @@ import { nanoid } from "nanoid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { Tooltip } from "flowbite-react";
 import { StyledTooltip } from "../../../../../../../components/styled-tooltip";
+import { usePoeLeagueCtx } from "../../../../../../../contexts/league-context";
 
 export default function ViewProfile() {
   const router = useRouter();
   const { id } = router.query;
 
+  const { league } = usePoeLeagueCtx();
+
   const [profile, setProfile] = useState<StashSnapshotProfileInput>({
     id: id?.toString() ?? nanoid(),
     name: "",
-    league: "Sanctum",
+    league: league,
     public: true,
 
     poeStashTabIds: [],

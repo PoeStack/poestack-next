@@ -5,9 +5,11 @@ import { usePoeStackAuth } from "../contexts/user-context";
 import SearchBar from "./search-bar";
 import Image from "next/image";
 import { StyledTooltip } from "./styled-tooltip";
+import { usePoeLeagueCtx } from "../contexts/league-context";
 
 export default function StyledNavBar() {
   const { profile } = usePoeStackAuth();
+  const { league } = usePoeLeagueCtx();
 
   return (
     <>
@@ -25,7 +27,7 @@ export default function StyledNavBar() {
           </div>
           <Link
             className="font-semibold hover:text-skin-accent"
-            href="/poe/economy/Sanctum?tag=currency"
+            href={`/poe/economy/${league}?tag=currency`}
           >
             <StyledTooltip
               texts={["Currency Pricing and Listings"]}

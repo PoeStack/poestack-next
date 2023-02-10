@@ -2,7 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
-import { nanoid } from "nanoid";
+import { usePoeLeagueCtx } from "../contexts/league-context";
 
 export default function CurrencyValueDisplay({
   valueChaos,
@@ -11,6 +11,8 @@ export default function CurrencyValueDisplay({
   valueChaos: number;
   onClick?: null | ((n) => void);
 }) {
+  const { league } = usePoeLeagueCtx();
+
   const [display, setDisplay] = useState<string>("");
   const [icon, setIcon] = useState<string>(
     "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png"
@@ -28,8 +30,9 @@ export default function CurrencyValueDisplay({
       }
     `,
     {
+      skip: !league,
       variables: {
-        league: "Sanctum",
+        league: league,
         key: "divine orb",
         key2: "exalted orb",
       },

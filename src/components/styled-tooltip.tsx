@@ -82,19 +82,13 @@ export const StyledTooltip: FC<Props> = ({
           style={styles.popper}
           {...attributes.popper}
         >
-          {/* New Texts Approach */}
           {texts?.length > 1 ? (
             <div
               className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
             >
-              {/* <div>
-                <span>{texts[0]}</span>
-                <br />
-                <span>{texts[1]}</span>
-              </div> */}
               {texts.map((text, index) => (
-                <div key={index} className="flex flex-wrap">
-                  <p>{texts[index]}</p>
+                <div key={index}>
+                  <p>{text}</p>
                 </div>
               ))}
               {arrow ? (
