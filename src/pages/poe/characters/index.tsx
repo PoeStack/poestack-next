@@ -18,7 +18,10 @@ import {
   CharacterSnapshotUniqueAggregationKeysResponse,
 } from "../../../__generated__/resolvers-types";
 import { GeneralUtils } from "../../../utils/general-util";
-import { StyledTooltip } from "../../../components/styled-tooltip";
+import {
+  StyledImageTooltip,
+  StyledTooltip,
+} from "../../../components/styled-tooltip";
 
 export default function Characters() {
   const router = useRouter();
@@ -266,11 +269,13 @@ export default function Characters() {
           <table>
             {/* Setup for adding click sort like PoeNinja */}
             <thead className="text-left">
-              <th className="pl-2">Name</th>
-              <th className="pl-2">Level</th>
-              <th className="pl-2">Skill</th>
-              <th className="pl-2">Life</th>
-              <th className="pl-2">Es</th>
+              <tr>
+                <th className="pl-2">Name</th>
+                <th className="pl-2">Level</th>
+                <th className="pl-2">Skill</th>
+                <th className="pl-2">Life</th>
+                <th className="pl-2">Es</th>
+              </tr>
             </thead>
             <tbody className="">
               {searchResponse.snapshots.map((snapshot) => (
@@ -306,7 +311,27 @@ export default function Characters() {
                       </ul>
                     </td>
 
-                    <td>{GeneralUtils.capitalize(snapshot.mainSkillKey)}</td>
+                    <td>
+                      {snapshot.mainSkillKey ? (
+                        <li className="list-none">
+                          <StyledImageTooltip
+                            texts={[`${snapshot.mainSkillKey}`]}
+                            placement="left"
+                            title="Skills"
+                            imageString={snapshot.mainSkillKey}
+                            className="bg-slate-800"
+                          >
+                            <Image
+                              src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                              alt=""
+                              width={39}
+                              height={30}
+                            />
+                          </StyledImageTooltip>
+                        </li>
+                      ) : null}
+                    </td>
+
                     <td className="font-semibold text-red-600">
                       {snapshot.life}
                     </td>
