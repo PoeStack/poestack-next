@@ -6,14 +6,11 @@ import { useState } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "../../../../components/styled-card";
 import StyledButton from "../../../../components/styled-button";
-import { usePoeLeagueCtx } from "../../../../contexts/league-context";
 import _ from "lodash";
 
 export default function Characters() {
   const router = useRouter();
   const { userId } = router.query;
-
-  const { league, setLeague } = usePoeLeagueCtx();
 
   const [poeCharacters, setPoeCharacters] = useState<PoeCharacter[]>([]);
 
@@ -31,8 +28,8 @@ export default function Characters() {
       }
     `,
     {
-      skip: !userId || !league,
-      variables: { userId: userId, league: league },
+      skip: !userId,
+      variables: { userId: userId },
       onCompleted(data) {
         setPoeCharacters(data.poeCharacters);
       },

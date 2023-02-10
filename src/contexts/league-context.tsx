@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useState, useEffect } from "react";
 
 const initalContext: {
@@ -20,6 +21,7 @@ export const POE_LEAGUES = [
 export const PoeStackLeagueContext = createContext(initalContext);
 
 export function PoeStackLeagueProvider({ children }) {
+  const router = useRouter();
   const [league, setLeague] = useState(POE_LEAGUES[0]);
 
   const value = {
@@ -37,7 +39,7 @@ export function PoeStackLeagueProvider({ children }) {
     if (league) {
       localStorage.setItem("selected-league", league);
     }
-  }, [league]);
+  }, [league, router]);
 
   return (
     <PoeStackLeagueContext.Provider value={value}>

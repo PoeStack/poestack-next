@@ -39,7 +39,7 @@ export default function StyledNavBar() {
           </Link>
           <Link
             className="font-semibold hover:text-skin-accent"
-            href={`/poe/characters`}
+            href={`/poe/characters?league=${league}`}
           >
             <StyledTooltip
               texts={["Search Characters"]}

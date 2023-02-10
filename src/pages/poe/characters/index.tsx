@@ -1,4 +1,4 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 import Link from "next/link";
 import Image from "next/image";
@@ -17,13 +17,71 @@ import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
 } from "../../../__generated__/resolvers-types";
-import { GeneralUtils } from "../../../utils/general-util";
 import {
   StyledSkillImageTooltip,
   StyledTooltip,
 } from "../../../components/styled-tooltip";
+import client from "../../../poe-stack-apollo-client";
 
-export default function Characters() {
+const generalSearch = gql`
+  query Snapshots($search: CharacterSnapshotSearch!) {
+    characterSnapshotsSearch(search: $search) {
+      snapshots {
+        characterId
+        name
+        level
+        mainSkillKey
+        characterClass
+        energyShield
+        life
+      }
+      hasMore
+    }
+    characterSnapshotsSearchAggregations(search: $search) {
+      totalMatches
+      characterClassAggregation {
+        values {
+          key
+          value
+        }
+      }
+      keystoneAggregation {
+        values {
+          key
+          value
+        }
+      }
+      mainSkillAggreagtion {
+        values {
+          value
+          key
+        }
+      }
+      itemKeyAggreagtion {
+        values {
+          value
+          key
+        }
+      }
+    }
+  }
+`;
+
+const uniqueKeysQuery = gql`
+  query CharacterSnapshotsUniqueAggregationKeys($league: String!) {
+    characterSnapshotsUniqueAggregationKeys(league: $league) {
+      characterClassKeys
+      keystoneKeys
+      mainSkillKeys
+      itemKeys
+    }
+  }
+`;
+
+export default function Characters({
+  initialSearchResponse,
+  initialUnqiueKeys,
+}) {
   const router = useRouter();
 
   const { league } = usePoeLeagueCtx();
@@ -44,114 +102,32 @@ export default function Characters() {
 
   const [unqiueKeysResponse, setUnqiueKeysResponse] = useState<
     CharacterSnapshotUniqueAggregationKeysResponse | null | undefined
-  >(null);
+  >(initialUnqiueKeys);
 
   const [searchResponse, setSearchResponse] = useState<
     CharacterSnapshotSearchResponse | undefined | null
-  >(null);
+  >(initialSearchResponse?.characterSnapshotsSearch);
   const [aggregationSearchResponse, setAggregationSearchResponse] = useState<
     CharacterSnapshotSearchAggregationsResponse | undefined | null
-  >(null);
-  const { refetch: reftechGeneralSearch } = useQuery(
-    gql`
-      query Snapshots($search: CharacterSnapshotSearch!) {
-        characterSnapshotsSearch(search: $search) {
-          snapshots {
-            characterId
-            name
-            level
-            mainSkillKey
-            characterClass
-            energyShield
-            life
-          }
-          hasMore
-        }
-        characterSnapshotsSearchAggregations(search: $search) {
-          totalMatches
-          characterClassAggregation {
-            values {
-              key
-              value
-            }
-          }
-          keystoneAggregation {
-            values {
-              key
-              value
-            }
-          }
-          mainSkillAggreagtion {
-            values {
-              value
-              key
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: { search: { ...search, ...{ league: league } } },
-      onCompleted(data) {
-        setSearchResponse({
-          ...searchResponse,
-          ...data.characterSnapshotsSearch,
-        });
-        setAggregationSearchResponse({
-          ...aggregationSearchResponse,
-          ...data.characterSnapshotsSearchAggregations,
-        });
-      },
-    }
-  );
-
-  const { refetch: reftechItemSearch } = useQuery(
-    gql`
-      query Snapshots($search: CharacterSnapshotSearch!) {
-        characterSnapshotsSearchAggregations(search: $search) {
-          itemKeyAggreagtion {
-            values {
-              value
-              key
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: { search: { ...search, ...{ league: league } } },
-      onCompleted(data) {
-        setAggregationSearchResponse({
-          ...aggregationSearchResponse,
-          ...data.characterSnapshotsSearchAggregations,
-        });
-      },
-    }
-  );
-
-  useQuery(
-    gql`
-      query CharacterSnapshotsUniqueAggregationKeys($league: String!) {
-        characterSnapshotsUniqueAggregationKeys(league: $league) {
-          characterClassKeys
-          keystoneKeys
-          mainSkillKeys
-          itemKeys
-        }
-      }
-    `,
-    {
-      variables: { league: league },
-      onCompleted(data) {
-        setUnqiueKeysResponse(data.characterSnapshotsUniqueAggregationKeys);
-      },
-    }
-  );
+  >(initialSearchResponse?.characterSnapshotsSearchAggregations);
+  const { refetch: reftechGeneralSearch } = useQuery(generalSearch, {
+    skip: true,
+    variables: { search: { ...search, ...{ league: league } } },
+    onCompleted(data) {
+      setSearchResponse({
+        ...searchResponse,
+        ...data.characterSnapshotsSearch,
+      });
+      setAggregationSearchResponse({
+        ...aggregationSearchResponse,
+        ...data.characterSnapshotsSearchAggregations,
+      });
+    },
+  });
 
   useEffect(() => {
     reftechGeneralSearch();
-    reftechItemSearch();
-  }, [search, reftechGeneralSearch, reftechItemSearch, league]);
+  }, [search, reftechGeneralSearch, league]);
 
   const updateIncludeExclude = (entry, includedKey, excludedKey) => {
     if (search[includedKey]?.includes(entry.key)) {
@@ -347,4 +323,45 @@ export default function Characters() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps(context) {
+  const resp = {
+    props: {},
+  };
+
+  const { league } = context.query;
+
+  const generalSearchResult: any = await client.query({
+    query: generalSearch,
+    variables: {
+      search: {
+        league: league ?? "Sanctum",
+        includedKeyStoneNames: [],
+        excludedKeyStoneNames: [],
+        includedCharacterClasses: [],
+        excludedCharacterClasses: [],
+        includedMainSkills: [],
+        excludedMainSkills: [],
+        includedItemKeys: [],
+        excludedItemKeys: [],
+      },
+    },
+  });
+  if (generalSearchResult?.data) {
+    resp.props["initialSearchResponse"] = generalSearchResult?.data;
+  }
+
+  const unqiueKeysResult: any = await client.query({
+    query: uniqueKeysQuery,
+    variables: {
+      league: league,
+    },
+  });
+  if (unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys) {
+    resp.props["initialUnqiueKeys"] =
+      unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys;
+  }
+
+  return resp;
 }
