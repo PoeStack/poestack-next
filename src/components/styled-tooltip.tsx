@@ -24,6 +24,7 @@ interface Props {
   placement: Placement;
   className?: string;
   arrow?: string;
+  noDuration?: boolean;
 }
 
 export const StyledTooltip: FC<Props> = ({
@@ -32,6 +33,7 @@ export const StyledTooltip: FC<Props> = ({
   children,
   className,
   arrow,
+  noDuration,
 }): JSX.Element => {
   const [popperReference, setPopperReference] = useState<HTMLDivElement | null>(
     null
@@ -71,7 +73,7 @@ export const StyledTooltip: FC<Props> = ({
           ref={setPopperElement}
           role="tooltip"
           id="tooltip-message"
-          className={`transition-all  duration-300 ${
+          className={` ${noDuration ? null : `transition-all  duration-400`}  ${
             isVisible ? `opacity-100` : `opacity-0`
           } ${isVisible ? "visible" : "invisible"}`}
           style={styles.popper}
