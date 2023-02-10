@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, gql } from "@apollo/client";
 import StyledCard from "../../../../components/styled-card";
 import StyledPaginate from "../../../../components/styled-paginate";
 import { useRouter } from "next/router";
@@ -9,7 +9,28 @@ import { ItemGroupValueTimeseries } from "../../../../__generated__/resolvers-ty
 import { usePoeLeagueCtx } from "../../../../contexts/league-context";
 import StyledLoadingIndicator from "../../../../components/styled-loading-indicator";
 import ItemsTable from "./items-table/items-table";
-import { ItemGroupsQuery } from "./queries";
+
+export const ItemGroupsQuery = gql`
+    query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
+      itemGroupValueTimeseriesSearch(search: $search) {
+        results {
+          series {
+            entries {
+              timestamp
+              value
+            }
+            type
+          }
+          itemGroup {
+            icon
+            displayName
+            key
+            hashString
+          }
+        }
+      }
+    }
+  `;
 
 export default function Economy() {
   const router = useRouter();
