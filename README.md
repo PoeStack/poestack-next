@@ -13,6 +13,7 @@ The frontend app for PoeStack
 - Run `yarn dev`
 - Navigate to http://localhost:3000/ for the local next.js app
 - Read the steps below to connect your POE account
+
 (If you are on an operating system that is having trouble with Sharp https://github.com/zach-herridge/poestack-next/issues/11 might help)
 
 ### Running Locally (Docker)
