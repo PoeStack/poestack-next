@@ -85,12 +85,12 @@ export default function CharacterAggreationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="cursor-pointer capitalize flex flex-col space-y-2">
+        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-skin-primary  text-sm space-x-1 pr-2 ">
           {excludedRows.map((e) => (
             <>
               <div
                 key={e.key}
-                className="bg-red-600/50 text-skin-base"
+                className="bg-red-600/50 text-skin-base "
                 onClick={() => {
                   onSelectionChanged({ key: e, value: 0 });
                 }}
