@@ -10,13 +10,16 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { GeneralUtils } from "../../../../utils/general-util";
 import _ from "lodash";
-import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/resolvers-types";
+import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/graphql";
 import ItemGroupTagSelect from "../../../../components/item-group-tag-select";
 import {
   ItemGroupValueTimeseries,
   StashSnapshotItemGroupSummarySearchInput,
-} from "../../../../__generated__/resolvers-types";
-import { usePoeLeagueCtx } from "../../../../contexts/league-context";
+} from "../../../../__generated__/graphql";
+import {
+  POE_LEAGUES,
+  usePoeLeagueCtx,
+} from "../../../../contexts/league-context";
 import CurrencyValueDisplay from "../../../../components/currency-value-display";
 
 export default function Economy() {
@@ -35,7 +38,7 @@ export default function Economy() {
       itemGroupSearch: {
         itemGroupHashStrings: [],
         itemGroupHashKeys: [],
-        league: league?.toString() ?? "Sanctum",
+        league: league?.toString() ?? POE_LEAGUES[0],
         skip: null,
         limit: null,
         searchString: null,
@@ -48,7 +51,7 @@ export default function Economy() {
   >([]);
   const { refetch: refetchHistograms } = useQuery(
     gql`
-      query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
+      query EconSearch1($search: ItemGroupValueTimeseriesSearchInput!) {
         itemGroupValueTimeseriesSearch(search: $search) {
           results {
             series {
@@ -89,7 +92,7 @@ export default function Economy() {
             ...p.itemGroupSearch,
             skip: 0,
             limit: 20,
-            league: league?.toString() ?? "Sanctum",
+            league: league?.toString() ?? POE_LEAGUES[0],
             itemGroupHashTags: [tag ?? "currency"].flat(),
           },
         },
@@ -111,7 +114,7 @@ export default function Economy() {
         <StyledCard title={"Economy"}>
           <ItemGroupTagSelect
             selected={tag}
-            league={league?.toString() ?? "Sanctum"}
+            league={league?.toString() ?? POE_LEAGUES[0]}
             onSelectChange={(e: string[]) => {
               router.push({ query: { league: league, tag: e } });
             }}

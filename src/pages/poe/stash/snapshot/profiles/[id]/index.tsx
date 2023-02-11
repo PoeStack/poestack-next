@@ -13,7 +13,7 @@ import ProfitCard from "../../../../../../components/profit-card";
 import {
   StashSnapshot,
   StashSnapshotProfile,
-} from "../../../../../../__generated__/resolvers-types";
+} from "../../../../../../__generated__/graphql";
 
 export default function ViewProfile() {
   const router = useRouter();

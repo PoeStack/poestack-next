@@ -1,5 +1,5 @@
 import React from "react";
-import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
+import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image from "next/image";
 import { useState } from "react";
 import { myLoader } from "../utils/general-util";

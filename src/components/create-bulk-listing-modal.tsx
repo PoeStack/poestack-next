@@ -11,7 +11,7 @@ import {
   StashSnapshotExport,
   StashSnapshotExportInput,
   StashSnapshotItemGroupSummarySearch,
-} from "../__generated__/resolvers-types";
+} from "../__generated__/graphql";
 
 export default function CreateBulkListingModal({
   open,
@@ -57,7 +57,7 @@ export default function CreateBulkListingModal({
   );
   const [generateListing] = useMutation(
     gql`
-      mutation ExportStashSnapshot($input: StashSnapshotExportInput!) {
+      mutation BulkModalExportStashSnapshot($input: StashSnapshotExportInput!) {
         exportStashSnapshot(input: $input) {
           id
           userId
@@ -83,7 +83,9 @@ export default function CreateBulkListingModal({
     { loading: generateListingToClipboardLoading },
   ] = useMutation(
     gql`
-      mutation ExportStashSnapshot($input: StashSnapshotExportInput!) {
+      mutation BulkModalExportStashSnapshotToClipBoard(
+        $input: StashSnapshotExportInput!
+      ) {
         exportStashSnapshot(input: $input) {
           id
           userId

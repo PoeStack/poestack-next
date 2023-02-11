@@ -3,7 +3,7 @@ import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { gql, useQuery } from "@apollo/client";
-import { ItemGroupValueTimeseriesGroupSeries } from "../__generated__/resolvers-types";
+import { ItemGroupValueTimeseriesGroupSeries } from "../__generated__/graphql";
 
 export default function HSparkline({
   data,

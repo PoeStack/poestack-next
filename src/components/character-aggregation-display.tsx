@@ -1,11 +1,13 @@
 import React, { useCallback, useState } from "react";
-import { GenericAggregation } from "../__generated__/resolvers-types";
+
 import { useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "../utils/general-util";
+import { StyledTooltip } from "./styled-tooltip";
+import { GenericAggregation } from "../__generated__/graphql";
 
-export default function CharacterAggreationDisplay({
+export default function CharacterAggregationDisplay({
   aggregation,
   allKeys,
   totalMatches,
@@ -50,19 +52,38 @@ export default function CharacterAggreationDisplay({
     <div
       key={key}
       style={style}
-      className="grid grid-cols-2 items-center pr-3"
+      className=" truncate grid capitalize cursor-pointer grid-cols-2 items-center hover:bg-skin-primary text-sm pr-2 "
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
     >
       <div
-        className={
-          includedRows.includes(mappedRow[index].key) ? "text-green-400" : ""
-        }
+        className={`
+        truncate
+          ${
+            includedRows.includes(mappedRow[index].key)
+              ? "bg-skin-primary text-skin-accent"
+              : ""
+          }`}
       >
-        {GeneralUtils.capitalize(mappedRow[index].key)}
+        <StyledTooltip
+          texts={[`${GeneralUtils.capitalize(mappedRow[index].key)}`]}
+          placement="left"
+          className="mr-2 delay-500"
+          noDuration={true}
+        >
+          <li className="list-none w-full">
+            {GeneralUtils.capitalize(mappedRow[index].key)}
+          </li>
+        </StyledTooltip>
       </div>
-      <div className={"text-right"}>
+      <div
+        className={`text-right ${
+          includedRows.includes(mappedRow[index].key)
+            ? "bg-skin-primary text-skin-accent"
+            : ""
+        }`}
+      >
         {+(((mappedRow[index]?.value ?? 0) / totalMatches) * 100).toFixed(2)}%
       </div>
     </div>
@@ -71,17 +92,24 @@ export default function CharacterAggreationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="flex flex-col space-y-2">
+        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-skin-primary text-sm pr-2 ">
           {excludedRows.map((e) => (
             <>
               <div
                 key={e.key}
-                className="text-red-400"
+                className="bg-red-600/50 text-skin-base"
                 onClick={() => {
                   onSelectionChanged({ key: e, value: 0 });
                 }}
               >
-                {e}
+                <StyledTooltip
+                  texts={[`${e}`]}
+                  placement="left"
+                  className="mr-2 capitalize bg-red-900/50"
+                  noDuration={true}
+                >
+                  <div>{e}</div>
+                </StyledTooltip>
               </div>
             </>
           ))}
@@ -93,7 +121,7 @@ export default function CharacterAggreationDisplay({
                 width={width}
                 height={height}
                 itemCount={mappedRow.length}
-                itemSize={60}
+                itemSize={20}
               >
                 {Row}
               </List>

@@ -19,12 +19,12 @@ import { GeneralUtils } from "../utils/general-util";
 import {
   ItemGroupValueTimeseries,
   ItemGroupValueTimeseriesGroupSeries,
-} from "../__generated__/resolvers-types";
+} from "../__generated__/graphql";
 import {
   StashSnapshot,
   StashSnapshotItemGroupSummarySearchInput,
   StashSnapshotItemGroupSummarySearchResponse,
-} from "../__generated__/resolvers-types";
+} from "../__generated__/graphql";
 
 export default function FilterableItemTable({
   snapshot,
@@ -76,7 +76,7 @@ export default function FilterableItemTable({
     useState<StashSnapshotItemGroupSummarySearchResponse | null>(null);
   useQuery(
     gql`
-      query StashSnapshotItemGroupSummaries(
+      query FilterableItemTableStashSnapshotItemGroupSummaries(
         $search: StashSnapshotItemGroupSummarySearchInput!
       ) {
         stashSnapshotItemGroupSummaries(search: $search) {
@@ -118,7 +118,9 @@ export default function FilterableItemTable({
   >([]);
   useQuery(
     gql`
-      query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
+      query FilterableTimeTableTimeseriesSearch(
+        $search: ItemGroupValueTimeseriesSearchInput!
+      ) {
         itemGroupValueTimeseriesSearch(search: $search) {
           results {
             series {

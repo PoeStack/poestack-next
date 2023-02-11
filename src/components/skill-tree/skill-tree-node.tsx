@@ -1,5 +1,5 @@
 import { memo } from "react";
-import { PassiveTreeNode } from "../../__generated__/resolvers-types";
+import { PassiveTreeNode } from "../../__generated__/graphql";
 
 export default function SkillTreeNode({
   node,

@@ -3,7 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import moment from "moment";
 import "moment-timezone";
-import { CharacterSnapshotRecord } from "../__generated__/resolvers-types";
+import { CharacterSnapshotRecord } from "../__generated__/graphql";
 import { useRef, useEffect } from "react";
 
 export default function CharacterLevelChart({

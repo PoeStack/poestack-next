@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import CurrencyValueDisplay from "./currency-value-display";
-import { StashSnapshot } from "../__generated__/resolvers-types";
+import { StashSnapshot } from "../__generated__/graphql";
 import { gql, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import StyledDropdown from "./styled-dropdown";

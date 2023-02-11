@@ -1,5 +1,5 @@
 import React from "react";
-import { CharacterSnapshotPobStats } from "../__generated__/resolvers-types";
+import { CharacterSnapshotPobStats } from "../__generated__/graphql";
 import StyledButton from "./styled-button";
 
 export default function CharacterStatsDisplay({

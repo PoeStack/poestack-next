@@ -3,7 +3,7 @@ import {
   PassiveTreeConnection,
   PassiveTreeConstants,
   PassiveTreeNode,
-} from "../../__generated__/resolvers-types";
+} from "../../__generated__/graphql";
 
 export function SkillTreeConnection({
   connection,

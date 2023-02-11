@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { createContext, useContext, useState, useEffect } from "react";
 
 const initalContext: {
@@ -10,6 +11,7 @@ const initalContext: {
 
 export const POE_LEAGUES = [
   "Sanctum",
+  "Ziz Sanctum HCSSF Class Gauntlet",
   "Hardcore Sanctum",
   "Standard",
   "Hardcore",
@@ -20,7 +22,11 @@ export const POE_LEAGUES = [
 export const PoeStackLeagueContext = createContext(initalContext);
 
 export function PoeStackLeagueProvider({ children }) {
-  const [league, setLeague] = useState(POE_LEAGUES[0]);
+  const router = useRouter();
+
+  const [league, setLeague] = useState(
+    router.query.league?.toString() ?? POE_LEAGUES[0]
+  );
 
   const value = {
     league: league,
@@ -28,16 +34,16 @@ export function PoeStackLeagueProvider({ children }) {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setLeague(localStorage.getItem("selected-league") ?? POE_LEAGUES[0]);
+    console.log("league update", league, router.query.league);
+    if (router.query.league && league !== router.query.league) {
+      router.replace({
+        query: {
+          ...router.query,
+          league: league,
+        },
+      });
     }
-  }, []);
-
-  useEffect(() => {
-    if (league) {
-      localStorage.setItem("selected-league", league);
-    }
-  }, [league]);
+  }, [league, router]);
 
   return (
     <PoeStackLeagueContext.Provider value={value}>

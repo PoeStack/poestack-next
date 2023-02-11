@@ -10,7 +10,7 @@ export default function LeagueSelect({ onLeagueChanged }) {
         onSelectChange={function (e: any): void {
           onLeagueChanged(e);
         }}
-        initalValue={"Sanctum"}
+        initalValue={POE_LEAGUES[0]}
       />
     </>
   );

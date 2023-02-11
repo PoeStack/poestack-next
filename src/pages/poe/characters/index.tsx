@@ -1,6 +1,7 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
@@ -8,20 +9,83 @@ import StyledCard from "../../../components/styled-card";
 import {
   CharacterSnapshotSearchResponse,
   CharacterSnapshotSearchAggregationsResponse,
-} from "../../../__generated__/resolvers-types";
+} from "../../../__generated__/graphql";
 import { usePoeLeagueCtx } from "../../../contexts/league-context";
-import CharacterAggreationDisplay from "../../../components/character-aggregation-display";
+import CharacterAggregationDisplay from "../../../components/character-aggregation-display";
 import StyledInput from "../../../components/styled-input";
 import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
-} from "../../../__generated__/resolvers-types";
-import { GeneralUtils } from "../../../utils/general-util";
+} from "../../../__generated__/graphql";
+import {
+  StyledSkillImageTooltip,
+  StyledTooltip,
+} from "../../../components/styled-tooltip";
+import client from "../../../poe-stack-apollo-client";
 
-export default function Characters() {
+const generalSearch = gql`
+  query Snapshots($search: CharacterSnapshotSearch!) {
+    characterSnapshotsSearch(search: $search) {
+      snapshots {
+        snapshotId
+        characterId
+        name
+        level
+        mainSkillKey
+        characterClass
+        energyShield
+        life
+      }
+      hasMore
+    }
+    characterSnapshotsSearchAggregations(search: $search) {
+      totalMatches
+      characterClassAggregation {
+        values {
+          key
+          value
+        }
+      }
+      keystoneAggregation {
+        values {
+          key
+          value
+        }
+      }
+      mainSkillAggreagtion {
+        values {
+          value
+          key
+        }
+      }
+      itemKeyAggreagtion {
+        values {
+          value
+          key
+        }
+      }
+    }
+  }
+`;
+
+const uniqueKeysQuery = gql`
+  query CharacterSnapshotsUniqueAggregationKeys($league: String!) {
+    characterSnapshotsUniqueAggregationKeys(league: $league) {
+      characterClassKeys
+      keystoneKeys
+      mainSkillKeys
+      itemKeys
+    }
+  }
+`;
+
+export default function Characters({
+  initialSearchResponse,
+  unqiueKeysResponse,
+}) {
   const router = useRouter();
 
-  const { league } = usePoeLeagueCtx();
+  const { league, setLeague } = usePoeLeagueCtx();
 
   const [search, setSearch] = useState<CharacterSnapshotSearch>({
     league: league,
@@ -37,116 +101,30 @@ export default function Characters() {
 
   const [localSearchString, setLocalSearchString] = useState<string>("");
 
-  const [unqiueKeysResponse, setUnqiueKeysResponse] = useState<
-    CharacterSnapshotUniqueAggregationKeysResponse | null | undefined
-  >(null);
-
   const [searchResponse, setSearchResponse] = useState<
     CharacterSnapshotSearchResponse | undefined | null
-  >(null);
+  >(initialSearchResponse?.characterSnapshotsSearch);
   const [aggregationSearchResponse, setAggregationSearchResponse] = useState<
     CharacterSnapshotSearchAggregationsResponse | undefined | null
-  >(null);
-  const { refetch: reftechGeneralSearch } = useQuery(
-    gql`
-      query Snapshots($search: CharacterSnapshotSearch!) {
-        characterSnapshotsSearch(search: $search) {
-          snapshots {
-            characterId
-            name
-            level
-            mainSkillKey
-            characterClass
-            energyShield
-            life
-          }
-          hasMore
-        }
-        characterSnapshotsSearchAggregations(search: $search) {
-          totalMatches
-          characterClassAggregation {
-            values {
-              key
-              value
-            }
-          }
-          keystoneAggregation {
-            values {
-              key
-              value
-            }
-          }
-          mainSkillAggreagtion {
-            values {
-              value
-              key
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: { search: { ...search, ...{ league: league } } },
-      onCompleted(data) {
-        setSearchResponse({
-          ...searchResponse,
-          ...data.characterSnapshotsSearch,
-        });
-        setAggregationSearchResponse({
-          ...aggregationSearchResponse,
-          ...data.characterSnapshotsSearchAggregations,
-        });
-      },
-    }
-  );
-
-  const { refetch: reftechItemSearch } = useQuery(
-    gql`
-      query Snapshots($search: CharacterSnapshotSearch!) {
-        characterSnapshotsSearchAggregations(search: $search) {
-          itemKeyAggreagtion {
-            values {
-              value
-              key
-            }
-          }
-        }
-      }
-    `,
-    {
-      variables: { search: { ...search, ...{ league: league } } },
-      onCompleted(data) {
-        setAggregationSearchResponse({
-          ...aggregationSearchResponse,
-          ...data.characterSnapshotsSearchAggregations,
-        });
-      },
-    }
-  );
-
-  useQuery(
-    gql`
-      query CharacterSnapshotsUniqueAggregationKeys($league: String!) {
-        characterSnapshotsUniqueAggregationKeys(league: $league) {
-          characterClassKeys
-          keystoneKeys
-          mainSkillKeys
-          itemKeys
-        }
-      }
-    `,
-    {
-      variables: { league: league },
-      onCompleted(data) {
-        setUnqiueKeysResponse(data.characterSnapshotsUniqueAggregationKeys);
-      },
-    }
-  );
+  >(initialSearchResponse?.characterSnapshotsSearchAggregations);
+  const { refetch: reftechGeneralSearch } = useQuery(generalSearch, {
+    skip: true,
+    variables: { search: { ...search, ...{ league: league } } },
+    onCompleted(data) {
+      setSearchResponse({
+        ...searchResponse,
+        ...data.characterSnapshotsSearch,
+      });
+      setAggregationSearchResponse({
+        ...aggregationSearchResponse,
+        ...data.characterSnapshotsSearchAggregations,
+      });
+    },
+  });
 
   useEffect(() => {
     reftechGeneralSearch();
-    reftechItemSearch();
-  }, [search, reftechGeneralSearch, reftechItemSearch, league]);
+  }, [search, reftechGeneralSearch, league]);
 
   const updateIncludeExclude = (entry, includedKey, excludedKey) => {
     if (search[includedKey]?.includes(entry.key)) {
@@ -180,7 +158,7 @@ export default function Characters() {
 
   return (
     <>
-      <div className="flex flex-row space-x-2">
+      <div className="flex flex-row space-x-2 ">
         <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
           <StyledCard title={"Search"}>
             <StyledInput
@@ -188,10 +166,11 @@ export default function Characters() {
               onChange={(e) => {
                 setLocalSearchString(e);
               }}
+              placeholder="Search Filters..."
             />
           </StyledCard>
           <StyledCard title="Skills" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.mainSkillAggreagtion}
               onSelectionChanged={(mainSkill) => {
                 updateIncludeExclude(
@@ -208,7 +187,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Class" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.characterClassAggregation}
               onSelectionChanged={(characterClass) => {
                 updateIncludeExclude(
@@ -225,7 +204,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Items" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.itemKeyAggreagtion}
               onSelectionChanged={(item) => {
                 updateIncludeExclude(
@@ -242,7 +221,7 @@ export default function Characters() {
             />
           </StyledCard>
           <StyledCard title="Keystones" className="h-[400px]">
-            <CharacterAggreationDisplay
+            <CharacterAggregationDisplay
               aggregation={aggregationSearchResponse?.keystoneAggregation}
               onSelectionChanged={(keyStone) => {
                 updateIncludeExclude(
@@ -261,28 +240,77 @@ export default function Characters() {
         </div>
         <StyledCard title="Characters" className="flex-1">
           <table>
-            <thead>
-              <th>Name</th>
-              <th>Skill</th>
-              <th>Life</th>
-              <th>Es</th>
-              <th>Ascendancy</th>
-              <th>Level</th>
+            {/* Setup for adding click sort like PoeNinja */}
+            <thead className="text-left">
+              <tr>
+                <th className="pl-2">Name</th>
+                <th className="pl-2">Level</th>
+                <th className="pl-2">Skill</th>
+                <th className="pl-2">Life</th>
+                <th className="pl-2">Es</th>
+              </tr>
             </thead>
-            <tbody>
+            <tbody className="">
               {searchResponse.snapshots.map((snapshot) => (
                 <>
-                  <tr>
+                  <tr className="hover:bg-skin-primary border-y-2 border-slate-700/50">
                     <td>
-                      <Link href={`/poe/character/${snapshot.characterId}`}>
+                      <Link
+                        href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
+                        className="hover:text-skin-accent hover:underline pl-3"
+                      >
                         {snapshot?.name}
                       </Link>
                     </td>
-                    <td>{GeneralUtils.capitalize(snapshot.mainSkillKey)}</td>
-                    <td>{snapshot.life}</td>
-                    <td>{snapshot.energyShield}</td>
-                    <td>{snapshot.characterClass}</td>
-                    <td>{snapshot.level}</td>
+                    <td>
+                      <ul className="flex flex-row space-x-3 justify-left">
+                        <li className="text-center list-none w-1/5">
+                          {snapshot.level}
+                        </li>
+                        <li className="list-none">
+                          <StyledTooltip
+                            texts={[`${snapshot.characterClass}`]}
+                            placement="right"
+                            className="bg-slate-800"
+                          >
+                            <Image
+                              src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                              alt={snapshot.characterClass}
+                              width={39}
+                              height={30}
+                            />
+                          </StyledTooltip>
+                        </li>
+                      </ul>
+                    </td>
+
+                    <td>
+                      {snapshot.mainSkillKey ? (
+                        <li className="list-none">
+                          <StyledSkillImageTooltip
+                            texts={[`${snapshot.mainSkillKey}`]}
+                            placement="left"
+                            title="Skills"
+                            imageString={snapshot.mainSkillKey}
+                            className="bg-slate-800"
+                          >
+                            <Image
+                              src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                              alt=""
+                              width={39}
+                              height={30}
+                            />
+                          </StyledSkillImageTooltip>
+                        </li>
+                      ) : null}
+                    </td>
+
+                    <td className="font-semibold text-red-600">
+                      {snapshot.life}
+                    </td>
+                    <td className="font-semibold text-teal-300">
+                      {snapshot.energyShield}
+                    </td>
                   </tr>
                 </>
               ))}
@@ -292,4 +320,50 @@ export default function Characters() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps({ req, res, query }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=10, stale-while-revalidate=59"
+  );
+
+  const resp = {
+    props: {},
+  };
+
+  const { league } = query;
+
+  const generalSearchResult: any = await client.query({
+    query: generalSearch,
+    variables: {
+      search: {
+        league: league ?? "Sanctum",
+        includedKeyStoneNames: [],
+        excludedKeyStoneNames: [],
+        includedCharacterClasses: [],
+        excludedCharacterClasses: [],
+        includedMainSkills: [],
+        excludedMainSkills: [],
+        includedItemKeys: [],
+        excludedItemKeys: [],
+      },
+    },
+  });
+  if (generalSearchResult?.data) {
+    resp.props["initialSearchResponse"] = generalSearchResult?.data;
+  }
+
+  const unqiueKeysResult: any = await client.query({
+    query: uniqueKeysQuery,
+    variables: {
+      league: league,
+    },
+  });
+  if (unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys) {
+    resp.props["unqiueKeysResponse"] =
+      unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys;
+  }
+
+  return resp;
 }

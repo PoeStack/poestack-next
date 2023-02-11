@@ -5,7 +5,16 @@ The frontend app for PoeStack
 ### GraphQL Api
 - Ui for building/executing queries https://api.poestack.com/graphql
 
+### Running Locally
+- Install node js and yarn
+  - https://nodejs.org/en/download/
+  - https://classic.yarnpkg.com/lang/en/docs/install
+- Run `yarn install`
+- Run `yarn dev`
+- Navigate to http://localhost:3000/ for the local next.js app
+- Read the steps below to connect your POE account
 
+(If you are on an operating system that is having trouble with Sharp https://github.com/zach-herridge/poestack-next/issues/11 might help)
 
 ### Running Locally (Docker)
 
