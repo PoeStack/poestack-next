@@ -7,6 +7,7 @@ import {
 } from "../../../__generated__/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
+import { StyledTooltip } from "../../../components/styled-tooltip";
 
 export default function Characters() {
   const { league } = usePoeLeagueCtx();
@@ -56,6 +57,8 @@ export default function Characters() {
     return <>loading...</>;
   }
 
+  console.log(passiveTreeData);
+
   const keyStones = aggregateData.values
     .map((e) => ({
       ...e,
@@ -98,7 +101,12 @@ function AtlasNodePopularityTable({ nodes }) {
           {nodes.map((node) => (
             <>
               <tr>
-                <td>{node.node.name}</td>
+                <StyledTooltip
+                  texts={node.node.stats}
+                  placement={"bottom-start"}
+                >
+                  <td>{node.node.name}</td>
+                </StyledTooltip>
                 <td>{+((node.value / total) * 100).toFixed(2)}%</td>
               </tr>
             </>

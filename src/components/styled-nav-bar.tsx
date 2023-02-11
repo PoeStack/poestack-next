@@ -39,6 +39,18 @@ export default function StyledNavBar() {
           </Link>
           <Link
             className="font-semibold hover:text-skin-accent"
+            href={`/poe/atlas?league=${league}`}
+          >
+            <StyledTooltip
+              texts={["Data on Atlas passive trees"]}
+              placement="bottom"
+              className="mt-2"
+            >
+              <h3>Atlas</h3>
+            </StyledTooltip>
+          </Link>
+          <Link
+            className="font-semibold hover:text-skin-accent"
             href={`/poe/characters?league=${league}`}
           >
             <StyledTooltip
