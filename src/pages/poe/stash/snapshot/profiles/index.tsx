@@ -5,7 +5,7 @@ import StyledCard from "../../../../../components/styled-card";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 import { useState, useEffect } from "react";
-import { StashSnapshotProfile } from "../../../../../__generated__/resolvers-types";
+import { StashSnapshotProfile } from "../../../../../__generated__/graphql";
 import Link from "next/link";
 import { StyledTooltip } from "../../../../../components/styled-tooltip";
 

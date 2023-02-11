@@ -14,7 +14,7 @@ export default function ItemGroupTagSelect({
   const [allTags, setAllTags] = useState<string[]>([]);
   useQuery(
     gql`
-      query Query($league: String!) {
+      query GetAllItemGroupTags($league: String!) {
         itemGroupTags(league: $league)
       }
     `,

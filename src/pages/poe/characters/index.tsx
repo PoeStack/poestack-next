@@ -9,14 +9,14 @@ import StyledCard from "../../../components/styled-card";
 import {
   CharacterSnapshotSearchResponse,
   CharacterSnapshotSearchAggregationsResponse,
-} from "../../../__generated__/resolvers-types";
+} from "../../../__generated__/graphql";
 import { usePoeLeagueCtx } from "../../../contexts/league-context";
 import CharacterAggregationDisplay from "../../../components/character-aggregation-display";
 import StyledInput from "../../../components/styled-input";
 import {
   CharacterSnapshotSearch,
   CharacterSnapshotUniqueAggregationKeysResponse,
-} from "../../../__generated__/resolvers-types";
+} from "../../../__generated__/graphql";
 import {
   StyledSkillImageTooltip,
   StyledTooltip,

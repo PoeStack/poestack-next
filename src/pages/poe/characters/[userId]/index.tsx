@@ -1,7 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import Link from "next/link";
-import { PoeCharacter } from "../../../../__generated__/resolvers-types";
+import { PoeCharacter } from "../../../../__generated__/graphql";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "../../../../components/styled-card";
@@ -16,7 +16,7 @@ export default function Characters() {
 
   const { refetch: refetchPoeCharacters } = useQuery(
     gql`
-      query PoeCharacters($userId: String!) {
+      query CharactersPoeCharacters($userId: String!) {
         poeCharacters(userId: $userId) {
           id
           userId
@@ -38,7 +38,7 @@ export default function Characters() {
 
   const [takeSnapshot] = useMutation(
     gql`
-      mutation TakeCharacterSnapshot {
+      mutation RefreshPoeCharacters {
         refreshPoeCharacters
       }
     `,

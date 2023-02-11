@@ -12,7 +12,7 @@ import {
   PoeStashTab,
   StashSnapshotProfile,
   StashSnapshotProfileInput,
-} from "../../../../../../../__generated__/resolvers-types";
+} from "../../../../../../../__generated__/graphql";
 
 import { nanoid } from "nanoid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
@@ -42,7 +42,7 @@ export default function ViewProfile() {
 
   useQuery(
     gql`
-      query StashSnapshotProfiles {
+      query StashSnapshotProfilesViewProfile {
         stashSnapshotProfiles {
           id
           league

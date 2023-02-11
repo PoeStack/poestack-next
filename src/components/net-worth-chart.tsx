@@ -3,7 +3,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import moment from "moment";
 import "moment-timezone";
-import { StashSnapshot } from "../__generated__/resolvers-types";
+import { StashSnapshot } from "../__generated__/graphql";
 
 export default function NetWorthChart({
   snapshots,

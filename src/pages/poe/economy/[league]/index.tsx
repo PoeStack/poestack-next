@@ -10,12 +10,12 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { GeneralUtils } from "../../../../utils/general-util";
 import _ from "lodash";
-import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/resolvers-types";
+import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/graphql";
 import ItemGroupTagSelect from "../../../../components/item-group-tag-select";
 import {
   ItemGroupValueTimeseries,
   StashSnapshotItemGroupSummarySearchInput,
-} from "../../../../__generated__/resolvers-types";
+} from "../../../../__generated__/graphql";
 import {
   POE_LEAGUES,
   usePoeLeagueCtx,
@@ -51,7 +51,7 @@ export default function Economy() {
   >([]);
   const { refetch: refetchHistograms } = useQuery(
     gql`
-      query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
+      query EconSearch1($search: ItemGroupValueTimeseriesSearchInput!) {
         itemGroupValueTimeseriesSearch(search: $search) {
           results {
             series {

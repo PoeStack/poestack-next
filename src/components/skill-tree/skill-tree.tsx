@@ -1,7 +1,7 @@
 import {
   PassiveTreeNode,
   PassiveTreeResponse,
-} from "../../__generated__/resolvers-types";
+} from "../../__generated__/graphql";
 import { MemoisedSkillTreeConnection } from "./skill-tree-connection";
 import { MemoisedSkillTreeNode } from "./skill-tree-node";
 

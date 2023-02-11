@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { ItemGroupValueTimeseries } from "../../../../../__generated__/resolvers-types";
+import { ItemGroupValueTimeseries } from "../../../../../__generated__/graphql";
 import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";

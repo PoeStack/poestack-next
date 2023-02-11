@@ -2,7 +2,7 @@ import React from "react";
 import { usePoeStackAuth } from "../contexts/user-context";
 import Link from "next/link";
 import StyledDropdown from "./styled-dropdown";
-import { CharacterSnapshotItem } from "../__generated__/resolvers-types";
+import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image, { ImageLoaderProps } from "next/image";
 import ItemMouseOver from "./item-mouseover";
 import { myLoader } from "../utils/general-util";

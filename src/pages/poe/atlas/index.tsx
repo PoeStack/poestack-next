@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   GenericAggregation,
   PassiveTreeResponse,
-} from "../../../__generated__/resolvers-types";
+} from "../../../__generated__/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
 

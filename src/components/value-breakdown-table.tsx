@@ -6,7 +6,7 @@ import CurrencyValueDisplay from "./currency-value-display";
 import {
   StashSnapshot,
   StashSnapshotItemGroupSummarySearchAggregationResponse,
-} from "../__generated__/resolvers-types";
+} from "../__generated__/graphql";
 
 export default function ValueBreakdownTable({
   snapshot,

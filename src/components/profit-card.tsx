@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StyledCard from "./styled-card";
-import { StashSnapshot } from "../__generated__/resolvers-types";
+import { StashSnapshot } from "../__generated__/graphql";
 import StyledSelect2 from "./styled-select-2";
 import { useEffect } from "react";
 import CurrencyValueDisplay from "./currency-value-display";

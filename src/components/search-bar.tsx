@@ -5,7 +5,7 @@ import { GeneralUtils } from "../utils/general-util";
 import Link from "next/link";
 import { usePoeLeagueCtx, POE_LEAGUES } from "../contexts/league-context";
 import StyledSelect2 from "./styled-select-2";
-import { GlobalSearchResponse } from "../__generated__/resolvers-types";
+import { GlobalSearchResponse } from "../__generated__/graphql";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);

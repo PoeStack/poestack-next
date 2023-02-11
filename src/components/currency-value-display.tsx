@@ -24,7 +24,11 @@ export default function CurrencyValueDisplay({
   } | null>(null);
   useQuery(
     gql`
-      query Query($key: String!, $key2: String!, $league: String!) {
+      query CurrenyValuePullDivAndEx(
+        $key: String!
+        $key2: String!
+        $league: String!
+      ) {
         div: itemGroupValueChaos(key: $key, league: $league)
         ex: itemGroupValueChaos(key: $key2, league: $league)
       }

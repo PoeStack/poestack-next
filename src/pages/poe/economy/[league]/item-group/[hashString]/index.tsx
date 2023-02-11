@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 import "moment-timezone";
 import { useEffect, useState } from "react";
-import { ItemGroupValueTimeseries } from "../../../../../../__generated__/resolvers-types";
+import { ItemGroupValueTimeseries } from "../../../../../../__generated__/graphql";
 import { GeneralUtils } from "../../../../../../utils/general-util";
 import StyledCard from "../../../../../../components/styled-card";
 import HighchartsReact from "highcharts-react-official";
@@ -25,7 +25,9 @@ export default function EconomyOne() {
     useState<ItemGroupValueTimeseries | null>(null);
   useQuery(
     gql`
-      query Entries($search: ItemGroupValueTimeseriesSearchInput!) {
+      query EconOneItemGroupSearch(
+        $search: ItemGroupValueTimeseriesSearchInput!
+      ) {
         itemGroupValueTimeseriesSearch(search: $search) {
           results {
             series {

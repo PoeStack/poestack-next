@@ -1,6 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { createContext, useContext, useEffect, useState } from "react";
-import { UserProfile } from "../__generated__/resolvers-types";
+import { UserProfile } from "../__generated__/graphql";
 
 const initalContext: {
   jwt: string | null;

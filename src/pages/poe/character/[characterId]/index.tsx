@@ -6,7 +6,7 @@ import {
   CharacterSnapshot,
   CharacterSnapshotRecord,
   PassiveTreeResponse,
-} from "../../../../__generated__/resolvers-types";
+} from "../../../../__generated__/graphql";
 import StyledCard from "../../../../components/styled-card";
 import EquipmentDisplay from "../../../../components/equipment-display";
 import SecondaryEquipmentDisplay from "../../../../components/secondary-equipment-display";
@@ -19,7 +19,7 @@ import Head from "next/head";
 import client from "../../../../poe-stack-apollo-client";
 
 const snapshotQuery = gql`
-  query CharacterSnapshotsSearch($snapshotId: String!) {
+  query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {
     characterSnapshot(snapshotId: $snapshotId) {
       id
       characterId
@@ -191,7 +191,7 @@ export default function Character({ characterSnapshot }) {
 
   const [takeSnapshot] = useMutation(
     gql`
-      mutation TakeCharacterSnapshot($characterId: String!) {
+      mutation CharacterTakeCharacterSnapshot($characterId: String!) {
         takeCharacterSnapshot(characterId: $characterId)
       }
     `,
