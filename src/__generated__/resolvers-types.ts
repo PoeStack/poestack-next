@@ -140,6 +140,7 @@ export type CharacterSnapshotSearchResponseEntry = {
   life?: Maybe<Scalars['Float']>;
   mainSkillKey?: Maybe<Scalars['String']>;
   name: Scalars['String'];
+  snapshotId?: Maybe<Scalars['String']>;
 };
 
 export type CharacterSnapshotUniqueAggregationKeysResponse = {
@@ -360,6 +361,8 @@ export type PoeStashTab = {
 
 export type Query = {
   __typename?: 'Query';
+  atlasPassiveTreeSnapshotPopularityAggregation: GenericAggregation;
+  atlasTree: PassiveTreeResponse;
   characterSnapshot: CharacterSnapshot;
   characterSnapshotRecords: Array<CharacterSnapshotRecord>;
   characterSnapshotsSearch: CharacterSnapshotSearchResponse;
@@ -379,6 +382,16 @@ export type Query = {
   stashSnapshotProfiles: Array<StashSnapshotProfile>;
   stashSnapshots: Array<StashSnapshot>;
   stashTabs: Array<PoeStashTab>;
+};
+
+
+export type QueryAtlasPassiveTreeSnapshotPopularityAggregationArgs = {
+  league: Scalars['String'];
+};
+
+
+export type QueryAtlasTreeArgs = {
+  passiveTreeVersion: Scalars['String'];
 };
 
 
@@ -939,6 +952,7 @@ export type CharacterSnapshotSearchResponseEntryResolvers<ContextType = any, Par
   life?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   mainSkillKey?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  snapshotId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1113,6 +1127,8 @@ export type PoeStashTabResolvers<ContextType = any, ParentType extends Resolvers
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+  atlasPassiveTreeSnapshotPopularityAggregation?: Resolver<ResolversTypes['GenericAggregation'], ParentType, ContextType, RequireFields<QueryAtlasPassiveTreeSnapshotPopularityAggregationArgs, 'league'>>;
+  atlasTree?: Resolver<ResolversTypes['PassiveTreeResponse'], ParentType, ContextType, RequireFields<QueryAtlasTreeArgs, 'passiveTreeVersion'>>;
   characterSnapshot?: Resolver<ResolversTypes['CharacterSnapshot'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotArgs, 'snapshotId'>>;
   characterSnapshotRecords?: Resolver<Array<ResolversTypes['CharacterSnapshotRecord']>, ParentType, ContextType, RequireFields<QueryCharacterSnapshotRecordsArgs, 'characterId'>>;
   characterSnapshotsSearch?: Resolver<ResolversTypes['CharacterSnapshotSearchResponse'], ParentType, ContextType, RequireFields<QueryCharacterSnapshotsSearchArgs, 'search'>>;

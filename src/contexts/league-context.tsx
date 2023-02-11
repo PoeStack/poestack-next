@@ -11,6 +11,7 @@ const initalContext: {
 
 export const POE_LEAGUES = [
   "Sanctum",
+  "Ziz Sanctum HCSSF Class Gauntlet",
   "Hardcore Sanctum",
   "Standard",
   "Hardcore",
@@ -22,7 +23,10 @@ export const PoeStackLeagueContext = createContext(initalContext);
 
 export function PoeStackLeagueProvider({ children }) {
   const router = useRouter();
-  const [league, setLeague] = useState(POE_LEAGUES[0]);
+
+  const [league, setLeague] = useState(
+    router.query.league?.toString() ?? POE_LEAGUES[0]
+  );
 
   const value = {
     league: league,
@@ -30,14 +34,14 @@ export function PoeStackLeagueProvider({ children }) {
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      setLeague(localStorage.getItem("selected-league") ?? POE_LEAGUES[0]);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (league) {
-      localStorage.setItem("selected-league", league);
+    console.log("league update", league, router.query.league);
+    if (router.query.league && league !== router.query.league) {
+      router.replace({
+        query: {
+          ...router.query,
+          league: league,
+        },
+      });
     }
   }, [league, router]);
 

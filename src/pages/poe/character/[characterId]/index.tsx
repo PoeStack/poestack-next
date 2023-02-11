@@ -59,7 +59,6 @@ const snapshotQuery = gql`
         requirements
         sockets
         frameType
-
         description
         icon
         w

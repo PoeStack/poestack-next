@@ -27,6 +27,7 @@ const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
     characterSnapshotsSearch(search: $search) {
       snapshots {
+        snapshotId
         characterId
         name
         level
@@ -84,7 +85,7 @@ export default function Characters({
 }) {
   const router = useRouter();
 
-  const { league } = usePoeLeagueCtx();
+  const { league, setLeague } = usePoeLeagueCtx();
 
   const [search, setSearch] = useState<CharacterSnapshotSearch>({
     league: league,
@@ -255,7 +256,7 @@ export default function Characters({
                   <tr className="hover:bg-skin-primary border-y-2 border-slate-700/50">
                     <td>
                       <Link
-                        href={`/poe/character/${snapshot.characterId}`}
+                        href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
                         className="hover:text-skin-accent hover:underline pl-3"
                       >
                         {snapshot?.name}
@@ -324,7 +325,7 @@ export default function Characters({
 export async function getServerSideProps({ req, res, query }) {
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=600, stale-while-revalidate=1200"
+    "public, s-maxage=10, stale-while-revalidate=59"
   );
 
   const resp = {
