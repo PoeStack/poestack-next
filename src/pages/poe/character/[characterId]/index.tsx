@@ -17,6 +17,7 @@ import StyledSelect2 from "../../../../components/styled-select-2";
 import CharacterLevelChart from "../../../../components/character-level-chart";
 import Head from "next/head";
 import client from "../../../../poe-stack-apollo-client";
+import { GeneralUtils } from "../../../../utils/general-util";
 
 const snapshotQuery = gql`
   query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {
@@ -28,6 +29,7 @@ const snapshotQuery = gql`
       league
       experience
       level
+      mainSkillKey
       current
       poeCharacter {
         id
@@ -203,10 +205,6 @@ export default function Character({ characterSnapshot }) {
     }
   );
 
-  const mainSkill = currentSnapshot?.characterSnapshotItems?.find(
-    (e) => e.mainSkill === true
-  )?.typeLine;
-
   const embeddedDesc = `Life ${currentSnapshot?.characterSnapshotPobStats?.life} ES ${currentSnapshot?.characterSnapshotPobStats?.energyShield}
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
   DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
@@ -219,7 +217,7 @@ export default function Character({ characterSnapshot }) {
           <meta property="og:site_name" content="PoeStack" />
           <meta
             property="og:title"
-            content={`Level ${currentSnapshot?.level} ${mainSkill} ${currentSnapshot?.characterClass}`}
+            content={`Level ${currentSnapshot?.level} ${currentSnapshot?.mainSkillKey} ${currentSnapshot?.characterClass}`}
           />
           <meta property="og:description" content={embeddedDesc} />
           <meta
@@ -320,11 +318,7 @@ export default function Character({ characterSnapshot }) {
               </div>
               <div>
                 Main Skill{" "}
-                {
-                  currentSnapshot?.characterSnapshotItems?.find(
-                    (e) => e.mainSkill === true
-                  )?.typeLine
-                }
+                {GeneralUtils.capitalize(currentSnapshot?.mainSkillKey)}
               </div>
               <div>
                 DPS{" "}

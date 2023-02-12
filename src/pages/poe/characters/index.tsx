@@ -336,7 +336,7 @@ export default function Characters({
 export async function getServerSideProps({ req, res, query }) {
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=10, stale-while-revalidate=59"
+    "no-store, s-maxage=60, stale-while-revalidate=800000"
   );
 
   const resp = {
