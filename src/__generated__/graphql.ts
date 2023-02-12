@@ -118,6 +118,7 @@ export type CharacterSnapshotSearch = {
   includedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
   includedMainSkills?: InputMaybe<Array<Scalars['String']>>;
   league: Scalars['String'];
+  timestampEndInclusive?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type CharacterSnapshotSearchAggregationsResponse = {

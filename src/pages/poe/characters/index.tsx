@@ -6,6 +6,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "../../../components/styled-card";
+import Datepicker from "tailwind-datepicker-react";
 import {
   CharacterSnapshotSearchResponse,
   CharacterSnapshotSearchAggregationsResponse,
@@ -22,6 +23,7 @@ import {
   StyledTooltip,
 } from "../../../components/styled-tooltip";
 import client from "../../../poe-stack-apollo-client";
+import StyledDatepicker from "../../../components/styled-datepicker";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -89,6 +91,7 @@ export default function Characters({
 
   const [search, setSearch] = useState<CharacterSnapshotSearch>({
     league: league,
+    timestampEndInclusive: null,
     includedKeyStoneNames: [],
     excludedKeyStoneNames: [],
     includedCharacterClasses: [],
@@ -167,6 +170,14 @@ export default function Characters({
                 setLocalSearchString(e);
               }}
               placeholder="Search Filters..."
+            />
+            <StyledDatepicker
+              onSelectionChange={(d) => {
+                setSearch({
+                  ...search,
+                  ...{ timestampEndInclusive: d.toISOString() },
+                });
+              }}
             />
           </StyledCard>
           <StyledCard title="Skills" className="h-[400px]">
@@ -339,6 +350,7 @@ export async function getServerSideProps({ req, res, query }) {
     variables: {
       search: {
         league: league ?? "Sanctum",
+        timestampEndInclusive: null,
         includedKeyStoneNames: [],
         excludedKeyStoneNames: [],
         includedCharacterClasses: [],
