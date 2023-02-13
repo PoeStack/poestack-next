@@ -54,14 +54,19 @@ export type CharacterSnapshotItem = {
   __typename?: 'CharacterSnapshotItem';
   baseType?: Maybe<Scalars['String']>;
   corrupted?: Maybe<Scalars['Boolean']>;
+  craftedMods?: Maybe<Array<Scalars['String']>>;
   description?: Maybe<Scalars['String']>;
-  explicitMods: Array<Scalars['String']>;
+  enchantMods?: Maybe<Array<Scalars['String']>>;
+  explicitMods?: Maybe<Array<Scalars['String']>>;
   flavourText: Array<Scalars['String']>;
+  fracturedMods?: Maybe<Array<Scalars['String']>>;
   frameType: Scalars['Float'];
   gemColor?: Maybe<Scalars['String']>;
   h: Scalars['Float'];
   icon: Scalars['String'];
   ilvl: Scalars['Float'];
+  implicitMods?: Maybe<Array<Scalars['String']>>;
+  influences?: Maybe<Scalars['JSON']>;
   inventoryId?: Maybe<Scalars['String']>;
   itemGroupHashString?: Maybe<Scalars['String']>;
   itemId?: Maybe<Scalars['String']>;
@@ -74,7 +79,7 @@ export type CharacterSnapshotItem = {
   sockets: Array<Scalars['JSON']>;
   support?: Maybe<Scalars['Boolean']>;
   typeLine?: Maybe<Scalars['String']>;
-  utilityMods: Array<Scalars['String']>;
+  utilityMods?: Maybe<Array<Scalars['String']>>;
   w: Scalars['Float'];
 };
 
@@ -770,7 +775,7 @@ export type SingleCharacterCharacterSnapshotsSearchQueryVariables = Exact<{
 }>;
 
 
-export type SingleCharacterCharacterSnapshotsSearchQuery = { __typename?: 'Query', characterSnapshot: { __typename?: 'CharacterSnapshot', id: string, characterId: string, timestamp: string, characterClass: string, league: string, experience: any, level: number, mainSkillKey?: string | null, current: boolean, poeCharacter?: { __typename?: 'PoeCharacter', id: string, userId: string, name: string, createdAtTimestamp: any, lastSnapshotTimestamp?: any | null } | null, characterPassivesSnapshot?: { __typename?: 'CharacterPassivesSnapshot', banditChoice?: string | null, pantheonMajor?: string | null, pantheonMinor?: string | null, hashes: Array<number>, hashesEx: Array<number>, jewelData: any, masteryEffects: any } | null, characterSnapshotItems?: Array<{ __typename?: 'CharacterSnapshotItem', itemId?: string | null, inventoryId?: string | null, socketedInId?: string | null, baseType?: string | null, typeLine?: string | null, name?: string | null, ilvl: number, explicitMods: Array<string>, utilityMods: Array<string>, properties: Array<any>, requirements: Array<any>, sockets: Array<any>, frameType: number, description?: string | null, icon: string, w: number, h: number, corrupted?: boolean | null, support?: boolean | null, socket?: number | null, gemColor?: string | null, mainSkill?: boolean | null, itemGroupHashString?: string | null }> | null, characterSnapshotPobStats?: { __typename?: 'CharacterSnapshotPobStats', accuracy?: number | null, armour?: number | null, blockChance?: number | null, spellBlockChance?: number | null, chaosResist?: number | null, coldResist?: number | null, dex?: number | null, energyShield?: number | null, fireResist?: number | null, int?: number | null, life?: number | null, lightningResist?: number | null, mana?: number | null, str?: number | null, evasion?: number | null, supression?: number | null, totalDpsWithIgnite?: number | null, pobCode?: string | null } | null } };
+export type SingleCharacterCharacterSnapshotsSearchQuery = { __typename?: 'Query', characterSnapshot: { __typename?: 'CharacterSnapshot', id: string, characterId: string, timestamp: string, characterClass: string, league: string, experience: any, level: number, mainSkillKey?: string | null, current: boolean, poeCharacter?: { __typename?: 'PoeCharacter', id: string, userId: string, name: string, createdAtTimestamp: any, lastSnapshotTimestamp?: any | null } | null, characterPassivesSnapshot?: { __typename?: 'CharacterPassivesSnapshot', banditChoice?: string | null, pantheonMajor?: string | null, pantheonMinor?: string | null, hashes: Array<number>, hashesEx: Array<number>, jewelData: any, masteryEffects: any } | null, characterSnapshotItems?: Array<{ __typename?: 'CharacterSnapshotItem', itemId?: string | null, inventoryId?: string | null, socketedInId?: string | null, baseType?: string | null, typeLine?: string | null, name?: string | null, ilvl: number, explicitMods?: Array<string> | null, utilityMods?: Array<string> | null, properties: Array<any>, requirements: Array<any>, sockets: Array<any>, frameType: number, description?: string | null, icon: string, w: number, h: number, corrupted?: boolean | null, support?: boolean | null, socket?: number | null, gemColor?: string | null, mainSkill?: boolean | null, itemGroupHashString?: string | null }> | null, characterSnapshotPobStats?: { __typename?: 'CharacterSnapshotPobStats', accuracy?: number | null, armour?: number | null, blockChance?: number | null, spellBlockChance?: number | null, chaosResist?: number | null, coldResist?: number | null, dex?: number | null, energyShield?: number | null, fireResist?: number | null, int?: number | null, life?: number | null, lightningResist?: number | null, mana?: number | null, str?: number | null, evasion?: number | null, supression?: number | null, totalDpsWithIgnite?: number | null, pobCode?: string | null } | null } };
 
 export type CharacterSnapshotRecordsQueryVariables = Exact<{
   characterId: Scalars['String'];
