@@ -1,25 +1,25 @@
-import { useState, useEffect, Dispatch } from "react";
+import { useState, useEffect, Dispatch, useReducer } from "react";
 import { gql, useQuery } from "@apollo/client";
 import client from "../../../poe-stack-apollo-client";
-import { usePoeLeagueCtx } from "../../../contexts/league-context";
 import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
 import Image from "next/image";
-import CharacterAggregationDisplay from "../../../components/character-aggregation-display";
-import StyledCard from "../../../components/styled-card";
-import StyledDatepicker from "../../../components/styled-datepicker";
-import StyledInput from "../../../components/styled-input";
-import { GeneralUtils } from "../../../utils/general-util";
+import { usePoeLeagueCtx } from "@contexts/league-context";
+import CharacterAggregationDisplay from "@components/character-aggregation-display";
+import StyledCard from "@components/styled-card";
+import StyledDatepicker from "@components/styled-datepicker";
+import StyledInput from "@components/styled-input";
 import {
   StyledTooltip,
-  StyledSkillImageTooltip,
-} from "../../../components/styled-tooltip";
-import {
-  CharacterSnapshotSearch,
-  CharacterSnapshotSearchResponse,
-  CharacterSnapshotSearchAggregationsResponse,
-  GenericAggregation,
-} from "../../../__generated__/graphql";
+  StyledSkillImageTooltip } from "@components/styled-tooltip";
+import { GeneralUtils } from "@utils/general-util";
+import { 
+  CharacterSnapshotSearch, 
+  CharacterSnapshotSearchResponse, 
+  CharacterSnapshotSearchAggregationsResponse, 
+  GenericAggregation } from "@generated/graphql";
+
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";  
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -117,6 +117,56 @@ export default function Characters({
     reftechGeneralSearch();
   }, [search, reftechGeneralSearch, league]);
 
+  /*
+   * Track column sorting directions
+   */
+  const [columnsDirections, updateColumnsDirections] = useReducer(
+    (state: ColumnsSortingDirections, action: keyof ColumnsSortingDirections)=>{
+      const newState = {...defaultColumnDirections};
+      if(state[action] === "none") {
+        newState[action] = "ascending";
+      }
+      else if(state[action] === "ascending") {
+        newState[action] = "descending";
+      }
+      else if(state[action] === "descending") {
+        newState[action] = "none";
+      }
+      return newState;
+    },
+    defaultColumnDirections
+  );
+
+  /*
+   * Implement query sorting behaviors here
+   */
+  useEffect(() => {
+    if(columnsDirections.name === "ascending" || columnsDirections.name === "descending") {
+      // handle character name column ascending or descnding query change
+      console.log(`Sort name by ${columnsDirections.name}`);
+    }
+    else if(columnsDirections.level === "ascending" || columnsDirections.level === "descending") {
+      // handle character level column ascending or descnding query change
+      console.log(`Sort level by ${columnsDirections.level}`);
+    }
+    else if(columnsDirections.skill === "ascending" || columnsDirections.skill === "descending") {
+      // handle character skill column ascending or descnding query change
+      console.log(`Sort skill by ${columnsDirections.skill}`);
+    }
+    else if(columnsDirections.life === "ascending" || columnsDirections.life === "descending") {
+      // handle character life column ascending or descnding query change
+      console.log(`Sort life by ${columnsDirections.life}`);
+    }
+    else if(columnsDirections.es === "ascending" || columnsDirections.es === "descending") {
+      // handle character es column ascending or descnding query change
+      console.log(`Sort es by ${columnsDirections.es}`);
+    }
+    else {
+      // handle no column ascending or descnding query change
+      console.log("No sorting");
+    }
+  }, [columnsDirections]);
+
   if (!characters) {
     return <>Loading...</>;
   }
@@ -213,6 +263,14 @@ export default function Characters({
     });
   }
 
+  /**
+   * Change the sorting behavior of the characters table.
+   * @param column The name of the column to change sorting direction on.
+   */
+  function onCharactersSortChange(column: keyof ColumnsSortingDirections) {
+    updateColumnsDirections(column);
+  }
+
   /*
    * These models are used to create the individual
    * aggregation panels
@@ -276,7 +334,9 @@ export default function Characters({
           ))}
         </div>
 
-        <StyledCharactersSummaryTable characters={characters} />
+        <StyledCharactersSummaryTable characters={characters}
+          columnDirections={columnsDirections}
+          onSortChange={onCharactersSortChange}/>
       </div>
     </>
   );
@@ -291,6 +351,26 @@ export default function Characters({
  */
 type StyledCharactersSummaryTableProps = {
   characters: CharacterSnapshotSearchResponse;
+  columnDirections: ColumnsSortingDirections;
+  onSortChange: (column: keyof ColumnsSortingDirections)=>void;
+};
+
+type SortingDirections = "none"|"ascending"|"descending";
+
+type ColumnsSortingDirections = {
+  name: SortingDirections,
+  level: SortingDirections,
+  skill: SortingDirections,
+  life: SortingDirections,
+  es: SortingDirections
+};
+
+const defaultColumnDirections: ColumnsSortingDirections = {
+  name: "none",
+  level: "none",
+  skill: "none",
+  life: "none",
+  es: "none"
 };
 
 /**
@@ -298,18 +378,74 @@ type StyledCharactersSummaryTableProps = {
  */
 function StyledCharactersSummaryTable({
   characters,
+  columnDirections,
+  onSortChange
 }: StyledCharactersSummaryTableProps) {
+
+  function onColumnHeaderClick(column: keyof ColumnsSortingDirections) {
+    onSortChange(column);
+  }
+
+  function OrderIndicatorIcon({ direction }: { direction: SortingDirections }) {
+    return (
+      direction === "descending"?
+        <ChevronDownIcon
+          className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+          aria-hidden="true"
+        /> :
+        direction === "ascending"?
+          <ChevronUpIcon
+            className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+            aria-hidden="true"
+          /> :
+            <div
+              className="ml-2 -mr-1 h-5 w-5 text-violet-200"
+              aria-hidden="true">
+            </div>
+    )
+  }
+
   return (
     <StyledCard title="Characters" className="flex-1">
       <table>
         {/* Setup for adding click sort like PoeNinja */}
         <thead className="text-left">
           <tr>
-            <th className="pl-2">Name</th>
-            <th className="pl-2">Level</th>
-            <th className="pl-2">Skill</th>
-            <th className="pl-2">Life</th>
-            <th className="pl-2">Es</th>
+            <th className="pl-2">
+              <button className="flex flex-row"
+                onClick={(e)=>{onColumnHeaderClick("name")}}>
+                Name
+                <OrderIndicatorIcon direction={columnDirections.name}/>
+              </button>
+            </th>
+            <th className="pl-2">
+              <button className="flex flex-row" 
+                onClick={(e)=>{onColumnHeaderClick("level")}}>
+                Level
+                <OrderIndicatorIcon direction={columnDirections.level}/>
+              </button>
+            </th>
+            <th className="pl-2">
+              <button className="flex flex-row" 
+                onClick={(e)=>{onColumnHeaderClick("skill")}}>                
+                Skill
+                <OrderIndicatorIcon direction={columnDirections.skill}/>
+              </button>
+            </th>
+            <th className="pl-2">
+              <button className="flex flex-row" 
+                onClick={(e)=>{onColumnHeaderClick("life")}}> 
+                Life
+                <OrderIndicatorIcon direction={columnDirections.life}/>
+              </button>
+            </th>
+            <th className="pl-2">
+              <button className="flex flex-row" 
+                onClick={(e)=>{onColumnHeaderClick("es")}}>
+                Es
+                <OrderIndicatorIcon direction={columnDirections.es}/>
+              </button>
+            </th>
           </tr>
         </thead>
         <tbody className="">
