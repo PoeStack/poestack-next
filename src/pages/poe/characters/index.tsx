@@ -9,6 +9,7 @@ import CharacterAggregationDisplay from "../../../components/character-aggregati
 import StyledCard from "../../../components/styled-card";
 import StyledDatepicker from "../../../components/styled-datepicker";
 import StyledInput from "../../../components/styled-input";
+import { GeneralUtils } from "../../../utils/general-util";
 import {
   StyledTooltip,
   StyledSkillImageTooltip,
@@ -31,6 +32,8 @@ const generalSearch = gql`
         characterClass
         energyShield
         life
+        snapshotId
+        twitchProfileName
       }
       hasMore
     }
@@ -324,11 +327,9 @@ function StyledCharactersSummaryTable({
                 </Link>
               </td>
               <td>
-                <ul className="flex flex-row space-x-3 justify-left">
-                  <li className="text-center list-none w-1/5">
-                    {snapshot.level}
-                  </li>
-                  <li className="list-none">
+                <ul className="flex flex-row space-x-2 justify-left items-center">
+                  <div className="text-center">{snapshot.level}</div>
+                  <div>
                     <StyledTooltip
                       texts={[`${snapshot.characterClass}`]}
                       placement="right"
@@ -341,7 +342,30 @@ function StyledCharactersSummaryTable({
                         height={30}
                       />
                     </StyledTooltip>
-                  </li>
+                  </div>
+                  {snapshot.twitchProfileName ? (
+                    <>
+                      <Link
+                        href={`https://twitch.tv/${snapshot.twitchProfileName}`}
+                      >
+                        <StyledTooltip
+                          texts={[
+                            GeneralUtils.capitalize(
+                              snapshot.twitchProfileName
+                            )!,
+                          ]}
+                          placement={"right"}
+                        >
+                          <Image
+                            src={`/assets/common/twitch_logo.png`}
+                            alt={"twitch"}
+                            width={39}
+                            height={39}
+                          />
+                        </StyledTooltip>
+                      </Link>
+                    </>
+                  ) : null}
                 </ul>
               </td>
 
