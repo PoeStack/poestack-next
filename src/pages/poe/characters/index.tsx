@@ -11,15 +11,17 @@ import StyledDatepicker from "@components/styled-datepicker";
 import StyledInput from "@components/styled-input";
 import {
   StyledTooltip,
-  StyledSkillImageTooltip } from "@components/styled-tooltip";
+  StyledSkillImageTooltip,
+} from "@components/styled-tooltip";
 import { GeneralUtils } from "@utils/general-util";
-import { 
-  CharacterSnapshotSearch, 
-  CharacterSnapshotSearchResponse, 
-  CharacterSnapshotSearchAggregationsResponse, 
-  GenericAggregation } from "@generated/graphql";
+import {
+  CharacterSnapshotSearch,
+  CharacterSnapshotSearchResponse,
+  CharacterSnapshotSearchAggregationsResponse,
+  GenericAggregation,
+} from "@generated/graphql";
 
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";  
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -86,6 +88,10 @@ export default function Characters({
     excludedMainSkills: [],
     includedItemKeys: [],
     excludedItemKeys: [],
+    skip: 0,
+    limit: 100,
+    sortKey: "level",
+    sortDirection: "desc",
   });
 
   const [localSearchString, setLocalSearchString] = useState<string>("");
@@ -121,16 +127,17 @@ export default function Characters({
    * Track column sorting directions
    */
   const [columnsDirections, updateColumnsDirections] = useReducer(
-    (state: ColumnsSortingDirections, action: keyof ColumnsSortingDirections)=>{
-      const newState = {...defaultColumnDirections};
-      if(state[action] === "none") {
-        newState[action] = "ascending";
-      }
-      else if(state[action] === "ascending") {
-        newState[action] = "descending";
-      }
-      else if(state[action] === "descending") {
+    (
+      state: ColumnsSortingDirections,
+      action: keyof ColumnsSortingDirections
+    ) => {
+      const newState = { ...defaultColumnDirections };
+      if (state[action] === "none") {
+        newState[action] = "desc";
+      } else if (state[action] === "asc") {
         newState[action] = "none";
+      } else if (state[action] === "desc") {
+        newState[action] = "asc";
       }
       return newState;
     },
@@ -141,30 +148,15 @@ export default function Characters({
    * Implement query sorting behaviors here
    */
   useEffect(() => {
-    if(columnsDirections.name === "ascending" || columnsDirections.name === "descending") {
-      // handle character name column ascending or descnding query change
-      console.log(`Sort name by ${columnsDirections.name}`);
-    }
-    else if(columnsDirections.level === "ascending" || columnsDirections.level === "descending") {
-      // handle character level column ascending or descnding query change
-      console.log(`Sort level by ${columnsDirections.level}`);
-    }
-    else if(columnsDirections.skill === "ascending" || columnsDirections.skill === "descending") {
-      // handle character skill column ascending or descnding query change
-      console.log(`Sort skill by ${columnsDirections.skill}`);
-    }
-    else if(columnsDirections.life === "ascending" || columnsDirections.life === "descending") {
-      // handle character life column ascending or descnding query change
-      console.log(`Sort life by ${columnsDirections.life}`);
-    }
-    else if(columnsDirections.es === "ascending" || columnsDirections.es === "descending") {
-      // handle character es column ascending or descnding query change
-      console.log(`Sort es by ${columnsDirections.es}`);
-    }
-    else {
-      // handle no column ascending or descnding query change
-      console.log("No sorting");
-    }
+    const sortKey = Object.keys(columnsDirections).find(
+      (k) => columnsDirections[k] !== "none"
+    );
+    const sortDirection = sortKey ? columnsDirections[sortKey] : "desc";
+    setSearch((p) => ({
+      ...p,
+      sortKey: sortKey ?? "level",
+      sortDirection: sortDirection,
+    }));
   }, [columnsDirections]);
 
   if (!characters) {
@@ -334,9 +326,11 @@ export default function Characters({
           ))}
         </div>
 
-        <StyledCharactersSummaryTable characters={characters}
+        <StyledCharactersSummaryTable
+          characters={characters}
           columnDirections={columnsDirections}
-          onSortChange={onCharactersSortChange}/>
+          onSortChange={onCharactersSortChange}
+        />
       </div>
     </>
   );
@@ -352,25 +346,25 @@ export default function Characters({
 type StyledCharactersSummaryTableProps = {
   characters: CharacterSnapshotSearchResponse;
   columnDirections: ColumnsSortingDirections;
-  onSortChange: (column: keyof ColumnsSortingDirections)=>void;
+  onSortChange: (column: keyof ColumnsSortingDirections) => void;
 };
 
-type SortingDirections = "none"|"ascending"|"descending";
+type SortingDirections = "none" | "asc" | "desc";
 
 type ColumnsSortingDirections = {
-  name: SortingDirections,
-  level: SortingDirections,
-  skill: SortingDirections,
-  life: SortingDirections,
-  es: SortingDirections
+  name: SortingDirections;
+  level: SortingDirections;
+  mainSkillKey: SortingDirections;
+  life: SortingDirections;
+  energyShield: SortingDirections;
 };
 
 const defaultColumnDirections: ColumnsSortingDirections = {
   name: "none",
   level: "none",
-  skill: "none",
+  mainSkillKey: "none",
   life: "none",
-  es: "none"
+  energyShield: "none",
 };
 
 /**
@@ -379,30 +373,29 @@ const defaultColumnDirections: ColumnsSortingDirections = {
 function StyledCharactersSummaryTable({
   characters,
   columnDirections,
-  onSortChange
+  onSortChange,
 }: StyledCharactersSummaryTableProps) {
-
   function onColumnHeaderClick(column: keyof ColumnsSortingDirections) {
     onSortChange(column);
   }
 
   function OrderIndicatorIcon({ direction }: { direction: SortingDirections }) {
-    return (
-      direction === "descending"?
-        <ChevronDownIcon
-          className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
-          aria-hidden="true"
-        /> :
-        direction === "ascending"?
-          <ChevronUpIcon
-            className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
-            aria-hidden="true"
-          /> :
-            <div
-              className="ml-2 -mr-1 h-5 w-5 text-violet-200"
-              aria-hidden="true">
-            </div>
-    )
+    return direction === "desc" ? (
+      <ChevronDownIcon
+        className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+        aria-hidden="true"
+      />
+    ) : direction === "asc" ? (
+      <ChevronUpIcon
+        className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+        aria-hidden="true"
+      />
+    ) : (
+      <div
+        className="ml-2 -mr-1 h-5 w-5 text-violet-200"
+        aria-hidden="true"
+      ></div>
+    );
   }
 
   return (
@@ -412,38 +405,58 @@ function StyledCharactersSummaryTable({
         <thead className="text-left">
           <tr>
             <th className="pl-2">
-              <button className="flex flex-row"
-                onClick={(e)=>{onColumnHeaderClick("name")}}>
+              <button
+                className="flex flex-row"
+                onClick={(e) => {
+                  onColumnHeaderClick("name");
+                }}
+              >
                 Name
-                <OrderIndicatorIcon direction={columnDirections.name}/>
+                <OrderIndicatorIcon direction={columnDirections.name} />
               </button>
             </th>
             <th className="pl-2">
-              <button className="flex flex-row" 
-                onClick={(e)=>{onColumnHeaderClick("level")}}>
+              <button
+                className="flex flex-row"
+                onClick={(e) => {
+                  onColumnHeaderClick("level");
+                }}
+              >
                 Level
-                <OrderIndicatorIcon direction={columnDirections.level}/>
+                <OrderIndicatorIcon direction={columnDirections.level} />
               </button>
             </th>
             <th className="pl-2">
-              <button className="flex flex-row" 
-                onClick={(e)=>{onColumnHeaderClick("skill")}}>                
+              <button
+                className="flex flex-row"
+                onClick={(e) => {
+                  onColumnHeaderClick("mainSkillKey");
+                }}
+              >
                 Skill
-                <OrderIndicatorIcon direction={columnDirections.skill}/>
+                <OrderIndicatorIcon direction={columnDirections.mainSkillKey} />
               </button>
             </th>
             <th className="pl-2">
-              <button className="flex flex-row" 
-                onClick={(e)=>{onColumnHeaderClick("life")}}> 
+              <button
+                className="flex flex-row"
+                onClick={(e) => {
+                  onColumnHeaderClick("life");
+                }}
+              >
                 Life
-                <OrderIndicatorIcon direction={columnDirections.life}/>
+                <OrderIndicatorIcon direction={columnDirections.life} />
               </button>
             </th>
             <th className="pl-2">
-              <button className="flex flex-row" 
-                onClick={(e)=>{onColumnHeaderClick("es")}}>
+              <button
+                className="flex flex-row"
+                onClick={(e) => {
+                  onColumnHeaderClick("energyShield");
+                }}
+              >
                 Es
-                <OrderIndicatorIcon direction={columnDirections.es}/>
+                <OrderIndicatorIcon direction={columnDirections.energyShield} />
               </button>
             </th>
           </tr>
