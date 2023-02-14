@@ -13,7 +13,7 @@ export default function StyledCard({
     <>
       <div
         className={
-          "rounded shadow-lg bg-skin-tertiary-light flex flex-col p-3 " +
+          "rounded shadow-lg bg-skin-third-light flex flex-col p-3 " +
           (className ? className : "")
         }
       >

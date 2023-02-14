@@ -22,7 +22,7 @@ export default function StyledSelect2({
         }}
       >
         <div className="relative mt-1">
-          <Listbox.Button className="relative bg-skin-primary  text-skin-base w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ">
+          <Listbox.Button className="relative bg-skin-first  text-skin-base w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ">
             <span className="block truncate">
               {mapToText(selected) ?? "..."}
             </span>
@@ -39,7 +39,7 @@ export default function StyledSelect2({
                   key={itemIndex}
                   className={({ active }) =>
                     `relative cursor-default select-none py-2 pl-2 pr-2 ${
-                      active ? "bg-skin-primary text-white" : "text-white"
+                      active ? "bg-skin-first text-skin-base" : "text-white"
                     }`
                   }
                   value={item}
@@ -47,7 +47,7 @@ export default function StyledSelect2({
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block text-white truncate ${
+                        className={`block text-skin-base truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >

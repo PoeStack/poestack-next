@@ -85,7 +85,7 @@ export const StyledTooltip: FC<Props> = ({
           {/* New Texts Approach */}
           {texts?.length > 1 ? (
             <div
-              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-first min-w-64 w-fit rounded shadow-sm ${className}`}
             >
               {/* <div>
                 <span>{texts[0]}</span>
@@ -110,7 +110,7 @@ export const StyledTooltip: FC<Props> = ({
             </div>
           ) : (
             <div
-              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-first min-w-64 w-fit rounded shadow-sm ${className}`}
             >
               <span>{texts}</span>
               {arrow ? (
@@ -186,7 +186,7 @@ export const StyledSkillImageTooltip: FC<Props> = ({
           {...attributes.popper}
         >
           <div
-            className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+            className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-first min-w-64 w-fit rounded shadow-sm ${className}`}
           >
             <div>
               <p className=" capitalize text-md text-left">{title}</p>

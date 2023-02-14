@@ -38,12 +38,12 @@ export default function StyledSelect({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-40 mt-1 max-h-60 w-full overflow-auto rounded-md bg-theme-color-2 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-40 mt-1 max-h-60 w-full overflow-auto rounded-md bg-skin-secondary py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {items.map((item, itemIndex) => (
                 <Listbox.Option
                   key={itemIndex}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                    `relative cursor-default select-none py-2 pl-2 pr-4 ${
                       active ? "bg-theme-color-3 text-white" : "text-white"
                     }`
                   }
@@ -52,7 +52,7 @@ export default function StyledSelect({
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block text-white truncate ${
+                        className={`block text-skin-base truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
