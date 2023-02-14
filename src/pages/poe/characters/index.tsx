@@ -1,4 +1,4 @@
-import { useState, useEffect, Dispatch, useReducer } from "react";
+import { useState, useEffect, Dispatch } from "react";
 import { gql, useQuery } from "@apollo/client";
 import client from "../../../poe-stack-apollo-client";
 import { Maybe } from "graphql/jsutils/Maybe";
@@ -13,6 +13,10 @@ import {
   StyledTooltip,
   StyledSkillImageTooltip,
 } from "@components/styled-tooltip";
+import SortableTableHeader, { 
+  SortableTableHeaderProps, 
+  SortableTableColumns } from "@components/sortable-table-header";
+import useSortableTable from "@hooks/use-sort-th-hook";
 import { GeneralUtils } from "@utils/general-util";
 import {
   CharacterSnapshotSearch,
@@ -20,8 +24,6 @@ import {
   CharacterSnapshotSearchAggregationsResponse,
   GenericAggregation,
 } from "@generated/graphql";
-
-import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/20/solid";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -68,6 +70,32 @@ const generalSearch = gql`
     }
   }
 `;
+
+/**
+ * Columns used by the characters table.
+ */
+const columns: SortableTableColumns = [
+  {
+    key: "name",
+    text: "Name"
+  },
+  {
+    key: "level",
+    text: "Level"
+  },
+  {
+    key: "mainSkillKey",
+    text: "Skill"
+  },
+  {
+    key: "life",
+    text: "Life"
+  },
+  {
+    key: "energyShield",
+    text: "Es"
+  }
+];
 
 /**
  * Characters page
@@ -123,41 +151,14 @@ export default function Characters({
     reftechGeneralSearch();
   }, [search, reftechGeneralSearch, league]);
 
-  /*
-   * Track column sorting directions
-   */
-  const [columnsDirections, updateColumnsDirections] = useReducer(
-    (
-      state: ColumnsSortingDirections,
-      action: keyof ColumnsSortingDirections
-    ) => {
-      const newState = { ...defaultColumnDirections };
-      if (state[action] === "none") {
-        newState[action] = "desc";
-      } else if (state[action] === "asc") {
-        newState[action] = "none";
-      } else if (state[action] === "desc") {
-        newState[action] = "asc";
-      }
-      return newState;
-    },
-    defaultColumnDirections
-  );
-
-  /*
-   * Implement query sorting behaviors here
-   */
-  useEffect(() => {
-    const sortKey = Object.keys(columnsDirections).find(
-      (k) => columnsDirections[k] !== "none"
-    );
-    const sortDirection = sortKey ? columnsDirections[sortKey] : "desc";
-    setSearch((p) => ({
-      ...p,
-      sortKey: sortKey ?? "level",
-      sortDirection: sortDirection,
-    }));
-  }, [columnsDirections]);
+  const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
+    (key, dir)=>{
+      setSearch((p) => ({
+        ...p,
+        sortKey: key ?? "level",
+        sortDirection: dir,
+      }));
+  });
 
   if (!characters) {
     return <>Loading...</>;
@@ -259,8 +260,9 @@ export default function Characters({
    * Change the sorting behavior of the characters table.
    * @param column The name of the column to change sorting direction on.
    */
-  function onCharactersSortChange(column: keyof ColumnsSortingDirections) {
-    updateColumnsDirections(column);
+  function onCharactersSortChange(column: string) {
+    updateSortMap(column);
+    //updateColumnsDirections(column);
   }
 
   /*
@@ -328,7 +330,8 @@ export default function Characters({
 
         <StyledCharactersSummaryTable
           characters={characters}
-          columnDirections={columnsDirections}
+          columns={columns}
+          columnDirections={columnsSortMap}
           onSortChange={onCharactersSortChange}
         />
       </div>
@@ -345,122 +348,25 @@ export default function Characters({
  */
 type StyledCharactersSummaryTableProps = {
   characters: CharacterSnapshotSearchResponse;
-  columnDirections: ColumnsSortingDirections;
-  onSortChange: (column: keyof ColumnsSortingDirections) => void;
-};
-
-type SortingDirections = "none" | "asc" | "desc";
-
-type ColumnsSortingDirections = {
-  name: SortingDirections;
-  level: SortingDirections;
-  mainSkillKey: SortingDirections;
-  life: SortingDirections;
-  energyShield: SortingDirections;
-};
-
-const defaultColumnDirections: ColumnsSortingDirections = {
-  name: "none",
-  level: "none",
-  mainSkillKey: "none",
-  life: "none",
-  energyShield: "none",
-};
+} & SortableTableHeaderProps;
 
 /**
  * Table of a brief summary of characters on the {@link Characters} page.
  */
 function StyledCharactersSummaryTable({
   characters,
+  columns,
   columnDirections,
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
-  function onColumnHeaderClick(column: keyof ColumnsSortingDirections) {
-    onSortChange(column);
-  }
-
-  function OrderIndicatorIcon({ direction }: { direction: SortingDirections }) {
-    return direction === "desc" ? (
-      <ChevronDownIcon
-        className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
-        aria-hidden="true"
-      />
-    ) : direction === "asc" ? (
-      <ChevronUpIcon
-        className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
-        aria-hidden="true"
-      />
-    ) : (
-      <div
-        className="ml-2 -mr-1 h-5 w-5 text-violet-200"
-        aria-hidden="true"
-      ></div>
-    );
-  }
-
   return (
     <StyledCard title="Characters" className="flex-1">
       <table>
-        {/* Setup for adding click sort like PoeNinja */}
-        <thead className="text-left">
-          <tr>
-            <th className="pl-2">
-              <button
-                className="flex flex-row"
-                onClick={(e) => {
-                  onColumnHeaderClick("name");
-                }}
-              >
-                Name
-                <OrderIndicatorIcon direction={columnDirections.name} />
-              </button>
-            </th>
-            <th className="pl-2">
-              <button
-                className="flex flex-row"
-                onClick={(e) => {
-                  onColumnHeaderClick("level");
-                }}
-              >
-                Level
-                <OrderIndicatorIcon direction={columnDirections.level} />
-              </button>
-            </th>
-            <th className="pl-2">
-              <button
-                className="flex flex-row"
-                onClick={(e) => {
-                  onColumnHeaderClick("mainSkillKey");
-                }}
-              >
-                Skill
-                <OrderIndicatorIcon direction={columnDirections.mainSkillKey} />
-              </button>
-            </th>
-            <th className="pl-2">
-              <button
-                className="flex flex-row"
-                onClick={(e) => {
-                  onColumnHeaderClick("life");
-                }}
-              >
-                Life
-                <OrderIndicatorIcon direction={columnDirections.life} />
-              </button>
-            </th>
-            <th className="pl-2">
-              <button
-                className="flex flex-row"
-                onClick={(e) => {
-                  onColumnHeaderClick("energyShield");
-                }}
-              >
-                Es
-                <OrderIndicatorIcon direction={columnDirections.energyShield} />
-              </button>
-            </th>
-          </tr>
-        </thead>
+        <SortableTableHeader 
+            columns={columns}
+            columnDirections={columnDirections}
+            onSortChange={onSortChange}
+        />
         <tbody className="">
           {characters.snapshots.map((snapshot) => (
             <tr

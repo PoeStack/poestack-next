@@ -1,15 +1,28 @@
-import { usePoeLeagueCtx } from "../../../contexts/league-context";
-import StyledCard from "../../../components/styled-card";
+import { usePoeLeagueCtx } from "@contexts/league-context";
+import StyledCard from "@components/styled-card";
 import { useState } from "react";
 import {
   GenericAggregation,
   PassiveTreeResponse,
-} from "../../../__generated__/graphql";
+} from "@generated/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
-import { StyledTooltip } from "../../../components/styled-tooltip";
+import { StyledTooltip } from "@components/styled-tooltip";
+import SortableTableHeader, { SortableTableColumns } from "@components/sortable-table-header";
+import useSortableTable from "@hooks/use-sort-th-hook";
 
-export default function Characters() {
+const columns: SortableTableColumns = [
+  {
+    key: "node",
+    text: "Node"  
+  },
+  {
+    key: "usage",
+    text: "Usage"
+  }
+];
+
+export default function Atlas() {
   const { league } = usePoeLeagueCtx();
 
   const [aggregateData, setAggregateData] = useState<GenericAggregation | null>(
@@ -53,6 +66,17 @@ export default function Characters() {
     }
   );
 
+  const [keystonesSortMap, updateKeystonesMap] = useSortableTable(columns, 
+    (key, dir)=>{
+      /*  update the queries in here somehow */
+    });
+
+  const [notablesSortMap, updateNotablesMap] = useSortableTable(columns, 
+    (key, dir)=>{
+      /*  update the queries in here somehow */
+    });
+  
+
   if (!passiveTreeData || !aggregateData) {
     return <>loading...</>;
   }
@@ -77,26 +101,35 @@ export default function Characters() {
     <>
       <div className="flex flex-col space-y-2">
         <StyledCard title={"Keystones"} className="flex-1">
-          <AtlasNodePopularityTable nodes={keyStones} />
+          <AtlasNodePopularityTable 
+            nodes={keyStones}
+            columns={columns} 
+            columnsSortMap={keystonesSortMap} 
+            updateSortMap={updateKeystonesMap} />
         </StyledCard>
         <StyledCard title={"Notables"} className="flex-1">
-          <AtlasNodePopularityTable nodes={notables} />
+          <AtlasNodePopularityTable 
+            nodes={notables}
+            columns={columns}
+            columnsSortMap={notablesSortMap} 
+            updateSortMap={updateNotablesMap} />
         </StyledCard>
       </div>
     </>
   );
 }
 
-function AtlasNodePopularityTable({ nodes }) {
+function AtlasNodePopularityTable({ nodes, columns, columnsSortMap, updateSortMap }) {
   const total = _.sumBy(nodes, (e: any) => e.value);
 
   return (
     <>
       <table>
-        <thead>
-          <th>Node</th>
-          <th>Usage</th>
-        </thead>
+        <SortableTableHeader 
+          columns={columns}
+          columnDirections={columnsSortMap}
+          onSortChange={updateSortMap}
+        />
         <tbody>
           {nodes.map((node) => (
             <>

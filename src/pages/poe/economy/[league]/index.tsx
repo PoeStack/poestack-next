@@ -1,26 +1,51 @@
 import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
-import HSparkline from "../../../../components/hsparkline";
-import StyledSelect from "../../../../components/styled-select";
-import Image from "next/image";
-import StyledCard from "../../../../components/styled-card";
-import StyledPaginate from "../../../../components/styled-paginate";
-import LeagueSelect from "../../../../components/league-select";
-import { useRouter } from "next/router";
+import HSparkline from "@components/hsparkline";
 import Link from "next/link";
-import { GeneralUtils } from "../../../../utils/general-util";
+import Image from "next/image";
+import StyledCard from "@components/styled-card";
+import StyledPaginate from "@components/styled-paginate";
+import { useRouter } from "next/router";
+import { GeneralUtils } from "@utils/general-util";
 import _ from "lodash";
-import { ItemGroupValueTimeseriesSearchInput } from "../../../../__generated__/graphql";
-import ItemGroupTagSelect from "../../../../components/item-group-tag-select";
+import { ItemGroupValueTimeseriesSearchInput } from "@generated/graphql";
+import ItemGroupTagSelect from "@components/item-group-tag-select";
 import {
   ItemGroupValueTimeseries,
   StashSnapshotItemGroupSummarySearchInput,
-} from "../../../../__generated__/graphql";
+} from "@generated/graphql";
 import {
   POE_LEAGUES,
   usePoeLeagueCtx,
-} from "../../../../contexts/league-context";
-import CurrencyValueDisplay from "../../../../components/currency-value-display";
+} from "@contexts/league-context";
+import CurrencyValueDisplay from "@components/currency-value-display";
+import useSortableTable from "@hooks/use-sort-th-hook";
+import SortableTableHeader, { SortableTableColumns } from "@components/sortable-table-header";
+
+const columns: SortableTableColumns = [
+  {
+    key: "",
+    text: "",
+    notSortable: true
+  },
+  {
+    key: "name",
+    text: "Name"
+  },
+  {
+    key: "history",
+    text: "History",
+    notSortable: true
+  },
+  {
+    key: "listing",
+    text: "Listings"
+  },
+  {
+    key: "value",
+    text: "Value"
+  },
+];
 
 export default function Economy() {
   const router = useRouter();
@@ -104,10 +129,15 @@ export default function Economy() {
     refetchHistograms();
   }, [refetchHistograms, timeseriesSearch]);
 
+  const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
+    (key, dir)=>{
+      /*  update the queries in here somehow */
+    });
+
   if (!itemValueTimeseries) {
     return "loading...";
   }
-
+  
   return (
     <>
       <div>
@@ -122,15 +152,11 @@ export default function Economy() {
 
           <div className="min-h-[20rem]">
             <table className="w-full">
-              <thead>
-                <tr className="w-full">
-                  <th></th>
-                  <th>Name</th>
-                  <th>History</th>
-                  <th>Listings</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
+              <SortableTableHeader 
+                columns={columns}
+                columnDirections={columnsSortMap}
+                onSortChange={updateSortMap}
+              />
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr key={index} className="hover:text-skin-accent">
