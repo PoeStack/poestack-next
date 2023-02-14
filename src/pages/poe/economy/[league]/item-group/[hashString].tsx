@@ -3,14 +3,14 @@ import { useRouter } from "next/router";
 
 import "moment-timezone";
 import { useEffect, useState } from "react";
-import { ItemGroupValueTimeseries } from "../../../../../../__generated__/graphql";
-import { GeneralUtils } from "../../../../../../utils/general-util";
-import StyledCard from "../../../../../../components/styled-card";
+import { ItemGroupValueTimeseries } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
+import StyledCard from "@components/styled-card";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-import StyledMultiSelect2 from "../../../../../../components/styled-multi-select-2";
+import StyledMultiSelect2 from "@components/styled-multi-select-2";
 import moment from "moment";
-import { usePoeLeagueCtx } from "../../../../../../contexts/league-context";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function EconomyOne() {
   const router = useRouter();

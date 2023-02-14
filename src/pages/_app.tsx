@@ -1,18 +1,18 @@
 import { ApolloProvider } from "@apollo/client";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import client from "../poe-stack-apollo-client";
+import client from "poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
 import {
   PoeStackAuthProvider,
   usePoeStackAuth,
 } from "../contexts/user-context";
-import GggAuthBtn from "../components/ggg-auth-btn";
+import GggAuthBtn from "@components/ggg-auth-btn";
 import Link from "next/link";
 import Script from "next/script";
-import StyledNavBar from "../components/styled-nav-bar";
+import StyledNavBar from "@components/styled-nav-bar";
 import Head from "next/head";
-import { PoeStackLeagueProvider } from "../contexts/league-context";
+import { PoeStackLeagueProvider } from "@contexts/league-context";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (

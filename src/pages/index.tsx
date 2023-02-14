@@ -1,5 +1,5 @@
 import Image from "next/image";
-import StyledCard from "../components/styled-card";
+import StyledCard from "@components/styled-card";
 export default function Home() {
   return (
     <>

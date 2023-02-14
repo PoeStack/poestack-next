@@ -1,7 +1,7 @@
-import StyledButton from "../../components/styled-button";
-import { localStorageJwtName } from "../../contexts/user-context";
-import StyledCard from "../../components/styled-card";
-import StyledInput from "../../components/styled-input";
+import StyledButton from "@components/styled-button";
+import { localStorageJwtName } from "@contexts/user-context";
+import StyledCard from "@components/styled-card";
+import StyledInput from "@components/styled-input";
 import { useState } from "react";
 export default function Development() {
   const [key, setKey] = useState(

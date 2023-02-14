@@ -2,9 +2,9 @@
 import { ImageResponse } from "@vercel/og";
 
 import { NextRequest } from "next/server";
-import client from "../../../../poe-stack-apollo-client";
+import client from "poe-stack-apollo-client";
 import { gql } from "@apollo/client";
-import { GeneralUtils } from "../../../../utils/general-util";
+import { GeneralUtils } from "@utils/general-util";
 
 export const config = {
   runtime: "experimental-edge",

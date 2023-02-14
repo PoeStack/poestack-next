@@ -6,18 +6,18 @@ import {
   CharacterSnapshot,
   CharacterSnapshotRecord,
   PassiveTreeResponse,
-} from "../../../../__generated__/graphql";
-import StyledCard from "../../../../components/styled-card";
-import EquipmentDisplay from "../../../../components/equipment-display";
-import SecondaryEquipmentDisplay from "../../../../components/secondary-equipment-display";
-import StyledButton from "../../../../components/styled-button";
-import CharacterStatsDisplay from "../../../../components/character-stats-display";
-import SkillTree from "../../../../components/skill-tree/skill-tree";
-import StyledSelect2 from "../../../../components/styled-select-2";
-import CharacterLevelChart from "../../../../components/character-level-chart";
+} from "@generated/graphql";
+import StyledCard from "@components/styled-card";
+import EquipmentDisplay from "@components/equipment-display";
+import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
+import StyledButton from "@components/styled-button";
+import CharacterStatsDisplay from "@components/character-stats-display";
+import SkillTree from "@components/skill-tree/skill-tree";
+import StyledSelect2 from "@components/styled-select-2";
+import CharacterLevelChart from "@components/character-level-chart";
 import Head from "next/head";
-import client from "../../../../poe-stack-apollo-client";
-import { GeneralUtils } from "../../../../utils/general-util";
+import client from "poe-stack-apollo-client";
+import { GeneralUtils } from "@utils/general-util";
 
 const snapshotQuery = gql`
   query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {

@@ -1,5 +1,5 @@
 import { ImageLoaderProps } from "next/dist/client/image";
-import { ItemGroup } from "../__generated__/graphql";
+import { ItemGroup } from "@generated/graphql";
 
 export class GeneralUtils {
   public static capitalize(

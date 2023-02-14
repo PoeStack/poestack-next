@@ -1,19 +1,19 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import FilterableItemTable from "../../../../../../components/filterable-item-table";
-import SnapshotTable from "../../../../../../components/snapshot-table";
-import StyledCard from "../../../../../../components/styled-card";
-import StyledButton from "../../../../../../components/styled-button";
-import CurrencyValueDisplay from "../../../../../../components/currency-value-display";
-import NetWorthChart from "../../../../../../components/net-worth-chart";
-import ValueBreakdownTable from "../../../../../../components/value-breakdown-table";
-import { usePoeStackAuth } from "../../../../../../contexts/user-context";
-import ProfitCard from "../../../../../../components/profit-card";
+import FilterableItemTable from "@components/filterable-item-table";
+import SnapshotTable from "@components/snapshot-table";
+import StyledCard from "@components/styled-card";
+import StyledButton from "@components/styled-button";
+import CurrencyValueDisplay from "@components/currency-value-display";
+import NetWorthChart from "@components/net-worth-chart";
+import ValueBreakdownTable from "@components/value-breakdown-table";
+import { usePoeStackAuth } from "@contexts/user-context";
+import ProfitCard from "@components/profit-card";
 import {
   StashSnapshot,
   StashSnapshotProfile,
-} from "../../../../../../__generated__/graphql";
+} from "@generated/graphql";
 
 export default function ViewProfile() {
   const router = useRouter();

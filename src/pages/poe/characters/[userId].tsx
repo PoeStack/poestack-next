@@ -1,11 +1,11 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import Link from "next/link";
-import { PoeCharacter } from "../../../../__generated__/graphql";
+import { PoeCharacter } from "@generated/graphql";
 import { useState } from "react";
 import { useRouter } from "next/router";
-import StyledCard from "../../../../components/styled-card";
-import StyledButton from "../../../../components/styled-button";
+import StyledCard from "@components/styled-card";
+import StyledButton from "@components/styled-button";
 import _ from "lodash";
 
 export default function Characters() {

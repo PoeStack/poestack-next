@@ -1,13 +1,13 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { nanoid } from "nanoid";
-import StyledCard from "../../../../../components/styled-card";
+import StyledCard from "@components/styled-card";
 
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 
 import { useState, useEffect } from "react";
-import { StashSnapshotProfile } from "../../../../../__generated__/graphql";
+import { StashSnapshotProfile } from "@generated/graphql";
 import Link from "next/link";
-import { StyledTooltip } from "../../../../../components/styled-tooltip";
+import { StyledTooltip } from "@components/styled-tooltip";
 
 export default function Profiles() {
   const [profiles, setProfiles] = useState<StashSnapshotProfile[]>([]);

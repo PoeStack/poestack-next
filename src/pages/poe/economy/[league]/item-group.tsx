@@ -1,14 +1,14 @@
 import { useRouter } from "next/router";
-import { ItemGroupValueTimeseries } from "../../../../../__generated__/graphql";
+import { ItemGroupValueTimeseries } from "@generated/graphql";
 import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
-import { GeneralUtils } from "../../../../../utils/general-util";
-import StyledCard from "../../../../../components/styled-card";
+import { GeneralUtils } from "@utils/general-util";
+import StyledCard from "@components/styled-card";
 import {
   POE_LEAGUES,
   usePoeLeagueCtx,
-} from "../../../../../contexts/league-context";
+} from "@contexts/league-context";
 
 export default function EconomyKeyGroup() {
   const router = useRouter();

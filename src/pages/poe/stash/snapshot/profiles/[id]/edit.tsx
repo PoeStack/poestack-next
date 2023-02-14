@@ -2,23 +2,23 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
 
-import StyledCard from "../../../../../../../components/styled-card";
-import StyledButton from "../../../../../../../components/styled-button";
-import StyledInput from "../../../../../../../components/styled-input";
-import LeagueSelect from "../../../../../../../components/league-select";
-import StyledSelect from "../../../../../../../components/styled-select";
-import StyledSelect2 from "../../../../../../../components/styled-select-2";
+import StyledCard from "@components/styled-card";
+import StyledButton from "@components/styled-button";
+import StyledInput from "@components/styled-input";
+import LeagueSelect from "@components/league-select";
+import StyledSelect from "@components/styled-select";
+import StyledSelect2 from "@components/styled-select-2";
 import {
   PoeStashTab,
   StashSnapshotProfile,
   StashSnapshotProfileInput,
-} from "../../../../../../../__generated__/graphql";
+} from "@generated/graphql";
 
 import { nanoid } from "nanoid";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import { Tooltip } from "flowbite-react";
-import { StyledTooltip } from "../../../../../../../components/styled-tooltip";
-import { usePoeLeagueCtx } from "../../../../../../../contexts/league-context";
+import { StyledTooltip } from "@components/styled-tooltip";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function ViewProfile() {
   const router = useRouter();

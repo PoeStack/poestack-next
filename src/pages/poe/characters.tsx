@@ -1,6 +1,6 @@
 import { useState, useEffect, Dispatch } from "react";
 import { gql, useQuery } from "@apollo/client";
-import client from "../../../poe-stack-apollo-client";
+import client from "poe-stack-apollo-client";
 import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
 import Image from "next/image";
