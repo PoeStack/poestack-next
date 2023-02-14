@@ -262,7 +262,6 @@ export default function Characters({
    */
   function onCharactersSortChange(column: string) {
     updateSortMap(column);
-    //updateColumnsDirections(column);
   }
 
   /*
