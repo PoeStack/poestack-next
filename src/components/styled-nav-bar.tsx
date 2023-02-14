@@ -6,6 +6,7 @@ import SearchBar from "./search-bar";
 import Image from "next/image";
 import { StyledTooltip } from "./styled-tooltip";
 import { usePoeLeagueCtx } from "../contexts/league-context";
+import ThemeChanger from "./theme-changer";
 
 export default function StyledNavBar() {
   const { profile } = usePoeStackAuth();
@@ -13,7 +14,7 @@ export default function StyledNavBar() {
 
   return (
     <>
-      <div className="flex h-12 w-full min-w-fit bg-skin-tertiary-light items-center pl-2 pr-2">
+      <div className="flex h-12 w-full min-w-fit bg-skin-second items-center pl-2 pr-2">
         <div className="flex min-w-fit space-x-2 items-center">
           <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
@@ -108,6 +109,7 @@ export default function StyledNavBar() {
               </StyledTooltip>
             </a>
           </div>
+          <ThemeChanger />
           <div className="font-semibold hover:text-skin-accent">
             <StyledTooltip
               texts={[

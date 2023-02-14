@@ -39,7 +39,7 @@ export default function SearchBar() {
     <div className="relative mx-10">
       <div className="flex flex-row space-x-2">
         <input
-          className="bg-transparent border w-full border-skin-primary focus:border-skin-base rounded-lg outline-none pl-2 "
+          className="bg-transparent border w-full border-skin-first focus:border-skin-base rounded-lg outline-none pl-2 "
           placeholder="Search"
           onChange={GeneralUtils.debounce((e) => {
             setSearchText(e.target.value);
@@ -65,13 +65,13 @@ export default function SearchBar() {
         <>
           <div className="absolute mt-2 z-10 w-full transform -translate-x-1/2 left-1/2 sm:px-0 ">
             <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-              <div className="bg-skin-primary-dark z-50 flex flex-col">
+              <div className="bg-skin-first-dark z-50 flex flex-col">
                 {result?.results.map((e, i) => {
                   return (
                     <>
                       <div
                         key={i}
-                        className="w-full flex flex-col h-[40px] overflow-hidden hover:text-skin-accent hover:bg-skin-primary pl-2 pt-2"
+                        className="w-full flex flex-col h-[40px] overflow-hidden hover:text-skin-accent hover:bg-skin-first pl-2 pt-2"
                       >
                         <Link href={e.target!} className=" ">
                           <div className="flex flex-row">
