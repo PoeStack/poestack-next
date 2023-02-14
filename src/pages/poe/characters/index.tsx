@@ -280,7 +280,7 @@ export default function Characters() {
             <tbody className="">
               {searchResponse.snapshots.map((snapshot) => (
                 <>
-                  <tr className="hover:bg-skin-primary border-y-2 border-slate-700/50">
+                  <tr className="hover:bg-skin-first border-y-2 border-slate-700/50">
                     <td>
                       <Link
                         href={`/poe/character/${snapshot.characterId}`}

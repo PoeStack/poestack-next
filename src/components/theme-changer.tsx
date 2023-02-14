@@ -16,7 +16,7 @@ export default function ThemeChanger() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex justify-center rounded-md bg-skin-primary px-4 py-2 text-sm font-medium text-skin-base shadow-sm hover:bg-skin-secondary-dark focus:outline-none w-24 ">
+        <Menu.Button className="inline-flex justify-center rounded-md bg-skin-first px-4 py-2 text-sm font-medium text-skin-base shadow-sm hover:bg-skin-second-dark focus:outline-none w-24 ">
           {theme}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
@@ -48,7 +48,7 @@ export default function ThemeChanger() {
               {({ active }) => (
                 <a
                   href="#"
-                  className="block px-4 py-2 text-sm  hover:bg-black hover:text-white   hover:bg-skin-tertiary"
+                  className="block px-4 py-2 text-sm  hover:bg-black hover:text-white   hover:bg-skin-first"
                   onClick={() => setTheme("Dark")}
                 >
                   Dark
