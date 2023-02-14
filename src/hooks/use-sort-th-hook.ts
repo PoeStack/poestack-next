@@ -1,4 +1,4 @@
-import { useReducer, useEffect, Dispatch } from "react";
+import { useReducer, useEffect, Dispatch, useCallback, useRef } from "react";
 import { 
     SortingDirections, 
     SortableTableColumns, 
@@ -47,6 +47,16 @@ export default function useSortableTable(
     );
 
     /*
+     * Save the callback as a ref so render cycles
+     * don't cause reevaluation of the callback.
+     */
+    const callbackRef = useRef<SortChangeHandler>();
+
+    useEffect(() => {
+        callbackRef.current = onSortChange;
+    }, [onSortChange])
+    
+    /*
      * Execute callback when the sorting direction changes.
      */
     useEffect(() => {
@@ -55,9 +65,13 @@ export default function useSortableTable(
 
         const sortDirection = sortKey ? map[sortKey] : "desc";
 
-        onSortChange(sortKey, sortDirection);
+        if(callbackRef?.current) {
+            callbackRef.current(sortKey, sortDirection)
+        }
 
-    }, [map, onSortChange]);
+        //memoizedSortChange(sortKey, sortDirection);
+        
+    }, [map]);
 
     return [map, updateMap];
 }
