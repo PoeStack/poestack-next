@@ -43,8 +43,8 @@ export default function StyledMultiSelect2({
                 <Listbox.Option
                   key={itemIndex}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-2 ${
-                      active ? "bg-skin-secondary text-white" : "text-white"
+                    `relative cursor-default select-none py-2 capitalize ml-2 ${
+                      active ? "bg-skin-first text-skin-base" : "text-white"
                     }`
                   }
                   value={item}
