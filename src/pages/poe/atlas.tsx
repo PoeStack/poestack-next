@@ -132,17 +132,15 @@ function AtlasNodePopularityTable({ nodes, columns, columnsSortMap, updateSortMa
         />
         <tbody>
           {nodes.map((node) => (
-            <>
-              <tr>
-                <StyledTooltip
-                  texts={node.node.stats}
-                  placement={"bottom-start"}
-                >
-                  <td>{node.node.name}</td>
-                </StyledTooltip>
-                <td>{+((node.value / total) * 100).toFixed(2)}%</td>
-              </tr>
-            </>
+            <tr key={node.node.name}>
+              <StyledTooltip
+                texts={node.node.stats}
+                placement={"bottom-start"}
+              >
+                <td>{node.node.name}</td>
+              </StyledTooltip>
+              <td>{+((node.value / total) * 100).toFixed(2)}%</td>
+            </tr>
           ))}
         </tbody>
       </table>
