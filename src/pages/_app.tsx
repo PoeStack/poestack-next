@@ -12,7 +12,7 @@ import Link from "next/link";
 import Script from "next/script";
 import StyledNavBar from "@components/styled-nav-bar";
 import Head from "next/head";
-import { PoeStackLeagueProvider } from "@contexts/league-context";
+import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
 
 export default function App({ Component, pageProps }: AppProps) {
