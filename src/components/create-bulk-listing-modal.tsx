@@ -37,6 +37,7 @@ export default function CreateBulkListingModal({
     stashIndexOffset: 0,
     absoluteMinValueChaos: 0,
     itemGroupValueOverrides: [],
+    oneClickPost: false,
   });
 
   const [generatingImage, setGeneratingImage] = useState(false);
@@ -55,7 +56,7 @@ export default function CreateBulkListingModal({
   const [bulkListing, setBulkListing] = useState<StashSnapshotExport | null>(
     null
   );
-  const [generateListing] = useMutation(
+  const [generateListing, { loading: generatingListing }] = useMutation(
     gql`
       mutation BulkModalExportStashSnapshot($input: StashSnapshotExportInput!) {
         exportStashSnapshot(input: $input) {
@@ -69,9 +70,6 @@ export default function CreateBulkListingModal({
       }
     `,
     {
-      variables: {
-        input: exporterInput,
-      },
       onCompleted(data, clientOptions) {
         setBulkListing(data?.exportStashSnapshot);
       },
@@ -114,7 +112,11 @@ export default function CreateBulkListingModal({
       ...{ excludedItemGroupHashStrings: excludedItemGroupHashStrings },
     };
     if (exporterInput.exportType && itemGroupSearch) {
-      generateListing();
+      generateListing({
+        variables: {
+          input: exporterInput,
+        },
+      });
     }
   }, [
     generateListing,
@@ -299,7 +301,6 @@ export default function CreateBulkListingModal({
                     <StyledButton
                       text={generatingImage ? "Loading..." : "Copy Image"}
                       onClick={() => {
-                        console.log("xxxx", bulkListing);
                         setGeneratingImage(true);
                         const cpy = async () => {
                           const response = await fetch(
@@ -316,6 +317,20 @@ export default function CreateBulkListingModal({
                         };
                         cpy().finally(() => {
                           setGeneratingImage(false);
+                        });
+                      }}
+                    />
+                    <StyledButton
+                      text={
+                        generatingListing
+                          ? "Loading..."
+                          : "Post to TFT (coming soon)"
+                      }
+                      onClick={() => {
+                        generateListing({
+                          variables: {
+                            input: { ...exporterInput, oneClickPost: true },
+                          },
                         });
                       }}
                     />
