@@ -313,28 +313,26 @@ export default function Characters({
   ];
 
   return (
-    <>
-      <div className="flex flex-row space-x-2 ">
-        <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
-          <StyledMultiSearch
-            value={localSearchString}
-            onValueChange={onSearchValueChange}
-            onDateChange={onDateChange}
-          />
-
-          {aggregatorPanels.map((props) => (
-            <StyledAggregatorPanel key={props.title} {...props} />
-          ))}
-        </div>
-
-        <StyledCharactersSummaryTable
-          characters={characters}
-          columns={columns}
-          columnDirections={columnsSortMap}
-          onSortChange={onCharactersSortChange}
+    <div className="flex flex-row space-x-2 ">
+      <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
+        <StyledMultiSearch
+          value={localSearchString}
+          onValueChange={onSearchValueChange}
+          onDateChange={onDateChange}
         />
+
+        {aggregatorPanels.map((props) => (
+          <StyledAggregatorPanel key={props.title} {...props} />
+        ))}
       </div>
-    </>
+
+      <StyledCharactersSummaryTable
+        characters={characters}
+        columns={columns}
+        columnDirections={columnsSortMap}
+        onSortChange={onCharactersSortChange}
+      />
+    </div>
   );
 }
 
