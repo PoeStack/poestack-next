@@ -119,7 +119,7 @@
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-accent) var(--color-accent-variant);
+  scrollbar-color: var(--color-background-secondary-variant);
 }
 
 *::-webkit-scrollbar {
@@ -131,9 +131,9 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--color-accent-variant);
+  background-color: var(--color-background-secondary-variant);
   border-radius: 20px;
-  border: 2px solid var(--color-background-secondary);
+  border: 1px solid var(--color-background-secondary);
 }
 
 .highcharts-background {

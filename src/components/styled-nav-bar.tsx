@@ -23,7 +23,6 @@ export default function StyledNavBar() {
                 width={130}
                 src={"/logo_white_name.png"}
                 alt={"PoeStack"}
-                className="bg-slate-900"
               />
             </Link>
           </div>

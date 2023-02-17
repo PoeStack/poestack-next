@@ -62,7 +62,7 @@ export default function Characters() {
                   <h3>{league}</h3>
                   {characters.map((character) => (
                     <>
-                      <div>
+                      <div className="hover:text-content-accent">
                         <Link href={`/poe/character/${character.id}`}>
                           {character.name}
                         </Link>

@@ -37,17 +37,6 @@ export default function ThemeChanger() {
               {({ active }) => (
                 <a
                   href="#"
-                  className="block px-4 py-2 text-sm  hover:bg-white hover:text-black"
-                  onClick={() => setTheme("Light")}
-                >
-                  Light
-                </a>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
                   className="block px-4 py-2 text-sm  hover:bg-black hover:text-white   hover:bg-color-primary"
                   onClick={() => setTheme("Dark")}
                 >
