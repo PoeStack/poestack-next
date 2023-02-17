@@ -23,7 +23,7 @@ export default function StyledPopover({ text, children }) {
                 >
                   <Popover.Panel className="absolute z-10 w-screen max-w-sm px-4 mt-0 transform -translate-x-1/2 left-1/2 sm:px-0 lg:max-w-3xl">
                     <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-                      <div className="bg-theme-color-1 z-50">{children}</div>
+                      <div className="bg-color-primary z-50">{children}</div>
                     </div>
                   </Popover.Panel>
                 </Transition>

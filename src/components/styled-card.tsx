@@ -13,11 +13,11 @@ export default function StyledCard({
     <>
       <div
         className={
-          "rounded shadow-lg bg-skin-third-light flex flex-col p-3 " +
+          "rounded shadow-lg bg-surface-primary flex flex-col p-3  " +
           (className ? className : "")
         }
       >
-        <div className="mb-2 border-b border-b-theme-color-2 ">
+        <div className="mb-2 border-b border-color-secondary ">
           <h1>{title}</h1>
         </div>
         {children}

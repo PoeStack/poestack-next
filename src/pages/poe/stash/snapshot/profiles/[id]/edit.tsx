@@ -114,7 +114,7 @@ export default function ViewProfile() {
   return (
     <>
       <StyledCard title="Edit Profile">
-        <div className="flex flex-col space-y-2">
+        <div className="flex flex-col space-y-2 ">
           {(profile?.poeStashTabIds?.length ?? 0) > 15 && (
             <>
               <div>
@@ -274,18 +274,23 @@ export default function ViewProfile() {
             </div>
           </div>
 
-          <StyledButton
-            text={"Refresh Tabs"}
-            onClick={() => {
-              refetchStashTabs({
-                league: profile?.league,
-                forcePull: true,
-              });
-            }}
-          />
-
+          <div className=" w-2/5 h-10 flex flex-row justify-center mx-auto">
+            <StyledButton
+              className="w-2/5"
+              text={"Refresh Tabs"}
+              onClick={() => {
+                refetchStashTabs({
+                  league: profile?.league,
+                  forcePull: true,
+                });
+              }}
+            />
+          </div>
           {stashTabs.stashTabs.map((tab) => (
-            <div key={tab.id} className="flex flex-row hover:text-skin-accent">
+            <div
+              key={tab.id}
+              className="flex flex-row hover:text-content-accent"
+            >
               <input
                 type="checkbox"
                 id={tab.id}
@@ -318,15 +323,17 @@ export default function ViewProfile() {
               <label htmlFor={tab.id}>{tab.name}</label>
             </div>
           ))}
-
-          <StyledButton
-            text="Save Profile"
-            onClick={() => {
-              if (!loading && profile?.name?.length) {
-                updateProfile();
-              }
-            }}
-          />
+          <div className=" w-2/5 h-10 flex flex-row justify-center mx-auto">
+            <StyledButton
+              className="w-2/5"
+              text="Save Profile"
+              onClick={() => {
+                if (!loading && profile?.name?.length) {
+                  updateProfile();
+                }
+              }}
+            />
+          </div>
         </div>
       </StyledCard>
     </>

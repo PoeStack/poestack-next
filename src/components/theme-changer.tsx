@@ -16,7 +16,7 @@ export default function ThemeChanger() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
-        <Menu.Button className="inline-flex justify-center rounded-md bg-skin-first px-4 py-2 text-sm font-medium text-skin-base shadow-sm hover:bg-skin-second-dark focus:outline-none w-24 ">
+        <Menu.Button className="inline-flex justify-center rounded-md bg-color-primary px-4 py-2 text-sm font-medium text-content-base shadow-sm hover:bg-color-secondary-variant focus:outline-none w-24 ">
           {theme}
           <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
         </Menu.Button>
@@ -31,7 +31,7 @@ export default function ThemeChanger() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-slate-800 shadow-lg text-lg font-semibold text-center">
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-24 origin-top-right rounded-md bg-color-primary shadow-lg text-lg font-semibold text-center">
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
@@ -48,10 +48,21 @@ export default function ThemeChanger() {
               {({ active }) => (
                 <a
                   href="#"
-                  className="block px-4 py-2 text-sm  hover:bg-black hover:text-white   hover:bg-skin-first"
+                  className="block px-4 py-2 text-sm  hover:bg-black hover:text-white   hover:bg-color-primary"
                   onClick={() => setTheme("Dark")}
                 >
                   Dark
+                </a>
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <a
+                  href="#"
+                  className="block px-4 py-2 text-sm hover:bg-blue-800/80 hover:text-white"
+                  onClick={() => setTheme("Original")}
+                >
+                  Original
                 </a>
               )}
             </Menu.Item>

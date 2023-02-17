@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { StyledTooltip } from "./styled-tooltip";
 
 export default function StyledSelect2({
   items,
@@ -21,8 +22,8 @@ export default function StyledSelect2({
           onSelectChange?.(s);
         }}
       >
-        <div className="relative mt-1">
-          <Listbox.Button className="relative bg-skin-first  text-skin-base w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ">
+        <div className="relative">
+          <Listbox.Button className="relative bg-color-primary text-content-base hover:bg-color-secondary-variant w-full cursor-default rounded-lg px-4 py-2 text-left shadow-md font-medium ">
             <span className="block truncate">
               {mapToText(selected) ?? "..."}
             </span>
@@ -33,13 +34,15 @@ export default function StyledSelect2({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-40 mt-1 max-h-60 w-full overflow-auto rounded-md bg-theme-color-2 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-40 mt-2 max-h-80 w-full overflow-auto rounded-md bg-color-primary py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {items.map((item, itemIndex) => (
                 <Listbox.Option
                   key={itemIndex}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-2 pr-2 ${
-                      active ? "bg-skin-first text-skin-base" : "text-white"
+                    `relative cursor-default select-none py-2 pl-2 pr-2  ${
+                      active
+                        ? "bg-surface-secondary-variant  text-content-base"
+                        : "text-white"
                     }`
                   }
                   value={item}
@@ -47,11 +50,16 @@ export default function StyledSelect2({
                   {({ selected }) => (
                     <>
                       <span
-                        className={`block text-skin-base truncate ${
+                        className={`block text-content-base truncate ${
                           selected ? "font-medium" : "font-normal"
                         }`}
                       >
-                        {mapToText(item)}
+                        <StyledTooltip
+                          texts={[mapToText(item)]}
+                          placement="left"
+                        >
+                          <p>{mapToText(item)}</p>
+                        </StyledTooltip>
                       </span>
                     </>
                   )}

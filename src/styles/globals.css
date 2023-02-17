@@ -4,98 +4,122 @@
 
 @layer base {
   /* using names that don't designate any design opinions */
-  /* Base Template Themeing:
-  base = white or black depending on theme use for text and basic backgrounds
-  first = 1st focus of a color theme (vaal = red, neon = lightgreen, etc)
-  second = 2nd focus of a theme if it exists
-  third = 3rd focus 
-  inverse = the flip/opposite (for light theme a dark background for dark theme a light background)
-  accent = highlights
-  muted = luminent drop offs
-  */
+  /* 
+ Theme Design Principles and Distinctions: 
+ - Color (primary, secondary &  variants)
+ - Surfaces (backgrounds and components)
+ - States (such as error states)
+ - Content (typography and iconography)
+ */
   :root {
-  
-    --color-text-base: #f1f1f1 ;
+    /* making dark the default theme for now */
+    --color-primary: #212121;
+    --color-primary-variant: #252525;
+    --color-secondary: #474c50;
+    --color-secondary-variant: #5b5f62;
+    --color-accent: #faa307;
+    --color-accent-variant: #bb7526;
+    /* Surfaces - Backgrounds/Components */
+    --color-background-primary: #121212;
+    --color-background-primary-variant: #252525;
+    --color-background-secondary: #000000;
+    --color-background-secondary-variant: #474c50;
+    /* States - Errors/ Success etc */
+    /* --color-success: 
+    --color-error:  */
+    /* Content */
+    --color-text-base: #f1f1f1;
     --color-text-inverted: #000;
-    --color-first: #212121 ;
-    --color-first-light:#282828 
-    --color-first-dark:#121212 
-    --color-second:#d9b445 ;
-    --color-second-light: #131315;
-    --color-second-dark: #131315;
-    --color-third: #d9b445; 
-    --color-third-dark: #090909; 
-    --color-third-light: #1B2240;
-    --color-accent:#d9b445;
-    --color-accent-light: #F0D641;
-    --color-accent-dark: #E6973E;
-    
   }
 
-  /* colors: {
-    "theme-color-0": "#060F2F",
-    "theme-color-1": "#1B2240",
-    "theme-color-2": "#383D5B",
-    "theme-color-3": "#1054A1",
-    "theme-color-4": "#99A6DB",
-  }, */
-
-  /* placeholders for future themes WIP*/
-  [data-theme='Dark'] {
-    --color-text-base: #f1f1f1 ;
+  [data-theme="Dark"] {
+    /*  Color - Primary+ Variants*/
+    --color-primary: #212121;
+    --color-primary-variant: #252525;
+    --color-secondary: #474c50;
+    --color-secondary-variant: #5b5f62;
+    --color-accent: #faa307;
+    --color-accent-variant: #bb7526;
+    /* Surfaces - Backgrounds/Components */
+    --color-background-primary: #121212;
+    --color-background-primary-variant: #252525;
+    --color-background-secondary: #000000;
+    --color-background-secondary-variant: #474c50;
+    /* States - Errors/ Success etc */
+    /* --color-success: 
+    --color-error:  */
+    /* Content */
+    --color-text-base: #f1f1f1;
     --color-text-inverted: #000;
-    --color-first: #212121 ;
-    --color-first-dark:#121212 
-    --color-first-light:#282828 
-    --color-second:#d9b445 ;
-    --color-second-dark: #131315;
-    --color-second-light: #131315;
-    --color-third: #d9b445; 
-    --color-third-dark: #090909; 
-    --color-third-light: #1B2240;
-    --color-accent:#d9b445;
-    --color-accent-dark: #E6973E;
-    --color-accent-light: #F0D641;
   }
 
-  [data-theme='Light'] {
-    --color-text-base: #ffffff;
-    --color-text-inverted: #000;
-    --color-first: #49558c;
-    --color-first-dark:#2E3659
-    --color-first-light:#7184D9
-    --color-second: #1054A1;
-    --color-second-dark: #0B396E;
-    --color-second-light: #5FA1ED;
-    --color-third: #5FA1ED; 
-    --color-third-dark: #E6973E; 
-    --color-third-light: #1B2240;
-    --color-accent: #d9b445;
-    --color-accent-dark: #E6973E;
-    --color-accent-light: #F0D641;
-  }
-  /* placeholders for future themes WIP*/
-  [data-theme='Vaal'] {
+  [data-theme="Light"] {
+    /*  Color - Primary+ Variants*/
+    --color-primary: #ffffff;
+    --color-primary-variant: #eeeeee;
+    --color-secondary: #b0b5b9;
+    --color-secondary-variant: #88b1d3;
+    --color-accent: #00b4d8;
+    --color-accent-variant: #0077b6;
+    /* Surfaces - Backgrounds/Components */
+    --color-background-primary: #eeeeee;
+    --color-background-primary-variant: #252525;
+    --color-background-secondary: #eeeeee;
+    --color-background-secondary-variant: #a4a9ad;
+    /* States - Errors/ Success etc */
+    /* --color-success: 
+    --color-error:  */
+    /* Content */
     --color-text-base: #000;
-    --color-text-inverted: #ffffff;
-    --color-first: #A80501;
-    --color-first-light:#FA0801
-    --color-first-dark:#780301
-    --color-second: #1054A1;
-    --color-second-light: #5FA1ED;
-    --color-second-dark: #0B396E;
-    --color-third: #780301; 
-    --color-third-dark: #580d0c; 
-    --color-third-light: #1B2240;
-    --color-accent: #d9b445;
-    --color-accent-light: #F0D641;
-    --color-accent-dark: #E6973E;
+    --color-text-inverted: #f1f1f1;
+  }
+
+  [data-theme="Original"] {
+    /*  Color - Primary+ Variants*/
+    --color-primary: #383d5b;
+    --color-primary-variant: #2a325b;
+    --color-secondary: #1054a1;
+    --color-secondary-variant: #0e417c;
+    --color-accent: #e7b456;
+    --color-accent-variant: #bb7526;
+    /* Surfaces - Backgrounds/Components */
+    --color-background-primary: #1b2240;
+    --color-background-primary-variant: #060f2f;
+    --color-background-secondary: #060f2f;
+    --color-background-secondary-variant: #5e6da5;
+    /* States - Errors/ Success etc */
+    /* --color-success: 
+    --color-error:  */
+    /* Content */
+    --color-text-base: #f1f1f1;
+    --color-text-inverted: #000;
+  }
+  /* placeholders for future themes WIP*/
+  [data-theme="Vaal"] {
+    /*  Color - Primary+ Variants*/
+    --color-primary: #212121;
+    --color-primary-variant: #252525;
+    --color-secondary: #551212;
+    --color-secondary-variant: #800000;
+    --color-accent: #fa0801;
+    --color-accent-variant: #780301;
+    /* Surfaces - Backgrounds/Components */
+    --color-background-primary: #101010ac;
+    --color-background-primary-variant: #252525;
+    --color-background-secondary: #000;
+    --color-background-secondary-variant: #220606;
+    /* States - Errors/ Success etc */
+    /* --color-success: 
+    --color-error:  */
+    /* Content */
+    --color-text-base: #d40700;
+    --color-text-inverted: #000;
   }
 }
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: #383d5b #060f2f;
+  scrollbar-color: var(--color-accent) var(--color-accent-variant);
 }
 
 *::-webkit-scrollbar {
@@ -103,13 +127,13 @@
 }
 
 *::-webkit-scrollbar-track {
-  background: #060f2f;
+  background: var(--color-primary-variant);
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: #383d5b;
+  background-color: var(--color-accent-variant);
   border-radius: 20px;
-  border: 3px solid #383d5b;
+  border: 2px solid var(--color-background-secondary);
 }
 
 .highcharts-background {
@@ -134,14 +158,14 @@ text.highcharts-data-label {
 }
 
 .highcharts-color-0 {
-  fill: #1054a1;
+  fill: var(--color-accent);
 }
 
 .highcharts-color-1 {
-  fill: #a0075b;
+  fill: var(--color-accent);
 }
 
-.highcharts-yaxis .highcharts-  axis-line {
+.highcharts-yaxis .highcharts- axis-line {
   stroke-width: 2px;
 }
 
@@ -172,9 +196,17 @@ text.highcharts-data-label {
   border-radius: 2px;
 }
 
-.popper-arrow.bottom {top: -5px;}
-.popper-arrow.left {right: -5px;}
-.popper-arrow.right { left: -5px;}
-.popper-arrow.top { bottom: -5px;}
+.popper-arrow.bottom {
+  top: -5px;
+}
+.popper-arrow.left {
+  right: -5px;
+}
+.popper-arrow.right {
+  left: -5px;
+}
+.popper-arrow.top {
+  bottom: -5px;
+}
 
 /* https://stackoverflow.com/questions/47607602/how-to-add-a-tailwind-css-rule-to-css-checker */

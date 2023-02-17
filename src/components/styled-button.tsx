@@ -13,7 +13,7 @@ export default function StyledButton({
     <>
       <button
         className={
-          "bg-theme-color-3 hover:bg-blue-700 py-1 px-1 text-white rounded-lg " +
+          "bg-color-secondary hover:bg-color-accent-variant py-1 px-1 text-white rounded-lg " +
           (className ?? "")
         }
         onClick={onClick}

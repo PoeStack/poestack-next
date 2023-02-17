@@ -52,7 +52,7 @@ export default function CharacterAggregationDisplay({
     <div
       key={key}
       style={style}
-      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-skin-first  text-sm space-x-1 pr-2 "
+      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-color-primary  text-sm space-x-1 pr-2 "
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
@@ -62,7 +62,7 @@ export default function CharacterAggregationDisplay({
         truncate
           ${
             includedRows.includes(mappedRow[index].key)
-              ? "bg-skin-first text-skin-accent"
+              ? "bg-color-primary text-content-accent"
               : ""
           }`}
       >
@@ -80,7 +80,7 @@ export default function CharacterAggregationDisplay({
       <div
         className={`text-right ${
           includedRows.includes(mappedRow[index].key)
-            ? "bg-skin-primary text-skin-accent"
+            ? "bg-skin-primary text-content-accent"
             : ""
         }`}
       >
@@ -92,12 +92,12 @@ export default function CharacterAggregationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-skin-first  text-sm space-x-1 pr-2 ">
+        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-color-primary  text-sm space-x-1 pr-2 ">
           {excludedRows.map((e) => (
             <>
               <div
                 key={e.key}
-                className="bg-red-600/50 text-skin-base"
+                className="bg-red-600/50 text-content-base"
                 onClick={() => {
                   onSelectionChanged({ key: e, value: 0 });
                 }}

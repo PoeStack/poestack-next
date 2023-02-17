@@ -1,25 +1,24 @@
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import StyledCard from "@components/styled-card";
 import { useState } from "react";
-import {
-  GenericAggregation,
-  PassiveTreeResponse,
-} from "@generated/graphql";
+import { GenericAggregation, PassiveTreeResponse } from "@generated/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
 import { StyledTooltip } from "@components/styled-tooltip";
-import SortableTableHeader, { SortableTableColumns } from "@components/sortable-table-header";
+import SortableTableHeader, {
+  SortableTableColumns,
+} from "@components/sortable-table-header";
 import useSortableTable from "@hooks/use-sort-th-hook";
 
 const columns: SortableTableColumns = [
   {
     key: "node",
-    text: "Node"  
+    text: "Node",
   },
   {
     key: "usage",
-    text: "Usage"
-  }
+    text: "Usage",
+  },
 ];
 
 export default function Atlas() {
@@ -66,16 +65,19 @@ export default function Atlas() {
     }
   );
 
-  const [keystonesSortMap, updateKeystonesMap] = useSortableTable(columns, 
-    (key, dir)=>{
+  const [keystonesSortMap, updateKeystonesMap] = useSortableTable(
+    columns,
+    (key, dir) => {
       /*  update the queries in here somehow */
-    });
+    }
+  );
 
-  const [notablesSortMap, updateNotablesMap] = useSortableTable(columns, 
-    (key, dir)=>{
+  const [notablesSortMap, updateNotablesMap] = useSortableTable(
+    columns,
+    (key, dir) => {
       /*  update the queries in here somehow */
-    });
-  
+    }
+  );
 
   if (!passiveTreeData || !aggregateData) {
     return <>loading...</>;
@@ -101,31 +103,38 @@ export default function Atlas() {
     <>
       <div className="flex flex-col space-y-2">
         <StyledCard title={"Keystones"} className="flex-1">
-          <AtlasNodePopularityTable 
+          <AtlasNodePopularityTable
             nodes={keyStones}
-            columns={columns} 
-            columnsSortMap={keystonesSortMap} 
-            updateSortMap={updateKeystonesMap} />
+            columns={columns}
+            columnsSortMap={keystonesSortMap}
+            updateSortMap={updateKeystonesMap}
+          />
         </StyledCard>
         <StyledCard title={"Notables"} className="flex-1">
-          <AtlasNodePopularityTable 
+          <AtlasNodePopularityTable
             nodes={notables}
             columns={columns}
-            columnsSortMap={notablesSortMap} 
-            updateSortMap={updateNotablesMap} />
+            columnsSortMap={notablesSortMap}
+            updateSortMap={updateNotablesMap}
+          />
         </StyledCard>
       </div>
     </>
   );
 }
 
-function AtlasNodePopularityTable({ nodes, columns, columnsSortMap, updateSortMap }) {
+function AtlasNodePopularityTable({
+  nodes,
+  columns,
+  columnsSortMap,
+  updateSortMap,
+}) {
   const total = _.sumBy(nodes, (e: any) => e.value);
 
   return (
     <>
       <table>
-        <SortableTableHeader 
+        <SortableTableHeader
           columns={columns}
           columnDirections={columnsSortMap}
           onSortChange={updateSortMap}
@@ -138,7 +147,9 @@ function AtlasNodePopularityTable({ nodes, columns, columnsSortMap, updateSortMa
                   texts={node.node.stats}
                   placement={"bottom-start"}
                 >
-                  <td>{node.node.name}</td>
+                  <td className="hover:text-content-accent cursor-default">
+                    {node.node.name}
+                  </td>
                 </StyledTooltip>
                 <td>{+((node.value / total) * 100).toFixed(2)}%</td>
               </tr>

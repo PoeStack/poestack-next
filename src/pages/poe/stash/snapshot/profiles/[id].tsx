@@ -10,10 +10,7 @@ import NetWorthChart from "@components/net-worth-chart";
 import ValueBreakdownTable from "@components/value-breakdown-table";
 import { usePoeStackAuth } from "@contexts/user-context";
 import ProfitCard from "@components/profit-card";
-import {
-  StashSnapshot,
-  StashSnapshotProfile,
-} from "@generated/graphql";
+import { StashSnapshot, StashSnapshotProfile } from "@generated/graphql";
 
 export default function ViewProfile() {
   const router = useRouter();
@@ -117,14 +114,17 @@ export default function ViewProfile() {
               />
             </div>
 
-            {psUserProfile?.userId === profile?.userId && (
-              <StyledButton
-                text={takeSnapshotLoading ? "Loading..." : "Take Snapshot"}
-                onClick={() => {
-                  takeSnapshot();
-                }}
-              />
-            )}
+            <div className=" w-2/5 h-10 flex flex-row justify-center mx-auto">
+              {psUserProfile?.userId === profile?.userId && (
+                <StyledButton
+                  className="w-2/5"
+                  text={takeSnapshotLoading ? "Loading..." : "Take Snapshot"}
+                  onClick={() => {
+                    takeSnapshot();
+                  }}
+                />
+              )}
+            </div>
           </StyledCard>
 
           <ProfitCard snapshots={snapshots ?? []} />

@@ -10,47 +10,54 @@ module.exports = {
   ],
   plugins: [require("flowbite/plugin")],
   theme: {
+    // "skin" is a key for tailwind theme-ing
+    // possible change skin to 'content' to fulfill material ui design philosophy
+    // base/inverted used for text
+    // primary/secondary, etc used for colors & backgrounds
     extend: {
       textColor: {
-        // "skin" is an example of a key
-        skin: {
+        content: {
           base: "var(--color-text-base)",
           inverted: "var(--color-text-inverted)",
-          first: "var(--color-first)",
-          second: "var(--color-second)",
-          third: "var(--color-third)",
           accent: "var(--color-accent)",
         },
       },
       backgroundColor: {
-        skin: {
-          first: "var(--color-first)",
-          "first-light": "var(--color-first-light)",
-          "first-dark": "var(--color-first-dark)",
-          second: "var(--color-second)",
-          "second-light": "var(--color-second-light)",
-          "second-dark": "var(--color-second-dark)",
-          third: "var(--color-third)",
-          "third-light": "var(--color-third-light)",
-          "third-dark": "var(--color-third-dark)",
-          accent: "var(--color--accent)",
+        // colors
+        color: {
+          primary: "var(--color-primary)",
+          "primary-variant": "var(--color-primary-variant)",
+          secondary: "var(--color-secondary)",
+          "secondary-variant": "var(--color-secondary-variant)",
+          accent: "var(--color-accent)",
+          "accent-variant": "var(--color-accent-variant)",
+        },
+        // surfaces
+        surface: {
+          primary: "var(--color-background-primary)",
+          "primary-variant": "var(--color-background-primary-variant)",
+          secondary: "var(--color-background-secondary)",
+          "secondary-variant": "var(--color-background-secondary-variant)",
         },
       },
       borderColor: {
-        skin: {
+        color: {
           base: "var(--color-text-base)",
           inverted: "var(--color-text-inverted)",
-          first: "var(--color-first)",
+          primary: "var(--color-primary)",
+          "primary-variant": "var(--color-color-primary-variant)",
+          secondary: "var(--color-background-secondary)",
+          "secondary-variant": "var(--color-background-secondary-variant)",
           accent: "var(--color-accent)",
         },
       },
-      colors: {
-        "theme-color-0": "#060F2F",
-        "theme-color-1": "#1B2240",
-        "theme-color-2": "#383D5B",
-        "theme-color-3": "#1054A1",
-        "theme-color-4": "#99A6DB",
-      },
+      // colors: {
+      //   "theme-color-0": "#060F2F",
+      //   "theme-color-1": "#1B2240",
+      //   "theme-color-2": "#383D5B",
+      //   "theme-color-3": "#1054A1",
+      //   "theme-color-4": "#99A6DB",
+      // },
     },
   },
 };

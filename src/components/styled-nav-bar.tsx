@@ -14,7 +14,7 @@ export default function StyledNavBar() {
 
   return (
     <>
-      <div className="flex h-12 w-full min-w-fit bg-skin-second items-center pl-2 pr-2">
+      <div className="flex h-12 w-full min-w-fit bg-surface-primary items-center pl-2 pr-2">
         <div className="flex min-w-fit space-x-2 items-center">
           <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
@@ -23,11 +23,12 @@ export default function StyledNavBar() {
                 width={130}
                 src={"/logo_white_name.png"}
                 alt={"PoeStack"}
+                className="bg-slate-900"
               />
             </Link>
           </div>
           <Link
-            className="font-semibold hover:text-skin-accent"
+            className="font-semibold hover:text-content-accent"
             href={`/poe/economy/${league}?tag=currency`}
           >
             <StyledTooltip
@@ -39,7 +40,7 @@ export default function StyledNavBar() {
             </StyledTooltip>
           </Link>
           <Link
-            className="font-semibold hover:text-skin-accent"
+            className="font-semibold hover:text-content-accent"
             href={`/poe/atlas?league=${league}`}
           >
             <StyledTooltip
@@ -51,7 +52,7 @@ export default function StyledNavBar() {
             </StyledTooltip>
           </Link>
           <Link
-            className="font-semibold hover:text-skin-accent"
+            className="font-semibold hover:text-content-accent"
             href={`/poe/characters?league=${league}`}
           >
             <StyledTooltip
@@ -64,7 +65,7 @@ export default function StyledNavBar() {
           </Link>
           {profile && (
             <Link
-              className="font-semibold hover:text-skin-accent"
+              className="font-semibold hover:text-content-accent"
               href={`/poe/characters/${profile.userId}`}
             >
               <StyledTooltip
@@ -78,7 +79,7 @@ export default function StyledNavBar() {
           )}
           {profile && (
             <Link
-              className="font-semibold hover:text-skin-accent"
+              className="font-semibold hover:text-content-accent"
               href="/poe/stash/snapshot/profiles"
             >
               <StyledTooltip
@@ -94,8 +95,8 @@ export default function StyledNavBar() {
         <div className="grow">
           <SearchBar />
         </div>
-        <div className="flex space-x-6 min-w-[200px] text-skin-base">
-          <div className="font-semibold hover:text-skin-accent">
+        <div className="flex space-x-6 min-w-[200px] text-content-base flex-row items-center">
+          <div className="font-semibold hover:text-content-accent">
             <a href="https://discord.gg/zqeTWZvb76">
               <StyledTooltip
                 texts={[
@@ -110,17 +111,8 @@ export default function StyledNavBar() {
             </a>
           </div>
           <ThemeChanger />
-          <div className="font-semibold hover:text-skin-accent">
-            <StyledTooltip
-              texts={[
-                "Found any bugs? Have suggestions for features?",
-                "Or just want to help contribute. Click and join the discord!",
-              ]}
-              placement="bottom"
-              className="mt-2"
-            >
-              <GggAuthBtn />
-            </StyledTooltip>
+          <div className="font-semibold hover:text-content-accent">
+            <GggAuthBtn />
           </div>
         </div>
       </div>

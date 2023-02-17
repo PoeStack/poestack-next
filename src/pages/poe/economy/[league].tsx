@@ -162,7 +162,7 @@ export default function Economy() {
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr
                     key={index}
-                    className="hover:text-skin-accent  pl-3 hover:bg-skin-first"
+                    className=" hover:text-content-accent  pl-3 hover:bg-color-primary"
                   >
                     <td>
                       <Image

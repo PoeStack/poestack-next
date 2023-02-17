@@ -13,9 +13,10 @@ import {
   StyledTooltip,
   StyledSkillImageTooltip,
 } from "@components/styled-tooltip";
-import SortableTableHeader, { 
-  SortableTableHeaderProps, 
-  SortableTableColumns } from "@components/sortable-table-header";
+import SortableTableHeader, {
+  SortableTableHeaderProps,
+  SortableTableColumns,
+} from "@components/sortable-table-header";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { GeneralUtils } from "@utils/general-util";
 import {
@@ -77,24 +78,24 @@ const generalSearch = gql`
 const columns: SortableTableColumns = [
   {
     key: "name",
-    text: "Name"
+    text: "Name",
   },
   {
     key: "level",
-    text: "Level"
+    text: "Level",
   },
   {
     key: "mainSkillKey",
-    text: "Skill"
+    text: "Skill",
   },
   {
     key: "life",
-    text: "Life"
+    text: "Life",
   },
   {
     key: "energyShield",
-    text: "Es"
-  }
+    text: "Es",
+  },
 ];
 
 /**
@@ -151,14 +152,16 @@ export default function Characters({
     reftechGeneralSearch();
   }, [search, reftechGeneralSearch, league]);
 
-  const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
-    (key, dir)=>{
+  const [columnsSortMap, updateSortMap] = useSortableTable(
+    columns,
+    (key, dir) => {
       setSearch((p) => ({
         ...p,
         sortKey: key ?? "level",
         sortDirection: dir,
       }));
-  });
+    }
+  );
 
   if (!characters) {
     return <>Loading...</>;
@@ -361,10 +364,10 @@ function StyledCharactersSummaryTable({
   return (
     <StyledCard title="Characters" className="flex-1">
       <table>
-        <SortableTableHeader 
-            columns={columns}
-            columnDirections={columnDirections}
-            onSortChange={onSortChange}
+        <SortableTableHeader
+          columns={columns}
+          columnDirections={columnDirections}
+          onSortChange={onSortChange}
         />
         <tbody className="">
           {characters.snapshots.map((snapshot) => (
@@ -375,7 +378,7 @@ function StyledCharactersSummaryTable({
               <td>
                 <Link
                   href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="hover:text-skin-accent hover:underline pl-3"
+                  className="hover:text-content-accent hover:underline pl-3"
                 >
                   {snapshot?.name}
                 </Link>
@@ -474,7 +477,10 @@ function StyledMultiSearch({
   onDateChange,
 }: StyledMultiSearchProps) {
   return (
-    <StyledCard title={"Search"}>
+    <StyledCard
+      title={"Search"}
+      className="focus:border-color-accent border-color-base"
+    >
       <StyledInput
         value={value}
         onChange={onValueChange}

@@ -275,14 +275,14 @@ export default function Character({ characterSnapshot }) {
                     }}
                   />
                   <StyledButton
-                    className="flex-1"
+                    className="flex-1 "
                     text={"Take Snapshot"}
                     onClick={() => {
                       takeSnapshot();
                     }}
                   />
                   <StyledButton
-                    className="flex-1"
+                    className="flex-1 "
                     text={"Next"}
                     onClick={() => {
                       const nextIndex =

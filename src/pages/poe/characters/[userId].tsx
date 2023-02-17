@@ -73,12 +73,14 @@ export default function Characters() {
               </>
             ))}
           </div>
-          <StyledButton
-            text={"Refresh"}
-            onClick={() => {
-              takeSnapshot();
-            }}
-          />
+          <div className="w-2/5 h-10 flex flex-row justify-center mx-auto">
+            <StyledButton
+              text={"Refresh"}
+              onClick={() => {
+                takeSnapshot();
+              }}
+            />
+          </div>
         </StyledCard>
       </div>
     </>
