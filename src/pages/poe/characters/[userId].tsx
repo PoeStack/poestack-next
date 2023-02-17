@@ -1,86 +1,320 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
 
 import Link from "next/link";
-import { PoeCharacter } from "@generated/graphql";
-import { useState } from "react";
+import Image from "next/image";
+import { 
+  CharacterSnapshotSearchResponseEntry, 
+  PoeCharacter } from "@generated/graphql";
+import { useReducer } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "@components/styled-card";
 import StyledButton from "@components/styled-button";
 import _ from "lodash";
+import LoadingIndicator from "@components/loading-indicator";
+import SortableTableHeader, { SortableTableColumns, SortableTableHeaderProps } from "@components/sortable-table-header";
+import { StyledTooltip, StyledSkillImageTooltip } from "@components/styled-tooltip";
+import useSortableTable from "@hooks/use-sort-th-hook";
 
-export default function Characters() {
+const getCharactersForUser: TypedDocumentNode<{ poeCharacters: CharactersFragment[]}> = gql`
+  query CharactersPoeCharacters($userId: String!) {
+    poeCharacters(userId: $userId) {
+      id
+      userId
+      name
+      lastLeague
+      createdAtTimestamp
+      lastSnapshotTimestamp
+    }
+  }
+`;
+
+const getCharacterSnapshots: TypedDocumentNode<{ characterSnapshotsSearch: { snapshots: CharactersSnapshotsFragment[] } }> = gql`
+  query Query($search: CharacterSnapshotSearch!) {
+    characterSnapshotsSearch(search: $search) {
+      snapshots {
+        name
+        level
+        characterClass
+        mainSkillKey
+        characterId
+        snapshotId
+      }
+    }
+  }
+`;
+
+/**
+ * Columns used by the characters table.
+ */
+const columns: SortableTableColumns = [
+  {
+    key: "name",
+    text: "Name"
+  },
+  {
+    key: "level",
+    text: "Level"
+  },
+  {
+    key: "mainSkillKey",
+    text: "Skill"
+  }
+];
+
+
+
+/**
+ * Response shape of each character entry
+ */
+type CharactersFragment = Pick<PoeCharacter, "id" | "userId" |  "name" | "lastLeague" | "createdAtTimestamp" | "lastSnapshotTimestamp">;  
+
+/**
+ * Response shape of each snapshot entry
+ */
+type CharactersSnapshotsFragment = Pick<CharacterSnapshotSearchResponseEntry, "name" |  "level" | "characterClass" | "mainSkillKey" | "characterId" | "snapshotId">;
+
+/**
+ * Model used for joining a {@link CharactersFragment} and a {@link CharactersSnapshotsFragment}
+ */
+type CharacterByUser = CharactersFragment & CharactersSnapshotsFragment;
+
+/**
+ * Model used to represent the entire set of joins of {@link CharacterByUser}
+ */
+type CharactersByUser = Array<CharacterByUser>;
+
+/**
+ * Action to set the {@link CharactersFragment} entries of the entire data set.
+ */
+type SetCharactersByUser = {
+  type: "characters",
+  characters: Array<CharactersFragment>
+}
+
+/**
+ * Action to set the {@link CharactersSnapshotsFragment} entries of the entire data set.
+ */
+type SetSnapshots = {
+  type: "snapshots",
+  snapshots: Array<CharactersSnapshotsFragment>
+}
+
+/**
+ * The valid actions for the data set reducer.
+ */
+type CharactersByUserActions = SetCharactersByUser | SetSnapshots;
+
+/**
+ * Route for all characters of a specific user.
+ */
+export default function CharactersByUser() {
   const router = useRouter();
   const { userId } = router.query;
 
-  const [poeCharacters, setPoeCharacters] = useState<PoeCharacter[]>([]);
+  const [characters, setCharacters] = useReducer(
+    (state: CharactersByUser, action: CharactersByUserActions)=>{
+      if(action.type === "characters") {
+        state = action.characters.map(char=>({
+          ...char,
+          level: 0, 
+          characterClass: "", 
+          mainSkillKey: "", 
+          characterId: ""
+        }));
+      }
+      else if(action.type === "snapshots") {
+        /*
+         * This is just a naive search through the snapshots for each character.
+         * If there are issues this could be a good spot for performance improvements.
+         */
+        state = state.map(char=> {
+          const charSnapshot = action.snapshots.find(snapshot=>snapshot.characterId === char.id);
+          if(charSnapshot)
+          {
+            return {
+              ...char,
+              ...charSnapshot
+            }
+          }
+          else {
+            return char;
+          }
+        });
+      }
+      return state;  
+    },[]);
 
-  const { refetch: refetchPoeCharacters } = useQuery(
-    gql`
-      query CharactersPoeCharacters($userId: String!) {
-        poeCharacters(userId: $userId) {
-          id
-          userId
-          name
-          lastLeague
-          createdAtTimestamp
-          lastSnapshotTimestamp
+  const { refetch: refetchPoeCharacters, loading: loadingCharactersById } = 
+    useQuery(getCharactersForUser,
+      {
+        skip: !userId,
+        variables: { userId: userId },
+        onCompleted(data) {
+          setCharacters({ type: "characters", characters: data.poeCharacters });
+        },
+      });
+
+  const { refetch: refetchCharSnapshots, loading: loadingCharSnapshots } = 
+    useQuery(getCharacterSnapshots,
+      {
+        "variables": {
+          "search": {
+            "includedCharacterIds": characters.map(c=>c.id)
+          }
+        },
+        onCompleted(response) {
+          setCharacters({ type: "snapshots", snapshots: response.characterSnapshotsSearch.snapshots });
+        },
+      });
+
+    const [takeSnapshot] = useMutation(
+        gql`
+          mutation RefreshPoeCharacters {
+            refreshPoeCharacters
+          }
+        `,
+        {
+          onCompleted(data, clientOptions) {
+            refetchPoeCharacters({ userId: userId });
+            refetchCharSnapshots({ search: { includedCharacterIds: characters.map(c=>c.id) }});
+          },
         }
-      }
-    `,
-    {
-      skip: !userId,
-      variables: { userId: userId },
-      onCompleted(data) {
-        setPoeCharacters(data.poeCharacters);
-      },
-    }
-  );
-
-  const [takeSnapshot] = useMutation(
-    gql`
-      mutation RefreshPoeCharacters {
-        refreshPoeCharacters
-      }
-    `,
-    {
-      onCompleted(data, clientOptions) {
-        refetchPoeCharacters();
-      },
-    }
-  );
-
-  const characterGroups = _.groupBy(poeCharacters, (e) => e.lastLeague);
+      );
+    
+  const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
+    (key, dir)=>{
+      /* handling sorting here */
+    });
 
   return (
     <>
-      <div className="flex flex-row space-x-2">
-        <StyledCard title="Characters" className="flex-1">
-          <div className="flex flex-col space-y-10">
-            {Object.entries(characterGroups)?.map(([league, characters]) => (
-              <>
-                <div>
-                  <h3>{league}</h3>
-                  {characters.map((character) => (
-                    <>
-                      <div>
-                        <Link href={`/poe/character/${character.id}`}>
-                          {character.name}
-                        </Link>
-                      </div>
-                    </>
-                  ))}
-                </div>
-              </>
-            ))}
+      {
+        (loadingCharactersById && loadingCharSnapshots) ?
+          <LoadingIndicator/>
+          :
+          <div className="flex flex-row space-x-2">
+            <StyledCard title="Characters" className="flex-1">
+              <div className="flex flex-col space-y-10">
+                <StyledCharactersSummaryTable 
+                  characters={characters}
+                  columns={columns}
+                  columnDirections={columnsSortMap}
+                  onSortChange={updateSortMap}
+                />
+              </div>
+              <StyledButton
+                text={"Refresh"}
+                onClick={() => {
+                  takeSnapshot();
+                }}
+              />
+            </StyledCard>
           </div>
-          <StyledButton
-            text={"Refresh"}
-            onClick={() => {
-              takeSnapshot();
-            }}
-          />
-        </StyledCard>
-      </div>
+      }
     </>
   );
 }
+
+type StyledCharactersSummaryTableProps = {
+  characters: CharactersByUser;
+} & SortableTableHeaderProps;
+
+
+/**
+ * Table of a brief summary of characters on the {@link Characters} page.
+ */
+function StyledCharactersSummaryTable({
+  characters,
+  columns,
+  columnDirections,
+  onSortChange,
+}: StyledCharactersSummaryTableProps) {
+  return (
+    <StyledCard title="Characters" className="flex-1">
+      <table>
+        <SortableTableHeader 
+            columns={columns}
+            columnDirections={columnDirections}
+            onSortChange={onSortChange}
+        />
+        <tbody className="">
+          {characters.map((snapshot) => (
+            <tr
+              className="hover:bg-skin-primary border-y-2 border-slate-700/50"
+              key={snapshot.id}
+            >
+              <td>
+                <Link
+                  href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
+                  className="hover:text-skin-accent hover:underline pl-3"
+                >
+                  {snapshot?.name}
+                </Link>
+              </td>
+              <td>
+                <ul className="flex flex-row space-x-2 justify-left items-center">
+                  <div className="text-center">{snapshot.level}</div>
+                  <div>
+                    <StyledTooltip
+                      texts={[`${snapshot.characterClass}`]}
+                      placement="right"
+                      className="bg-slate-800"
+                    >
+                      <Image
+                        src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                        alt={snapshot.characterClass}
+                        width={39}
+                        height={30}
+                      />
+                    </StyledTooltip>
+                  </div>
+                </ul>
+              </td>
+
+              <td>
+                {snapshot.mainSkillKey ? (
+                  <li className="list-none">
+                    <StyledSkillImageTooltip
+                      texts={[`${snapshot.mainSkillKey}`]}
+                      placement="left"
+                      title="Skills"
+                      imageString={snapshot.mainSkillKey}
+                      className="bg-slate-800"
+                    >
+                      <Image
+                        src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                        alt=""
+                        width={39}
+                        height={30}
+                      />
+                    </StyledSkillImageTooltip>
+                  </li>
+                ) : null}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </StyledCard>
+  );
+}
+
+
+/*
+    {Object.entries(characterGroups)?.map(([league, characters]) => (
+                  <>
+                    <div>
+                      <h3>{league}</h3>
+                      {characters.map((character) => (
+                        <>
+                          <div>
+                            <Link href={`/poe/character/${character.id}`}>
+                              {character.name}
+                            </Link>
+                          </div>
+                        </>
+                      ))}
+                    </div>
+                  </>
+                ))}
+ */
