@@ -6,17 +6,21 @@ const options = {
   todayBtn: true,
   clearBtn: true,
   theme: {
-    background: "bg-theme-color-1",
-    todayBtn: "bg-theme-color-1 text-skin-base focus:ring-0",
+    background: "bg-color-primary",
+    todayBtn:
+      "bg-color-primary text-content-base focus:ring-0  hover:bg-color-accent text-content-base hover:text-content-inverted ",
     clearBtn:
-      "bg-theme-color-1 border-none hover:bg-theme-color-3 text-skin-base focus:ring-0",
-    icons: "bg-theme-color-1 text-skin-base",
-    text: "text-skin-base hover:bg-theme-color-3",
-    disabledText: "text-skin-base hover:bg-theme-color-1",
-    input: "bg-theme-color-1  border border-theme-color-2 text-skin-base",
-    inputIcon: "bg-theme-color-1",
-    selected: "text-skin-base",
+      "bg-color-primary border-none hover:bg-color-accent text-content-base hover:text-content-inverted focus:ring-0",
+    icons:
+      "bg-color-primary text-content-base hover:bg-color-accent hover:text-content-inverted",
+    text: "text-content-base hover:text-content-inverted",
+    disabledText: "text-content-base hover:bg-color-primary",
+    input: "bg-color-primary border border-color-secondary text-content-base",
+    inputIcon: "bg-color-primary",
+    selected:
+      "bg-color-secondary-variant  text-content-base hover:bg-color-accent",
   },
+
   datepickerClassNames: "top-17",
   defaultDate: undefined,
   language: "en",

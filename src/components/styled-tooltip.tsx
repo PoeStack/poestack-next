@@ -84,7 +84,7 @@ export const StyledTooltip: FC<Props> = ({
         >
           {texts?.length > 1 ? (
             <div
-              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+              className={`px-2 grid place-items-center text-sm font-medium text-content-base bg-color-primary min-w-64 w-fit rounded shadow-sm ${className}`}
             >
               {texts.map((text, index) => (
                 <div key={index}>
@@ -104,7 +104,7 @@ export const StyledTooltip: FC<Props> = ({
             </div>
           ) : (
             <div
-              className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+              className={`px-2 grid place-items-center text-sm font-medium text-content-base bg-color-primary min-w-64 w-fit rounded shadow-sm ${className}`}
             >
               <span>{texts}</span>
               {arrow ? (
@@ -125,6 +125,7 @@ export const StyledTooltip: FC<Props> = ({
   );
 };
 
+// Refined for Skill Images only, as information and styling requirements for other elements, such as items, may vary greatly and warrant separate components.
 export const StyledSkillImageTooltip: FC<Props> = ({
   texts,
   placement,
@@ -179,7 +180,7 @@ export const StyledSkillImageTooltip: FC<Props> = ({
           {...attributes.popper}
         >
           <div
-            className={`px-2 grid place-items-center text-sm font-medium text-skin-base bg-skin-primary min-w-64 w-fit rounded shadow-sm ${className}`}
+            className={`px-2 grid place-items-center text-sm font-medium text-content-base bg-color-primary min-w-64 w-fit rounded shadow-sm ${className}`}
           >
             <div>
               <p className=" capitalize text-md text-left">{title}</p>

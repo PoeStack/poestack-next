@@ -14,36 +14,35 @@ import {
   ItemGroupValueTimeseries,
   StashSnapshotItemGroupSummarySearchInput,
 } from "@generated/graphql";
-import {
-  POE_LEAGUES,
-  usePoeLeagueCtx,
-} from "@contexts/league-context";
+import { POE_LEAGUES, usePoeLeagueCtx } from "@contexts/league-context";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import useSortableTable from "@hooks/use-sort-th-hook";
-import SortableTableHeader, { SortableTableColumns } from "@components/sortable-table-header";
+import SortableTableHeader, {
+  SortableTableColumns,
+} from "@components/sortable-table-header";
 
 const columns: SortableTableColumns = [
   {
     key: "",
     text: "",
-    notSortable: true
+    notSortable: true,
   },
   {
     key: "name",
-    text: "Name"
+    text: "Name",
   },
   {
     key: "history",
     text: "History",
-    notSortable: true
+    notSortable: true,
   },
   {
     key: "listing",
-    text: "Listings"
+    text: "Listings",
   },
   {
     key: "value",
-    text: "Value"
+    text: "Value",
   },
 ];
 
@@ -129,15 +128,17 @@ export default function Economy() {
     refetchHistograms();
   }, [refetchHistograms, timeseriesSearch]);
 
-  const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
-    (key, dir)=>{
+  const [columnsSortMap, updateSortMap] = useSortableTable(
+    columns,
+    (key, dir) => {
       /*  update the queries in here somehow */
-    });
+    }
+  );
 
   if (!itemValueTimeseries) {
     return "loading...";
   }
-  
+
   return (
     <>
       <div>
@@ -152,14 +153,17 @@ export default function Economy() {
 
           <div className="min-h-[20rem]">
             <table className="w-full">
-              <SortableTableHeader 
+              <SortableTableHeader
                 columns={columns}
                 columnDirections={columnsSortMap}
                 onSortChange={updateSortMap}
               />
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
-                  <tr key={index} className="hover:text-skin-accent">
+                  <tr
+                    key={index}
+                    className=" hover:text-content-accent  pl-3 hover:bg-color-primary"
+                  >
                     <td>
                       <Image
                         src={groupSeries.itemGroup?.icon ?? ""}
@@ -178,10 +182,10 @@ export default function Economy() {
                         )}
                       </Link>
                     </td>
-                    <td>
+                    <td className="flex flex-col items-center">
                       <HSparkline data={groupSeries.series} />
                     </td>
-                    <td>
+                    <td className="text-center">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "totalValidListings"
@@ -197,7 +201,7 @@ export default function Economy() {
                         );
                       })()}
                     </td>
-                    <td>
+                    <td className="flex flex-col items-center">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "p10"

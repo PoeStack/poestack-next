@@ -70,11 +70,13 @@ export default function Profiles() {
                 </button>
               </StyledTooltip>
               <Link
-                className="bg-theme-color-3 hover:bg-blue-700 py-1 px-1  rounded-lg"
+                className="bg-color-secondary hover:bg-color-accent-variant py-1 px-1  rounded-lg"
                 href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
               >
                 {" "}
-                <p>Create Profile</p>
+                <p className="text-content-base font-semibold hover:text-content-inverted">
+                  Create Profile
+                </p>
               </Link>
             </div>
           </div>
@@ -91,7 +93,7 @@ export default function Profiles() {
                   <tr key={index}>
                     <td>
                       <Link
-                        className="hover:text-skin-accent"
+                        className="hover:text-content-accent"
                         href={"/poe/stash/snapshot/profiles/" + profile.id}
                       >
                         {profile?.name}
@@ -101,7 +103,7 @@ export default function Profiles() {
                     <td>
                       <div className="flex flex-row space-x-3">
                         <Link
-                          className="hover:text-skin-accent"
+                          className="hover:text-content-accent"
                           href={
                             "/poe/stash/snapshot/profiles/" +
                             profile.id +
@@ -111,7 +113,7 @@ export default function Profiles() {
                           Edit
                         </Link>
                         <div
-                          className="hover:text-skin-accent"
+                          className="hover:text-content-accent"
                           onClick={() => {
                             deleteProfile({
                               variables: { stashSnapshotProfileId: profile.id },

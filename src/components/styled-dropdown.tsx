@@ -13,7 +13,7 @@ export default function StyledDropdown({
     <div className="">
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex w-full justify-center rounded-md bg-theme-color-3 px-2  text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75">
+          <Menu.Button className="inline-flex justify-center rounded-md bg-color-primary px-4 py-2 text-sm font-medium text-content-base shadow-sm hover:bg-color-secondary-variant focus:outline-none w-24 ">
             {text}
             <ChevronDownIcon
               className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"

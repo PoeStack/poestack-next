@@ -18,13 +18,13 @@ export default function StyledInput({
 
   return (
     <>
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-center focus:ring-0 ring-0 ">
         {!!label?.length && <div>{label}</div>}
         <input
           type={type}
           id={id}
           value={value ?? ""}
-          className="bg-transparent border w-full border-theme-color-2 focus:border-theme-color-2 rounded-lg m-2"
+          className="bg-transparent border w-full border-b border-color-base  rounded-lg m-2 focus:ring-0 ring-0 focus:border-color-accent"
           placeholder={placeholder}
           required
           onChange={(e) => {
