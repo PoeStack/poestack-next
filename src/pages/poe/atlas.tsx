@@ -41,7 +41,6 @@ export default function Atlas() {
     {
       variables: { league: league },
       onCompleted(data) {
-        console.log(data);
         setAggregateData(data.atlasPassiveTreeSnapshotPopularityAggregation);
       },
     }

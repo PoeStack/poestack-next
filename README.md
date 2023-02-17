@@ -9,7 +9,7 @@ The frontend app for PoeStack
 - Install node js and yarn
   - https://nodejs.org/en/download/
   - https://classic.yarnpkg.com/lang/en/docs/install
-- Run `yarn install`
+- Run `yarn install --frozen-lockfile`
 - Run `yarn dev`
 - Navigate to http://localhost:3000/ for the local next.js app
 - Read the steps below to connect your POE account
