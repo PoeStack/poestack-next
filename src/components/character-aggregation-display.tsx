@@ -1,11 +1,9 @@
-import React, { useCallback, useState } from "react";
-
-import { useEffect } from "react";
+import React from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { GeneralUtils } from "../utils/general-util";
+import { GeneralUtils } from "@utils/general-util";
 import { StyledTooltip } from "./styled-tooltip";
-import { GenericAggregation } from "../__generated__/graphql";
+import { GenericAggregation } from "@generated/graphql";
 
 export default function CharacterAggregationDisplay({
   aggregation,
@@ -48,9 +46,8 @@ export default function CharacterAggregationDisplay({
     )
     .sort((a, b) => b.value - a.value);
 
-  const Row = ({ index, key, style }) => (
+  const Row = ({ index, style }) => (
     <div
-      key={key}
       style={style}
       className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-color-primary  text-sm space-x-1 pr-2 "
       onClick={() => {
