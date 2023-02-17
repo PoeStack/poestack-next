@@ -175,8 +175,8 @@ export default function CharactersByUser() {
         `,
         {
           onCompleted(data, clientOptions) {
-            refetchPoeCharacters({ userId: userId });
-            refetchCharSnapshots({ search: { includedCharacterIds: characters.map(c=>c.id) }});
+            //refetchPoeCharacters({ userId: userId });
+            //refetchCharSnapshots({ search: { includedCharacterIds: characters.map(c=>c.id) }});
           },
         }
       );
