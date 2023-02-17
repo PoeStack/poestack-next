@@ -49,7 +49,7 @@ export default function CharacterAggregationDisplay({
   const Row = ({ index, style }) => (
     <div
       style={style}
-      className=" truncate grid capitalize cursor-pointer grid-cols-skillSidebar items-center hover:bg-color-primary  text-sm space-x-1 pr-2 "
+      className=" truncate grid capitalize cursor-pointer grid-cols-2 items-center hover:bg-color-primary  text-sm space-x-1 pr-2 "
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
