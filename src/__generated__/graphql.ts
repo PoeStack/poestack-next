@@ -152,6 +152,7 @@ export type CharacterSnapshotSearchResponseEntry = {
   characterClass: Scalars['String'];
   characterId: Scalars['String'];
   energyShield?: Maybe<Scalars['Float']>;
+  league: Scalars['String'];
   level: Scalars['Float'];
   life?: Maybe<Scalars['Float']>;
   mainSkillKey?: Maybe<Scalars['String']>;
