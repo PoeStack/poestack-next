@@ -8,12 +8,13 @@ import {
   usePoeStackAuth,
 } from "../contexts/user-context";
 import GggAuthBtn from "@components/ggg-auth-btn";
-import Link from "next/link";
+
 import Script from "next/script";
 import StyledNavBar from "@components/styled-nav-bar";
 import Head from "next/head";
 import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
+import StyledFooter from "@components/styled-footer";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -51,33 +52,8 @@ export default function App({ Component, pageProps }: AppProps) {
                     </div>
                     <div className="lg:basis-1/12"></div>
                   </div>
-                  <div className="flex flex-row space-x-3">
-                    <div>
-                      <h3>
-                        This product isn&apos;t affiliated with or endorsed by
-                        Grinding Gear Games in any way.
-                      </h3>
-                    </div>
-                    <div>
-                      <Link
-                        href={
-                          "https://www.privacypolicygenerator.info/live.php?token=6cH1lbmNbc4oU9ntPGezJpm0jjoAAFl1"
-                        }
-                      >
-                        Privacy Policy
-                      </Link>
-                    </div>
-                    <div>
-                      <Link
-                        href={
-                          "https://www.termsandconditionsgenerator.com/live.php?token=iHhICDjDy7nTvREruFufuv1pCsMHdJ5j"
-                        }
-                      >
-                        Terms of Service
-                      </Link>
-                    </div>
-                    <div>Copyright ©2023 PoeStack.com Owner</div>
-                  </div>
+                  {/* Footer */}
+                  <StyledFooter />
                 </div>
               </div>
             </PoeStackLeagueProvider>
