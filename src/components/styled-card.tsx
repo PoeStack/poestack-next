@@ -6,7 +6,7 @@ export default function StyledCard({
   className,
 }: {
   children?: any;
-  title: string;
+  title?: string;
   className?: string;
 }) {
   return (
@@ -17,7 +17,7 @@ export default function StyledCard({
           (className ? className : "")
         }
       >
-        <div className="mb-2 border-b border-color-secondary ">
+        <div className="mb-2">
           <h1>{title}</h1>
         </div>
         {children}
