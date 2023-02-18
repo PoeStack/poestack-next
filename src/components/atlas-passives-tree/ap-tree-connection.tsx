@@ -1,9 +1,9 @@
 import { memo } from "react";
 
 /**
- * Props for the {@link SkillTreeConnection} component.
+ * Props for the {@link APTreeConnection} component.
  */
-export type SkillTreeConnectionProps = {
+export type APTreeConnectionProps = {
   fromX: number;
   fromY: number;
   toX: number;
@@ -24,7 +24,7 @@ export type SkillTreeConnectionProps = {
 /**
  * Draw a connection between 2 nodes on the skill tree. 
  */
-export function SkillTreeConnection({
+export function APTreeConnection({
   fromX,
   fromY,
   toX,
@@ -35,7 +35,7 @@ export function SkillTreeConnection({
   from,
   to,
   curved
-}: SkillTreeConnectionProps) {
+}: APTreeConnectionProps) {
   if (curved) {
     return (
       <path
@@ -63,4 +63,4 @@ export function SkillTreeConnection({
   }
 }
 
-export const MemoisedSkillTreeConnection = memo(SkillTreeConnection);
+export const MemoisedAPTreeConnection = memo(APTreeConnection);

@@ -7,7 +7,7 @@ export default function CharacterStatsDisplay({
 }: {
   pobStats: CharacterSnapshotPobStats | undefined | null;
 }) {
-  console.log("pobStats", pobStats);
+  //console.log("pobStats", pobStats);
 
   if (!pobStats) {
     return <>Loading...</>;

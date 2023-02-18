@@ -146,51 +146,6 @@ export default function Character({ characterSnapshot }) {
     },
   });
 
-  const [passiveTreeData, setPassiveTreeData] =
-    useState<PassiveTreeResponse | null>(null);
-  const { refetch: refetchPassiveTreeData } = useQuery(
-    gql`
-      query PassiveTree($passiveTreeVersion: String!) {
-        passiveTree(passiveTreeVersion: $passiveTreeVersion) {
-          constants {
-            minX
-            minY
-            maxX
-            maxY
-            skillsPerOrbit
-            orbitRadii
-          }
-          nodeMap
-          connectionMap
-        }
-      }
-    `,
-    {
-      skip: true,
-      variables: { passiveTreeVersion: "3.20" },
-      onCompleted(data) {
-        setPassiveTreeData(data.passiveTree);
-        if (data.passiveTree) {
-          localStorage.setItem(
-            "3.20_passive_data_5",
-            JSON.stringify(data.passiveTree)
-          );
-        }
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && !passiveTreeData) {
-      const localData = localStorage.getItem("3.20_passive_data_5");
-      if (localData) {
-        setPassiveTreeData(JSON.parse(localData));
-      } else {
-        refetchPassiveTreeData();
-      }
-    }
-  }, [passiveTreeData, refetchPassiveTreeData]);
-
   const [takeSnapshot] = useMutation(
     gql`
       mutation CharacterTakeCharacterSnapshot($characterId: String!) {
@@ -204,6 +159,7 @@ export default function Character({ characterSnapshot }) {
       },
     }
   );
+
 
   const embeddedDesc = `Life ${currentSnapshot?.characterSnapshotPobStats?.life} ES ${currentSnapshot?.characterSnapshotPobStats?.energyShield}
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
@@ -352,23 +308,29 @@ export default function Character({ characterSnapshot }) {
         </div>
 
         <StyledCard title={"Passive Tree"}>
-          {passiveTreeData && (
-            <SkillTree
-              data={passiveTreeData}
-              selectedNodes={
-                new Set(
-                  currentSnapshot?.characterPassivesSnapshot?.hashes.map((h) =>
-                    h.toString()
-                  ) ?? []
-                )
-              }
-            />
-          )}
+          <SkillTree
+            version={"3.20"}
+            selectedNodes={
+              currentSnapshot?.characterPassivesSnapshot?.hashes
+          }/>
         </StyledCard>
+
       </div>
     </>
   );
 }
+
+/*
+<SkillTree
+            selectedNodes={
+              new Set(
+                currentSnapshot?.characterPassivesSnapshot?.hashes.map((h) =>
+                  h.toString()
+                ) ?? []
+              )
+            }
+          />
+          */
 
 export async function getServerSideProps(context) {
   const { characterId, snapshotId } = context.query;

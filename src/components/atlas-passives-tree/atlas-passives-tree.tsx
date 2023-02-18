@@ -1,50 +1,33 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { useQuery, gql, TypedDocumentNode } from "@apollo/client";
-import LoadingIndicator from "@components/loading-indicator";
+import { useEffect, useMemo, useState } from "react";
+import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
 import {
   PassiveTreeConnection,
   PassiveTreeNode,
   PassiveTreeResponse,
-} from "../../__generated__/graphql";
-import { MemoisedSkillTreeConnection, SkillTreeConnectionProps } from "./skill-tree-connection";
-import { MemoisedSkillTreeNode, SkillTreeNodeProps } from "./skill-tree-node";
+} from "@generated/graphql";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import LoadingIndicator from "@components/loading-indicator";
+import { APTreeNodeProps, MemoisedAPTreeNode } from "./ap-tree-node";
+import { APTreeConnectionProps, MemoisedAPTreeConnection } from "./ap-tree-connection";
 
-
-const passiveSkillsLayoutQuery: TypedDocumentNode<{ passiveTree: PassiveTreeResponse }> = gql`
-  query PassiveTree($passiveTreeVersion: String!) {
-    passiveTree(passiveTreeVersion: $passiveTreeVersion) {
-      constants {
-        minX
-        minY
-        maxX
-        maxY
-        skillsPerOrbit
-        orbitRadii
+const atlasPassivesLayoutQuery: TypedDocumentNode<{ atlasTree: PassiveTreeResponse }> = gql`
+    query AtlasTree($passiveTreeVersion: String!) {
+      atlasTree(passiveTreeVersion: $passiveTreeVersion) {
+        constants {
+          minX
+          minY
+          maxX
+          maxY
+          skillsPerOrbit
+          orbitRadii
+        }
+        nodeMap
+        connectionMap
       }
-      nodeMap
-      connectionMap
     }
-  }`;
+  `;
 
-
-const defaultResponse: PassiveTreeResponse = {
-  __typename: "PassiveTreeResponse",
-  allConnections: [],
-  allNodes: [],
-  connectionMap: [],
-  constants: {
-    minX: 0,
-    minY: 0,
-    maxX: 0,
-    maxY: 0,
-    skillsPerOrbit: [],
-    orbitRadii: []
-  },
-  nodeMap: []
-}
-
-function createNodeProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<SkillTreeNodeProps> {
+function createNodeProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<APTreeNodeProps> {
   if(treeData){
     return Object.values<PassiveTreeNode>(treeData.nodeMap).map((node) =>
     ({
@@ -59,7 +42,7 @@ function createNodeProps(treeData: PassiveTreeResponse | undefined, nodes: Set<s
   return [];
 }
 
-function createConnectionProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<SkillTreeConnectionProps> {
+function createConnectionProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<APTreeConnectionProps> {
   if(treeData){
     return treeData.connectionMap.map((connection: PassiveTreeConnection) => {
       const fromNode = treeData.nodeMap[connection.fromNode];
@@ -91,28 +74,35 @@ function createConnectionProps(treeData: PassiveTreeResponse | undefined, nodes:
   else { return []; }
 }
 
-export default function SkillTree({ selectedNodes, version }: {
+/**
+ * Displays the Atlas Passives tree.  
+ * If {@argument selectedNodes} is passed it will highlight the {@link Set}.
+ * 
+ * @todo Currently highlighting is turned off in the child components
+ * {@link MemoisedAPTreeNode} and {@link MemoisedAPTreeConnection}
+ */
+export default function AtlasPassivesTree({ selectedNodes, version }: {
   selectedNodes?: Array<number>,
   version: string
 }) {
   const { league } = usePoeLeagueCtx();
-  
+
   const [treeData, setTreeData] = useState<PassiveTreeResponse>();
-  
+
   const { refetch, loading } = useQuery(
-    passiveSkillsLayoutQuery,
+    atlasPassivesLayoutQuery,
     {
         skip: true,
         variables: { 
         passiveTreeVersion: version,
         league: league
       },
-      onCompleted({ passiveTree }) {
-        setTreeData(passiveTree);
-        if (passiveTree) {
+      onCompleted({ atlasTree }) {
+        setTreeData(atlasTree);
+        if (atlasTree) {
           localStorage.setItem(
-            `${version}_passive_tree_data`,
-            JSON.stringify(passiveTree)
+            `${version}_atlas_passives_tree_data`,
+            JSON.stringify(atlasTree)
           );
         }
       }
@@ -120,7 +110,7 @@ export default function SkillTree({ selectedNodes, version }: {
 
   useEffect(() => {
     if (typeof window !== 'undefined' && !treeData) {
-      const localData = localStorage.getItem(`${version}_passive_tree_data`);
+      const localData = localStorage.getItem(`${version}_atlas_passives_tree_data`);
       if (localData) {
         setTreeData(JSON.parse(localData));
       } else {
@@ -128,7 +118,7 @@ export default function SkillTree({ selectedNodes, version }: {
       }
     }
   }, [treeData, refetch, version]);    
-  
+
   const memoizedSelectedNodes = useMemo(
     () => new Set<string>(selectedNodes ? selectedNodes.map(num=>num.toString()) : []), 
     [selectedNodes]);
@@ -139,35 +129,33 @@ export default function SkillTree({ selectedNodes, version }: {
 
   const memoizedConnectionProps = useMemo(
     ()=>createConnectionProps(treeData, memoizedSelectedNodes),
-    [treeData, memoizedSelectedNodes]
-  );
-  
+    [treeData, memoizedSelectedNodes]);
+
   const minX = treeData?.constants.minX || 0;
   const minY = treeData?.constants.minY || 0;
   const maxX = treeData?.constants.maxX || 0;
   const maxY = treeData?.constants.maxY || 0;
-  const treeWidth = maxX - minX;
-  const treeHeight = maxY - minY;
+  const width = maxX - minX;
+  const height = maxY - minY;
 
   return (
     <>{
-      loading?
+      loading ? 
         <LoadingIndicator/> 
-        :
+      :
         <svg
           width="100%"
           preserveAspectRatio="xMidYMid meet"
-          viewBox={`${minX} ${minY} ${treeWidth} ${treeHeight}`}
+          viewBox={`${minX} ${minY} ${width} ${height}`}
         >
           {
-            memoizedConnectionProps.map((props, index)=>
-              <MemoisedSkillTreeConnection key={index} {...props}/>)
+            memoizedConnectionProps.map((props, index) => (
+              <MemoisedAPTreeConnection key={index} {...props} />))
           }
           {
             memoizedNodeProps.map((props, index) => (
-              <MemoisedSkillTreeNode key={index} {...props}/>))
+              <MemoisedAPTreeNode key={index} {...props} />))
           }
         </svg>
-    }</>
-  );
+    }</>);
 }

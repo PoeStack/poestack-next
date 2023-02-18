@@ -1,11 +1,10 @@
+import React, { useReducer } from "react";
 import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
-
 import Link from "next/link";
 import Image from "next/image";
 import { 
   CharacterSnapshotSearchResponseEntry, 
   PoeCharacter } from "@generated/graphql";
-import { useReducer } from "react";
 import { useRouter } from "next/router";
 import StyledCard from "@components/styled-card";
 import StyledButton from "@components/styled-button";
@@ -14,6 +13,8 @@ import LoadingIndicator from "@components/loading-indicator";
 import SortableTableHeader, { SortableTableColumns, SortableTableHeaderProps } from "@components/sortable-table-header";
 import { StyledTooltip, StyledSkillImageTooltip } from "@components/styled-tooltip";
 import useSortableTable from "@hooks/use-sort-th-hook";
+import { usePoeStackAuth } from "@contexts/user-context";
+import AtlasPassivesTree from "@components/atlas-passives-tree/atlas-passives-tree";
 
 const getCharactersForUser: TypedDocumentNode<{ poeCharacters: CharactersFragment[]}> = gql`
   query CharactersPoeCharacters($userId: String!) {
@@ -38,10 +39,13 @@ const getCharacterSnapshots: TypedDocumentNode<{ characterSnapshotsSearch: { sna
         mainSkillKey
         characterId
         snapshotId
+        league
       }
     }
   }
 `;
+
+
 
 /**
  * Columns used by the characters table.
@@ -58,10 +62,12 @@ const columns: SortableTableColumns = [
   {
     key: "mainSkillKey",
     text: "Skill"
+  },
+  {
+    key: "league",
+    text: "League"
   }
 ];
-
-
 
 /**
  * Response shape of each character entry
@@ -71,7 +77,7 @@ type CharactersFragment = Pick<PoeCharacter, "id" | "userId" |  "name" | "lastLe
 /**
  * Response shape of each snapshot entry
  */
-type CharactersSnapshotsFragment = Pick<CharacterSnapshotSearchResponseEntry, "name" |  "level" | "characterClass" | "mainSkillKey" | "characterId" | "snapshotId">;
+type CharactersSnapshotsFragment = Pick<CharacterSnapshotSearchResponseEntry, "name" |  "level" | "characterClass" | "mainSkillKey" | "characterId" | "snapshotId"> & { "league": string };
 
 /**
  * Model used for joining a {@link CharactersFragment} and a {@link CharactersSnapshotsFragment}
@@ -111,6 +117,10 @@ export default function CharactersByUser() {
   const router = useRouter();
   const { userId } = router.query;
 
+  const { profile } = usePoeStackAuth();
+
+  const isCurrentUser = !!(profile?.userId && profile.userId === userId);
+
   const [characters, setCharacters] = useReducer(
     (state: CharactersByUser, action: CharactersByUserActions)=>{
       if(action.type === "characters") {
@@ -119,7 +129,8 @@ export default function CharactersByUser() {
           level: 0, 
           characterClass: "", 
           mainSkillKey: "", 
-          characterId: ""
+          characterId: "",
+          league: ""
         }));
       }
       else if(action.type === "snapshots") {
@@ -165,21 +176,20 @@ export default function CharactersByUser() {
         onCompleted(response) {
           setCharacters({ type: "snapshots", snapshots: response.characterSnapshotsSearch.snapshots });
         },
-      });
+      });      
 
-    const [takeSnapshot] = useMutation(
-        gql`
-          mutation RefreshPoeCharacters {
-            refreshPoeCharacters
-          }
-        `,
-        {
-          onCompleted(data, clientOptions) {
-            //refetchPoeCharacters({ userId: userId });
-            //refetchCharSnapshots({ search: { includedCharacterIds: characters.map(c=>c.id) }});
-          },
+  const [takeSnapshot] = useMutation(
+      gql`
+        mutation RefreshPoeCharacters {
+          refreshPoeCharacters
         }
-      );
+      `,
+      {
+        onCompleted(data, clientOptions) {
+          refetchPoeCharacters({ userId: userId });
+          refetchCharSnapshots({ search: { includedCharacterIds: characters.map(c=>c.id) }});
+        },
+      });
     
   const [columnsSortMap, updateSortMap] = useSortableTable(columns, 
     (key, dir)=>{
@@ -192,22 +202,31 @@ export default function CharactersByUser() {
         (loadingCharactersById && loadingCharSnapshots) ?
           <LoadingIndicator/>
           :
-          <div className="flex flex-row space-x-2">
+          <div className="flex flex-col space-x-2 space-y-2">
             <StyledCard title="Characters" className="flex-1">
               <div className="flex flex-col space-y-10">
-                <StyledCharactersSummaryTable 
+                <CharactersByUserTable 
                   characters={characters}
                   columns={columns}
                   columnDirections={columnsSortMap}
                   onSortChange={updateSortMap}
                 />
               </div>
-              <StyledButton
-                text={"Refresh"}
-                onClick={() => {
-                  takeSnapshot();
-                }}
-              />
+              {
+                isCurrentUser?
+                  <StyledButton
+                    text={"Refresh"}
+                    onClick={() => {
+                      takeSnapshot();
+                    }}
+                  />
+                  :
+                  <></>
+              }
+            </StyledCard>
+
+            <StyledCard title="Atlas Passives">
+              <AtlasPassivesTree version={"3.20"} />
             </StyledCard>
           </div>
       }
@@ -215,15 +234,18 @@ export default function CharactersByUser() {
   );
 }
 
+/**
+ * Props for {@link CharactersByUserTable}
+ */
 type StyledCharactersSummaryTableProps = {
   characters: CharactersByUser;
 } & SortableTableHeaderProps;
 
 
 /**
- * Table of a brief summary of characters on the {@link Characters} page.
+ * Table of a brief summary of characters on the {@link CharactersByUser} page.
  */
-function StyledCharactersSummaryTable({
+function CharactersByUserTable({
   characters,
   columns,
   columnDirections,
@@ -254,20 +276,20 @@ function StyledCharactersSummaryTable({
               <td>
                 <ul className="flex flex-row space-x-2 justify-left items-center">
                   <div className="text-center">{snapshot.level}</div>
-                  <div>
-                    <StyledTooltip
-                      texts={[`${snapshot.characterClass}`]}
-                      placement="right"
-                      className="bg-slate-800"
-                    >
+                    <div>
+                      <StyledTooltip
+                        texts={[`${snapshot.characterClass}`]}
+                        placement="right"
+                        className="bg-slate-800"
+                      >
                       <Image
                         src={`/assets/poe/classes/${snapshot.characterClass}.png`}
                         alt={snapshot.characterClass}
                         width={39}
                         height={30}
                       />
-                    </StyledTooltip>
-                  </div>
+                      </StyledTooltip>
+                    </div>
                 </ul>
               </td>
 
@@ -291,6 +313,11 @@ function StyledCharactersSummaryTable({
                   </li>
                 ) : null}
               </td>
+              <td>
+                {snapshot.league ? (
+                  <div className="text-left">{snapshot.league}</div>
+                ) : null}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -298,23 +325,3 @@ function StyledCharactersSummaryTable({
     </StyledCard>
   );
 }
-
-
-/*
-    {Object.entries(characterGroups)?.map(([league, characters]) => (
-                  <>
-                    <div>
-                      <h3>{league}</h3>
-                      {characters.map((character) => (
-                        <>
-                          <div>
-                            <Link href={`/poe/character/${character.id}`}>
-                              {character.name}
-                            </Link>
-                          </div>
-                        </>
-                      ))}
-                    </div>
-                  </>
-                ))}
- */
