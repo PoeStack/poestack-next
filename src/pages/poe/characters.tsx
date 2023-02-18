@@ -407,22 +407,29 @@ function StyledCharactersSummaryTable({
                     <>
                       <Link
                         href={`https://twitch.tv/${snapshot.twitchProfileName}`}
+                        legacyBehavior
                       >
-                        <StyledTooltip
-                          texts={[
-                            GeneralUtils.capitalize(
-                              snapshot.twitchProfileName
-                            )!,
-                          ]}
-                          placement={"right"}
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-content-accent"
                         >
-                          <Image
-                            src={`/assets/common/twitch_logo.png`}
-                            alt={"twitch"}
-                            width={39}
-                            height={39}
-                          />
-                        </StyledTooltip>
+                          <StyledTooltip
+                            texts={[
+                              GeneralUtils.capitalize(
+                                snapshot.twitchProfileName
+                              )!,
+                            ]}
+                            placement={"right"}
+                          >
+                            <Image
+                              src={`/assets/common/twitch_logo.png`}
+                              alt={"twitch"}
+                              width={39}
+                              height={39}
+                            />
+                          </StyledTooltip>
+                        </a>
                       </Link>
                     </>
                   ) : null}
