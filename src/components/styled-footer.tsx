@@ -5,7 +5,7 @@ export default function StyledFooter() {
   return (
     <footer className="p-2 mt-2 bg-surface-primary sm:p-4 text-sm ">
       <div className="grid grid-cols-2 md:grid-cols-3 justify-center">
-        <div className="mb-2 md:mb-0">
+        <div className=" relative mb-2 md:mb-0">
           <Link href="/" className="flex flex-row justify-start w-ful">
             <Image
               width={48}
@@ -17,6 +17,10 @@ export default function StyledFooter() {
               PoeStack
             </span>
           </Link>
+          <span className="absolute  left-0 bottom-10 md:bottom-0 text-xs text-slate-300">
+            This product is not affiliated with or endorsed by Grinding Gear
+            Games in any way
+          </span>
         </div>
         <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3">
           <div>
@@ -26,7 +30,7 @@ export default function StyledFooter() {
             <ul className="text-content-base ">
               <li className="mb-2">
                 <Link
-                  href="/"
+                  href="/poe/faq"
                   className="hover:underline hover:text-content-accent"
                 >
                   FAQ
@@ -101,7 +105,7 @@ export default function StyledFooter() {
         </div>
 
         <div className="relative  ">
-          <span className="absolute bottom-0 right-0 text-sm text-content-base sm:text-center ">
+          <span className="absolute bottom-0 right-0 text-sm text-content-base sm:text-center mr-4 ">
             © 2023{" "}
             <Link href="/" className="hover:underline">
               PoeStack.com
