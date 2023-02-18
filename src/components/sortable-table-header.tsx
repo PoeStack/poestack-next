@@ -70,19 +70,21 @@ export default function SortableTableHeader({
   }
 
   return (
-    <thead className="text-left">
+    <thead>
       <tr>
         {columns.map((column) => (
-          <th className="pl-2" key={column.key}>
+          <th className="pl-4 " key={column.key}>
             <button
-              className="flex flex-row"
+              className="flex flex-row  w-full"
               onClick={(e) => {
                 onColumnHeaderClick(column.key);
               }}
               disabled={column.notSortable}
             >
-              {column.text}
-              <OrderIndicatorIcon direction={columnDirections[column.key]} />
+              <div className="w-full flex justify-center  ">
+                {column.text}
+                <OrderIndicatorIcon direction={columnDirections[column.key]} />
+              </div>
             </button>
           </th>
         ))}

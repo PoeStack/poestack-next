@@ -158,6 +158,7 @@ export default function Economy() {
                 columnDirections={columnsSortMap}
                 onSortChange={updateSortMap}
               />
+
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr
