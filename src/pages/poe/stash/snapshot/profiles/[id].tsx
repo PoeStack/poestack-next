@@ -114,17 +114,14 @@ export default function ViewProfile() {
               />
             </div>
 
-            <div className=" w-2/5 h-10 flex flex-row justify-center mx-auto">
-              {psUserProfile?.userId === profile?.userId && (
-                <StyledButton
-                  className="w-2/5"
-                  text={takeSnapshotLoading ? "Loading..." : "Take Snapshot"}
-                  onClick={() => {
-                    takeSnapshot();
-                  }}
-                />
-              )}
-            </div>
+            {psUserProfile?.userId === profile?.userId && (
+              <StyledButton
+                text={takeSnapshotLoading ? "Loading..." : "Take Snapshot"}
+                onClick={() => {
+                  takeSnapshot();
+                }}
+              />
+            )}
           </StyledCard>
 
           <ProfitCard snapshots={snapshots ?? []} />

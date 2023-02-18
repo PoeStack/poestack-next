@@ -70,7 +70,7 @@ export default function Profiles() {
                 </button>
               </StyledTooltip>
               <Link
-                className="bg-color-secondary hover:bg-color-accent-variant py-1 px-1  rounded-lg"
+                className="bg-color-secondary hover:bg-color-accent-variant py-1 px-1 rounded-lg"
                 href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
               >
                 <p className="text-content-base font-semibold hover:text-content-inverted">

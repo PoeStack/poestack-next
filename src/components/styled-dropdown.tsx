@@ -10,7 +10,7 @@ export default function StyledDropdown({
   items: { text: string; onClick: () => void }[];
 }) {
   return (
-    <div className="">
+    <div>
       <Menu as="div" className="relative inline-block text-left">
         <div>
           <Menu.Button className="inline-flex justify-center rounded-md bg-color-primary px-4 py-2 text-sm font-medium text-content-base shadow-sm hover:bg-color-secondary-variant focus:outline-none w-24 ">

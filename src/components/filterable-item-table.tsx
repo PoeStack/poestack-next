@@ -234,7 +234,7 @@ export default function FilterableItemTable({
           }}
         />
 
-        <div className="flex flex-row">
+        <div className="flex flex-row space-x-2">
           <StyledInput
             value={itemGroupSearch?.searchstring}
             label="Search"
