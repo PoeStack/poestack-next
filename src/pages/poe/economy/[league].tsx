@@ -158,6 +158,7 @@ export default function Economy() {
                 columnDirections={columnsSortMap}
                 onSortChange={updateSortMap}
               />
+
               <tbody>
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr
@@ -182,10 +183,10 @@ export default function Economy() {
                         )}
                       </Link>
                     </td>
-                    <td className="flex flex-col items-center">
+                    <td className="flex flex-col items-start">
                       <HSparkline data={groupSeries.series} />
                     </td>
-                    <td className="text-center">
+                    <td className="text-left">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "totalValidListings"
@@ -201,7 +202,7 @@ export default function Economy() {
                         );
                       })()}
                     </td>
-                    <td className="flex flex-col items-center">
+                    <td className="flex flex-col">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "p10"

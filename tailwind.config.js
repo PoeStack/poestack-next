@@ -10,10 +10,11 @@ module.exports = {
   ],
   plugins: [require("flowbite/plugin")],
   theme: {
-    // "skin" is a key for tailwind theme-ing
-    // possible change skin to 'content' to fulfill material ui design philosophy
-    // base/inverted used for text
-    // primary/secondary, etc used for colors & backgrounds
+    // Theme Design Principles and Distinctions:
+    // - Color (primary, secondary &  variants)
+    // - Surfaces (backgrounds and components)
+    // - States (such as error states)
+    // - Content (typography and iconography)
     extend: {
       textColor: {
         content: {

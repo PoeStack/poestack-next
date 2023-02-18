@@ -274,7 +274,7 @@ export default function FilterableItemTable({
         <div>
           <table className="table-auto w-full">
             <thead>
-              <tr className="w-full">
+              <tr className="w-full text-left">
                 <th></th>
                 <th></th>
                 <th>Name</th>
@@ -317,11 +317,11 @@ export default function FilterableItemTable({
             <tbody className="h-80">
               {itemGroupSearchResult.itemGroupSummaries!.map(
                 (summary, index) => (
-                  <tr key={index}>
+                  <tr key={index} className="text-left">
                     <td>
                       <input
                         type="checkbox"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded"
+                        className="peer w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded "
                         checked={
                           !excludedItemGroupHashStrings.includes(
                             summary?.itemGroup?.hashString!
@@ -364,9 +364,10 @@ export default function FilterableItemTable({
                         />
                       </Link>
                     </td>
-                    <td>
+                    <td className="">
                       <Link
                         href={`/poe/economy/${snapshot.league}/item-group/${summary.itemGroup?.hashString}`}
+                        className="hover:text-content-accent peer-checked:text-content-accent"
                       >
                         {GeneralUtils.itemGroupToDisplayName(
                           summary?.itemGroup
@@ -374,7 +375,7 @@ export default function FilterableItemTable({
                       </Link>
                     </td>
                     <td>
-                      <StyledPopover text={"Econ"}>
+                      <StyledPopover text={"Show Econ"}>
                         <QuantityChart
                           timeseries={
                             itemValueTimeseries?.find(
@@ -405,7 +406,7 @@ export default function FilterableItemTable({
                                 summary.itemGroup!.hashString
                               ] ?? null
                             }
-                            className="bg-transparent border border-theme-color-2 focus:border-theme-color-2 rounded-lg"
+                            className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"
                             placeholder={"" + summary?.valueChaos}
                             required
                             onChange={(e) => {
