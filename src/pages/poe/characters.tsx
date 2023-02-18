@@ -572,6 +572,7 @@ export async function getServerSideProps({ req, res, query }) {
 
   const generalSearchResult: any = await client.query({
     query: generalSearch,
+    fetchPolicy: "network-only",
     variables: {
       search: {
         league: league ?? "Sanctum",
