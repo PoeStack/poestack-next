@@ -1,9 +1,9 @@
 import { memo } from "react";
 
 /**
- * Props for {@link SkillTreeNode}
+ * Props for {@link APTreeNode}
  */
-export type SkillTreeNodeProps = {
+export type APTreeNodeProps = {
   fillColor: string,
   x: number,
   y: number,
@@ -15,14 +15,14 @@ export type SkillTreeNodeProps = {
 /**
  * Draw a skill tree node. 
  */
-export default function SkillTreeNode({
+export default function APTreeNode({
   fillColor,
   x,
   y,
   size,
   hash,
   tooltip
-}: SkillTreeNodeProps) {
+}: APTreeNodeProps) {
   return (
     <circle
       fill={fillColor}
@@ -30,11 +30,11 @@ export default function SkillTreeNode({
       cy={y}
       r={size}
       data-id={hash}>
-        <title>{tooltip}</title>
+      <title>{tooltip}</title>
     </circle>
   );
 }
 
 //fill={selectedNodes && selectedNodes.has(node.hash) ? "red" : "black"}
 
-export const MemoisedSkillTreeNode = memo(SkillTreeNode);
+export const MemoisedAPTreeNode = memo(APTreeNode);
