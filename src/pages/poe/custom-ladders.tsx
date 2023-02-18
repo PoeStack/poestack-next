@@ -5,10 +5,13 @@ import { nanoid } from "nanoid";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { useState } from "react";
 import { CustomLadderGroup } from "../../__generated__/graphql";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function ViewCustomLadders() {
   const router = useRouter();
   const { userId } = router.query;
+
+  const { league } = usePoeLeagueCtx();
 
   const [ladderGroups, setLadderGroups] = useState<CustomLadderGroup[]>([]);
   const { refetch: refetchGroups } = useQuery(
@@ -80,6 +83,14 @@ export default function ViewCustomLadders() {
                               deleteLadderGroup({
                                 variables: { groupId: e.id },
                               });
+                            }}
+                          />
+                          <StyledButton
+                            text={"Open Ladder"}
+                            onClick={() => {
+                              router.push(
+                                `/poe/characters?league=${league}&customLadderGroupId=${e.id}`
+                              );
                             }}
                           />
                         </div>

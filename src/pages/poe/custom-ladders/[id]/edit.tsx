@@ -5,13 +5,10 @@ import { CustomLadderGroup } from "../../../../__generated__/graphql";
 import { useState } from "react";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
-import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function EditCustomLadder() {
   const router = useRouter();
   const { id } = router.query;
-
-  const { league } = usePoeLeagueCtx();
 
   const [newMemberPoeProfileName, setNewMemberPoeProfileName] = useState<
     string | null
@@ -144,14 +141,6 @@ export default function EditCustomLadder() {
               text={"Save"}
               onClick={() => {
                 saveProfile();
-              }}
-            />
-            <StyledButton
-              text={"Open Ladder"}
-              onClick={() => {
-                router.push(
-                  `/poe/characters?league=${league}&customLadderGroupId=${ladderGroup.id}`
-                );
               }}
             />
           </div>
