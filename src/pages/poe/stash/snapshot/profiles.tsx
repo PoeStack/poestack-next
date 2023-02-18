@@ -73,7 +73,6 @@ export default function Profiles() {
                 className="bg-color-secondary hover:bg-color-accent-variant py-1 px-1  rounded-lg"
                 href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
               >
-                {" "}
                 <p className="text-content-base font-semibold hover:text-content-inverted">
                   Create Profile
                 </p>

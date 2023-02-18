@@ -25,6 +25,7 @@ import {
   CharacterSnapshotSearchAggregationsResponse,
   GenericAggregation,
 } from "@generated/graphql";
+import { useRouter } from "next/router";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -105,6 +106,9 @@ export default function Characters({
   initialSearchResponse,
   unqiueKeysResponse,
 }) {
+  const router = useRouter();
+  const { customLadderGroupId } = router.query;
+
   const { league } = usePoeLeagueCtx();
 
   const [search, setSearch] = useState<CharacterSnapshotSearch>({
@@ -117,6 +121,7 @@ export default function Characters({
     excludedMainSkills: [],
     includedItemKeys: [],
     excludedItemKeys: [],
+    customLadderGroupId: customLadderGroupId?.toString(),
     skip: 0,
     limit: 100,
     sortKey: "level",

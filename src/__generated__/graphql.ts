@@ -115,6 +115,7 @@ export type CharacterSnapshotRecord = {
 };
 
 export type CharacterSnapshotSearch = {
+  customLadderGroupId?: InputMaybe<Scalars['String']>;
   excludedCharacterClasses?: InputMaybe<Array<Scalars['String']>>;
   excludedItemKeys?: InputMaybe<Array<Scalars['String']>>;
   excludedKeyStoneNames?: InputMaybe<Array<Scalars['String']>>;
@@ -167,6 +168,32 @@ export type CharacterSnapshotUniqueAggregationKeysResponse = {
   itemKeys: Array<Scalars['String']>;
   keystoneKeys: Array<Scalars['String']>;
   mainSkillKeys: Array<Scalars['String']>;
+};
+
+export type CustomLadderGroup = {
+  __typename?: 'CustomLadderGroup';
+  createdAtTimestamp: Scalars['DateTime'];
+  id: Scalars['String'];
+  members: Array<CustomLadderMember>;
+  name: Scalars['String'];
+  ownerUserId: Scalars['String'];
+};
+
+export type CustomLadderGroupInput = {
+  id: Scalars['String'];
+  members: Array<CustomLadderMemberInput>;
+  name: Scalars['String'];
+};
+
+export type CustomLadderMember = {
+  __typename?: 'CustomLadderMember';
+  poeProfileName: Scalars['String'];
+  userId: Scalars['String'];
+};
+
+export type CustomLadderMemberInput = {
+  poeProfileName: Scalars['String'];
+  userId: Scalars['String'];
 };
 
 export type GenericAggregation = {
@@ -263,6 +290,7 @@ export type Mutation = {
   refreshPoeCharacters: Scalars['Boolean'];
   takeCharacterSnapshot: Scalars['Boolean'];
   takeSnapshot: StashSnapshot;
+  updateCustomLadderGroup: CustomLadderGroup;
   updateDiscordCode: Scalars['Boolean'];
   updateStashsnapshotProfile: Scalars['Boolean'];
 };
@@ -295,6 +323,11 @@ export type MutationTakeCharacterSnapshotArgs = {
 
 export type MutationTakeSnapshotArgs = {
   stashSnapshotProfileId: Scalars['String'];
+};
+
+
+export type MutationUpdateCustomLadderGroupArgs = {
+  group: CustomLadderGroupInput;
 };
 
 
@@ -393,6 +426,8 @@ export type Query = {
   characterSnapshotsSearch: CharacterSnapshotSearchResponse;
   characterSnapshotsSearchAggregations: CharacterSnapshotSearchAggregationsResponse;
   characterSnapshotsUniqueAggregationKeys: CharacterSnapshotUniqueAggregationKeysResponse;
+  customLadderGroup: CustomLadderGroup;
+  customLadderGroupsByOwner: Array<CustomLadderGroup>;
   globalSearch: GlobalSearchResponse;
   itemGroupTags: Array<Scalars['String']>;
   itemGroupValueChaos: Scalars['Float'];
@@ -400,6 +435,7 @@ export type Query = {
   myProfile: UserProfile;
   passiveTree: PassiveTreeResponse;
   poeCharacters: Array<PoeCharacter>;
+  profileByPeoProfileName: UserProfile;
   stashSnapshot: StashSnapshot;
   stashSnapshotItemGroupSummaries: StashSnapshotItemGroupSummarySearchResponse;
   stashSnapshotItemGroupSummariesAggregation: StashSnapshotItemGroupSummarySearchAggregationResponse;
@@ -445,6 +481,16 @@ export type QueryCharacterSnapshotsUniqueAggregationKeysArgs = {
 };
 
 
+export type QueryCustomLadderGroupArgs = {
+  groupId: Scalars['String'];
+};
+
+
+export type QueryCustomLadderGroupsByOwnerArgs = {
+  ownerId: Scalars['String'];
+};
+
+
 export type QueryGlobalSearchArgs = {
   search: GlobalSearch;
 };
@@ -473,6 +519,11 @@ export type QueryPassiveTreeArgs = {
 
 export type QueryPoeCharactersArgs = {
   userId: Scalars['String'];
+};
+
+
+export type QueryProfileByPeoProfileNameArgs = {
+  poeProfileName: Scalars['String'];
 };
 
 
@@ -675,9 +726,9 @@ export type StashSnapshotProfileInput = {
 
 export type UserProfile = {
   __typename?: 'UserProfile';
-  createdAtTimestamp: Scalars['DateTime'];
-  lastConnectedTimestamp: Scalars['DateTime'];
-  oAuthTokenUpdatedAtTimestamp: Scalars['DateTime'];
+  createdAtTimestamp?: Maybe<Scalars['DateTime']>;
+  lastConnectedTimestamp?: Maybe<Scalars['DateTime']>;
+  oAuthTokenUpdatedAtTimestamp?: Maybe<Scalars['DateTime']>;
   poeProfileName: Scalars['String'];
   userId: Scalars['String'];
 };
@@ -758,7 +809,7 @@ export type ExchangeAuthCodeMutation = { __typename?: 'Mutation', exchangeAuthCo
 export type MyProfileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyProfileQuery = { __typename?: 'Query', myProfile: { __typename?: 'UserProfile', userId: string, poeProfileName: string, createdAtTimestamp: any, lastConnectedTimestamp: any, oAuthTokenUpdatedAtTimestamp: any } };
+export type MyProfileQuery = { __typename?: 'Query', myProfile: { __typename?: 'UserProfile', userId: string, poeProfileName: string, createdAtTimestamp?: any | null, lastConnectedTimestamp?: any | null, oAuthTokenUpdatedAtTimestamp?: any | null } };
 
 export type ExportStashSnapshotMutationVariables = Exact<{
   input: StashSnapshotExportInput;
