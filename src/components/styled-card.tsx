@@ -6,7 +6,7 @@ export default function StyledCard({
   className,
 }: {
   children?: any;
-  title: string;
+  title?: string;
   className?: string;
 }) {
   return (
