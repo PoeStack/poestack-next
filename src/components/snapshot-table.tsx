@@ -55,7 +55,7 @@ export default function SnapshotTable({
           />
         </div>
         <div className="h-64 overflow-y-auto">
-          <table className="table-auto w-full">
+          <table className="table-auto w-full text-left">
             <thead>
               <tr>
                 <th></th>

@@ -145,7 +145,7 @@ export default function ViewProfile() {
           )}
         </StyledCard>
 
-        <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3">
+        <div className="flex flex-col space-y-3 lg:space-y-0 lg:flex-row lg:space-x-3 text-left">
           <StyledCard title="Value By Tag" className="flex-1">
             <ValueBreakdownTable snapshot={snapshot} />
           </StyledCard>

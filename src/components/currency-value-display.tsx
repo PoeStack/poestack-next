@@ -78,8 +78,9 @@ export default function CurrencyValueDisplay({
           onClick?.(display);
         }}
       >
-        <div>{display}</div>
-        <Image src={icon} alt={""} width={24} height={24} />
+        <div className="flex flex-row min-w-[50px]">{display}</div>
+
+        <Image src={icon} alt={""} width={30} height={30} />
       </div>
     </>
   );
