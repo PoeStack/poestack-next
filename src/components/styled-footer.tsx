@@ -3,10 +3,10 @@ import Link from "next/link";
 
 export default function StyledFooter() {
   return (
-    <footer className="p-4 mt-2 bg-surface-primary sm:p-6">
-      <div className="md:flex md:justify-between">
-        <div className="mb-6 md:mb-0">
-          <Link href="/" className="flex items-center">
+    <footer className="p-2 mt-2 bg-surface-primary sm:p-4 text-sm ">
+      <div className="grid grid-cols-2 md:grid-cols-3 justify-center">
+        <div className="mb-2 md:mb-0">
+          <Link href="/" className="flex flex-row justify-start w-ful">
             <Image
               width={48}
               height={130}
@@ -18,53 +18,57 @@ export default function StyledFooter() {
             </span>
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3">
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
               Resources
             </h2>
-            <ul className="text-content-base">
-              <li className="mb-4">
-                <a
-                  href="https://flowbite.com/"
+            <ul className="text-content-base ">
+              <li className="mb-2">
+                <Link
+                  href="/"
                   className="hover:underline hover:text-content-accent"
                 >
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="https://tailwindcss.com/"
+                <Link
+                  href="/"
                   className="hover:underline hover:text-content-accent"
                 >
-                  Tailwind CSS
-                </a>
+                  Settings
+                </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
               Follow us
             </h2>
             <ul className="text-content-base">
-              <li className="mb-4">
+              <li className="mb-2">
                 <Link
                   href="https://discord.gg/zqeTWZvb76"
-                  className="hover:underline hover:text-content-accent"
+                  className=""
                   legacyBehavior
                 >
-                  <a target="_blank" rel="noopener noreferrer">
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline hover:text-content-accent"
+                  >
                     Discord
                   </a>
                 </Link>
               </li>
               <li>
-                <Link
-                  href="https://github.com/PoeStack"
-                  className="hover:underline hover:text-content-accent"
-                  legacyBehavior
-                >
-                  <a target="_blank" rel="noopener noreferrer">
+                <Link href="https://github.com/PoeStack" legacyBehavior>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline hover:text-content-accent"
+                  >
                     Github
                   </a>
                 </Link>
@@ -72,11 +76,11 @@ export default function StyledFooter() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
               Legal
             </h2>
             <ul className="text-content-base">
-              <li className="mb-4">
+              <li className="mb-2">
                 <a
                   href="#"
                   className="hover:underline hover:text-content-accent"
@@ -95,16 +99,16 @@ export default function StyledFooter() {
             </ul>
           </div>
         </div>
-      </div>
-      <hr className="my-6 border-gray-200 sm:mx-auto" />
-      <div className="sm:flex sm:items-center sm:justify-between">
-        <span className="text-sm text-content-base sm:text-center ">
-          © 2023{" "}
-          <Link href="/" className="hover:underline">
-            PoeStack.com
-          </Link>
-          . All Rights Reserved.
-        </span>
+
+        <div className="relative  ">
+          <span className="absolute bottom-0 right-0 text-sm text-content-base sm:text-center ">
+            © 2023{" "}
+            <Link href="/" className="hover:underline">
+              PoeStack.com
+            </Link>
+            . All Rights Reserved.
+          </span>
+        </div>
       </div>
     </footer>
   );
