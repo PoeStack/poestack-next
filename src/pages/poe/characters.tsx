@@ -26,6 +26,8 @@ import {
   GenericAggregation,
 } from "@generated/graphql";
 import { useRouter } from "next/router";
+import StyledButton from "../../components/styled-button";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -479,17 +481,27 @@ function StyledMultiSearch({
   onValueChange,
   onDateChange,
 }: StyledMultiSearchProps) {
+  const { profile } = usePoeStackAuth();
+
   return (
     <StyledCard
       title={"Search"}
       className="focus:border-color-accent border-color-base"
     >
-      <StyledInput
-        value={value}
-        onChange={onValueChange}
-        placeholder="Search Filters..."
-      />
-      <StyledDatepicker onSelectionChange={onDateChange} />
+      <div className="flex flex-col space-y-2">
+        <StyledInput
+          value={value}
+          onChange={onValueChange}
+          placeholder="Search Filters..."
+        />
+        <StyledDatepicker onSelectionChange={onDateChange} />
+
+        {!!profile?.userId && (
+          <Link href={`/poe/custom-ladders?userId=${profile?.userId}`}>
+            Custom Ladders
+          </Link>
+        )}
+      </div>
     </StyledCard>
   );
 }
