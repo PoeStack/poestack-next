@@ -72,7 +72,6 @@ export default function ViewProfile() {
         if (data?.stashSnapshots.length > 0) {
           const snap = data?.stashSnapshots[data?.stashSnapshots.length - 1];
           setSnapshot(snap);
-          console.log("snapshot", snap);
         }
       },
     }
