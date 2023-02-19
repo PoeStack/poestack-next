@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useState } from "react";
 import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
 import Image from "next/image";
@@ -22,6 +22,8 @@ import {
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { usePoeStackAuth } from "@contexts/user-context";
 import AtlasPassivesTree from "@components/atlas-passives-tree/atlas-passives-tree";
+import { AtlasPassiveSnapshotResponse } from "../../../__generated__/graphql";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -144,6 +146,8 @@ export default function CharactersByUser() {
 
   const { profile } = usePoeStackAuth();
 
+  const { league } = usePoeLeagueCtx();
+
   const isCurrentUser = !!(profile?.userId && profile.userId === userId);
 
   const [characters, setCharacters] = useReducer(
@@ -189,6 +193,32 @@ export default function CharactersByUser() {
         setCharacters({ type: "characters", characters: data.poeCharacters });
       },
     });
+
+  const [userAtlasPassiveResponse, setUserAtlasPassiveResponse] =
+    useState<AtlasPassiveSnapshotResponse | null>(null);
+  useQuery(
+    gql`
+      query AtlasPassiveSnapshotsByUser($userId: String!) {
+        atlasPassiveSnapshotsByUser(userId: $userId) {
+          results {
+            league
+            userId
+            systemSnapshotTimestamp
+            createdAtTimestamp
+            hashes
+            source
+          }
+        }
+      }
+    `,
+    {
+      skip: !userId,
+      variables: { userId: userId },
+      onCompleted(data) {
+        setUserAtlasPassiveResponse(data.atlasPassiveSnapshotsByUser);
+      },
+    }
+  );
 
   const { refetch: refetchCharSnapshots, loading: loadingCharSnapshots } =
     useQuery(getCharacterSnapshots, {
@@ -256,7 +286,14 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <AtlasPassivesTree version={"3.20"} />
+            <AtlasPassivesTree
+              version={"3.20"}
+              selectedNodes={
+                userAtlasPassiveResponse?.results?.find(
+                  (e) => e.league === league
+                )?.hashes
+              }
+            />
           </StyledCard>
         </div>
       )}

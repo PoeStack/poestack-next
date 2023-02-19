@@ -29,7 +29,7 @@ export default function Atlas() {
   );
   useQuery(
     gql`
-      query Query($league: String!) {
+      query PopAggAtlasQuery($league: String!) {
         atlasPassiveTreeSnapshotPopularityAggregation(league: $league) {
           values {
             key
