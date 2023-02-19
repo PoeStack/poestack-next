@@ -44,6 +44,10 @@ const faqs = [
   },
 ];
 
+// Lightbox in future:
+// This seems like the best library that's free
+// https://www.lightgalleryjs.com/
+
 export default function FAQPage() {
   return (
     <>
