@@ -86,7 +86,7 @@ export default function StyledFooter() {
             <ul className="text-content-base">
               <li className="mb-2">
                 <a
-                  href="#"
+                  href="https://www.privacypolicygenerator.info/live.php?token=6cH1lbmNbc4oU9ntPGezJpm0jjoAAFl1"
                   className="hover:underline hover:text-content-accent"
                 >
                   Privacy Policy
@@ -94,7 +94,7 @@ export default function StyledFooter() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://www.termsandconditionsgenerator.com/live.php?token=iHhICDjDy7nTvREruFufuv1pCsMHdJ5j"
                   className="hover:underline hover:text-content-accent"
                 >
                   Terms &amp; Conditions
@@ -116,37 +116,4 @@ export default function StyledFooter() {
       </div>
     </footer>
   );
-}
-
-{
-  /* Old Footer */
-}
-{
-  /* <div classNameName="flex flex-row space-x-3 bg-pink-400 justify-center">
-        <div >
-          <h3>
-            This product isn&apos;t affiliated with or endorsed by Grinding Gear
-            Games in any way.
-          </h3>
-        </div>
-        <div>
-          <Link
-            href={
-              "https://www.privacypolicygenerator.info/live.php?token=6cH1lbmNbc4oU9ntPGezJpm0jjoAAFl1"
-            }
-          >
-            Privacy Policy
-          </Link>
-        </div>
-        <div>
-          <Link
-            href={
-              "https://www.termsandconditionsgenerator.com/live.php?token=iHhICDjDy7nTvREruFufuv1pCsMHdJ5j"
-            }
-          >
-            Terms of Service
-          </Link>
-        </div>
-        <div>Copyright ©2023 PoeStack.com Owner</div>
-      </div> */
 }
