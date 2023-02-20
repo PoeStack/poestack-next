@@ -286,7 +286,14 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <AtlasPassivesTree version={"3.20"} />
+            <AtlasPassivesTree
+              version={"3.20"}
+              selectedNodes={
+                userAtlasPassiveResponse?.results?.find(
+                  (e) => e.league === league
+                )?.hashes
+              }
+            />
           </StyledCard>
         </div>
       )}
