@@ -595,17 +595,19 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row">
+                  <div className="flex flex-row items-center  space-x-1">
                     {snapshot.topItems.map((e) => (
                       <>
                         <div>
                           <StyledTooltip texts={[e.name]} placement={"left"}>
-                            <Image
-                              src={e.icon}
-                              alt={e.name}
-                              width={25}
-                              height={25}
-                            />
+                            <div>
+                              <Image
+                                src={e.icon}
+                                alt={e.name}
+                                width={30}
+                                height={30}
+                              />
+                            </div>
                           </StyledTooltip>
                         </div>
                       </>
