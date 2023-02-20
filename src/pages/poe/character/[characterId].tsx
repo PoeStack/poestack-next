@@ -12,7 +12,7 @@ import EquipmentDisplay from "@components/equipment-display";
 import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
 import StyledButton from "@components/styled-button";
 import CharacterStatsDisplay from "@components/character-stats-display";
-import SkillTree from "@components/skill-tree/skill-tree";
+import SkillTree from "@components/trees/skill-tree";
 import StyledSelect2 from "@components/styled-select-2";
 import CharacterLevelChart from "@components/character-level-chart";
 import Head from "next/head";

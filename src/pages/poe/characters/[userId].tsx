@@ -21,7 +21,7 @@ import {
 } from "@components/styled-tooltip";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { usePoeStackAuth } from "@contexts/user-context";
-import AtlasPassivesTree from "@components/atlas-passives-tree/atlas-passives-tree";
+import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -256,7 +256,7 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <AtlasPassivesTree version={"3.20"} />
+            <AtlasPassivesTree version={"3.20"}/>
           </StyledCard>
         </div>
       )}

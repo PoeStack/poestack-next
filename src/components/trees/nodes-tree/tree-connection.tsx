@@ -1,9 +1,9 @@
 import { memo } from "react";
 
 /**
- * Props for the {@link APTreeConnection} component.
+ * Props for the {@link TreeConnection} component.
  */
-export type APTreeConnectionProps = {
+export type TreeConnectionProps = {
   fromX: number;
   fromY: number;
   toX: number;
@@ -22,9 +22,9 @@ export type APTreeConnectionProps = {
 }
 
 /**
- * Draw a connection between 2 nodes on the skill tree. 
+ * Draw a connection between 2 nodes on a {@link NodesTree}. 
  */
-export function APTreeConnection({
+export function TreeConnection({
   fromX,
   fromY,
   toX,
@@ -35,7 +35,7 @@ export function APTreeConnection({
   from,
   to,
   curved
-}: APTreeConnectionProps) {
+}: TreeConnectionProps) {
   if (curved) {
     return (
       <path
@@ -54,7 +54,7 @@ export function APTreeConnection({
         y1={fromY}
         x2={toX}
         y2={toY}
-        stroke={ strokeColor }
+        stroke={strokeColor}
         strokeWidth={6}
         data-from={from}
         data-to={to}
@@ -63,4 +63,7 @@ export function APTreeConnection({
   }
 }
 
-export const MemoisedAPTreeConnection = memo(APTreeConnection);
+/**
+ * Memoized {@link TreeConnection}
+ */
+export const MemoisedTreeConnection = memo(TreeConnection);
