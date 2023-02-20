@@ -158,7 +158,8 @@ export default function Characters({
 
   const { refetch: reftechGeneralSearch } = useQuery(generalSearch, {
     skip: true,
-    variables: { search: { ...search, ...{ league: league } } },
+    fetchPolicy: "cache-first",
+    variables: { search: search },
     onCompleted(data) {
       setCharacters({
         ...characters,
@@ -172,7 +173,11 @@ export default function Characters({
   });
 
   useEffect(() => {
-    reftechGeneralSearch();
+    if (league !== search.league) {
+      setSearch({ ...search, league: league });
+    } else {
+      reftechGeneralSearch();
+    }
   }, [search, reftechGeneralSearch, league]);
 
   const [columnsSortMap, updateSortMap] = useSortableTable(
@@ -342,6 +347,7 @@ export default function Characters({
     <div className="flex flex-row space-x-2 ">
       <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
         <StyledMultiSearch
+          totalMatches={aggregations?.totalMatches ?? 0}
           value={localSearchString}
           onValueChange={onSearchValueChange}
           onDateChange={onDateChange}
@@ -524,6 +530,7 @@ function StyledCharactersSummaryTable({
  */
 type StyledMultiSearchProps = {
   value: string;
+  totalMatches: number;
   onValueChange: (e: any) => void;
   onDateChange: (e: any) => void;
 };
@@ -533,6 +540,7 @@ type StyledMultiSearchProps = {
  */
 function StyledMultiSearch({
   value,
+  totalMatches,
   onValueChange,
   onDateChange,
 }: StyledMultiSearchProps) {
@@ -540,7 +548,7 @@ function StyledMultiSearch({
 
   return (
     <StyledCard
-      title={"Search"}
+      title={`Search - ${totalMatches} Characters`}
       className="focus:border-color-accent border-color-base"
     >
       <div className="flex flex-col space-y-2">
