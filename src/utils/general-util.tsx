@@ -2,6 +2,11 @@ import { ImageLoaderProps } from "next/dist/client/image";
 import { ItemGroup } from "@generated/graphql";
 
 export class GeneralUtils {
+  public static compactNumberFormat(number: number): string {
+    let formatter = Intl.NumberFormat("en", { notation: "compact" });
+    return formatter.format(number);
+  }
+
   public static capitalize(
     str: string | undefined | null
   ): string | undefined | null {

@@ -28,6 +28,7 @@ import {
 import { useRouter } from "next/router";
 import StyledButton from "../../components/styled-button";
 import { usePoeStackAuth } from "@contexts/user-context";
+import { DIV_ICON } from "@components/currency-value-display";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -42,6 +43,9 @@ const generalSearch = gql`
         life
         snapshotId
         twitchProfileName
+        pobDps
+        totalValueDivine
+        topItems
       }
       hasMore
     }
@@ -98,6 +102,18 @@ const columns: SortableTableColumns = [
   {
     key: "energyShield",
     text: "Es",
+  },
+  {
+    key: "",
+    text: "Top Uniques",
+  },
+  {
+    key: "totalValueDivine",
+    text: "Base Cost",
+  },
+  {
+    key: "pobDps",
+    text: "Dps",
   },
 ];
 
@@ -463,6 +479,38 @@ function StyledCharactersSummaryTable({
               <td className="font-semibold text-teal-300">
                 {snapshot.energyShield}
               </td>
+              <td className="font-semibold">
+                {!!snapshot.topItems && (
+                  <div className="flex flex-row">
+                    {snapshot.topItems.map((e) => (
+                      <>
+                        <div>
+                          <StyledTooltip texts={[e.name]} placement={"left"}>
+                            <Image
+                              src={e.icon}
+                              alt={e.name}
+                              width={25}
+                              height={25}
+                            />
+                          </StyledTooltip>
+                        </div>
+                      </>
+                    ))}
+                  </div>
+                )}
+              </td>
+              <td className="font-semibold">
+                {!!snapshot.totalValueDivine && (
+                  <div className="flex flex-row">
+                    <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
+                    <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                  </div>
+                )}
+              </td>
+              <td className="font-semibold">
+                {!!snapshot.pobDps &&
+                  GeneralUtils.compactNumberFormat(snapshot.pobDps)}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -603,6 +651,10 @@ export async function getServerSideProps({ req, res, query }) {
         excludedMainSkills: [],
         includedItemKeys: [],
         excludedItemKeys: [],
+        skip: 0,
+        limit: 100,
+        sortKey: "level",
+        sortDirection: "desc",
       },
     },
   });

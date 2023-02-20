@@ -4,6 +4,9 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { usePoeLeagueCtx } from "../contexts/league-context";
 
+export const DIV_ICON =
+  "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png";
+
 export default function CurrencyValueDisplay({
   valueChaos,
   onClick = null,
@@ -54,9 +57,7 @@ export default function CurrencyValueDisplay({
     let newDisplay = "" + round(absValue);
     if (chaosRates?.div && absValue >= chaosRates?.div) {
       newDisplay = "" + round(absValue / chaosRates?.div);
-      setIcon(
-        "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png"
-      );
+      setIcon(DIV_ICON);
     } else {
       setIcon(
         "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png"
