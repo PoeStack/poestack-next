@@ -3,6 +3,7 @@ import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
 import Link from "next/link";
 import Image from "next/image";
 import {
+  AtlasPassiveSnapshotResponse,
   CharacterSnapshotSearchResponseEntry,
   PoeCharacter,
 } from "@generated/graphql";
@@ -21,8 +22,7 @@ import {
 } from "@components/styled-tooltip";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { usePoeStackAuth } from "@contexts/user-context";
-import AtlasPassivesTree from "@components/atlas-passives-tree/atlas-passives-tree";
-import { AtlasPassiveSnapshotResponse } from "../../../__generated__/graphql";
+import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 
 const getCharactersForUser: TypedDocumentNode<{
@@ -286,14 +286,7 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <AtlasPassivesTree
-              version={"3.20"}
-              selectedNodes={
-                userAtlasPassiveResponse?.results?.find(
-                  (e) => e.league === league
-                )?.hashes
-              }
-            />
+            <AtlasPassivesTree version={"3.20"} />
           </StyledCard>
         </div>
       )}
