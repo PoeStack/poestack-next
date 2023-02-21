@@ -14,8 +14,8 @@ export default function StyledNavBar() {
 
   return (
     <>
-      <div className="flex h-12 w-full min-w-fit bg-surface-primary items-center pl-2 pr-2">
-        <div className="flex min-w-fit space-x-2 items-center">
+      <div className="flex items-center w-full h-12 pl-2 pr-2  min-w-fit bg-surface-primary">
+        <div className="flex items-center space-x-2 min-w-fit">
           <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
               <Image
