@@ -1,31 +1,38 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Image from "next/image";
 
+import { usePoeLeagueCtx } from "../contexts/league-context";
+import { usePoeStackAuth } from "../contexts/user-context";
+
 export default function LandingPage() {
+  const { profile } = usePoeStackAuth();
+  const { league } = usePoeLeagueCtx();
   return (
-    <div className="rounded bg-surface-primary text-content-base isolate">
+    <div className="rounded text-content-base">
       <main>
-        <div className="relative h-full py-24 sm:py-32 lg:pb-40">
-          <div className="h-screen px-6 mx-aut lg:px-8">
-            <div className="max-w-2xl mx-auto text-center">
+        <div className="relative h-full ">
+          <div className="max-w-full px-6 g:px-8 ">
+            {/* Page 1 */}
+            <div className="flex flex-col items-center flex-grow h-full py-20 mx-auto bg-surface-secondary sm:py-32 lg:pb-20">
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
                 Welcome to PoeStack
               </h1>
-              <p className="mt-6 text-lg leading-8 text-slate-300">
+              <p className="w-5/6 mt-6 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
                 An app designed to provide players with the information they
                 need to make better decisions when it comes to building their
-                characters and optimizing their currency farming strategies. If
-                you want to browse, use the navbar above. To take a more guided
-                approach to understanding how the application works, click the
-                button below.
+                characters and optimizing their currency farming strategies.
+                <br />
+                <br />
+                If you want to browse, use the navbar above. To better
+                understand how the application works, scroll down or click the
+                button below for guidance.
               </p>
               <div className="flex items-center justify-center mb-2 mt-14">
                 <a
                   href="#section2"
-                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-color-secondary-variant hover:text-content-inverted"
+                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-red-800 hover:text-content-inverted"
                 >
                   {/* Link to section overviews + redirects from navbar */}
                   <h4>Get started</h4>
@@ -49,7 +56,7 @@ export default function LandingPage() {
                   </Link>
                 </p>
                 <p>
-                  Want to help see how the sausage is made?{" "}
+                  Want to help or see how the sausage is made?{" "}
                   <Link
                     href={`http://github.com/PoeStack/poestack-next`}
                     className=""
@@ -66,56 +73,536 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-            <div className="flow-root mt-2">
-              <div className="p-2 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                <Image
-                  src="/PoeStackDemoImg.png"
-                  alt="App screenshot"
-                  width={2432}
-                  height={1442}
-                  className="rounded-md shadow-2xl ring-1 ring-gray-900/10"
-                />
+            {/* Inbetween Page */}
+            {/* Page 2 */}
+            <div className="relative w-full h-full bg-neutral-200">
+              <div className="h-full ">
+                <div className="text-center" id="section2">
+                  {/* Grid */}
+                  <ul className="grid w-full h-full grid-cols-1 grid-rows-2 gap-2 font-bold md:grid-cols-2">
+                    {/* Column 1 - Char Ladder + Economy */}
+
+                    <div className="h-full ">
+                      {/* Character Ladders - Top Left BIG*/}
+                      <li className="flex flex-col w-full bg-pink-400 h-1/2">
+                        <Link
+                          href={`/poe/characters?league=${league}`}
+                          className="relative w-full overflow-hidden"
+                          onClick={() => console.log("hi")}
+                        >
+                          <Image
+                            width="0"
+                            height="0"
+                            sizes="100vw "
+                            className="w-full h-auto transition duration-700 hover:scale-110"
+                            src={`/images/landingpage/landingPage_Char_Ladder_001.png`}
+                            alt="characterladderimg"
+                          />
+                        </Link>
+                        <div className="bg-color-primary-variant">
+                          <Link href={`/poe/characters?league=${league}`}>
+                            <h1 className="text-4xl hover:text-content-accent">
+                              Character Ladder
+                            </h1>
+                          </Link>
+                          <ul className="justify-center inline-block p-4 mx-auto text-md">
+                            <li className="text-left">
+                              Browser by class, skill, items or keystones.
+                            </li>
+                            <li className="text-left">
+                              See character&apos;s uniques and unique cost
+                              calculations
+                            </li>
+                            <li className="text-left">
+                              Create your own custom ladders
+                            </li>
+                            <li>
+                              <a
+                                href="#characters"
+                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
+                              >
+                                Learn More
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      {/* Economy - Bottom Left Small */}
+                      <li className="flex flex-col w-full h-1/3">
+                        <Link
+                          href={`/poe/characters?league=${league}`}
+                          className="relative w-full overflow-hidden"
+                          onClick={() => console.log("hi")}
+                        >
+                          <Image
+                            width="0"
+                            height="0"
+                            sizes="100vw "
+                            className="w-full h-auto transition duration-700 hover:scale-110"
+                            src={`/landingPageLadderImg_001.png`}
+                            alt="characterladderimg"
+                          />
+                        </Link>
+                        <div className="bg-surface-primary">
+                          <Link href={`/poe/characters?league=${league}`}>
+                            <h1 className="text-4xl hover:text-content-accent">
+                              Economy
+                            </h1>
+                          </Link>
+                          <ul className="justify-center inline-block p-4 mx-auto text-md">
+                            <li className="text-left">
+                              - Browser ladders by class, skill, items or
+                              keystones.
+                            </li>
+                            <li className="text-left">
+                              - See what the top uniques and builds costs are
+                            </li>
+                            <li className="text-left">
+                              - Create your own custom ladders
+                            </li>
+                            <li className="text-left">
+                              - View character progression by date/snapshot
+                            </li>
+                            <li>
+                              <a
+                                href="#economy"
+                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
+                              >
+                                Learn More
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                    </div>
+                    {/* Column 2 - Char Profiles + Stash */}
+                    <div className="h-full">
+                      {/* Stash - Top Right Small */}
+                      <li className="flex flex-col w-full h-1/4">
+                        <Link
+                          href={`/poe/characters?league=${league}`}
+                          className="relative w-full overflow-hidden"
+                          onClick={() => console.log("hi")}
+                        >
+                          <Image
+                            width="0"
+                            height="0"
+                            sizes="100vw "
+                            className="w-full h-auto transition duration-700 hover:scale-110 "
+                            src={`/images/landingpage/landingPage_Stash_001.png`}
+                            alt="characterstashimg"
+                          />
+                        </Link>
+                        <div className="bg-color-primary text-content-base ">
+                          <Link href="/poe/stash/snapshot/profiles">
+                            <h1 className="text-4xl hover:text-content-accent">
+                              Stash
+                            </h1>
+                          </Link>
+                          <ul className="justify-center inline-block p-4 mx-auto text-md">
+                            <li className="text-left">
+                              Create custom profiles based on stash tabs
+                              groupings.
+                            </li>
+                            <li className="pt-2 pb-2 text-xs text-center">
+                              *Requires Connected Account
+                            </li>
+                            <li>
+                              <a
+                                href="#stash"
+                                className="flex justify-center mx-auto text-sm hover:text-content-accent"
+                              >
+                                Learn More
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                      {/* User Characters/Character Profiles - Bottom Right BIG */}
+                      <li className="flex flex-col w-full h-2/3">
+                        <Link
+                          href={`/poe/characters?league=${league}`}
+                          className="relative w-full overflow-hidden"
+                          onClick={() => console.log("hi")}
+                        >
+                          <Image
+                            width="0"
+                            height="0"
+                            sizes="100vw "
+                            className="w-full h-auto transition duration-700 hover:scale-110"
+                            src={`/landingPageLadderImg_001.png`}
+                            alt="characterladderimg"
+                          />
+                        </Link>
+                        <div className="bg-surface-primary">
+                          <Link href={`/poe/characters?league=${league}`}>
+                            <h1 className="text-4xl hover:text-content-accent">
+                              Character Profiles
+                            </h1>
+                          </Link>
+                          <ul className="justify-center inline-block p-4 mx-auto text-md">
+                            <li className="text-left">
+                              - Browser ladders by class, skill, items or
+                              keystones.
+                            </li>
+                            <li className="text-left">
+                              - See what the top uniques and builds costs are
+                            </li>
+                            <li className="text-left">
+                              - Create your own custom ladders
+                            </li>
+                            <li className="text-left">
+                              - View character progression by date/snapshot
+                            </li>
+                            <li>
+                              <a
+                                href="#characters"
+                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
+                              >
+                                Learn More
+                              </a>
+                            </li>
+                          </ul>
+                        </div>
+                      </li>
+                    </div>
+                  </ul>
+
+                  {/* Column 1 */}
+                  {/* Column 2 */}
+                </div>
+              </div>
+            </div>
+            {/* Page 3 - Characters/Ladder */}
+            <div className="relative w-full h-full mt-2 bg-surface-primary ">
+              <div className="h-full px-6 md:h-screen ">
+                <div className="text-center">
+                  <div
+                    id="characters"
+                    className="grid w-full grid-cols-2 pt-2 text-4xl font-bold tracking-tight divide-x-2 sm:text-6xl"
+                  >
+                    <div className="flex flex-col">
+                      {/* Characters/Ladder */}
+                      <a href="#" className="bg-green-400">
+                        <h1>Characters</h1>
+                      </a>
+                      {/* Characters/Ladder Description */}
+
+                      <p>Characters info</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Page 4 - Economy*/}
+            <div className="relative w-full h-full mt-2 bg-surface-primary ">
+              <div className="h-full px-6 md:h-screen ">
+                <div className="text-center">
+                  <div
+                    id="economy"
+                    className="grid w-full grid-cols-2 pt-2 text-4xl font-bold tracking-tight divide-x-2 sm:text-6xl"
+                  >
+                    <div className="flex flex-col">
+                      {/* Economy */}
+                      <a href="#" className="bg-red-400">
+                        <h1>Economy</h1>
+                      </a>
+                      {/* Economy Description */}
+                      <p>Econ info</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Page 5 - Characters*/}
+            <div className="relative w-full h-full mt-2 bg-surface-primary ">
+              <div className="h-full px-6 md:h-screen ">
+                <div className="text-center">
+                  <div
+                    id="mycharacters"
+                    className="grid w-full grid-cols-2 pt-2 text-4xl font-bold tracking-tight divide-x-2 sm:text-6xl"
+                  >
+                    <div className="flex flex-col">
+                      {/* Economy */}
+                      <a href="#" className="bg-pink-400">
+                        <h1>mycharacters</h1>
+                      </a>
+                      {/* Economy Description */}
+                      <p>mycharacters info</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Page 6 - Stash*/}
+            <div className="relative w-full h-full mt-2 bg-surface-primary ">
+              <div className="h-screen px-6 ">
+                <div className="text-center">
+                  <div
+                    id="stash"
+                    className="grid w-full grid-cols-2 pt-2 text-4xl font-bold tracking-tight divide-x-2 sm:text-6xl"
+                  >
+                    <div className="flex flex-col">
+                      {/* Economy */}
+                      <a href="#" className="bg-yellow-400">
+                        <h1>Stash</h1>
+                      </a>
+                      {/* Economy Description */}
+                      <p>Econ info</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </main>
-      <div className="relative h-full py-24 mt-40 sm:py-32 lg:pb-40">
-        <div className="px-6 mx-auto max-w-7xl lg:px-8">
-          <div className="max-w-2xl mx-auto text-center">
-            <h1
-              id="section2"
-              className="text-4xl font-bold tracking-tight sm:text-6xl"
-            >
-              Stuff
-            </h1>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
 
-// discord and github redirect links with new window
+const oldCode = () => {
+  return;
+};
+
 {
-  /* <li>
-                
-              </li>
-              <li>
-                <Link
-                  href={`http://github.com/PoeStack/poestack-next`}
-                  className=""
-                  legacyBehavior
-                >
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block px-4 py-2 hover:text-content-accent"
-                  >
-                    Github
-                  </a>
-                </Link>
-              </li> */
+  /* Column 1 */
+}
+{
+  /* <div className="flex flex-col items-center h-screen space-y-10 "> */
+}
+{
+  /* Characters */
+}
+{
+  /* <div className="  w-full p-6 border-2 rounded-lg shadow h-5/12 border-color-primary bg-[url('/PoeStackDemoImg.png')]  ">
+  <Link
+    href={`/poe/characters?league=${league}`}
+    className="flex flex-row items-center justify-center bg-teal-700"
+  >
+    <h1 className="mr-4 text-4xl">Characters</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="w-10 h-10 pt-1"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </Link> */
+}
+{
+  /* Characters Description */
+}
+//   <ul className="p-4 text-xl text-left">
+//     <li>
+//       - Browser ladders by class, skill, items or
+//       keystones
+//     </li>
+//     <li>
+//       - See what the top uniques and builds costs are
+//     </li>
+//     <li>- Create your own custom ladders</li>
+//     <li>- View character progression by date/snapshot</li>
+//   </ul>
+//   <button className="flex flex-row items-center justify-center w-2/3 h-10 mx-auto mt-10 xl:w-2/5 hover:bg-surface-primary hover:text-content-accent bg-color-secondary">
+//     <a href="#characters" className="flex flex-row">
+//       <h1 className="mr-4 text-xl">More Info</h1>
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         stroke-width="1.5"
+//         stroke="currentColor"
+//         className="w-6 h-6"
+//       >
+//         <path
+//           stroke-linecap="round"
+//           stroke-linejoin="round"
+//           d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+//         />
+//       </svg>
+//     </a>
+//   </button>
+// </div>
+{
+  /* Economy */
+}
+{
+  /* <div className="w-11/12 p-6 border-2 rounded-lg shadow h-1/3 border-color-primary hover:border-white hover:bg-color-primary">
+  <Link
+    href={`/poe/economy/${league}?tag=currency`}
+    className="flex flex-row items-center justify-center "
+  >
+    <h1 className="mr-4 text-4xl underline">Economy</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="w-10 h-10 pt-1"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </Link>
+  {/* Economy Description */
+}
+//   <ul className="p-4 text-xl text-left ">
+//     <li>- Search for specific items</li>
+//     <li>
+//       - See the historical pricing of every currency
+//     </li>
+//     <li>- See the # of listings, the average value.</li>
+//   </ul>
+//   <button className="flex flex-row items-center justify-center w-2/3 h-10 mx-auto mt-10 xl:w-2/5 hover:bg-surface-primary hover:text-content-accent bg-color-secondary">
+//     <a href="#economy" className="flex flex-row">
+//       <h1 className="items-center justify-center mr-4 text-xl">
+//         More Info
+//       </h1>
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         stroke-width="1.5"
+//         stroke="currentColor"
+//         className="w-6 h-6"
+//       >
+//         <path
+//           stroke-linecap="round"
+//           stroke-linejoin="round"
+//           d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+//         />
+//       </svg>
+//     </a>
+//   </button>
+// </div>
+
+{
+  /* Column 2 */
+}
+{
+  /* <div className="flex flex-col items-center h-screen space-y-10 ">
+<p className="text-content-accent"></p> */
+}
+{
+  /* My Characters */
+}
+{
+  /* <div className="w-11/12 p-6 border-2 rounded-lg shadow h-1/3 border-color-primary hover:border-white hover:bg-color-primary">
+  <Link
+    href="/poe/stash/snapshot/profiles"
+    className="flex flex-row items-center justify-center bg-purple-500"
+  >
+    <h1 className="mr-4 text-4xl">My Characters</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="w-10 h-10 pt-1"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </Link>
+  {/* My Characters Description */
+}
+//   <ul className="text-2xl text-left">
+//     <li>
+//       Browser builds by class, skill, items or keystones
+//     </li>
+//     <li>See what the top uniques and builds costs are</li>
+//     <li>Filter by calender date</li>
+//   </ul>
+//   <button className="flex flex-row items-center justify-center w-2/3 h-10 mx-auto mt-10 xl:w-2/5 hover:bg-surface-primary hover:text-content-accent bg-color-secondary">
+//     <a href="#mycharacters" className="flex flex-row">
+//       <h1 className="items-center justify-center mr-4 text-xl">
+//         More Info
+//       </h1>
+//       <svg
+//         xmlns="http://www.w3.org/2000/svg"
+//         fill="none"
+//         viewBox="0 0 24 24"
+//         stroke-width="1.5"
+//         stroke="currentColor"
+//         className="w-6 h-6"
+//       >
+//         <path
+//           stroke-linecap="round"
+//           stroke-linejoin="round"
+//           d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+//         />
+//       </svg>
+//     </a>
+//   </button>
+// </div> */}
+{
+  /* Stash */
+}
+{
+  /* <div className="w-11/12 p-6 border-2 rounded-lg shadow h-1/3 border-color-primary hover:border-white hover:bg-color-primary">
+  <Link
+    href="/poe/stash/snapshot/profiles"
+    className="flex flex-row items-center justify-center bg-yellow-400"
+  >
+    <h1 className="mr-4 text-4xl">Stash</h1>
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke-width="1.5"
+      stroke="currentColor"
+      className="w-10 h-10 pt-1"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"
+      />
+    </svg>
+  </Link>
+  {/* Stash Description */
+}
+{
+  /* <ul className="text-2xl text-left">
+    
+  </ul>
+  <button className="flex flex-row items-center justify-center w-2/3 h-10 mx-auto mt-10 xl:w-2/5 hover:bg-surface-primary hover:text-content-accent bg-color-secondary">
+    <a href="#stash" className="flex flex-row">
+      <h1 className="mr-4 text-xl">More Info</h1>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        className="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3"
+        />
+      </svg>
+    </a>
+  </button>
+</div>
+</div> */
 }
 
 {
