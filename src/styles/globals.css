@@ -30,6 +30,7 @@
     /* Content */
     --color-text-base: #f1f1f1;
     --color-text-inverted: #000;
+    --color-red: #800000;
   }
 
   [data-theme="Dark"] {
