@@ -11,9 +11,10 @@ export default function StyledCard({
 }) {
   return (
     <>
+      {/* Keep a space after p-3 in div className. */}
       <div
         className={
-          "rounded shadow-lg bg-surface-primary flex flex-col p-3 md:mx-4 lg:mx-20 my-4" +
+          "rounded shadow-lg bg-surface-primary flex flex-col p-3 " +
           (className ? className : "")
         }
       >
