@@ -100,7 +100,7 @@ export default function Atlas() {
 
   return (
     <>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col my-4 space-y-2 ">
         <StyledCard title={"Keystones"} className="flex-1">
           <AtlasNodePopularityTable
             nodes={keyStones}
@@ -146,7 +146,7 @@ function AtlasNodePopularityTable({
                   texts={node.node.stats}
                   placement={"bottom-start"}
                 >
-                  <td className="hover:text-content-accent cursor-default">
+                  <td className="cursor-default hover:text-content-accent">
                     {node.node.name}
                   </td>
                 </StyledTooltip>
