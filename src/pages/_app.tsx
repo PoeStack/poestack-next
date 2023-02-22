@@ -35,7 +35,7 @@ export default function App({ Component, pageProps }: AppProps) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-V6G8CPK4ZY', {
-                page_path: window.location.pathname,aa
+                page_path: window.location.pathname,
               });`,
                 }}
               />
