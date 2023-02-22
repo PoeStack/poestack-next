@@ -1,20 +1,201 @@
 import Link from "next/link";
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import GggAuthBtn from "./ggg-auth-btn";
-import { usePoeStackAuth } from "../contexts/user-context";
-import SearchBar from "./search-bar";
 import Image from "next/image";
+import { Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import {
+  BookmarkSquareIcon,
+  ComputerDesktopIcon,
+  GlobeAltIcon,
+  InformationCircleIcon,
+  NewspaperIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline";
+
+import {
+  GiAtlas,
+  GiCharacter,
+  GiOpenChest,
+  GiReceiveMoney,
+} from "react-icons/gi";
+import { IoPeople } from "react-icons/io5";
+
 import { StyledTooltip } from "./styled-tooltip";
+import SearchBar from "./search-bar";
+import { usePoeStackAuth } from "../contexts/user-context";
 import { usePoeLeagueCtx } from "../contexts/league-context";
 import ThemeChanger from "./theme-changer";
 
 export default function StyledNavBar() {
-  const { profile } = usePoeStackAuth();
-  const { league } = usePoeLeagueCtx();
+  const [width, setWidth] = useState(0);
+  const breakpoint = 1125;
+
+  useEffect(() => {
+    const handleWindowResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+
+    // Return a function from the effect that removes the event listener
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
+
+  return width < breakpoint ? <MobileNavBar /> : <DesktopNavBar />;
+}
+
+function MobileNavBar() {
+  const features = [
+    { name: "Economy", href: "#", icon: GiReceiveMoney },
+    { name: "Atlas", href: "#", icon: GiAtlas },
+    { name: "Characters", href: "#", icon: IoPeople },
+    { name: "My Characters", href: "#", icon: GiCharacter },
+    { name: "Stash", href: "#", icon: GiOpenChest },
+  ];
+  const support = [
+    { name: "Join Discord", href: "#", icon: GlobeAltIcon },
+    { name: "Theme", href: "#", icon: BookmarkSquareIcon },
+    { name: "Account", href: "#", icon: ComputerDesktopIcon },
+  ];
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   return (
+    <Popover className="relative ">
+      {({ open }) => (
+        <>
+          <div className="relative shadow bg-surface-primary">
+            <div className="flex justify-end p-6 mx-auto">
+              <div className="grow">
+                <SearchBar />
+              </div>
+              <Popover.Button
+                className={classNames(
+                  open ? "text-gray-900" : "text-gray-500",
+                  "group inline-flex items-center   rounded-md text-base font-medium text-content-base hover:text-content-accent focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                )}
+              >
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="#eee"
+                    className="w-6 h-6 text-color-accent"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                    />
+                  </svg>
+                </span>
+                <ChevronDownIcon
+                  className={classNames(
+                    open ? "text-content-inverted" : "text-content-base",
+                    "ml-2 h-5 w-5"
+                  )}
+                  aria-hidden="true"
+                />
+              </Popover.Button>
+            </div>
+          </div>
+
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-200"
+            enterFrom="opacity-0 -translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-150"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 -translate-y-1"
+          >
+            <Popover.Panel className="absolute inset-x-0 z-10 transform shadow-lg">
+              <div className="absolute inset-0 flex" aria-hidden="true">
+                <div className="w-1/2 bg-white" />
+                <div className="w-1/2 bg-gray-50" />
+              </div>
+              <div className="relative grid grid-cols-1 mx-auto max-w-7xl lg:grid-cols-2">
+                <nav
+                  className="grid grid-cols-2 px-6 py-8 bg-color-primary gap-y-2 sm:gap-x-4 "
+                  aria-labelledby="navbar-heading"
+                >
+                  <div>
+                    <h3 className="text-base font-medium text-content-base">
+                      Features
+                    </h3>
+                    <ul role="list" className="mt-5 space-y-6">
+                      {features.map((item) => (
+                        <li key={item.name} className="flow-root">
+                          <a
+                            href={item.href}
+                            className="flex items-center p-3 -m-3 text-base font-medium transition duration-150 ease-in-out rounded-md text-content-base hover:bg-color-primary-variant hover:text-content-accent"
+                          >
+                            <item.icon
+                              className="flex-shrink-0 w-6 h-6 text-gray-400"
+                              aria-hidden="true"
+                            />
+                            <span className="ml-4">{item.name}</span>
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-base font-medium text-content-base">
+                      Support
+                    </h3>
+                    <ul role="list" className="mt-5 space-y-6">
+                      <li className="flow-root">
+                        <Link
+                          href="#"
+                          className="flex items-center p-3 -m-3 text-base font-medium transition duration-150 ease-in-out rounded-md text-content-base hover:bg-color-primary-variant hover:text-content-accent"
+                        >
+                          <span className="ml-4"></span>
+                        </Link>
+                      </li>
+                      <div className="flex space-x-6 min-w-[200px] text-content-base flex-row items-center">
+                        <div className="font-semibold hover:text-content-accent">
+                          <Link
+                            href="https://discord.gg/zqeTWZvb76"
+                            className="flex items-center p-3 -m-3 text-base font-medium transition duration-150 ease-in-out rounded-md text-content-base hover:bg-color-primary-variant hover:text-content-accent"
+                          >
+                            <StyledTooltip
+                              texts={[
+                                "Found any bugs? Have suggestions for features?",
+                                "Or just want to help contribute. Click and join the discord!",
+                              ]}
+                              placement="bottom"
+                              className="mt-2"
+                            >
+                              <h3>Join Discord</h3>
+                            </StyledTooltip>
+                          </Link>
+                        </div>
+                        <ThemeChanger />
+                        <div className="font-semibold hover:text-content-accent">
+                          <GggAuthBtn />
+                        </div>
+                      </div>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </Popover.Panel>
+          </Transition>
+        </>
+      )}
+    </Popover>
+  );
+}
+
+function DesktopNavBar() {
+  const { profile } = usePoeStackAuth();
+  const { league } = usePoeLeagueCtx();
+  return (
     <>
-      <div className="flex items-center w-full h-12 pl-2 pr-2  min-w-fit bg-surface-primary">
+      <div className="flex items-center w-full h-12 pl-2 pr-2 min-w-fit bg-surface-primary">
         <div className="flex items-center space-x-2 min-w-fit">
           <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
