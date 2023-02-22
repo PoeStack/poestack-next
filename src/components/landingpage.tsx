@@ -86,16 +86,39 @@ export default function LandingPage() {
                           Character Ladder
                         </h1>
                       </Link>
-                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
-                        <li className="text-left">
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-8 text-md">
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
                           Browser by class, skill, items or keystones.
                         </li>
-                        <li className="text-left">
+                        <li className="flex flex-row items-center text-left ">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
                           See character&apos;s uniques and unique cost
                           calculations
                         </li>
-                        <li className="text-left">
-                          Create your own custom ladders
+
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Create your own ladders of friends, or players you
+                          want to emulate
                         </li>
                         <li>
                           <a
@@ -133,16 +156,37 @@ export default function LandingPage() {
                           Character Profiles
                         </h1>
                       </Link>
-                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
-                        <li className="text-left">
-                          Browser by class, skill, items or keystones.
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-8 text-md">
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Create custom profiles to monitor your currency gains
                         </li>
-                        <li className="text-left">
-                          See character&apos;s uniques and unique cost
-                          calculations
+                        <li className="flex flex-row items-center text-left ">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Effortlessly export stash tabs to TFT or GGG forums.
                         </li>
-                        <li className="text-left">
-                          Create your own custom ladders
+
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Compare longterm results
                         </li>
                         <li>
                           <a
@@ -166,16 +210,37 @@ export default function LandingPage() {
                           Stash
                         </h1>
                       </Link>
-                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
-                        <li className="text-left">
-                          Browser by class, skill, items or keystones.
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-8 text-md">
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Create custom profiles to monitor your currency gains
                         </li>
-                        <li className="text-left">
-                          See character&apos;s uniques and unique cost
-                          calculations
+                        <li className="flex flex-row items-center text-left ">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Effortlessly export stash tabs to TFT or GGG forums.
                         </li>
-                        <li className="text-left">
-                          Create your own custom ladders
+
+                        <li className="flex flex-row text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Compare longterm results
                         </li>
                         <li>
                           <a
@@ -201,29 +266,40 @@ export default function LandingPage() {
                   <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto ">
                     {/* Background Img & Link */}
                     <Link
-                      href={`/poe/characters/${profile?.userId}`}
+                      href={`/poe/economy/${league}?tag=currency`}
                       className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
                     >
                       <div className="flex flex-row justify-center min-h-screen bg-fixed bg-left bg-no-repeat xl:bg-contain bg-economyEssences" />
                     </Link>
                     {/* Text & Description */}
                     <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
-                      <Link href={`/poe/characters/${profile?.userId}`}>
+                      <Link href={`/poe/economy/${league}?tag=currency`}>
                         <h1 className="text-4xl text-center hover:text-content-accent">
                           Economy
                         </h1>
                       </Link>
-                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
-                        <li className="text-left">
-                          Browser by class, skill, items or keystones.
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-8 text-md">
+                        <li className="flex flex-row items-center text-left">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          View prices and listings for all items
                         </li>
-                        <li className="text-left">
-                          See character&apos;s uniques and unique cost
-                          calculations
+                        <li className="flex flex-row items-center text-left ">
+                          <Image
+                            width={25}
+                            height={25}
+                            src={"/Chaos_Orb_inventory_icon.png"}
+                            className="mr-2"
+                            alt="-"
+                          />
+                          Track changes in pricing and market trends over time
                         </li>
-                        <li className="text-left">
-                          Create your own custom ladders
-                        </li>
+
                         <li>
                           <a
                             href="#characters"
