@@ -13,9 +13,9 @@ export default function LandingPage() {
     <div className="rounded text-content-base">
       <main>
         <div className="relative h-full ">
-          <div className="max-w-full px-6 g:px-8 ">
+          <div className="max-w-full g:px-8 ">
             {/* Page 1 */}
-            <div className="flex flex-col items-center flex-grow h-full py-20 mx-auto bg-surface-secondary sm:py-32 lg:pb-20">
+            <div className="flex flex-col items-center h-full py-20 bg-surface-secondary sm:py-32 lg:pb-20">
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
                 Welcome to PoeStack
               </h1>
@@ -73,205 +73,90 @@ export default function LandingPage() {
                 </p>
               </div>
             </div>
-            {/* Inbetween Page */}
             {/* Page 2 */}
-            <div className="relative w-full h-full bg-neutral-200">
-              <div className="h-full ">
-                <div className="text-center" id="section2">
-                  {/* Grid */}
-                  <ul className="grid w-full h-full grid-cols-1 grid-rows-2 gap-2 font-bold md:grid-cols-2">
-                    {/* Column 1 - Char Ladder + Economy */}
-
-                    <div className="h-full ">
-                      {/* Character Ladders - Top Left BIG*/}
-                      <li className="flex flex-col w-full bg-pink-400 h-1/2">
-                        <Link
-                          href={`/poe/characters?league=${league}`}
-                          className="relative w-full overflow-hidden"
-                          onClick={() => console.log("hi")}
-                        >
-                          <Image
-                            width="0"
-                            height="0"
-                            sizes="100vw "
-                            className="w-full h-auto transition duration-700 hover:scale-110"
-                            src={`/images/landingpage/landingPage_Char_Ladder_001.png`}
-                            alt="characterladderimg"
-                          />
-                        </Link>
-                        <div className="bg-color-primary-variant">
-                          <Link href={`/poe/characters?league=${league}`}>
-                            <h1 className="text-4xl hover:text-content-accent">
-                              Character Ladder
-                            </h1>
-                          </Link>
-                          <ul className="justify-center inline-block p-4 mx-auto text-md">
-                            <li className="text-left">
-                              Browser by class, skill, items or keystones.
-                            </li>
-                            <li className="text-left">
-                              See character&apos;s uniques and unique cost
-                              calculations
-                            </li>
-                            <li className="text-left">
-                              Create your own custom ladders
-                            </li>
-                            <li>
-                              <a
-                                href="#characters"
-                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
-                              >
-                                Learn More
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      {/* Economy - Bottom Left Small */}
-                      <li className="flex flex-col w-full h-1/3">
-                        <Link
-                          href={`/poe/characters?league=${league}`}
-                          className="relative w-full overflow-hidden"
-                          onClick={() => console.log("hi")}
-                        >
-                          <Image
-                            width="0"
-                            height="0"
-                            sizes="100vw "
-                            className="w-full h-auto transition duration-700 hover:scale-110"
-                            src={`/landingPageLadderImg_001.png`}
-                            alt="characterladderimg"
-                          />
-                        </Link>
-                        <div className="bg-surface-primary">
-                          <Link href={`/poe/characters?league=${league}`}>
-                            <h1 className="text-4xl hover:text-content-accent">
-                              Economy
-                            </h1>
-                          </Link>
-                          <ul className="justify-center inline-block p-4 mx-auto text-md">
-                            <li className="text-left">
-                              - Browser ladders by class, skill, items or
-                              keystones.
-                            </li>
-                            <li className="text-left">
-                              - See what the top uniques and builds costs are
-                            </li>
-                            <li className="text-left">
-                              - Create your own custom ladders
-                            </li>
-                            <li className="text-left">
-                              - View character progression by date/snapshot
-                            </li>
-                            <li>
-                              <a
-                                href="#economy"
-                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
-                              >
-                                Learn More
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
+            <div className="relative">
+              <ul className="space-y-4">
+                {/* Character Ladders - Top Left BIG*/}
+                <li>
+                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto">
+                    {/* Text & Description */}
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-primary ">
+                      <Link href={`/poe/characters?league=${league}`}>
+                        <h1 className="text-4xl text-center hover:text-content-accent">
+                          Character Ladder
+                        </h1>
+                      </Link>
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
+                        <li className="text-left">
+                          Browser by class, skill, items or keystones.
+                        </li>
+                        <li className="text-left">
+                          See character&apos;s uniques and unique cost
+                          calculations
+                        </li>
+                        <li className="text-left">
+                          Create your own custom ladders
+                        </li>
+                        <li>
+                          <a
+                            href="#characters"
+                            className="flex justify-center mx-auto mt-10 text-sm hover:text-content-accent"
+                          >
+                            Learn More
+                          </a>
+                        </li>
+                      </ul>
                     </div>
-                    {/* Column 2 - Char Profiles + Stash */}
-                    <div className="h-full">
-                      {/* Stash - Top Right Small */}
-                      <li className="flex flex-col w-full h-1/4">
-                        <Link
-                          href={`/poe/characters?league=${league}`}
-                          className="relative w-full overflow-hidden"
-                          onClick={() => console.log("hi")}
-                        >
-                          <Image
-                            width="0"
-                            height="0"
-                            sizes="100vw "
-                            className="w-full h-auto transition duration-700 hover:scale-110 "
-                            src={`/images/landingpage/landingPage_Stash_001.png`}
-                            alt="characterstashimg"
-                          />
-                        </Link>
-                        <div className="bg-color-primary text-content-base ">
-                          <Link href="/poe/stash/snapshot/profiles">
-                            <h1 className="text-4xl hover:text-content-accent">
-                              Stash
-                            </h1>
-                          </Link>
-                          <ul className="justify-center inline-block p-4 mx-auto text-md">
-                            <li className="text-left">
-                              Create custom profiles based on stash tabs
-                              groupings.
-                            </li>
-                            <li className="pt-2 pb-2 text-xs text-center">
-                              *Requires Connected Account
-                            </li>
-                            <li>
-                              <a
-                                href="#stash"
-                                className="flex justify-center mx-auto text-sm hover:text-content-accent"
-                              >
-                                Learn More
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
-                      {/* User Characters/Character Profiles - Bottom Right BIG */}
-                      <li className="flex flex-col w-full h-2/3">
-                        <Link
-                          href={`/poe/characters?league=${league}`}
-                          className="relative w-full overflow-hidden"
-                          onClick={() => console.log("hi")}
-                        >
-                          <Image
-                            width="0"
-                            height="0"
-                            sizes="100vw "
-                            className="w-full h-auto transition duration-700 hover:scale-110"
-                            src={`/landingPageLadderImg_001.png`}
-                            alt="characterladderimg"
-                          />
-                        </Link>
-                        <div className="bg-surface-primary">
-                          <Link href={`/poe/characters?league=${league}`}>
-                            <h1 className="text-4xl hover:text-content-accent">
-                              Character Profiles
-                            </h1>
-                          </Link>
-                          <ul className="justify-center inline-block p-4 mx-auto text-md">
-                            <li className="text-left">
-                              - Browser ladders by class, skill, items or
-                              keystones.
-                            </li>
-                            <li className="text-left">
-                              - See what the top uniques and builds costs are
-                            </li>
-                            <li className="text-left">
-                              - Create your own custom ladders
-                            </li>
-                            <li className="text-left">
-                              - View character progression by date/snapshot
-                            </li>
-                            <li>
-                              <a
-                                href="#characters"
-                                className="flex justify-center mx-auto mt-4 text-sm hover:text-content-accent"
-                              >
-                                Learn More
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      </li>
+                    {/* Background Img & Link */}
+                    <Link
+                      href={`/poe/characters?league=${league}`}
+                      className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
+                    >
+                      <div className="flex flex-row justify-center h-full min-h-screen bg-center bg-no-repeat bg-auto lg:bg-cover bg-characterLadder"></div>
+                    </Link>
+                  </div>
+                </li>
+                {/* Character Profile */}
+                <li>
+                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto">
+                    {/* Background Img & Link */}
+                    <Link
+                      href={`/poe/characters/${profile?.userId}`}
+                      className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
+                    >
+                      <div className="flex flex-row justify-center h-full min-h-screen bg-center bg-no-repeat bg-auto lg:bg-fit bg-characterProfile"></div>
+                    </Link>
+                    {/* Text & Description */}
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-primary ">
+                      <Link href={`/poe/characters/${profile?.userId}`}>
+                        <h1 className="text-4xl text-center hover:text-content-accent">
+                          Character Profiles
+                        </h1>
+                      </Link>
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
+                        <li className="text-left">
+                          Browser by class, skill, items or keystones.
+                        </li>
+                        <li className="text-left">
+                          See character&apos;s uniques and unique cost
+                          calculations
+                        </li>
+                        <li className="text-left">
+                          Create your own custom ladders
+                        </li>
+                        <li>
+                          <a
+                            href="#characters"
+                            className="flex justify-center mx-auto mt-10 text-sm hover:text-content-accent"
+                          >
+                            Learn More
+                          </a>
+                        </li>
+                      </ul>
                     </div>
-                  </ul>
-
-                  {/* Column 1 */}
-                  {/* Column 2 */}
-                </div>
-              </div>
+                  </div>
+                </li>
+              </ul>
             </div>
             {/* Page 3 - Characters/Ladder */}
             <div className="relative w-full h-full mt-2 bg-surface-primary ">

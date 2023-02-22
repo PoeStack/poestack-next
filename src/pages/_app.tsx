@@ -35,23 +35,17 @@ export default function App({ Component, pageProps }: AppProps) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-V6G8CPK4ZY', {
-                page_path: window.location.pathname,
+                page_path: window.location.pathname,aa
               });`,
                 }}
               />
               <Head>
                 <title>PoeStack</title>
               </Head>
-              <div className="w-full h-full overflow-hidden bg-surface-secondary text-content-base">
+              <div className="w-full h-full bg-surface-secondary text-content-base">
                 <div className="flex flex-col w-full h-full min-h-screen ">
                   <StyledNavBar />
-                  <div className="flex pt-4 space-x-2 grow">
-                    <div className="lg:basis-1/12"></div>
-                    <div className="grow lg:basis-5/6">
-                      <Component {...pageProps} />
-                    </div>
-                    <div className="lg:basis-1/12"></div>
-                  </div>
+                  <Component {...pageProps} />
                   {/* Footer */}
                   <StyledFooter />
                 </div>
