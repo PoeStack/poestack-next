@@ -264,9 +264,9 @@ export default function CharactersByUser() {
       {loadingCharactersById && loadingCharSnapshots ? (
         <LoadingIndicator />
       ) : (
-        <div className="flex flex-col space-x-2 space-y-2">
-          <StyledCard title="Characters" className="flex-1">
-            <div className="flex flex-col space-y-10">
+        <div className="flex flex-col my-4 space-x-2 space-y-2 md:mx-4 lg:mx-20">
+          <StyledCard title="Characters" className="flex-1 ">
+            <div className="flex flex-col space-y-10 ">
               <CharactersByUserTable
                 characters={characters}
                 columns={columns}
@@ -322,46 +322,69 @@ function CharactersByUserTable({
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
   return (
-    <StyledCard title="Characters" className="flex-1">
-      <table>
-        <SortableTableHeader
-          columns={columns}
-          columnDirections={columnDirections}
-          onSortChange={onSortChange}
-        />
-        <tbody className="">
-          {characters.map((snapshot) => (
-            <tr
-              className="hover:bg-skin-primary border-y-2 border-slate-700/50"
-              key={snapshot.id}
-            >
-              <td>
-                <Link
-                  href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="hover:text-skin-accent hover:underline pl-3"
-                >
-                  {snapshot?.name}
-                </Link>
-              </td>
-              <td>
-                <ul className="flex flex-row space-x-2 justify-left items-center">
-                  <div className="text-center">{snapshot.level}</div>
-                  <div>
-                    <StyledTooltip
-                      texts={[`${snapshot.characterClass}`]}
-                      placement="right"
-                      className="bg-slate-800"
-                    >
-                      <Image
-                        src={`/assets/poe/classes/${snapshot.characterClass}.png`}
-                        alt={snapshot.characterClass}
-                        width={39}
-                        height={30}
-                      />
-                    </StyledTooltip>
-                  </div>
-                </ul>
-              </td>
+    <div className="flex w-full h-full grow lg:basis-5/6">
+      {/*         <div className="w-full h-full bg-surface-secondary text-content-base">
+                <div className="w-full h-full bg-surface-secondary text-content-base">
+                
+                <div className="flex flex-col w-full h-full min-h-screen ">
+                <div className="flex flex-col w-full h-full min-h-screen overflow-x-auto">
+                
+                
+                
+                <StyledNavBar />
+
+
+
+
+
+                  <div className="flex pt-4 space-x-2 grow">
+                    <div className="lg:basis-1/12"></div>
+                    <div className="grow lg:basis-5/6">
+                      <Component {...pageProps} />
+                    </div>
+                    <div className="lg:basis-1/12"></div>
+              </div> */}
+
+      <StyledCard title="Characters" className="flex-1">
+        <table>
+          <SortableTableHeader
+            columns={columns}
+            columnDirections={columnDirections}
+            onSortChange={onSortChange}
+          />
+          <tbody className="">
+            {characters.map((snapshot) => (
+              <tr
+                className="hover:bg-skin-primary border-y-2 border-slate-700/50"
+                key={snapshot.id}
+              >
+                <td>
+                  <Link
+                    href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
+                    className="pl-3 hover:text-skin-accent hover:underline"
+                  >
+                    {snapshot?.name}
+                  </Link>
+                </td>
+                <td>
+                  <ul className="flex flex-row items-center space-x-2 justify-left">
+                    <div className="text-center">{snapshot.level}</div>
+                    <div>
+                      <StyledTooltip
+                        texts={[`${snapshot.characterClass}`]}
+                        placement="right"
+                        className="bg-slate-800"
+                      >
+                        <Image
+                          src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                          alt={snapshot.characterClass}
+                          width={39}
+                          height={30}
+                        />
+                      </StyledTooltip>
+                    </div>
+                  </ul>
+                </td>
 
               <td>
                 {snapshot.mainSkillKey ? (

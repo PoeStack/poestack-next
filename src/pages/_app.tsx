@@ -42,7 +42,7 @@ export default function App({ Component, pageProps }: AppProps) {
               <Head>
                 <title>PoeStack</title>
               </Head>
-              <div className="w-full h-full bg-surface-secondary text-content-base">
+              <div className="w-full h-full overflow-auto bg-surface-secondary text-content-base">
                 <div className="flex flex-col w-full h-full min-h-screen ">
                   <StyledNavBar />
                   <Component {...pageProps} />

@@ -54,82 +54,86 @@ export default function Profiles() {
 
   return (
     <>
-      <StyledCard title={"Profiles"}>
-        <div>
-          <div className="flex flex-row items-center">
-            <div className="flex flex-row items-center mr-2">
-              <StyledTooltip
-                texts={[
-                  "Create Profile to save custom stash profiles.",
-                  "You can have numerous profiles.",
-                ]}
-                placement="left"
-              >
-                <button className="w-5 h-5 ">
-                  <InformationCircleIcon />
-                </button>
-              </StyledTooltip>
-              <Link
-                className="px-1 py-1 rounded-lg bg-color-secondary hover:bg-color-accent-variant"
-                href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
-              >
-                <p className="font-semibold text-content-base hover:text-content-inverted">
-                  Create Profile
-                </p>
-              </Link>
+      <div className="h-screen my-4 md:mx-4 lg:mx-20">
+        <StyledCard title={"Profiles"}>
+          <div className="">
+            <div className="flex flex-row items-center">
+              <div className="flex flex-row items-center mr-2">
+                <StyledTooltip
+                  texts={[
+                    "Create Profile to save custom stash profiles.",
+                    "You can have numerous profiles.",
+                  ]}
+                  placement="left"
+                >
+                  <button className="w-5 h-5 mr-2">
+                    <InformationCircleIcon />
+                  </button>
+                </StyledTooltip>
+                <Link
+                  className="px-1 py-1 rounded-lg bg-color-secondary hover:bg-color-accent-variant"
+                  href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
+                >
+                  <p className="font-semibold text-content-base hover:text-content-inverted">
+                    Create Profile
+                  </p>
+                </Link>
+              </div>
             </div>
-          </div>
-          <div className="overflow-y-auto">
-            <table className="w-full table-auto">
-              <thead>
-                <tr className="w-full">
-                  <th>Name</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {profiles?.map((profile, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Link
-                        className="hover:text-content-accent"
-                        href={"/poe/stash/snapshot/profiles/" + profile.id}
-                      >
-                        {profile?.name}
-                      </Link>
-                    </td>
-
-                    <td>
-                      <div className="flex flex-row space-x-3">
+            <div className="overflow-y-auto">
+              <table className="w-full table-auto">
+                <thead>
+                  <tr className="w-full">
+                    <th>Name</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {profiles?.map((profile, index) => (
+                    <tr key={index}>
+                      <td>
                         <Link
                           className="hover:text-content-accent"
-                          href={
-                            "/poe/stash/snapshot/profiles/" +
-                            profile.id +
-                            "/edit"
-                          }
+                          href={"/poe/stash/snapshot/profiles/" + profile.id}
                         >
-                          Edit
+                          {profile?.name}
                         </Link>
-                        <div
-                          className="hover:text-content-accent"
-                          onClick={() => {
-                            deleteProfile({
-                              variables: { stashSnapshotProfileId: profile.id },
-                            });
-                          }}
-                        >
-                          Delete
+                      </td>
+
+                      <td>
+                        <div className="flex flex-row space-x-3">
+                          <Link
+                            className="hover:text-content-accent"
+                            href={
+                              "/poe/stash/snapshot/profiles/" +
+                              profile.id +
+                              "/edit"
+                            }
+                          >
+                            Edit
+                          </Link>
+                          <div
+                            className="hover:text-content-accent"
+                            onClick={() => {
+                              deleteProfile({
+                                variables: {
+                                  stashSnapshotProfileId: profile.id,
+                                },
+                              });
+                            }}
+                          >
+                            Delete
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </StyledCard>
+        </StyledCard>
+      </div>
     </>
   );
 }

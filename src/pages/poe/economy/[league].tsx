@@ -139,7 +139,7 @@ export default function Economy() {
 
   return (
     <>
-      <div>
+      <div className="my-4 md:mx-4 lg:mx-20">
         <StyledCard title={"Economy"}>
           <LeagueSelect />
           <ItemGroupTagSelect
@@ -162,7 +162,7 @@ export default function Economy() {
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr
                     key={index}
-                    className=" hover:text-content-accent  pl-3 hover:bg-color-primary"
+                    className="pl-3 hover:text-content-accent hover:bg-color-primary"
                   >
                     <td>
                       <Image
