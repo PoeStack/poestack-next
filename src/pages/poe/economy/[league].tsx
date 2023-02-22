@@ -20,6 +20,7 @@ import useSortableTable from "@hooks/use-sort-th-hook";
 import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
+import LeagueSelect from "@components/league-select";
 
 const columns: SortableTableColumns = [
   {
@@ -48,12 +49,9 @@ const columns: SortableTableColumns = [
 
 export default function Economy() {
   const router = useRouter();
-  const { league: routerLeague, tag } = router.query;
+  const { tag } = router.query;
 
   const { league, setLeague } = usePoeLeagueCtx();
-  useEffect(() => {
-    setLeague(routerLeague);
-  }, [routerLeague, setLeague]);
 
   const [timeseriesSearch, setTimeseriesSearch] =
     useState<ItemGroupValueTimeseriesSearchInput>({
@@ -62,7 +60,7 @@ export default function Economy() {
       itemGroupSearch: {
         itemGroupHashStrings: [],
         itemGroupHashKeys: [],
-        league: league?.toString() ?? POE_LEAGUES[0],
+        league: league,
         skip: null,
         limit: null,
         searchString: null,
@@ -143,6 +141,7 @@ export default function Economy() {
     <>
       <div>
         <StyledCard title={"Economy"}>
+          <LeagueSelect />
           <ItemGroupTagSelect
             selected={tag}
             league={league?.toString() ?? POE_LEAGUES[0]}

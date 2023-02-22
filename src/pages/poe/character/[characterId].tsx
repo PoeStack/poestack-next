@@ -160,7 +160,6 @@ export default function Character({ characterSnapshot }) {
     }
   );
 
-
   const embeddedDesc = `Life ${currentSnapshot?.characterSnapshotPobStats?.life} ES ${currentSnapshot?.characterSnapshotPobStats?.energyShield}
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
   DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
@@ -310,11 +309,9 @@ export default function Character({ characterSnapshot }) {
         <StyledCard title={"Passive Tree"}>
           <SkillTree
             version={"3.20"}
-            selectedNodes={
-              currentSnapshot?.characterPassivesSnapshot?.hashes
-          }/>
+            selectedNodes={currentSnapshot?.characterPassivesSnapshot?.hashes}
+          />
         </StyledCard>
-
       </div>
     </>
   );

@@ -26,9 +26,9 @@ import {
   GenericAggregation,
 } from "@generated/graphql";
 import { useRouter } from "next/router";
-import StyledButton from "../../components/styled-button";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
+import LeagueSelect from "@components/league-select";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -558,6 +558,8 @@ function StyledMultiSearch({
           placeholder="Search Filters..."
         />
         <StyledDatepicker onSelectionChange={onDateChange} />
+
+        <LeagueSelect />
 
         {!!profile?.userId && (
           <Link href={`/poe/custom-ladders?userId=${profile?.userId}`}>

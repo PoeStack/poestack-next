@@ -9,6 +9,7 @@ import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
 import useSortableTable from "@hooks/use-sort-th-hook";
+import LeagueSelect from "@components/league-select";
 
 const columns: SortableTableColumns = [
   {
@@ -101,6 +102,9 @@ export default function Atlas() {
   return (
     <>
       <div className="flex flex-col space-y-2">
+        <StyledCard title={"Search"} className="flex-1">
+          <LeagueSelect />
+        </StyledCard>
         <StyledCard title={"Keystones"} className="flex-1">
           <AtlasNodePopularityTable
             nodes={keyStones}

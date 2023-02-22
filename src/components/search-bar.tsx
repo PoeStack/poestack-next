@@ -4,14 +4,13 @@ import Image from "next/image";
 import { GeneralUtils } from "../utils/general-util";
 import Link from "next/link";
 import { usePoeLeagueCtx, POE_LEAGUES } from "../contexts/league-context";
-import StyledSelect2 from "./styled-select-2";
 import { GlobalSearchResponse } from "../__generated__/graphql";
 
 export default function SearchBar() {
   const [open, setOpen] = useState(false);
   const [result, setResult] = useState<GlobalSearchResponse | null>(null);
 
-  const { league, setLeague } = usePoeLeagueCtx();
+  const { league } = usePoeLeagueCtx();
   const [searchText, setSearchText] = useState<string>("");
 
   useQuery(
@@ -52,14 +51,6 @@ export default function SearchBar() {
               setOpen(false);
             }, 400);
           }}
-        />
-
-        <StyledSelect2
-          selected={league}
-          onSelectChange={(l) => {
-            setLeague(l);
-          }}
-          items={POE_LEAGUES}
         />
       </div>
       {open && (

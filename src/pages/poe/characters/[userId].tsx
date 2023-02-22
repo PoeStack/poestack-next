@@ -24,6 +24,7 @@ import useSortableTable from "@hooks/use-sort-th-hook";
 import { usePoeStackAuth } from "@contexts/user-context";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import LeagueSelect from "../../../components/league-select";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -286,14 +287,17 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <AtlasPassivesTree
-              version={"3.20"}
-              selectedNodes={
-                userAtlasPassiveResponse?.results?.find(
-                  (e) => e.league === league
-                )?.hashes
-              }
-            />
+            <div className="flex flex-col space-y-2">
+              <LeagueSelect />
+              <AtlasPassivesTree
+                version={"3.20"}
+                selectedNodes={
+                  userAtlasPassiveResponse?.results?.find(
+                    (e) => e.league === league
+                  )?.hashes
+                }
+              />
+            </div>
           </StyledCard>
         </div>
       )}
@@ -381,7 +385,9 @@ function CharactersByUserTable({
               </td>
               <td>
                 {snapshot.league ? (
-                  <div className="text-left">{snapshot.league}</div>
+                  <Link href={`/poe/characters?league=${snapshot.league}`}>
+                    <div className="text-left">{snapshot.league}</div>
+                  </Link>
                 ) : null}
               </td>
             </tr>

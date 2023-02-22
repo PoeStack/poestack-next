@@ -100,8 +100,8 @@ export default function ViewProfile() {
       }
     `,
     {
-      variables: { update: profile },
-      onCompleted(data) {
+      variables: { update: { ...profile, ...{ league: league } } },
+      onCompleted() {
         router.push("/poe/stash/snapshot/profiles");
       },
     }
@@ -142,11 +142,7 @@ export default function ViewProfile() {
               <h4 className="w-20 cursor-help">League: </h4>
             </StyledTooltip>
             <div className=" w-full">
-              <LeagueSelect
-                onLeagueChanged={(l) => {
-                  setProfile({ ...profile, ...{ league: l } });
-                }}
-              />
+              <LeagueSelect />
             </div>
           </div>
           {/* Public or Private Select */}

@@ -13,6 +13,8 @@ export const POE_LEAGUES = [
   "Sanctum",
   "Ziz Sanctum HCSSF Class Gauntlet",
   "Hardcore Sanctum",
+  "SSF Sanctum",
+  "SSF Standard",
   "Standard",
   "Hardcore",
   "Ruthless Sanctum",
@@ -30,20 +32,24 @@ export function PoeStackLeagueProvider({ children }) {
 
   const value = {
     league: league,
-    setLeague: setLeague,
+    setLeague: (nextLeague) => {
+      if (router.query.league && nextLeague !== router.query.league) {
+        router.replace({
+          query: {
+            ...router.query,
+            league: nextLeague,
+          },
+        });
+      }
+      setLeague(nextLeague);
+    },
   };
 
   useEffect(() => {
-    console.log("league update", league, router.query.league);
-    if (router.query.league && league !== router.query.league) {
-      router.replace({
-        query: {
-          ...router.query,
-          league: league,
-        },
-      });
+    if (router.query.league && router.query.league !== league) {
+      setLeague(router.query.league.toString());
     }
-  }, [league, router]);
+  }, [router.query.league, league]);
 
   return (
     <PoeStackLeagueContext.Provider value={value}>
