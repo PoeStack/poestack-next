@@ -76,11 +76,11 @@ export default function LandingPage() {
             {/* Page 2 */}
             <div className="relative">
               <ul className="space-y-4">
-                {/* Character Ladders - Top Left BIG*/}
+                {/* Character Ladders */}
                 <li>
                   <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto">
                     {/* Text & Description */}
-                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-primary ">
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
                       <Link href={`/poe/characters?league=${league}`}>
                         <h1 className="text-4xl text-center hover:text-content-accent">
                           Character Ladder
@@ -112,25 +112,105 @@ export default function LandingPage() {
                       href={`/poe/characters?league=${league}`}
                       className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
                     >
-                      <div className="flex flex-row justify-center h-full min-h-screen bg-center bg-no-repeat bg-auto lg:bg-cover bg-characterLadder"></div>
+                      <div className="flex flex-row justify-center min-h-screen bg-fixed bg-right bg-no-repeat xl:bg-contain bg-characterLadder"></div>
                     </Link>
                   </div>
                 </li>
                 {/* Character Profile */}
                 <li>
-                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto">
+                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto ">
                     {/* Background Img & Link */}
                     <Link
                       href={`/poe/characters/${profile?.userId}`}
                       className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
                     >
-                      <div className="flex flex-row justify-center h-full min-h-screen bg-center bg-no-repeat bg-auto lg:bg-fit bg-characterProfile"></div>
+                      <div className="flex flex-row justify-center min-h-screen bg-fixed bg-left bg-no-repeat xl:bg-contain bg-characterProfile" />
                     </Link>
                     {/* Text & Description */}
-                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-primary ">
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
                       <Link href={`/poe/characters/${profile?.userId}`}>
                         <h1 className="text-4xl text-center hover:text-content-accent">
                           Character Profiles
+                        </h1>
+                      </Link>
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
+                        <li className="text-left">
+                          Browser by class, skill, items or keystones.
+                        </li>
+                        <li className="text-left">
+                          See character&apos;s uniques and unique cost
+                          calculations
+                        </li>
+                        <li className="text-left">
+                          Create your own custom ladders
+                        </li>
+                        <li>
+                          <a
+                            href="#characters"
+                            className="flex justify-center mx-auto mt-10 text-sm hover:text-content-accent"
+                          >
+                            Learn More
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </li>
+                {/* Stash */}
+                <li>
+                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto">
+                    {/* Text & Description */}
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary">
+                      <Link href={`/poe/characters?league=${league}`}>
+                        <h1 className="text-4xl text-center hover:text-content-accent">
+                          Stash
+                        </h1>
+                      </Link>
+                      <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
+                        <li className="text-left">
+                          Browser by class, skill, items or keystones.
+                        </li>
+                        <li className="text-left">
+                          See character&apos;s uniques and unique cost
+                          calculations
+                        </li>
+                        <li className="text-left">
+                          Create your own custom ladders
+                        </li>
+                        <li>
+                          <a
+                            href="#characters"
+                            className="flex justify-center mx-auto mt-10 text-sm hover:text-content-accent"
+                          >
+                            Learn More
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                    {/* Background Img & Link */}
+                    <Link
+                      href={`/poe/characters?league=${league}`}
+                      className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
+                    >
+                      <div className="flex flex-row justify-center min-h-screen bg-fixed bg-right bg-no-repeat xl:bg-contain bg-stash"></div>
+                    </Link>
+                  </div>
+                </li>
+                {/* Economy */}
+                <li>
+                  <div className="flex flex-row justify-center w-full h-full min-h-screen mx-auto ">
+                    {/* Background Img & Link */}
+                    <Link
+                      href={`/poe/characters/${profile?.userId}`}
+                      className="w-2/3 h-screen lg:w-full border-x-black border-x-8 "
+                    >
+                      <div className="flex flex-row justify-center min-h-screen bg-fixed bg-left bg-no-repeat xl:bg-contain bg-economyEssences" />
+                    </Link>
+                    {/* Text & Description */}
+                    <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
+                      <Link href={`/poe/characters/${profile?.userId}`}>
+                        <h1 className="text-4xl text-center hover:text-content-accent">
+                          Economy
                         </h1>
                       </Link>
                       <ul className="justify-center inline-block p-10 mx-auto space-y-2 text-md">
