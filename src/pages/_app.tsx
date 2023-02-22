@@ -47,7 +47,9 @@ export default function App({ Component, pageProps }: AppProps) {
                   <StyledNavBar />
                   <Component {...pageProps} />
                   {/* Footer */}
-                  <StyledFooter />
+                  <div>
+                    <StyledFooter />
+                  </div>
                 </div>
               </div>
             </PoeStackLeagueProvider>

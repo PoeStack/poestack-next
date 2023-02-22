@@ -175,7 +175,7 @@ function AtlasNodePopularityTable({
                   texts={node.node.stats}
                   placement={"bottom-start"}
                 >
-                  <td className="hover:text-content-accent cursor-default">
+                  <td className="cursor-default hover:text-content-accent">
                     {node.node.name}
                   </td>
                 </StyledTooltip>
