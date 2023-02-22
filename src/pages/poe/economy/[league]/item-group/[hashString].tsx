@@ -89,7 +89,7 @@ export default function EconomyOne() {
 
   return (
     <>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col m-2 my-4 space-y-2 md:mx-4 lg:mx-20">
         <div className="flex flex-row space-x-2">
           <StyledCard title={"Info"} className="flex-1">
             <h3>
@@ -185,7 +185,7 @@ export function ListingsStockBracketChart({
 
   return (
     <>
-      <div>
+      <div className="">
         <StyledMultiSelect2
           selected={selectedStockBrackets}
           items={bracketOptions}

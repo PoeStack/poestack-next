@@ -339,8 +339,8 @@ export default function Characters({
   ];
 
   return (
-    <div className="flex flex-row space-x-2 ">
-      <div className="flex flex-col space-y-2 w-1/6 lg:w-1/5">
+    <div className="flex flex-row my-4 space-x-2 md:mx-4 lg:mx-20">
+      <div className="flex flex-col w-1/6 space-y-2 lg:w-1/5">
         <StyledMultiSearch
           value={localSearchString}
           onValueChange={onSearchValueChange}
@@ -399,13 +399,13 @@ function StyledCharactersSummaryTable({
               <td>
                 <Link
                   href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="hover:text-content-accent hover:underline pl-3"
+                  className="pl-3 hover:text-content-accent hover:underline"
                 >
                   {snapshot?.name}
                 </Link>
               </td>
               <td>
-                <ul className="flex flex-row space-x-2 justify-left items-center">
+                <ul className="flex flex-row items-center space-x-2 justify-left">
                   <div className="text-center">{snapshot.level}</div>
                   <div>
                     <StyledTooltip
@@ -481,7 +481,7 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row items-center  space-x-1">
+                  <div className="flex flex-row items-center space-x-1">
                     {snapshot.topItems.map((e) => (
                       <>
                         <div>

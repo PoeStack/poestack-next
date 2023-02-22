@@ -160,14 +160,13 @@ export default function Character({ characterSnapshot }) {
     }
   );
 
-
   const embeddedDesc = `Life ${currentSnapshot?.characterSnapshotPobStats?.life} ES ${currentSnapshot?.characterSnapshotPobStats?.energyShield}
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
   DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
 
   return (
     <>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">
         <Head>
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="PoeStack" />
@@ -181,7 +180,7 @@ export default function Character({ characterSnapshot }) {
             content={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
           />
         </Head>
-        <div className="flex flex-row space-x-2">
+        <div className="flex space-x-2 ">
           <StyledCard title="Equipment" className="min-w-[450px]">
             <div className="flex flex-col space-y-2">
               <EquipmentDisplay
@@ -194,9 +193,9 @@ export default function Character({ characterSnapshot }) {
             </div>
           </StyledCard>
 
-          <div className="flex flex-col space-y-2 flex-1">
+          <div className="flex flex-col flex-1 space-y-2 ">
             <StyledCard title="Snapshots" className="flex-1">
-              <div className="flex flex-col space-y-2">
+              <div className="flex flex-col space-y-2 ">
                 <StyledSelect2
                   selected={currentSnapshot}
                   items={[...characterSnapshots].reverse() ?? []}
@@ -210,7 +209,7 @@ export default function Character({ characterSnapshot }) {
                     });
                   }}
                 />
-                <div className="flex flex-row space-x-2 w-full">
+                <div className="flex flex-row w-full space-x-2">
                   <StyledButton
                     className="flex-1"
                     text={"Prev"}
@@ -259,7 +258,7 @@ export default function Character({ characterSnapshot }) {
                 </div>
               </div>
             </StyledCard>
-            <StyledCard title={"Progression"} className="flex-1">
+            <StyledCard title={"Progression"} className="flex-1 w-full">
               <CharacterLevelChart snapshots={characterSnapshots} />
             </StyledCard>
           </div>
@@ -310,11 +309,9 @@ export default function Character({ characterSnapshot }) {
         <StyledCard title={"Passive Tree"}>
           <SkillTree
             version={"3.20"}
-            selectedNodes={
-              currentSnapshot?.characterPassivesSnapshot?.hashes
-          }/>
+            selectedNodes={currentSnapshot?.characterPassivesSnapshot?.hashes}
+          />
         </StyledCard>
-
       </div>
     </>
   );

@@ -100,7 +100,7 @@ export default function Atlas() {
 
   return (
     <>
-      <div className="flex flex-col my-4 space-y-2 ">
+      <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
         <StyledCard title={"Keystones"} className="flex-1">
           <AtlasNodePopularityTable
             nodes={keyStones}
@@ -150,7 +150,9 @@ function AtlasNodePopularityTable({
                     {node.node.name}
                   </td>
                 </StyledTooltip>
-                <td>{+((node.value / total) * 100).toFixed(2)}%</td>
+                <td className="">
+                  {+((node.value / total) * 100).toFixed(2)}%
+                </td>
               </tr>
             </>
           ))}

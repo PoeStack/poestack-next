@@ -5,10 +5,7 @@ import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { GeneralUtils } from "@utils/general-util";
 import StyledCard from "@components/styled-card";
-import {
-  POE_LEAGUES,
-  usePoeLeagueCtx,
-} from "@contexts/league-context";
+import { POE_LEAGUES, usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function EconomyKeyGroup() {
   const router = useRouter();
@@ -88,9 +85,9 @@ export default function EconomyKeyGroup() {
 
   return (
     <>
-      <div>
+      <div className="">
         <div>
-          <div className="flex flex-col space-y-2">
+          <div className="flex flex-col space-y-2 ">
             <StyledCard title={`Variations`}>
               <div className="min-h-[20rem]">
                 <table className="w-full">
