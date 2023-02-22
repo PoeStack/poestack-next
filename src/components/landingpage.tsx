@@ -16,7 +16,7 @@ export default function LandingPage() {
           <div className="max-w-full g:px-8 ">
             {/* Page 1 */}
             <div className="flex flex-col items-center h-full py-20 bg-surface-secondary sm:py-32 lg:pb-20">
-              <h1 className="text-4xl font-bold tracking-tight sm:text-6xl">
+              <h1 className="text-4xl font-bold tracking-tight sm:text-6xl hover:text-content-red">
                 Welcome to PoeStack
               </h1>
               <p className="w-5/6 mt-6 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
@@ -32,7 +32,7 @@ export default function LandingPage() {
               <div className="flex items-center justify-center mb-2 mt-14">
                 <a
                   href="#section2"
-                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-red-800 hover:text-content-inverted"
+                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-color-red hover:text-content-inverted"
                 >
                   {/* Link to section overviews + redirects from navbar */}
                   <h4>Get started</h4>

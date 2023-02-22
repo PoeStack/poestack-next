@@ -21,6 +21,7 @@ module.exports = {
           base: "var(--color-text-base)",
           inverted: "var(--color-text-inverted)",
           accent: "var(--color-accent)",
+          red: "var(--color-red)",
         },
       },
       backgroundColor: {
@@ -32,6 +33,7 @@ module.exports = {
           "secondary-variant": "var(--color-secondary-variant)",
           accent: "var(--color-accent)",
           "accent-variant": "var(--color-accent-variant)",
+          red: "var(--color-red)",
         },
         // surfaces
         surface: {
