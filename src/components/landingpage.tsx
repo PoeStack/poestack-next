@@ -82,7 +82,7 @@ export default function LandingPage() {
                     {/* Text & Description */}
                     <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
                       <Link href={`/poe/characters?league=${league}`}>
-                        <h1 className="text-4xl text-center hover:text-content-accent">
+                        <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                           Character Ladder
                         </h1>
                       </Link>
@@ -152,7 +152,7 @@ export default function LandingPage() {
                     {/* Text & Description */}
                     <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
                       <Link href={`/poe/characters/${profile?.userId}`}>
-                        <h1 className="text-4xl text-center hover:text-content-accent">
+                        <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                           Character Profiles
                         </h1>
                       </Link>
@@ -206,7 +206,7 @@ export default function LandingPage() {
                     {/* Text & Description */}
                     <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary">
                       <Link href={`/poe/characters?league=${league}`}>
-                        <h1 className="text-4xl text-center hover:text-content-accent">
+                        <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                           Stash
                         </h1>
                       </Link>
@@ -274,7 +274,7 @@ export default function LandingPage() {
                     {/* Text & Description */}
                     <div className="flex flex-col justify-center w-1/3 h-screen lg:w-1/4 bg-surface-secondary ">
                       <Link href={`/poe/economy/${league}?tag=currency`}>
-                        <h1 className="text-4xl text-center hover:text-content-accent">
+                        <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                           Economy
                         </h1>
                       </Link>
