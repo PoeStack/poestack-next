@@ -70,17 +70,17 @@ export default function Profiles() {
                 </button>
               </StyledTooltip>
               <Link
-                className="bg-color-secondary hover:bg-color-accent-variant py-1 px-1 rounded-lg"
+                className="px-1 py-1 rounded-lg bg-color-secondary hover:bg-color-accent-variant"
                 href={"/poe/stash/snapshot/profiles/" + nanoid() + "/edit"}
               >
-                <p className="text-content-base font-semibold hover:text-content-inverted">
+                <p className="font-semibold text-content-base hover:text-content-inverted">
                   Create Profile
                 </p>
               </Link>
             </div>
           </div>
           <div className="overflow-y-auto">
-            <table className="table-auto w-full">
+            <table className="w-full table-auto">
               <thead>
                 <tr className="w-full">
                   <th>Name</th>
