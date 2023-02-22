@@ -58,6 +58,10 @@ module.exports = {
         stash: 'url("/images/landingpage/landingPage_Stash_001.png")',
         characterProfile:
           'url("/images/landingpage/landingPage_User_Characters_001.png")',
+        economyMageblood:
+          'url("/images/landingpage/landingPage_Economy_001.png")',
+        economyEssences:
+          'url("/images/landingpage/landingPage_Economy_002.png")',
       },
       // colors: {
       //   "theme-color-0": "#060F2F",
