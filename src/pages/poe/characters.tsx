@@ -29,6 +29,7 @@ import { useRouter } from "next/router";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
+import StyledButton from "../../components/styled-button";
 
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
@@ -545,6 +546,7 @@ function StyledMultiSearch({
   onDateChange,
 }: StyledMultiSearchProps) {
   const { profile } = usePoeStackAuth();
+  const router = useRouter();
 
   return (
     <StyledCard
@@ -562,9 +564,12 @@ function StyledMultiSearch({
         <LeagueSelect />
 
         {!!profile?.userId && (
-          <Link href={`/poe/custom-ladders?userId=${profile?.userId}`}>
-            Custom Ladders
-          </Link>
+          <StyledButton
+            text={"My Custom Ladders"}
+            onClick={() => {
+              router.push(`/poe/custom-ladders?userId=${profile?.userId}`);
+            }}
+          />
         )}
       </div>
     </StyledCard>
