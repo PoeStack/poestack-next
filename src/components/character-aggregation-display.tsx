@@ -49,7 +49,12 @@ export default function CharacterAggregationDisplay({
   const Row = ({ index, style }) => (
     <div
       style={style}
-      className=" truncate grid capitalize cursor-pointer grid-cols-2 items-center hover:bg-color-primary  text-sm space-x-1 pr-2 "
+      className={`truncate grid capitalize cursor-pointer grid-cols-2 items-center hover:bg-color-primary  text-sm space-x-1 pr-2 ${
+        includedRows.includes(mappedRow[index].key)
+          ? "bg-color-primary"
+          : "null"
+      }
+      }`}
       onClick={() => {
         onSelectionChanged?.(mappedRow[index]);
       }}
@@ -69,7 +74,7 @@ export default function CharacterAggregationDisplay({
           className="mr-2 delay-500"
           noDuration={true}
         >
-          <li className="list-none w-full">
+          <li className="w-full list-none">
             {GeneralUtils.capitalize(mappedRow[index].key)}
           </li>
         </StyledTooltip>
@@ -89,7 +94,7 @@ export default function CharacterAggregationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="truncate grid capitalize cursor-pointer  items-center hover:bg-color-primary  text-sm space-x-1 pr-2 ">
+        <div className="grid items-center pr-2 space-x-1 text-sm capitalize truncate cursor-pointer hover:bg-color-primary ">
           {excludedRows.map((e) => (
             <>
               <div
