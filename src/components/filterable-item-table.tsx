@@ -16,6 +16,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import StyledInput from "./styled-input";
 import { GeneralUtils } from "../utils/general-util";
+import HSparkline from "./hsparkline";
 import {
   ItemGroupValueTimeseries,
   ItemGroupValueTimeseriesGroupSeries,
@@ -375,17 +376,28 @@ export default function FilterableItemTable({
                       </Link>
                     </td>
                     <td>
-                      <StyledPopover text={"Show Econ"}>
-                        <QuantityChart
-                          timeseries={
-                            itemValueTimeseries?.find(
+                      <div className="flex flex-row space-x-3">
+                        <HSparkline
+                          series={itemValueTimeseries
+                            ?.find(
                               (h) =>
                                 h?.itemGroup.hashString ===
                                 summary?.itemGroup?.hashString
-                            )?.series
-                          }
+                            )
+                            ?.series?.find((e) => e.type === "p10")}
                         />
-                      </StyledPopover>
+                        <StyledPopover text={"+"}>
+                          <QuantityChart
+                            timeseries={
+                              itemValueTimeseries?.find(
+                                (h) =>
+                                  h?.itemGroup.hashString ===
+                                  summary?.itemGroup?.hashString
+                              )?.series
+                            }
+                          />
+                        </StyledPopover>
+                      </div>
                     </td>
                     <td>{summary?.quantity}</td>
                     <td>

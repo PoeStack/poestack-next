@@ -5,8 +5,11 @@ import { CustomLadderGroup } from "../../../../__generated__/graphql";
 import { useState } from "react";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 export default function EditCustomLadder() {
+  const { profile } = usePoeStackAuth();
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -85,8 +88,8 @@ export default function EditCustomLadder() {
       variables: {
         group: { id: id, name: ladderGroup.name, members: ladderGroup.members },
       },
-      onCompleted(data) {
-        setLadderGroup(data.updateCustomLadderGroup);
+      onCompleted() {
+        router.push(`/poe/custom-ladders?userId=${profile?.userId}`);
       },
     }
   );

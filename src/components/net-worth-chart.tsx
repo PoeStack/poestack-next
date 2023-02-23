@@ -1,8 +1,8 @@
+import "moment-timezone";
+import moment from "moment";
 import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import moment from "moment";
-import "moment-timezone";
 import { StashSnapshot } from "../__generated__/graphql";
 
 export default function NetWorthChart({
@@ -10,14 +10,24 @@ export default function NetWorthChart({
 }: {
   snapshots: StashSnapshot[];
 }) {
-  const series = snapshots
-    .map((s) => {
-      return [
-        new Date(s.createdAtTimestamp).valueOf(),
-        s.totalValueChaos! / (s.divineChaosValue ?? 245),
-      ];
-    })
-    .sort((a, b) => a[0]?.valueOf() - b[0]?.valueOf());
+  const data = snapshots?.map((s) => {
+    return [
+      new Date(s?.createdAtTimestamp).valueOf(),
+      +(s.totalValueChaos! / (s.divineChaosValue ?? 245)).toFixed(1),
+    ];
+  });
+  data.sort((a, b) => a[0]?.valueOf() - b[0]?.valueOf());
+
+  const series = [
+    {
+      name: `Div Value`,
+      tooltip: {
+        valueDecimals: 0,
+      },
+      data: data,
+    },
+  ];
+
   const options = {
     chart: {
       type: "spline",
@@ -28,6 +38,11 @@ export default function NetWorthChart({
     time: {
       moment: moment,
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    yAxis: {
+      title: {
+        enabled: false,
+      },
     },
     xAxis: {
       type: "datetime",
@@ -42,16 +57,11 @@ export default function NetWorthChart({
     },
     legend: {
       enabled: false,
-    },
-    series: [
-      {
-        name: "Div Value",
-        tooltip: {
-          valueDecimals: 1,
-        },
-        data: series,
+      itemStyle: {
+        color: "white",
       },
-    ],
+    },
+    series: series,
   };
 
   return (

@@ -1,4 +1,6 @@
-import React from "react";
+import "moment-timezone";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
 import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
@@ -6,16 +8,27 @@ import { gql, useQuery } from "@apollo/client";
 import { ItemGroupValueTimeseriesGroupSeries } from "../__generated__/graphql";
 
 export default function HSparkline({
-  data,
+  series,
 }: {
-  data: ItemGroupValueTimeseriesGroupSeries[];
+  series?: ItemGroupValueTimeseriesGroupSeries;
 }) {
-  const series = data.map((e, i) => ({
-    yAxis: i,
-    data: e?.entries?.map((e) => {
-      return [e.value];
+  //This is a hack but it works and I don't want to fix highcharts right now
+  const [shouldRender, doRender] = useState(true);
+  useEffect(() => {
+    if (shouldRender) {
+      doRender(!shouldRender);
+    }
+  }, [shouldRender]);
+
+  const entires = series?.entries ?? [];
+  const shortEntires = entires.length > 7 ? entires.slice(-7) : entires;
+
+  const hSeries = {
+    name: `Chaos Value`,
+    data: shortEntires.map((e) => {
+      return [new Date(e?.timestamp).valueOf(), +e.value.toFixed(2)];
     }),
-  }));
+  };
 
   const options = {
     chart: {
@@ -47,19 +60,19 @@ export default function HSparkline({
       startOnTick: false,
       endOnTick: false,
       tickPositions: [],
+      type: "datetime",
+      dateTimeLabelFormats: {
+        day: "%e. %b",
+        week: "%e. %b",
+        month: "%b '%y",
+        year: "%Y",
+      },
+    },
+    time: {
+      moment: moment,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     },
     yAxis: [
-      {
-        endOnTick: false,
-        startOnTick: false,
-        labels: {
-          enabled: false,
-        },
-        title: {
-          text: null,
-        },
-        tickPositions: [0],
-      },
       {
         endOnTick: false,
         startOnTick: false,
@@ -105,12 +118,31 @@ export default function HSparkline({
         borderColor: "silver",
       },
     },
-    series: series,
+    series: hSeries,
   };
+
+  let pChange = 0;
+  if (hSeries?.data?.length) {
+    const startingValue = hSeries.data[0][1];
+    const endingValue = hSeries.data[hSeries.data?.length - 1][1];
+
+    pChange = +(((endingValue - startingValue) / startingValue) * 100).toFixed(
+      0
+    );
+  }
 
   return (
     <>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="flex flex-row space-x-1">
+        <HighchartsReact highcharts={Highcharts} options={options} />
+        <div
+          className={
+            pChange === 0 ? "" : pChange > 0 ? "text-green-500" : "text-red-400"
+          }
+        >
+          {pChange}%
+        </div>
+      </div>
     </>
   );
 }

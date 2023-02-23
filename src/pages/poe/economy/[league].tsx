@@ -183,20 +183,22 @@ export default function Economy() {
                       </Link>
                     </td>
                     <td className="flex flex-col items-start">
-                      <HSparkline data={groupSeries.series} />
+                      <HSparkline
+                        series={groupSeries.series?.find(
+                          (e) => e.type === "p10"
+                        )}
+                      />
                     </td>
                     <td className="text-left">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "totalValidListings"
                         );
-
                         return (
                           <>
-                            {
-                              recent?.entries?.[recent.entries.length - 1]
-                                ?.value
-                            }
+                            {recent?.entries?.[
+                              recent.entries.length - 1
+                            ]?.value?.toFixed(0)}
                           </>
                         );
                       })()}
@@ -206,7 +208,6 @@ export default function Economy() {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "p10"
                         );
-
                         return (
                           <>
                             <CurrencyValueDisplay
