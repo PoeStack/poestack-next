@@ -28,18 +28,11 @@ import { usePoeLeagueCtx } from "../contexts/league-context";
 import ThemeChanger from "./theme-changer";
 
 export default function StyledNavBar() {
-  const [width, setWidth] = useState(0);
+  const windowWidth = useWindowSize();
+
   const breakpoint = 1125;
 
-  useEffect(() => {
-    const handleWindowResize = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleWindowResize);
-
-    // Return a function from the effect that removes the event listener
-    return () => window.removeEventListener("resize", handleWindowResize);
-  }, []);
-
-  return width < breakpoint ? <MobileNavBar /> : <DesktopNavBar />;
+  return windowWidth! < breakpoint ? <MobileNavBar /> : <DesktopNavBar />;
 }
 
 function MobileNavBar() {
@@ -298,4 +291,30 @@ function DesktopNavBar() {
       </div>
     </>
   );
+}
+
+function useWindowSize() {
+  const [width, setWidth] = useState(undefined);
+  // Initialize state with undefined width/height so server and client renders match
+  // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
+  const [windowWidth, setWindowWidth] = useState(undefined);
+
+  useEffect(() => {
+    // only execute all the code below in client side
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowWidth(window.innerWidth);
+    }
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // Empty array ensures that effect is only run on mount
+  return windowWidth;
 }
