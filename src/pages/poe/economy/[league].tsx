@@ -139,7 +139,7 @@ export default function Economy() {
 
   return (
     <>
-      <div className="my-4 md:mx-4 lg:mx-20">
+      <div className="h-screen my-4 md:mx-4 lg:mx-20">
         <StyledCard title={"Economy"}>
           <LeagueSelect />
           <ItemGroupTagSelect
