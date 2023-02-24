@@ -315,7 +315,7 @@ function useWindowSize() {
   const [width, setWidth] = useState(undefined);
   // Initialize state with undefined width/height so server and client renders match
   // Learn more here: https://joshwcomeau.com/react/the-perils-of-rehydration/
-  const [windowWidth, setWindowWidth] = useState(undefined);
+  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     // only execute all the code below in client side
