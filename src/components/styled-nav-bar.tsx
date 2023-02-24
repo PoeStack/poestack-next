@@ -36,15 +36,33 @@ export default function StyledNavBar() {
 }
 
 function MobileNavBar() {
+  const { profile } = usePoeStackAuth();
+  const { league } = usePoeLeagueCtx();
   const features = [
-    { name: "Economy", href: "#", icon: GiReceiveMoney },
-    { name: "Atlas", href: "#", icon: GiAtlas },
-    { name: "Characters", href: "#", icon: IoPeople },
-    { name: "My Characters", href: "#", icon: GiCharacter },
-    { name: "Stash", href: "#", icon: GiOpenChest },
+    {
+      name: "Economy",
+      href: `/poe/economy/${league}?tag=currency`,
+      icon: GiReceiveMoney,
+    },
+    { name: "Atlas", href: `/poe/atlas?league=${league}`, icon: GiAtlas },
+    {
+      name: "Characters",
+      href: `/poe/characters?league=${league}`,
+      icon: IoPeople,
+    },
+    {
+      name: "My Characters",
+      href: `/poe/characters/${profile?.userId}`,
+      icon: GiCharacter,
+    },
+    { name: "Stash", href: "/poe/stash/snapshot/profiles", icon: GiOpenChest },
   ];
   const support = [
-    { name: "Join Discord", href: "#", icon: GlobeAltIcon },
+    {
+      name: "Join Discord",
+      href: "#https://discord.gg/zqeTWZvb76",
+      icon: GlobeAltIcon,
+    },
     { name: "Theme", href: "#", icon: BookmarkSquareIcon },
     { name: "Account", href: "#", icon: ComputerDesktopIcon },
   ];
