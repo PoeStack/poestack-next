@@ -15,16 +15,21 @@ import { ResetEventEmitter } from "./reset-zoom-event-emitter";
  * @param nodes the data representing any selected nodes
  * @returns An array of {@link TreeNodeProps}
  */
-function createNodeProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<TreeNodeProps> {
-  if(treeData){
-    return Object.values<PassiveTreeNode>(treeData.nodeMap).map((node) =>
-    ({
-      fillColor: nodes.has(node.hash) ? "red" : "black",
+function createNodeProps(
+  treeData: PassiveTreeResponse | undefined,
+  nodes: Set<string>,
+  nodeColorOverrides?: Record<string, string>
+): Array<TreeNodeProps> {
+  if (treeData) {
+    return Object.values<PassiveTreeNode>(treeData.nodeMap).map((node) => ({
+      fillColor:
+        nodeColorOverrides?.[node.hash] ??
+        (nodes.has(node.hash) ? "red" : "black"),
       x: node.x,
       y: node.y,
       size: node.size,
       hash: node.hash,
-      tooltip: node.stats.reduce((tip,line)=>`${tip}\n${line}`,"") || ""
+      tooltip: `${node.name}\n${node.stats.join("\n")}` || "",
     }));
   }
   return [];
@@ -36,15 +41,20 @@ function createNodeProps(treeData: PassiveTreeResponse | undefined, nodes: Set<s
  * @param nodes the data representing connections between selected nodes
  * @returns An array of {@link TreeConnectionProps}
  */
-function createConnectionProps(treeData: PassiveTreeResponse | undefined, nodes: Set<string>): Array<TreeConnectionProps> {
-  if(treeData){
+function createConnectionProps(
+  treeData: PassiveTreeResponse | undefined,
+  nodes: Set<string>
+): Array<TreeConnectionProps> {
+  if (treeData) {
     return treeData.connectionMap.map((connection: PassiveTreeConnection) => {
       const fromNode = treeData.nodeMap[connection.fromNode];
       const toNode = treeData.nodeMap[connection.toNode];
       const skillsInOrbit = treeData.constants.skillsPerOrbit[fromNode.orbit!];
       const radius = treeData.constants.orbitRadii[fromNode.orbit!];
-      const sweep = (toNode.orbitIndex! - fromNode.orbitIndex! > skillsInOrbit / 2)? 0 : 1;
-      const strokeColor = nodes.has(fromNode.hash) && nodes.has(toNode.hash)? "red" : "black";
+      const sweep =
+        toNode.orbitIndex! - fromNode.orbitIndex! > skillsInOrbit / 2 ? 0 : 1;
+      const strokeColor =
+        nodes.has(fromNode.hash) && nodes.has(toNode.hash) ? "red" : "black";
 
       return {
         fromX: fromNode.x,
@@ -54,44 +64,57 @@ function createConnectionProps(treeData: PassiveTreeResponse | undefined, nodes:
         orbit: {
           radius: radius,
           fromIndex: fromNode.orbitIndex,
-          toIndex: toNode.orbitIndex
+          toIndex: toNode.orbitIndex,
         },
         skillsInOrbit: skillsInOrbit,
         sweep: sweep,
         strokeColor: strokeColor,
         from: fromNode.hash,
         to: toNode.hash,
-        curved: connection.curved  
-      }
+        curved: connection.curved,
+      };
     });
+  } else {
+    return [];
   }
-  else { return []; }
 }
 
 /**
  * Props for {@link NodeTree}
  */
-type NodeTreeProps = { 
-    treeData: PassiveTreeResponse; 
-    selectedNodes?: Array<number>;
-    resetZoomEmitter?: ResetEventEmitter; 
+type NodeTreeProps = {
+  treeData: PassiveTreeResponse;
+  selectedNodes?: Array<number>;
+  nodeColorOverrides?: Record<string, string>;
+  resetZoomEmitter?: ResetEventEmitter;
 };
 
 /**
  * Displays a node tree with optional marked paths and nodes.
  */
-export default function NodesTree({ treeData, selectedNodes, resetZoomEmitter }: NodeTreeProps) {
+export default function NodesTree({
+  treeData,
+  selectedNodes,
+  nodeColorOverrides,
+  resetZoomEmitter,
+}: NodeTreeProps) {
   const memoizedSelectedNodes = useMemo(
-    () => new Set<string>(selectedNodes ? selectedNodes.map(num=>num.toString()) : []), 
-    [selectedNodes]);
+    () =>
+      new Set<string>(
+        selectedNodes ? selectedNodes.map((num) => num.toString()) : []
+      ),
+    [selectedNodes]
+  );
 
   const memoizedNodeProps = useMemo(
-    ()=>createNodeProps(treeData, memoizedSelectedNodes),
-    [treeData, memoizedSelectedNodes]);
+    () => createNodeProps(treeData, memoizedSelectedNodes, nodeColorOverrides),
+    [treeData, memoizedSelectedNodes, nodeColorOverrides]
+  );
 
   const memoizedConnectionProps = useMemo(
-    ()=>createConnectionProps(treeData, memoizedSelectedNodes),
-    [treeData, memoizedSelectedNodes]);
+    () => createConnectionProps(treeData, memoizedSelectedNodes),
+    [treeData, memoizedSelectedNodes]
+  );
 
   const minX = treeData?.constants.minX || 0;
   const minY = treeData?.constants.minY || 0;
@@ -101,16 +124,17 @@ export default function NodesTree({ treeData, selectedNodes, resetZoomEmitter }:
   const height = maxY - minY;
 
   return (
-    <ZoomableSVG {...{ minX, minY, height, width }}
+    <ZoomableSVG
+      {...{ minX, minY, height, width }}
       scaleLimit={[0.25, 10]}
-      resetZoomEmitter={resetZoomEmitter}>
-      {
-        memoizedConnectionProps.map((props, index) => (
-          <MemoisedTreeConnection key={index} {...props} />))
-      }
-      {
-        memoizedNodeProps.map((props, index) => (
-          <MemoisedTreeNode key={index} {...props} />))
-      }
-    </ZoomableSVG>)
+      resetZoomEmitter={resetZoomEmitter}
+    >
+      {memoizedConnectionProps.map((props, index) => (
+        <MemoisedTreeConnection key={index} {...props} />
+      ))}
+      {memoizedNodeProps.map((props, index) => (
+        <MemoisedTreeNode key={index} {...props} />
+      ))}
+    </ZoomableSVG>
+  );
 }

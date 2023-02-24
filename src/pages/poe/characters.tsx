@@ -31,6 +31,61 @@ import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "../../components/styled-button";
 
+const ssrFullSearch = gql`
+  query FullCharacterSnapshotsSearchAggregations(
+    $aggregationTypes: [String!]!
+    $search: CharacterSnapshotSearch!
+  ) {
+    characterSnapshotsSearchAggregations(
+      aggregationTypes: $aggregationTypes
+      search: $search
+    ) {
+      itemKeyAggreagtion {
+        values {
+          value
+          key
+        }
+      }
+      totalMatches
+      mainSkillAggreagtion {
+        values {
+          key
+          value
+        }
+      }
+      keystoneAggregation {
+        values {
+          key
+          value
+        }
+      }
+      characterClassAggregation {
+        values {
+          value
+          key
+        }
+      }
+    }
+    characterSnapshotsSearch(search: $search) {
+      snapshots {
+        characterId
+        name
+        level
+        mainSkillKey
+        characterClass
+        energyShield
+        life
+        snapshotId
+        twitchProfileName
+        pobDps
+        totalValueDivine
+        topItems
+      }
+      hasMore
+    }
+  }
+`;
+
 const generalSearch = gql`
   query Snapshots($search: CharacterSnapshotSearch!) {
     characterSnapshotsSearch(search: $search) {
@@ -50,9 +105,26 @@ const generalSearch = gql`
       }
       hasMore
     }
-    characterSnapshotsSearchAggregations(search: $search) {
+  }
+`;
+
+const aggregationSearch = gql`
+  query CharacterSnapshotsSearchAggregations(
+    $aggregationTypes: [String!]!
+    $search: CharacterSnapshotSearch!
+  ) {
+    characterSnapshotsSearchAggregations(
+      aggregationTypes: $aggregationTypes
+      search: $search
+    ) {
+      itemKeyAggreagtion {
+        values {
+          value
+          key
+        }
+      }
       totalMatches
-      characterClassAggregation {
+      mainSkillAggreagtion {
         values {
           key
           value
@@ -64,13 +136,7 @@ const generalSearch = gql`
           value
         }
       }
-      mainSkillAggreagtion {
-        values {
-          value
-          key
-        }
-      }
-      itemKeyAggreagtion {
+      characterClassAggregation {
         values {
           value
           key
@@ -157,6 +223,10 @@ export default function Characters({
     CharacterSnapshotSearchAggregationsResponse | undefined | null
   >(initialSearchResponse?.characterSnapshotsSearchAggregations);
 
+  const [itemAggregations, setItemAggregations] = useState<
+    CharacterSnapshotSearchAggregationsResponse | undefined | null
+  >(initialSearchResponse?.characterSnapshotsSearchAggregations);
+
   const { refetch: reftechGeneralSearch } = useQuery(generalSearch, {
     skip: true,
     fetchPolicy: "cache-first",
@@ -166,6 +236,17 @@ export default function Characters({
         ...characters,
         ...data.characterSnapshotsSearch,
       });
+    },
+  });
+
+  const { refetch: reftechAggregationSearch } = useQuery(aggregationSearch, {
+    skip: true,
+    fetchPolicy: "cache-first",
+    variables: {
+      search: search,
+      aggregationTypes: ["nodes", "mainSkills", "classes"],
+    },
+    onCompleted(data) {
       setAggregations({
         ...aggregations,
         ...data.characterSnapshotsSearchAggregations,
@@ -173,13 +254,39 @@ export default function Characters({
     },
   });
 
+  const { refetch: reftechItemAggregationSearch } = useQuery(
+    aggregationSearch,
+    {
+      skip: true,
+      fetchPolicy: "cache-first",
+      variables: {
+        search: search,
+        aggregationTypes: ["items"],
+      },
+      onCompleted(data) {
+        setItemAggregations({
+          ...aggregations,
+          ...data.characterSnapshotsSearchAggregations,
+        });
+      },
+    }
+  );
+
   useEffect(() => {
     if (league !== search.league) {
       setSearch({ ...search, league: league });
     } else {
       reftechGeneralSearch();
+      reftechAggregationSearch();
+      reftechItemAggregationSearch();
     }
-  }, [search, reftechGeneralSearch, league]);
+  }, [
+    search,
+    reftechGeneralSearch,
+    reftechAggregationSearch,
+    reftechItemAggregationSearch,
+    league,
+  ]);
 
   const [columnsSortMap, updateSortMap] = useSortableTable(
     columns,
@@ -324,12 +431,12 @@ export default function Characters({
     },
     {
       title: "Items",
-      aggregation: aggregations?.itemKeyAggreagtion,
+      aggregation: itemAggregations?.itemKeyAggreagtion,
       onSelectionChanged: onItemChange,
       includedRows: search.includedItemKeys!,
       excludedRows: search.excludedItemKeys!,
       keys: unqiueKeysResponse?.itemKeys,
-      matches: aggregations?.totalMatches,
+      matches: itemAggregations?.totalMatches,
       searchString: localSearchString,
     },
     {
@@ -652,25 +759,28 @@ export async function getServerSideProps({ req, res, query }) {
 
   const { league } = query;
 
+  const baseSearch = {
+    league: league ?? "Sanctum",
+    includedKeyStoneNames: [],
+    excludedKeyStoneNames: [],
+    includedCharacterClasses: [],
+    excludedCharacterClasses: [],
+    includedMainSkills: [],
+    excludedMainSkills: [],
+    includedItemKeys: [],
+    excludedItemKeys: [],
+    skip: 0,
+    limit: 100,
+    sortKey: "level",
+    sortDirection: "desc",
+  };
+
   const generalSearchResult: any = await client.query({
-    query: generalSearch,
+    query: ssrFullSearch,
     fetchPolicy: "network-only",
     variables: {
-      search: {
-        league: league ?? "Sanctum",
-        includedKeyStoneNames: [],
-        excludedKeyStoneNames: [],
-        includedCharacterClasses: [],
-        excludedCharacterClasses: [],
-        includedMainSkills: [],
-        excludedMainSkills: [],
-        includedItemKeys: [],
-        excludedItemKeys: [],
-        skip: 0,
-        limit: 100,
-        sortKey: "level",
-        sortDirection: "desc",
-      },
+      search: baseSearch,
+      aggregationTypes: ["items", "nodes", "mainSkills", "classes"],
     },
   });
   if (generalSearchResult?.data) {

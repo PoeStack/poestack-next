@@ -36,9 +36,11 @@ const atlasPassivesLayoutQuery: TypedDocumentNode<{
  */
 export default function AtlasPassivesTree({
   selectedNodes,
+  nodeColorOverrides,
   version,
 }: {
   selectedNodes?: Array<number>;
+  nodeColorOverrides?: Record<string, string>;
   version: string;
 }) {
   const { league } = usePoeLeagueCtx();
@@ -96,6 +98,7 @@ export default function AtlasPassivesTree({
           />
           <NodesTree
             treeData={treeData}
+            nodeColorOverrides={nodeColorOverrides}
             selectedNodes={selectedNodes}
             resetZoomEmitter={resetEmitter}
           />

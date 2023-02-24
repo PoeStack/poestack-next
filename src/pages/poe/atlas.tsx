@@ -10,6 +10,7 @@ import SortableTableHeader, {
 } from "@components/sortable-table-header";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import LeagueSelect from "@components/league-select";
+import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 
 const columns: SortableTableColumns = [
   {
@@ -99,11 +100,35 @@ export default function Atlas() {
     }))
     .filter((e) => e.node && e.node.notable);
 
+  console.log("ag", aggregateData.values);
+
+  const nodeColorOverrides = {};
+
+  function addPop(values) {
+    const totalNodeSelections = values.reduce(
+      (p, c) => Math.max(c.value!, p),
+      0
+    );
+    values.forEach((e) => {
+      var hue = (1 - (1 - e.value! / totalNodeSelections) * 120).toString(10);
+      nodeColorOverrides[e.key!] = ["hsl(", hue, ",100%,50%)"].join("");
+    });
+  }
+  addPop(aggregateData.values);
+  addPop(keyStones);
+  addPop(notables);
+
   return (
     <>
       <div className="flex flex-col space-y-2">
         <StyledCard title={"Search"} className="flex-1">
           <LeagueSelect />
+        </StyledCard>
+        <StyledCard>
+          <AtlasPassivesTree
+            version={"3.20"}
+            nodeColorOverrides={nodeColorOverrides}
+          />
         </StyledCard>
         <StyledCard title={"Keystones"} className="flex-1">
           <AtlasNodePopularityTable
