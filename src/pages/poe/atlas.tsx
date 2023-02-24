@@ -1,7 +1,11 @@
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import StyledCard from "@components/styled-card";
 import { useState } from "react";
-import { GenericAggregation, PassiveTreeResponse } from "@generated/graphql";
+import {
+  AtlasPassiveSnapshotSearch,
+  GenericAggregation,
+  PassiveTreeResponse,
+} from "@generated/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
 import { StyledTooltip } from "@components/styled-tooltip";
@@ -11,6 +15,7 @@ import SortableTableHeader, {
 import useSortableTable from "@hooks/use-sort-th-hook";
 import LeagueSelect from "@components/league-select";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
+import CharacterAggregationDisplay from "../../components/character-aggregation-display";
 
 const columns: SortableTableColumns = [
   {
@@ -26,13 +31,19 @@ const columns: SortableTableColumns = [
 export default function Atlas() {
   const { league } = usePoeLeagueCtx();
 
+  const [search, setSearch] = useState<AtlasPassiveSnapshotSearch>({
+    league: league,
+  });
+
   const [aggregateData, setAggregateData] = useState<GenericAggregation | null>(
     null
   );
   useQuery(
     gql`
-      query PopAggAtlasQuery($league: String!) {
-        atlasPassiveTreeSnapshotPopularityAggregation(league: $league) {
+      query AtlasPassiveTreeSnapshotPopularityAggregation(
+        $search: AtlasPassiveSnapshotSearch!
+      ) {
+        atlasPassiveTreeSnapshotPopularityAggregation(search: $search) {
           values {
             key
             value
@@ -41,7 +52,7 @@ export default function Atlas() {
       }
     `,
     {
-      variables: { league: league },
+      variables: { search: search },
       onCompleted(data) {
         setAggregateData(data.atlasPassiveTreeSnapshotPopularityAggregation);
       },
@@ -84,8 +95,6 @@ export default function Atlas() {
     return <>loading...</>;
   }
 
-  console.log(passiveTreeData);
-
   const keyStones = aggregateData.values
     .map((e) => ({
       ...e,
@@ -100,10 +109,7 @@ export default function Atlas() {
     }))
     .filter((e) => e.node && e.node.notable);
 
-  console.log("ag", aggregateData.values);
-
   const nodeColorOverrides = {};
-
   function addPop(values) {
     const totalNodeSelections = values.reduce(
       (p, c) => Math.max(c.value!, p),
@@ -121,31 +127,45 @@ export default function Atlas() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
-        <StyledCard title={"Search"} className="flex-1">
-          <LeagueSelect />
-        </StyledCard>
-        <StyledCard>
-          <AtlasPassivesTree
-            version={"3.20"}
-            nodeColorOverrides={nodeColorOverrides}
-          />
-        </StyledCard>
-        <StyledCard title={"Keystones"} className="flex-1">
-          <AtlasNodePopularityTable
-            nodes={keyStones}
-            columns={columns}
-            columnsSortMap={keystonesSortMap}
-            updateSortMap={updateKeystonesMap}
-          />
-        </StyledCard>
-        <StyledCard title={"Notables"} className="flex-1">
-          <AtlasNodePopularityTable
-            nodes={notables}
-            columns={columns}
-            columnsSortMap={notablesSortMap}
-            updateSortMap={updateNotablesMap}
-          />
-        </StyledCard>
+        <div className="flex flex-row space-x-2">
+          <div className="flex flex-col min-w-[260px]">
+            <StyledCard title={"Search"}>
+              <LeagueSelect />
+            </StyledCard>
+            <StyledCard title="Keystones" className="h-[400px]">
+              <CharacterAggregationDisplay
+                values={keyStones}
+                allKeys={keyStones.map((e) => e.key!)}
+                totalMatches={keyStones.reduce((p, c) => p + c.value!, 0)}
+                localSearchString={""}
+                onSelectionChanged={(e) => {
+                  setSearch({ ...search, includedHashes: [e.key] });
+                }}
+                includedRows={search.includedHashes ?? []}
+                keyToText={(e) => e.node?.name}
+              />
+            </StyledCard>
+            <StyledCard title="Notables" className="h-[400px]">
+              <CharacterAggregationDisplay
+                values={notables}
+                allKeys={notables.map((e) => e.key!)}
+                totalMatches={notables.reduce((p, c) => p + c.value!, 0)}
+                localSearchString={""}
+                onSelectionChanged={(e) => {
+                  setSearch({ ...search, includedHashes: [e.key] });
+                }}
+                includedRows={search.includedHashes ?? []}
+                keyToText={(e) => e.node?.name}
+              />
+            </StyledCard>
+          </div>
+          <StyledCard className="flex-1">
+            <AtlasPassivesTree
+              version={"3.20"}
+              nodeColorOverrides={nodeColorOverrides}
+            />
+          </StyledCard>
+        </div>
       </div>
     </>
   );

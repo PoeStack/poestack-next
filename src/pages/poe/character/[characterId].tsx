@@ -317,18 +317,6 @@ export default function Character({ characterSnapshot }) {
   );
 }
 
-/*
-<SkillTree
-            selectedNodes={
-              new Set(
-                currentSnapshot?.characterPassivesSnapshot?.hashes.map((h) =>
-                  h.toString()
-                ) ?? []
-              )
-            }
-          />
-          */
-
 export async function getServerSideProps(context) {
   const { characterId, snapshotId } = context.query;
 

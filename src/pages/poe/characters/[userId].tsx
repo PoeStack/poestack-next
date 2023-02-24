@@ -323,28 +323,6 @@ function CharactersByUserTable({
 }: StyledCharactersSummaryTableProps) {
   return (
     <div className="flex w-full h-full grow lg:basis-5/6">
-      {/*         <div className="w-full h-full bg-surface-secondary text-content-base">
-                <div className="w-full h-full bg-surface-secondary text-content-base">
-                
-                <div className="flex flex-col w-full h-full min-h-screen ">
-                <div className="flex flex-col w-full h-full min-h-screen overflow-x-auto">
-                
-                
-                
-                <StyledNavBar />
-
-
-
-
-
-                  <div className="flex pt-4 space-x-2 grow">
-                    <div className="lg:basis-1/12"></div>
-                    <div className="grow lg:basis-5/6">
-                      <Component {...pageProps} />
-                    </div>
-                    <div className="lg:basis-1/12"></div>
-              </div> */}
-
       <StyledCard title="Characters" className="flex-1">
         <table>
           <SortableTableHeader

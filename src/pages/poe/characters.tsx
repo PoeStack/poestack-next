@@ -722,7 +722,7 @@ function StyledAggregatorPanel({
   return (
     <StyledCard title={title} className="h-[400px]">
       <CharacterAggregationDisplay
-        aggregation={aggregation}
+        values={aggregation?.values}
         onSelectionChanged={onSelectionChanged}
         includedRows={includedRows}
         excludedRows={excludedRows}

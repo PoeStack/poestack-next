@@ -3,38 +3,40 @@ import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "@utils/general-util";
 import { StyledTooltip } from "./styled-tooltip";
-import { GenericAggregation } from "@generated/graphql";
+import { GenericIntKeyValue } from "@generated/graphql";
 
 export default function CharacterAggregationDisplay({
-  aggregation,
+  values,
   allKeys,
   totalMatches,
   localSearchString,
   includedRows = [],
   excludedRows = [],
   onSelectionChanged = (e) => {},
+  keyToText = (e) => e.key,
 }: {
-  aggregation: GenericAggregation | undefined | null;
+  values: GenericIntKeyValue[] | undefined | null;
   allKeys: string[];
   totalMatches: number;
   localSearchString: string;
   includedRows?: any[];
   excludedRows?: any[];
   onSelectionChanged?: (e) => void;
+  keyToText?: (e) => string;
 }) {
-  if (!aggregation) {
+  if (!values) {
     return <>Loading...</>;
   }
 
   const valueMap = {};
-  for (const v of aggregation.values) {
-    valueMap[v?.key ?? ""] = v.value;
+  for (const v of values) {
+    valueMap[v?.key ?? ""] = v;
   }
 
   const mappedRow = allKeys
     .map((key) => {
-      const value = valueMap[key] ?? 0;
-      return { key: key, value: value };
+      const value = valueMap[key];
+      return { ...value, key: key, value: value?.value ?? 0 };
     })
     .filter(
       (e) =>
@@ -45,6 +47,8 @@ export default function CharacterAggregationDisplay({
           e.key.toLowerCase().indexOf(localSearchString.toLowerCase()) >= 0)
     )
     .sort((a, b) => b.value - a.value);
+
+  console.log("aall keys", mappedRow);
 
   const Row = ({ index, style }) => (
     <div
@@ -75,7 +79,7 @@ export default function CharacterAggregationDisplay({
           noDuration={true}
         >
           <li className="w-full list-none">
-            {GeneralUtils.capitalize(mappedRow[index].key)}
+            {GeneralUtils.capitalize(keyToText(mappedRow[index]))}
           </li>
         </StyledTooltip>
       </div>
