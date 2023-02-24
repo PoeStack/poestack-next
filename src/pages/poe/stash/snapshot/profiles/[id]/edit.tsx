@@ -142,7 +142,7 @@ export default function ViewProfile() {
               >
                 <h4 className="w-20 cursor-help">League: </h4>
               </StyledTooltip>
-              <div className=" w-full">
+              <div className="w-full ">
                 <LeagueSelect />
               </div>
             </div>
@@ -154,7 +154,7 @@ export default function ViewProfile() {
                   "Private = Only you can see it",
                 ]}
                 placement="top"
-                className="mr-2 relative"
+                className="relative mr-2"
               >
                 <h4 className="w-20 cursor-help">Privacy: </h4>
               </StyledTooltip>

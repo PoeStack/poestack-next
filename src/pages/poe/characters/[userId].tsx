@@ -386,37 +386,36 @@ function CharactersByUserTable({
                   </ul>
                 </td>
 
-              <td>
-                {snapshot.mainSkillKey ? (
-                  <li className="list-none">
-                    <StyledSkillImageTooltip
-                      texts={[`${snapshot.mainSkillKey}`]}
-                      placement="left"
-                      title="Skills"
-                      imageString={snapshot.mainSkillKey}
-                      className="bg-slate-800"
-                    >
-                      <Image
-                        src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
-                        alt=""
-                        width={39}
-                        height={30}
-                      />
-                    </StyledSkillImageTooltip>
-                  </li>
-                ) : null}
-              </td>
-              <td>
-                {snapshot.league ? (
-                  <Link href={`/poe/characters?league=${snapshot.league}`}>
+                <td>
+                  {snapshot.mainSkillKey ? (
+                    <li className="list-none">
+                      <StyledSkillImageTooltip
+                        texts={[`${snapshot.mainSkillKey}`]}
+                        placement="left"
+                        title="Skills"
+                        imageString={snapshot.mainSkillKey}
+                        className="bg-slate-800"
+                      >
+                        <Image
+                          src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                          alt=""
+                          width={39}
+                          height={30}
+                        />
+                      </StyledSkillImageTooltip>
+                    </li>
+                  ) : null}
+                </td>
+                <td>
+                  {snapshot.league ? (
                     <div className="text-left">{snapshot.league}</div>
-                  </Link>
-                ) : null}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </StyledCard>
+                  ) : null}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </StyledCard>
+    </div>
   );
 }
