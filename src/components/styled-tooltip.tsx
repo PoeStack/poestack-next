@@ -186,7 +186,9 @@ export const StyledSkillImageTooltip: FC<Props> = ({
               <p className=" capitalize text-md text-left">{title}</p>
               <div className="flex flex-row items-center mb-2 capitalize">
                 <Image
-                  src={`/assets/poe/skill_icons/${texts[0]}.png`}
+                  src={`/assets/poe/skill_icons/${encodeURIComponent(
+                    texts[0]
+                  )}.png`}
                   alt=""
                   width={39}
                   height={30}

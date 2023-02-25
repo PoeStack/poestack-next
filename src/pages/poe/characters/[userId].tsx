@@ -25,6 +25,8 @@ import { usePoeStackAuth } from "@contexts/user-context";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "../../../components/league-select";
+import { chart } from "highcharts";
+import { DIV_ICON } from "@components/currency-value-display";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -54,6 +56,7 @@ const getCharacterSnapshots: TypedDocumentNode<{
         characterId
         snapshotId
         league
+        totalValueDivine
       }
     }
   }
@@ -78,6 +81,10 @@ const columns: SortableTableColumns = [
   {
     key: "league",
     text: "League",
+  },
+  {
+    key: "totalValueDivine",
+    text: "Base Cost",
   },
 ];
 
@@ -105,6 +112,7 @@ type CharactersSnapshotsFragment = Pick<
   | "mainSkillKey"
   | "characterId"
   | "snapshotId"
+  | "totalValueDivine"
 > & { league: string };
 
 /**
@@ -159,9 +167,10 @@ export default function CharactersByUser() {
           level: 0,
           characterClass: "",
           mainSkillKey: "",
-          characterId: "",
           league: "",
+          characterId: char.id,
         }));
+        console.log("char", state);
       } else if (action.type === "snapshots") {
         /*
          * This is just a naive search through the snapshots for each character.
@@ -338,7 +347,11 @@ function CharactersByUserTable({
               >
                 <td>
                   <Link
-                    href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
+                    href={`/poe/character/${snapshot.characterId}${
+                      snapshot.snapshotId
+                        ? `?snapshotId=${snapshot.snapshotId}`
+                        : ""
+                    }`}
                     className="pl-3 hover:text-skin-accent hover:underline"
                   >
                     {snapshot?.name}
@@ -375,7 +388,9 @@ function CharactersByUserTable({
                         className="bg-slate-800"
                       >
                         <Image
-                          src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                          src={`/assets/poe/skill_icons/${encodeURIComponent(
+                            snapshot.mainSkillKey
+                          )}.png`}
                           alt=""
                           width={39}
                           height={30}
@@ -387,6 +402,14 @@ function CharactersByUserTable({
                 <td>
                   {snapshot.league ? (
                     <div className="text-left">{snapshot.league}</div>
+                  ) : null}
+                </td>
+                <td>
+                  {snapshot.totalValueDivine ? (
+                    <div className="flex flex-row text-left">
+                      <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
+                      <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                    </div>
                   ) : null}
                 </td>
               </tr>

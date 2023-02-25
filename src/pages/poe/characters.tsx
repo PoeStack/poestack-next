@@ -579,7 +579,7 @@ function StyledCharactersSummaryTable({
                       className="bg-slate-800"
                     >
                       <Image
-                        src={`/assets/poe/skill_icons/${snapshot.mainSkillKey}.png`}
+                        src={`/assets/poe/skill_icons/${encodeURIComponent(snapshot.mainSkillKey)}.png`}
                         alt=""
                         width={39}
                         height={30}
