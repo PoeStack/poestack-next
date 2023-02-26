@@ -88,7 +88,7 @@ export function ItemStatDisplay({ item }) {
             ))}
         </div>
         <div className="flex flex-col">
-          {item?.explicitMods.map((p, i) => (
+          {item?.explicitMods?.map((p, i) => (
             <>
               <div key={i} className="flex flex-row">
                 {p}

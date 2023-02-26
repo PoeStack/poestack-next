@@ -28,7 +28,7 @@ export default function ViewProfile() {
 
   const [profile, setProfile] = useState<StashSnapshotProfileInput>({
     id: id?.toString() ?? nanoid(),
-    name: "",
+    name: "New Profile",
     league: league,
     public: true,
 
@@ -147,7 +147,7 @@ export default function ViewProfile() {
               </div>
             </div>
             {/* Public or Private Select */}
-            <div className="flex flex-row items-center space-x-2">
+            {/* <div className="flex flex-row items-center space-x-2">
               <StyledTooltip
                 texts={[
                   "Public = You can share profile with anyone ",
@@ -168,7 +168,7 @@ export default function ViewProfile() {
                   initalValue={profile.public ? "Public" : "Private"}
                 />
               </div>
-            </div>
+            </div> */}
             {/* Stock Influence - Smart or Not */}
             <div className="flex flex-row items-center space-x-2">
               <StyledTooltip
