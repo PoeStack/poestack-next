@@ -116,14 +116,38 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
+        {!!item?.enchantMods?.length && (
+          <>
+            <div>
+              {item?.enchantMods?.map((p, i) => (
+                <>
+                  <div key={i} className=" text-blue-400">
+                    {p}
+                  </div>
+                </>
+              ))}
+            </div>
+          </>
+        )}
+        {!!item?.implicitMods?.length && (
+          <>
+            <div className="flex flex-col">
+              {item?.implicitMods?.map((p, i) => (
+                <>
+                  <div key={i}>{p}</div>
+                </>
+              ))}
+            </div>
+          </>
+        )}
         <div className="flex flex-col">
-          {item?.implicitMods?.map((p, i) => (
+          {item?.fracturedMods?.map((p, i) => (
             <>
-              <div key={i}>{p}</div>
+              <div key={i} className=" text-amber-200">
+                {p}
+              </div>
             </>
           ))}
-        </div>
-        <div className="flex flex-col">
           {item?.explicitMods?.map((p, i) => (
             <>
               <div key={i}>{p}</div>
@@ -137,7 +161,7 @@ export function ItemStatDisplay({ item }) {
             </>
           ))}
         </div>
-        {item.corrupted && (
+        {!!item.corrupted && (
           <>
             <div className="text-red-700">Corrupted</div>
           </>

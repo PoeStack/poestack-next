@@ -73,6 +73,8 @@ const snapshotQuery = gql`
         itemGroupHashString
         craftedMods
         implicitMods
+        fracturedMods
+        enchantMods
       }
       characterSnapshotPobStats {
         accuracy
