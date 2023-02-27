@@ -146,15 +146,18 @@ export default function LandingPage() {
             </div>
             {/* Page 2 */}
 
-            <ul className="lg:space-y-8">
+            <ul className=" lg:space-y-8">
               {/* //?Character Ladders */}
-              <li className="" id="section2">
+              <li className="h-screen lg:h-full">
                 <div className="grid w-full h-full lg:grid-cols-[_1fr,_2fr] lg:flex-row grid-rows-[_1fr,_3fr] lg:grid-rows-1">
                   {/* Text & Description */}
-                  <div className="flex flex-col justify-center w-full h-40 row-start-1 p-4 lg:h-full">
+                  <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     {/* //!Have link go to account login unless logged in then */}
                     <Link href={`/poe/characters?league=${league}`}>
-                      <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
+                      <h1
+                        id="section2"
+                        className="text-4xl text-center text-content-accent hover:text-content-red"
+                      >
                         Character Ladder
                       </h1>
                     </Link>
@@ -203,7 +206,7 @@ export default function LandingPage() {
                             </button>
                           </Link>
                         </li>
-                        <li>
+                        <li className="mb-10">
                           <Link
                             href="/poe/tutorial"
                             className="relative justify-end mx-auto mt-10 text-sm "
@@ -223,10 +226,10 @@ export default function LandingPage() {
                 </div>
               </li>
               {/* //!Character Profiles */}
-              <li className="">
+              <li className="h-screen lg:h-full">
                 <div className="grid w-full h-full lg:grid-cols-[_2fr,_1fr] lg:flex-row  lg:grid-rows-1 grid-rows-[_1fr,_3fr]">
                   {/* Text & Description */}
-                  <div className="flex flex-col justify-center w-full row-start-1 p-4">
+                  <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     <Link href={`/poe/characters/${profile?.userId}`}>
                       <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                         Character Profile
@@ -297,10 +300,10 @@ export default function LandingPage() {
                 </div>
               </li>
               {/* //? Stash */}
-              <li className="">
+              <li className="h-screen lg:h-full">
                 <div className="grid w-full h-full lg:grid-cols-[_1fr,_2fr] lg:flex-row grid-rows-[_1fr,_3fr] lg:grid-rows-1">
                   {/* Text & Description */}
-                  <div className="flex flex-col justify-center w-full row-start-1 p-4">
+                  <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     <Link href="/poe/stash/snapshot/profiles">
                       <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                         Stash Profiles
@@ -372,10 +375,10 @@ export default function LandingPage() {
                 </div>
               </li>
               {/* //! Economy  */}
-              <li className="">
+              <li className="h-screen lg:h-full">
                 <div className="grid w-full h-full lg:grid-cols-[_2fr,_1fr] lg:flex-row grid-rows-[_1fr,_3fr] lg:grid-rows-1">
                   {/* Text & Description */}
-                  <div className="flex flex-col justify-center w-full row-start-1 p-4">
+                  <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     <Link href={`/poe/economy/${league}?tag=currency`}>
                       <h1 className="text-4xl text-center text-content-accent hover:text-content-red">
                         Economy
@@ -476,7 +479,7 @@ function StyledCarousel({ images }) {
           onClick={handlePrevSlide}
           className="absolute left-0 z-20 w-20 col-start-1 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
         />
-        <div className="w-full h-[60vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
+        <div className="w-full h-[30vh] md:h-[50vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
           <Swipe
             onSwipeLeft={handleNextSlide}
             onSwipeRight={handlePrevSlide}
