@@ -3,9 +3,9 @@ import Link from "next/link";
 
 export default function StyledFooter() {
   return (
-    <footer className="p-2 mt-2 bg-surface-primary sm:p-4 text-sm ">
-      <div className="grid grid-cols-2 md:grid-cols-3 justify-center">
-        <div className=" relative mb-2 md:mb-0">
+    <footer className="p-2 mt-2 text-sm bg-surface-primary sm:p-4 ">
+      <div className="grid justify-center grid-cols-2 md:grid-cols-3">
+        <div className="relative mb-2 md:mb-0">
           <Link href="/" className="flex flex-row justify-start w-ful">
             <Image
               width={48}
@@ -17,14 +17,15 @@ export default function StyledFooter() {
               PoeStack
             </span>
           </Link>
-          <span className="absolute  left-0 bottom-10 md:bottom-0 text-xs text-slate-300">
+          <span className="absolute left-0 text-xs bottom-10 md:bottom-0 text-slate-300">
             This product is not affiliated with or endorsed by Grinding Gear
             Games in any way
           </span>
         </div>
+
         <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3">
           <div>
-            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold uppercase text-content-base ">
               Resources
             </h2>
             <ul className="text-content-base ">
@@ -47,7 +48,7 @@ export default function StyledFooter() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold uppercase text-content-base ">
               Follow us
             </h2>
             <ul className="text-content-base">
@@ -80,7 +81,7 @@ export default function StyledFooter() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-4 text-sm font-semibold text-content-base uppercase ">
+            <h2 className="mb-4 text-sm font-semibold uppercase text-content-base ">
               Legal
             </h2>
             <ul className="text-content-base">
@@ -104,8 +105,8 @@ export default function StyledFooter() {
           </div>
         </div>
 
-        <div className="relative  ">
-          <span className="absolute bottom-0 right-0 text-sm text-content-base sm:text-center mr-4 ">
+        <div className="relative ">
+          <span className="absolute bottom-0 right-0 mr-4 text-sm text-content-base sm:text-center ">
             © 2023{" "}
             <Link href="/" className="hover:underline">
               PoeStack.com
