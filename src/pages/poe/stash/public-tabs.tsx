@@ -4,15 +4,14 @@ import StyledCard from "@components/styled-card";
 import { PublicStashUpdateRecordResponse } from "@generated/graphql";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import Image, { ImageLoaderProps } from "next/image";
-import { myLoader } from "../../../../utils/general-util";
+import Image from "next/image";
+import { myLoader } from "@utils/general-util";
 
 export default function PublicStash() {
   const router = useRouter();
 
-  const { profileName } = router.query;
+  const { profileName, selectedTabId } = router.query;
 
-  const [selectedTabId, setSelectedTabId] = useState<string | null>(null);
   const [publicTab, setPublicTab] = useState<any | null>(null);
   const { refetch: fetchPublicTab } = useQuery(
     gql`
@@ -23,7 +22,7 @@ export default function PublicStash() {
     {
       skip: !selectedTabId,
       variables: {
-        publicStashId: selectedTabId,
+        publicStashId: selectedTabId?.toString(),
       },
       onCompleted(data) {
         setPublicTab(data.publicStash);
@@ -55,10 +54,14 @@ export default function PublicStash() {
       variables: { search: { poeProfileNames: [profileName?.toString()] } },
       onCompleted(data) {
         setTabsResponse(data.publicStashUpdateRecords);
-        if (data.publicStashUpdateRecords?.results?.length) {
-          setSelectedTabId(
-            data.publicStashUpdateRecords?.results?.[0]?.publicStashId
-          );
+        if (data.publicStashUpdateRecords?.results?.length && !selectedTabId) {
+          router.push({
+            query: {
+              profileName: profileName,
+              selectedTabId:
+                data.publicStashUpdateRecords?.results?.[0]?.publicStashId,
+            },
+          });
         }
       },
     }
@@ -74,7 +77,12 @@ export default function PublicStash() {
                 <>
                   <div
                     onClick={() => {
-                      setSelectedTabId(e?.publicStashId);
+                      router.push({
+                        query: {
+                          profileName: profileName,
+                          selectedTabId: e?.publicStashId,
+                        },
+                      });
                     }}
                   >
                     <div>{e.league}</div>

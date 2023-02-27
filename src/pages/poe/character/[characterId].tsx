@@ -71,6 +71,8 @@ const snapshotQuery = gql`
         gemColor
         mainSkill
         itemGroupHashString
+        craftedMods
+        implicitMods
       }
       characterSnapshotPobStats {
         accuracy

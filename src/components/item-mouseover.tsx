@@ -22,7 +22,12 @@ export default function ItemMouseOver({
   return (
     <>
       {item && (
-        <div className="group relative flex justify-center">
+        <div
+          className="group relative flex justify-center"
+          onClick={() => {
+            console.log(item);
+          }}
+        >
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
@@ -72,10 +77,29 @@ export default function ItemMouseOver({
 }
 
 export function ItemStatDisplay({ item }) {
+  const frameTypeToBorderColorMap = [
+    "border-white",
+    "border-purple-600",
+    "border-yellow-300",
+    "border-orange-800",
+    "border-white",
+    "border-white",
+    "border-white",
+    "border-white",
+    "border-white",
+    "border-white",
+    "border-orange-800",
+  ];
+
   return (
     <>
-      <div className="flex flex-col space-y-2 bg-slate-500 p-3 w-96">
-        <div>{item?.baseType}</div>
+      <div
+        className={
+          "flex flex-col space-y-2 bg-color-primary p-3 w-96 border-t-2 border-b-2 " +
+          frameTypeToBorderColorMap[item.frameType ?? 0]
+        }
+      >
+        <div>{`${item?.name} ${item?.typeLine}`.trim()}</div>
         <div className="flex flex-col">
           {item?.properties
             ?.filter((p) => p.values?.length > 0)
@@ -88,14 +112,36 @@ export function ItemStatDisplay({ item }) {
             ))}
         </div>
         <div className="flex flex-col">
+          {item?.implicitMods?.map((p, i) => (
+            <>
+              <div key={i}>{p}</div>
+            </>
+          ))}
+        </div>
+        <div className="flex flex-col">
           {item?.explicitMods?.map((p, i) => (
             <>
-              <div key={i} className="flex flex-row">
+              <div key={i}>{p}</div>
+            </>
+          ))}
+          {item?.craftedMods?.map((p, i) => (
+            <>
+              <div key={i} className=" text-blue-400">
                 {p}
               </div>
             </>
           ))}
         </div>
+        {item.corrupted && (
+          <>
+            <div className="text-red-700">Corrupted</div>
+          </>
+        )}
+        {!!item?.note && (
+          <>
+            <div>{item?.note}</div>
+          </>
+        )}
       </div>
     </>
   );
