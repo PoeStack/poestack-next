@@ -78,39 +78,44 @@ export default function ItemMouseOver({
 
 export function ItemStatDisplay({ item }) {
   const frameTypeToBorderColorMap = [
-    "border-white",
-    "border-purple-600",
-    "border-yellow-300",
-    "border-orange-800",
-    "border-white",
-    "border-white",
-    "border-white",
-    "border-white",
-    "border-white",
-    "border-white",
-    "border-orange-800",
+    "",
+    "border-purple-600 divide-purple-600",
+    "border-yellow-300 divide-yellow-300",
+    "border-orange-800 divide-orange-800",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "border-orange-800 divide-orange-800",
   ];
 
   return (
     <>
       <div
         className={
-          "flex flex-col space-y-2 bg-color-primary p-3 w-96 border-t-2 border-b-2 " +
+          "flex flex-col space-y-2 bg-color-primary p-3 w-96 text-center border-t-2 border-b-2 divide-y " +
           frameTypeToBorderColorMap[item.frameType ?? 0]
         }
       >
         <div>{`${item?.name} ${item?.typeLine}`.trim()}</div>
-        <div className="flex flex-col">
-          {item?.properties
-            ?.filter((p) => p.values?.length > 0)
-            .map((p, i) => (
-              <>
-                <div key={i} className="flex flex-row">
-                  {p.name} {p.values?.[0]?.[0]}
-                </div>
-              </>
-            ))}
-        </div>
+        {!!item?.properties?.length && (
+          <>
+            <div className="flex flex-col w-full items-center">
+              {item?.properties
+                ?.filter((p) => p.values?.length > 0)
+                .map((p, i) => (
+                  <>
+                    <div key={i} className="flex flex-row space-x-1">
+                      <div className="text-slate-500">{p.name}:</div>
+                      <div>{p.values?.[0]?.[0]}</div>
+                    </div>
+                  </>
+                ))}
+            </div>
+          </>
+        )}
         <div className="flex flex-col">
           {item?.implicitMods?.map((p, i) => (
             <>
