@@ -1,5 +1,5 @@
 import { useState, useEffect, Dispatch } from "react";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useLazyQuery } from "@apollo/client";
 import client from "poe-stack-apollo-client";
 import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
@@ -30,6 +30,7 @@ import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "../../components/styled-button";
+import { POE_LEAGUES } from "../../contexts/league-context";
 
 const ssrFullSearch = gql`
   query FullCharacterSnapshotsSearchAggregations(
@@ -192,12 +193,10 @@ export default function Characters({
   unqiueKeysResponse,
 }) {
   const router = useRouter();
-  const { customLadderGroupId } = router.query;
-
-  const { league } = usePoeLeagueCtx();
+  const { customLadderGroupId, league } = router.query;
 
   const [search, setSearch] = useState<CharacterSnapshotSearch>({
-    league: league,
+    league: league?.toString() ?? POE_LEAGUES[0],
     includedKeyStoneNames: [],
     excludedKeyStoneNames: [],
     includedCharacterClasses: [],
@@ -227,9 +226,8 @@ export default function Characters({
     CharacterSnapshotSearchAggregationsResponse | undefined | null
   >(initialSearchResponse?.characterSnapshotsSearchAggregations);
 
-  const { refetch: reftechGeneralSearch } = useQuery(generalSearch, {
-    skip: true,
-    fetchPolicy: "cache-first",
+  const [reftechGeneralSearch] = useLazyQuery(generalSearch, {
+    fetchPolicy: "cache-and-network",
     variables: { search: search },
     onCompleted(data) {
       setCharacters({
@@ -239,9 +237,8 @@ export default function Characters({
     },
   });
 
-  const { refetch: reftechAggregationSearch } = useQuery(aggregationSearch, {
-    skip: true,
-    fetchPolicy: "cache-first",
+  const [reftechAggregationSearch] = useLazyQuery(aggregationSearch, {
+    fetchPolicy: "cache-and-network",
     variables: {
       search: search,
       aggregationTypes: ["nodes", "mainSkills", "classes"],
@@ -254,39 +251,19 @@ export default function Characters({
     },
   });
 
-  const { refetch: reftechItemAggregationSearch } = useQuery(
-    aggregationSearch,
-    {
-      skip: true,
-      fetchPolicy: "cache-first",
-      variables: {
-        search: search,
-        aggregationTypes: ["items"],
-      },
-      onCompleted(data) {
-        setItemAggregations({
-          ...aggregations,
-          ...data.characterSnapshotsSearchAggregations,
-        });
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (league !== search.league) {
-      setSearch({ ...search, league: league });
-    } else {
-      reftechGeneralSearch();
-      reftechAggregationSearch();
-      reftechItemAggregationSearch();
-    }
-  }, [
-    search,
-    reftechGeneralSearch,
-    reftechAggregationSearch,
-    reftechItemAggregationSearch,
-    league,
-  ]);
+  const [reftechItemAggregationSearch] = useLazyQuery(aggregationSearch, {
+    fetchPolicy: "cache-and-network",
+    variables: {
+      search: search,
+      aggregationTypes: ["items"],
+    },
+    onCompleted(data) {
+      setItemAggregations({
+        ...aggregations,
+        ...data.characterSnapshotsSearchAggregations,
+      });
+    },
+  });
 
   const [columnsSortMap, updateSortMap] = useSortableTable(
     columns,
@@ -303,14 +280,13 @@ export default function Characters({
     return <>Loading...</>;
   }
 
-  /*
-   * Define callbacks as functions instead of consts
-   * to skip revaluation on every component view update.
-   */
+  function refireSearches() {
+    reftechGeneralSearch();
+    reftechAggregationSearch();
+    reftechItemAggregationSearch();
+  }
 
   function updateIncludeExclude(
-    search: CharacterSnapshotSearch,
-    setSearch: Dispatch<any>,
     entry: { key: string; value: any },
     includedKey: string,
     excludedKey: string
@@ -342,22 +318,16 @@ export default function Characters({
         },
       });
     }
+
+    refireSearches();
   }
 
   function onSkillChange(mainSkill: { key: string; value: any }) {
-    updateIncludeExclude(
-      search,
-      setSearch,
-      mainSkill,
-      "includedMainSkills",
-      "excludedMainSkills"
-    );
+    updateIncludeExclude(mainSkill, "includedMainSkills", "excludedMainSkills");
   }
 
   function onClassChange(characterClass: { key: string; value: any }) {
     updateIncludeExclude(
-      search,
-      setSearch,
       characterClass,
       "includedCharacterClasses",
       "excludedCharacterClasses"
@@ -365,19 +335,11 @@ export default function Characters({
   }
 
   function onItemChange(item: { key: string; value: any }) {
-    updateIncludeExclude(
-      search,
-      setSearch,
-      item,
-      "includedItemKeys",
-      "excludedItemKeys"
-    );
+    updateIncludeExclude(item, "includedItemKeys", "excludedItemKeys");
   }
 
   function onKeystoneChange(keyStone: { key: string; value: any }) {
     updateIncludeExclude(
-      search,
-      setSearch,
       keyStone,
       "includedKeyStoneNames",
       "excludedKeyStoneNames"
@@ -393,6 +355,7 @@ export default function Characters({
       ...search,
       ...{ timestampEndInclusive: d.toISOString() },
     });
+    refireSearches();
   }
 
   /**
@@ -401,6 +364,7 @@ export default function Characters({
    */
   function onCharactersSortChange(column: string) {
     updateSortMap(column);
+    refireSearches();
   }
 
   /*
@@ -459,6 +423,10 @@ export default function Characters({
           value={localSearchString}
           onValueChange={onSearchValueChange}
           onDateChange={onDateChange}
+          onLeagueChange={(e) => {
+            setSearch({ ...search, league: e });
+            refireSearches();
+          }}
         />
 
         {aggregatorPanels.map((props) => (
@@ -579,7 +547,9 @@ function StyledCharactersSummaryTable({
                       className="bg-slate-800"
                     >
                       <Image
-                        src={`/assets/poe/skill_icons/${encodeURIComponent(snapshot.mainSkillKey)}.png`}
+                        src={`/assets/poe/skill_icons/${encodeURIComponent(
+                          snapshot.mainSkillKey
+                        )}.png`}
                         alt=""
                         width={39}
                         height={30}
@@ -643,6 +613,7 @@ type StyledMultiSearchProps = {
   totalMatches: number;
   onValueChange: (e: any) => void;
   onDateChange: (e: any) => void;
+  onLeagueChange: (e: any) => void;
 };
 
 /**
@@ -653,6 +624,7 @@ function StyledMultiSearch({
   totalMatches,
   onValueChange,
   onDateChange,
+  onLeagueChange,
 }: StyledMultiSearchProps) {
   const { profile } = usePoeStackAuth();
   const router = useRouter();
@@ -670,7 +642,11 @@ function StyledMultiSearch({
         />
         <StyledDatepicker onSelectionChange={onDateChange} />
 
-        <LeagueSelect />
+        <LeagueSelect
+          onChange={(e) => {
+            onLeagueChange(e);
+          }}
+        />
 
         {!!profile?.userId && (
           <StyledButton
