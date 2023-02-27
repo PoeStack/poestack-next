@@ -735,7 +735,7 @@ export async function getServerSideProps({ req, res, query }) {
     props: {},
   };
 
-  const { league } = query;
+  const { league, customLadderGroupId } = query;
 
   const baseSearch = {
     league: league ?? "Sanctum",
@@ -747,6 +747,7 @@ export async function getServerSideProps({ req, res, query }) {
     excludedMainSkills: [],
     includedItemKeys: [],
     excludedItemKeys: [],
+    customLadderGroupId: customLadderGroupId,
     skip: 0,
     limit: 100,
     sortKey: "level",

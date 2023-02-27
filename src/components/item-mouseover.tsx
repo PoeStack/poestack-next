@@ -82,7 +82,7 @@ export function ItemStatDisplay({ item }) {
     "border-purple-600 divide-purple-600",
     "border-yellow-300 divide-yellow-300",
     "border-orange-800 divide-orange-800",
-    "",
+    "border-green-600 divide-green-600",
     "",
     "",
     "",
