@@ -67,7 +67,8 @@ export default function ViewProfile() {
     }
   );
 
-  const { data: stashTabs, refetch: refetchStashTabs } = useQuery<{
+  const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
+  const { refetch: refetchStashTabs } = useQuery<{
     stashTabs: PoeStashTab[];
   }>(
     gql`
@@ -87,8 +88,14 @@ export default function ViewProfile() {
     {
       skip: !profile?.league,
       variables: {
-        league: profile?.league,
+        league: league,
         forcePull: false,
+      },
+      onCompleted(data) {
+        setStashTabs(data.stashTabs);
+      },
+      onError(error) {
+        setStashTabs([]);
       },
     }
   );
@@ -143,7 +150,11 @@ export default function ViewProfile() {
                 <h4 className="w-20 cursor-help">League: </h4>
               </StyledTooltip>
               <div className="w-full ">
-                <LeagueSelect />
+                <LeagueSelect
+                  onChange={(e) => {
+                    refetchStashTabs({ league: e, forcePull: false });
+                  }}
+                />
               </div>
             </div>
             {/* Public or Private Select */}
@@ -277,13 +288,13 @@ export default function ViewProfile() {
                 text={"Refresh Tabs"}
                 onClick={() => {
                   refetchStashTabs({
-                    league: profile?.league,
+                    league: league,
                     forcePull: true,
                   });
                 }}
               />
             </div>
-            {stashTabs.stashTabs.map((tab) => (
+            {stashTabs.map((tab) => (
               <div
                 key={tab.id}
                 className="flex flex-row hover:text-content-accent"
