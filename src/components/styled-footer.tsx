@@ -22,6 +22,7 @@ export default function StyledFooter() {
             Games in any way
           </span>
         </div>
+
         <div className="grid grid-cols-2 gap-2 sm:gap-4 sm:grid-cols-3">
           <div>
             <h2 className="mb-4 text-sm font-semibold uppercase text-content-base ">
