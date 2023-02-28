@@ -27,7 +27,6 @@ export default function ViewProfile() {
           name
           public
           createdAtTimestamp
-          lastSnapshotTimestamp
           poeStashTabIds
           valuationTargetPValue
           valuationStockInfluence

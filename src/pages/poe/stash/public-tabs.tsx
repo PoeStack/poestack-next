@@ -15,7 +15,7 @@ export default function PublicStash() {
   const [publicTab, setPublicTab] = useState<any | null>(null);
   const { refetch: fetchPublicTab } = useQuery(
     gql`
-      query Query($publicStashId: String!) {
+      query PublicTabsQuery($publicStashId: String!) {
         publicStash(id: $publicStashId)
       }
     `,

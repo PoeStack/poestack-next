@@ -40,7 +40,6 @@ export default function ValueBreakdownTable({
       variables: {
         search: {
           snapshotId: snapshot?.id,
-          profileId: snapshot?.snapshotProfileId,
         },
         aggregation: "chaos-value-by-tab",
       },

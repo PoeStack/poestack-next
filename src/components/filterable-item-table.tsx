@@ -42,7 +42,6 @@ export default function FilterableItemTable({
 
   const [itemGroupSearch, setItemGroupSearch] =
     useState<StashSnapshotItemGroupSummarySearchInput>({
-      profileId: snapshot.snapshotProfileId,
       snapshotId: snapshot.id,
       skip: 0,
       limit: 20,
@@ -172,7 +171,7 @@ export default function FilterableItemTable({
     setItemGroupSearch((p) => {
       return {
         ...p,
-        ...{ snapshotId: snapshot?.id, profileId: snapshot?.snapshotProfileId },
+        ...{ snapshotId: snapshot?.id },
       };
     });
   }, [snapshot, setItemGroupSearch]);
