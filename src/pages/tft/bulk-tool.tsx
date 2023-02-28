@@ -7,8 +7,11 @@ import StyledButton from "@components/styled-button";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "@components/league-select";
 import StyledMultiSelect2 from "../../components/styled-multi-select-2";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 export default function BulkTool() {
+  const { profile } = usePoeStackAuth();
+
   const { league } = usePoeLeagueCtx();
 
   const [selectedStashTabs, setSelectedStashTabs] = useState<PoeStashTab[]>([]);
@@ -65,7 +68,7 @@ export default function BulkTool() {
     {
       variables: {
         input: {
-          userId: "na",
+          userId: profile?.userId,
           league: league,
           poeStashTabIds: selectedStashTabs.map((e) => e.id),
           valuationTargetPValue: "p10",
