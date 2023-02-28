@@ -618,7 +618,7 @@ function StyledCharactersSummaryTable({
               <td className="font-semibold">
                 {!!snapshot.totalValueDivine && (
                   <div className="grid w-32 grid-cols-2">
-                    <div className="grid justify-end ">
+                    <div className="grid items-center justify-end">
                       {+snapshot.totalValueDivine.toFixed(1)}
                     </div>
                     <div className="pl-2 ">
