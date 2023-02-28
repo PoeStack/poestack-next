@@ -213,6 +213,7 @@ export default function Characters({
   });
 
   const [localSearchString, setLocalSearchString] = useState<string>("");
+  const [filters, setFilters] = useState<boolean>(false);
 
   const [characters, setCharacters] = useState<
     CharacterSnapshotSearchResponse | undefined | null
@@ -415,9 +416,14 @@ export default function Characters({
     },
   ];
 
+  /*
+   !! Below is the Main Component that ties everything together
+   */
+
   return (
-    <div className="flex flex-row my-4 space-x-2 md:mx-4 lg:mx-20">
-      <div className="flex flex-col w-1/6 space-y-2 lg:w-1/5">
+    <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20">
+      {/* Column 1 on Desktop */}
+      <div className="flex flex-row w-full bg-pink-400 lg:flex-col lg:w-1/5">
         <StyledMultiSearch
           totalMatches={aggregations?.totalMatches ?? 0}
           value={localSearchString}
@@ -429,17 +435,36 @@ export default function Characters({
           }}
         />
 
-        {aggregatorPanels.map((props) => (
-          <StyledAggregatorPanel key={props.title} {...props} />
-        ))}
+        <div className="hidden lg:block">
+          {aggregatorPanels.map((props) => (
+            <StyledAggregatorPanel key={props.title} {...props} />
+          ))}
+        </div>
       </div>
 
-      <StyledCharactersSummaryTable
-        characters={characters}
-        columns={columns}
-        columnDirections={columnsSortMap}
-        onSortChange={onCharactersSortChange}
-      />
+      {/* Column 2 on Desktop */}
+      <div className="w-full row-start-2 overscroll-x-contain lg:flex lg:flex-row lg:mx-20">
+        <StyledCharactersSummaryTable
+          characters={characters}
+          columns={columns}
+          columnDirections={columnsSortMap}
+          onSortChange={onCharactersSortChange}
+        />
+      </div>
+      {filters ? (
+        <div className={`hidden lg:block ${filters ? "flex flex-row" : ""}  `}>
+          {aggregatorPanels.map((props) => (
+            <StyledAggregatorPanel key={props.title} {...props} />
+          ))}
+        </div>
+      ) : null}
+
+      {/* <button
+        className="fixed w-20 h-10 bg-orange-400 rounded-lg z-100 right-5 bottom-10 "
+        onClick={() => setFilters(!filters)}
+      >
+        Filter Here
+      </button> */}
     </div>
   );
 }
@@ -465,17 +490,17 @@ function StyledCharactersSummaryTable({
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
   return (
-    <StyledCard title="Characters" className="flex-1">
-      <table>
+    <StyledCard className="grid grid-cols-2 grid-rows-2 lg:flex lg:flex-1">
+      <table className="">
         <SortableTableHeader
           columns={columns}
           columnDirections={columnDirections}
           onSortChange={onSortChange}
         />
-        <tbody className="">
+        <tbody>
           {characters.snapshots.map((snapshot) => (
             <tr
-              className="hover:bg-skin-primary border-y-2 border-slate-700/50"
+              className="max-h-14 hover:bg-skin-primary border-y-2 border-slate-700/50"
               key={snapshot.characterId}
             >
               <td>
@@ -566,30 +591,37 @@ function StyledCharactersSummaryTable({
               <td className="font-semibold">
                 {!!snapshot.topItems && (
                   <div className="flex flex-row items-center space-x-1">
-                    {snapshot.topItems.map((e) => (
-                      <>
-                        <div>
-                          <StyledTooltip texts={[e.name]} placement={"left"}>
-                            <div>
-                              <Image
-                                src={e.icon}
-                                alt={e.name}
-                                width={30}
-                                height={30}
-                              />
-                            </div>
-                          </StyledTooltip>
-                        </div>
-                      </>
-                    ))}
+                    {snapshot.topItems.map((e) => {
+                      console.log(e);
+                      return (
+                        <>
+                          <div>
+                            <StyledTooltip texts={[e.name]} placement={"left"}>
+                              <div>
+                                <Image
+                                  src={e.icon}
+                                  alt={e.name}
+                                  width={20}
+                                  height={20}
+                                />
+                              </div>
+                            </StyledTooltip>
+                          </div>
+                        </>
+                      );
+                    })}
                   </div>
                 )}
               </td>
               <td className="font-semibold">
                 {!!snapshot.totalValueDivine && (
-                  <div className="flex flex-row">
-                    <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
-                    <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                  <div className="grid w-32 grid-cols-2">
+                    <div className="grid justify-end ">
+                      {+snapshot.totalValueDivine.toFixed(1)}
+                    </div>
+                    <div className="pl-2 ">
+                      <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                    </div>
                   </div>
                 )}
               </td>
@@ -634,7 +666,7 @@ function StyledMultiSearch({
       title={`Search - ${totalMatches} Characters`}
       className="focus:border-color-accent border-color-base"
     >
-      <div className="flex flex-col space-y-2">
+      <div className="w-full space-y-2 overflow-x-hidden lg:flex lg:flex-col">
         <StyledInput
           value={value}
           onChange={onValueChange}
@@ -696,7 +728,7 @@ function StyledAggregatorPanel({
   matches = matches ? matches : 0;
 
   return (
-    <StyledCard title={title} className="h-[400px]">
+    <StyledCard className="h-[400px] ">
       <CharacterAggregationDisplay
         values={aggregation?.values}
         onSelectionChanged={onSelectionChanged}
