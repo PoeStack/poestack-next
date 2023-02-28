@@ -423,7 +423,7 @@ export default function Characters({
   return (
     <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20">
       {/* Column 1 on Desktop */}
-      <div className="flex flex-row w-full bg-pink-400 lg:flex-col lg:w-1/5">
+      <div className="flex flex-row w-full lg:flex-col lg:w-1/5">
         <StyledMultiSearch
           totalMatches={aggregations?.totalMatches ?? 0}
           value={localSearchString}
