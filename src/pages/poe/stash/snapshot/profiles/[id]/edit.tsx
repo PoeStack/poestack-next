@@ -1,22 +1,15 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { useRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import StyledCard from "@components/styled-card";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import LeagueSelect from "@components/league-select";
-import StyledSelect from "@components/styled-select";
 import StyledSelect2 from "@components/styled-select-2";
-import {
-  PoeStashTab,
-  StashSnapshotProfile,
-  StashSnapshotProfileInput,
-} from "@generated/graphql";
+import { PoeStashTab, StashSnapshotProfileInput } from "@generated/graphql";
 
 import { nanoid } from "nanoid";
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import { Tooltip } from "flowbite-react";
 import { StyledTooltip } from "@components/styled-tooltip";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 
@@ -157,29 +150,6 @@ export default function ViewProfile() {
                 />
               </div>
             </div>
-            {/* Public or Private Select */}
-            {/* <div className="flex flex-row items-center space-x-2">
-              <StyledTooltip
-                texts={[
-                  "Public = You can share profile with anyone ",
-                  "Private = Only you can see it",
-                ]}
-                placement="top"
-                className="relative mr-2"
-              >
-                <h4 className="w-20 cursor-help">Privacy: </h4>
-              </StyledTooltip>
-
-              <div className="w-full">
-                <StyledSelect
-                  items={["Public", "Private"]}
-                  onSelectChange={(s) =>
-                    setProfile({ ...profile, ...{ public: s === "Public" } })
-                  }
-                  initalValue={profile.public ? "Public" : "Private"}
-                />
-              </div>
-            </div> */}
             {/* Stock Influence - Smart or Not */}
             <div className="flex flex-row items-center space-x-2">
               <StyledTooltip

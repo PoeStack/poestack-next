@@ -5,10 +5,14 @@ export default function StyledMultiSelect2({
   items,
   selected,
   onSelectChange,
+  itemToText = (e) => {
+    return e?.toString();
+  },
 }: {
   selected: any | any[] | undefined;
   items: any[];
   onSelectChange: (e: any[]) => void;
+  itemToText?: (e: any) => string;
 }) {
   const mappedSelected = [selected].flat().filter((e) => !!e);
 
@@ -27,7 +31,7 @@ export default function StyledMultiSelect2({
               {mappedSelected?.length < 1
                 ? "...."
                 : mappedSelected
-                    ?.map((s) => s)
+                    ?.map((s) => itemToText(s))
                     .join(", ")
                     .slice(0, 100)}
             </span>
@@ -58,7 +62,7 @@ export default function StyledMultiSelect2({
                             : "font-normal"
                         }`}
                       >
-                        {item}
+                        {itemToText(item)}
                       </div>
                     </>
                   )}
