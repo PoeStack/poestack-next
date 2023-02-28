@@ -451,13 +451,6 @@ export default function Characters({
           onSortChange={onCharactersSortChange}
         />
       </div>
-      {filters ? (
-        <div className={`hidden lg:block ${filters ? "flex flex-row" : ""}  `}>
-          {aggregatorPanels.map((props) => (
-            <StyledAggregatorPanel key={props.title} {...props} />
-          ))}
-        </div>
-      ) : null}
 
       {/* <button
         className="fixed w-20 h-10 bg-orange-400 rounded-lg z-100 right-5 bottom-10 "
