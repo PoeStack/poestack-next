@@ -584,8 +584,10 @@ function StyledCharactersSummaryTable({
                 ) : null}
               </td>
 
-              <td className="font-semibold text-red-600">{snapshot.life}</td>
-              <td className="font-semibold text-teal-300">
+              <td className="w-10 pr-8 font-semibold text-right text-red-600 ">
+                {snapshot.life}
+              </td>
+              <td className="w-10 pr-8 font-semibold text-right text-teal-300">
                 {snapshot.energyShield}
               </td>
               <td className="font-semibold">
