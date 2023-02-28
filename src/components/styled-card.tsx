@@ -14,13 +14,10 @@ export default function StyledCard({
       {/* Keep a space after p-3 in div className. */}
       <div
         className={
-          "rounded shadow-lg bg-surface-primary flex flex-col p-3 " +
+          "rounded shadow-lg bg-surface-primary flex flex-col p-3 w-full " +
           (className ? className : "")
         }
       >
-        <div className="mb-2">
-          <h1>{title}</h1>
-        </div>
         {children}
       </div>
     </>
