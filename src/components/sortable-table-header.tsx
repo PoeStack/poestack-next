@@ -98,17 +98,17 @@ export default function SortableTableHeader({
 function OrderIndicatorIcon({ direction }: { direction: SortingDirections }) {
   return direction === "desc" ? (
     <ChevronDownIcon
-      className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+      className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
       aria-hidden="true"
     />
   ) : direction === "asc" ? (
     <ChevronUpIcon
-      className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+      className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
       aria-hidden="true"
     />
   ) : (
     <div
-      className="ml-2 -mr-1 h-5 w-5 text-violet-200"
+      className="w-5 h-5 ml-2 -mr-1 text-violet-200"
       aria-hidden="true"
     ></div>
   );
