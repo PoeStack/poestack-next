@@ -213,7 +213,6 @@ export default function Characters({
   });
 
   const [localSearchString, setLocalSearchString] = useState<string>("");
-  const [filters, setFilters] = useState<boolean>(false);
 
   const [characters, setCharacters] = useState<
     CharacterSnapshotSearchResponse | undefined | null
