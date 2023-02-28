@@ -424,18 +424,19 @@ export default function Characters({
     <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20">
       {/* Column 1 on Desktop */}
       <div className="flex flex-row w-full lg:flex-col lg:w-1/5">
-        <StyledMultiSearch
-          totalMatches={aggregations?.totalMatches ?? 0}
-          value={localSearchString}
-          onValueChange={onSearchValueChange}
-          onDateChange={onDateChange}
-          onLeagueChange={(e) => {
-            setSearch({ ...search, league: e });
-            refireSearches();
-          }}
-        />
-
-        <div className="hidden lg:block">
+        <div className="mb-2">
+          <StyledMultiSearch
+            totalMatches={aggregations?.totalMatches ?? 0}
+            value={localSearchString}
+            onValueChange={onSearchValueChange}
+            onDateChange={onDateChange}
+            onLeagueChange={(e) => {
+              setSearch({ ...search, league: e });
+              refireSearches();
+            }}
+          />
+        </div>
+        <div className="hidden space-y-2 lg:block">
           {aggregatorPanels.map((props) => (
             <StyledAggregatorPanel key={props.title} {...props} />
           ))}
@@ -731,6 +732,7 @@ function StyledAggregatorPanel({
 
   return (
     <StyledCard className="h-[400px] ">
+      <div className="mb-2 font-bold">{title}</div>
       <CharacterAggregationDisplay
         values={aggregation?.values}
         onSelectionChanged={onSelectionChanged}
