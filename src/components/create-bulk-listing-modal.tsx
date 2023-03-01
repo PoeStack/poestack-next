@@ -15,9 +15,14 @@ import {
 import StyledSelect2 from "./styled-select-2";
 
 export const exporterTypesToPanels = {
-  csv: { name: "csv", disableTftButtons: true },
+  csv: {
+    name: "csv",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lEdXBsaWNhdGUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/7111e35254/CurrencyDuplicate.png",
+    disableTftButtons: true,
+  },
   "forum shop": {
     name: "forum shop",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lEdXBsaWNhdGUiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/7111e35254/CurrencyDuplicate.png",
     panel: ForumExporterOptions,
     disableTftButtons: true,
   },
@@ -31,7 +36,11 @@ export const exporterTypesToPanels = {
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGVpc3QvQ29udHJhY3RJdGVtMiIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/f755c71433/ContractItem2.png",
     panel: TftBaseExporterOptions,
   },
-  logbook: { name: "logbook", panel: TftBaseExporterOptions },
+  logbook: {
+    name: "logbook",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9FeHBlZGl0aW9uQ2hyb25pY2xlMyIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/2802fe605e/ExpeditionChronicle3.png",
+    panel: TftBaseExporterOptions,
+  },
   essence: {
     name: "essence",
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9Db250ZW1wdDYiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/332e9b32e9/Contempt6.png",
@@ -173,10 +182,12 @@ export const exporterTypesToPanels = {
   },
   "unidentified watcher's eyes": {
     name: "unidentified watcher's eyes",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL0VsZGVySmV3ZWwiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/278c673716/ElderJewel.png",
     panel: TftBaseExporterOptions,
   },
   "blood-filled vessels": {
     name: "blood-filled vessels",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvUml0dWFsL0Jsb29kU29ha2VkRWZmaWd5IiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/1adc81c853/BloodSoakedEffigy.png",
     panel: TftBaseExporterOptions,
   },
 };
@@ -347,6 +358,7 @@ export default function CreateBulkListingModal({
                     <StyledSelect2
                       items={Object.values(exporterTypesToPanels)}
                       onSelectChange={(e) => {
+                        setSelectedSubFilter(undefined);
                         setSelectedExporter(e);
                         setExporterInput({
                           ...exporterInput,
