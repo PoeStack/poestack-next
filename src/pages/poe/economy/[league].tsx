@@ -153,21 +153,21 @@ export default function Economy() {
               />
             </div>
           </div>
-          <div className="min-h-[20rem] ">
-            <table className="w-full">
+          <div className="min-h-[20rem] pl-4 pr-4 lg:pl-20 lg:pr-20">
+            <table className="w-full ">
               <SortableTableHeader
                 columns={columns}
                 columnDirections={columnsSortMap}
                 onSortChange={updateSortMap}
               />
 
-              <tbody>
+              <tbody className="">
                 {itemValueTimeseries!.map((groupSeries, index) => (
                   <tr
                     key={index}
                     className="pl-3 hover:text-content-accent hover:bg-color-primary"
                   >
-                    <td>
+                    <td className="">
                       <Image
                         src={groupSeries.itemGroup?.icon ?? ""}
                         alt="icon"
@@ -176,7 +176,7 @@ export default function Economy() {
                       />
                     </td>
 
-                    <td>
+                    <td className="">
                       <Link
                         href={`/poe/economy/${league}/item-group/${groupSeries?.itemGroup?.hashString}`}
                       >
@@ -185,14 +185,14 @@ export default function Economy() {
                         )}
                       </Link>
                     </td>
-                    <td className="flex flex-col items-start">
+                    <td className="w-1/6">
                       <HSparkline
                         series={groupSeries.series?.find(
                           (e) => e.type === "p10"
                         )}
                       />
                     </td>
-                    <td className="text-left">
+                    <td className="pr-4 text-center ">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "totalValidListings"
