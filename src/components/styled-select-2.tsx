@@ -1,19 +1,21 @@
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
-import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { StyledTooltip } from "./styled-tooltip";
+import Image from "next/image";
 
 export default function StyledSelect2({
   items,
   selected,
   onSelectChange,
   mapToText = (e) => e?.toString(),
+  mapToIcon = (e) => null,
 }: {
   selected: any;
   onSelectChange: (e: any) => void;
   mapToText?: (e: any) => string;
+  mapToIcon?: (e: any) => string | null;
   items: any[];
 }) {
+  const selectedIconUrl = mapToIcon(selected);
   return (
     <div className="">
       <Listbox
@@ -24,9 +26,19 @@ export default function StyledSelect2({
       >
         <div className="relative">
           <Listbox.Button className="relative bg-color-primary text-content-base hover:bg-color-secondary-variant w-full cursor-default rounded-lg px-4 py-2 text-left shadow-md font-medium ">
-            <span className="block truncate">
-              {mapToText(selected) ?? "..."}
-            </span>
+            <div className="flex flex-row space-x-2">
+              <div>
+                {!!selectedIconUrl && (
+                  <Image
+                    width={25}
+                    height={25}
+                    src={selectedIconUrl}
+                    alt={""}
+                  />
+                )}
+              </div>
+              <div> {!!selected ? mapToText(selected) : "..."}</div>
+            </div>
           </Listbox.Button>
           <Transition
             as={Fragment}
@@ -47,22 +59,30 @@ export default function StyledSelect2({
                   }
                   value={item}
                 >
-                  {({ selected }) => (
-                    <>
-                      <span
-                        className={`block text-content-base truncate ${
-                          selected ? "font-medium" : "font-normal"
-                        }`}
-                      >
-                        <StyledTooltip
-                          texts={[mapToText(item)]}
-                          placement="left"
+                  {({ selected }) => {
+                    const iconUrl = mapToIcon(item);
+                    return (
+                      <>
+                        <span
+                          className={`block text-content-base truncate ${
+                            selected ? "font-medium" : "font-normal"
+                          }`}
                         >
-                          <p>{mapToText(item)}</p>
-                        </StyledTooltip>
-                      </span>
-                    </>
-                  )}
+                          <div className="flex flex-row space-x-2">
+                            {!!iconUrl && (
+                              <Image
+                                width={25}
+                                height={25}
+                                src={iconUrl}
+                                alt={""}
+                              />
+                            )}
+                            <p>{mapToText(item)}</p>
+                          </div>
+                        </span>
+                      </>
+                    );
+                  }}
                 </Listbox.Option>
               ))}
             </Listbox.Options>
