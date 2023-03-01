@@ -184,13 +184,12 @@ export default function Character({ characterSnapshot }) {
             content={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
           />
         </Head>
-        <div className="flex flex-row space-x-2 ">
-          <div>
-            <StyledCard title="Equipment" className="min-w-[450px]">
-              <div className="flex flex-col space-y-2">
-                <EquipmentDisplay
-                  items={currentSnapshot?.characterSnapshotItems!}
-                />
+        <div className="grid grid-cols-2 space-x-2 ">
+          <StyledCard title="Equipment" className="min-w-[450px]">
+            <div className="flex flex-col space-y-2">
+              <EquipmentDisplay
+                items={currentSnapshot?.characterSnapshotItems!}
+              />
 
                 <SecondaryEquipmentDisplay
                   items={currentSnapshot?.characterSnapshotItems!}
@@ -264,8 +263,8 @@ export default function Character({ characterSnapshot }) {
                 </div>
               </div>
             </StyledCard>
-            <StyledCard title={"Progression"} className="flex-1 w-full">
-              <CharacterLevelChart snapshots={characterSnapshots} />
+            <StyledCard title={"Progression"} className="flex-1 w-full ">
+              <CharacterLevelChart snapshots={characterSnapshots} props />
             </StyledCard>
           </div>
         </div>
