@@ -134,7 +134,7 @@ export default function HSparkline({
   return (
     <>
       <div className="grid grid-cols-12">
-        <div className="col-span-7 col-start-2">
+        <div className="invisible col-span-7 col-start-2 lg:visible">
           <HighchartsReact highcharts={Highcharts} options={options} />
         </div>
         <div
