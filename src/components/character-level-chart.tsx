@@ -8,8 +8,10 @@ import { useRef, useEffect } from "react";
 
 export default function CharacterLevelChart({
   snapshots,
+  props,
 }: {
   snapshots: CharacterSnapshotRecord[];
+  props: any;
 }) {
   console.log("ss", snapshots);
   const chart = useRef<any>();
@@ -54,7 +56,12 @@ export default function CharacterLevelChart({
 
   return (
     <>
-      <HighchartsReact ref={chart} highcharts={Highcharts} options={options} />
+      <HighchartsReact
+        ref={chart}
+        highcharts={Highcharts}
+        options={options}
+        containerProps={{ className: props.className }}
+      />
     </>
   );
 }
