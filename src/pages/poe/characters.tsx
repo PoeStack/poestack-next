@@ -415,31 +415,50 @@ export default function Characters({
     },
   ];
 
-  return (
-    <div className="flex flex-row my-4 space-x-2 md:mx-4 lg:mx-20">
-      <div className="flex flex-col w-1/6 space-y-2 lg:w-1/5">
-        <StyledMultiSearch
-          totalMatches={aggregations?.totalMatches ?? 0}
-          value={localSearchString}
-          onValueChange={onSearchValueChange}
-          onDateChange={onDateChange}
-          onLeagueChange={(e) => {
-            setSearch({ ...search, league: e });
-            refireSearches();
-          }}
-        />
+  /*
+   !! Below is the Main Component that ties everything together
+   */
 
-        {aggregatorPanels.map((props) => (
-          <StyledAggregatorPanel key={props.title} {...props} />
-        ))}
+  return (
+    <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
+      {/* Column 1 on Desktop */}
+      <div className="flex flex-row w-full lg:flex-col lg:w-1/5 ">
+        <div className="mb-2">
+          <StyledMultiSearch
+            totalMatches={aggregations?.totalMatches ?? 0}
+            value={localSearchString}
+            onValueChange={onSearchValueChange}
+            onDateChange={onDateChange}
+            onLeagueChange={(e) => {
+              setSearch({ ...search, league: e });
+              refireSearches();
+            }}
+          />
+        </div>
+        <div className="hidden space-y-2 lg:block">
+          {aggregatorPanels.map((props) => (
+            <StyledAggregatorPanel key={props.title} {...props} />
+          ))}
+        </div>
       </div>
 
-      <StyledCharactersSummaryTable
-        characters={characters}
-        columns={columns}
-        columnDirections={columnsSortMap}
-        onSortChange={onCharactersSortChange}
-      />
+      {/* Column 2 on Desktop */}
+      <div className="w-full row-start-2 overscroll-x-contain lg:flex lg:flex-row lg:mx-20">
+        <StyledCharactersSummaryTable
+          characters={characters}
+          columns={columns}
+          columnDirections={columnsSortMap}
+          onSortChange={onCharactersSortChange}
+        />
+      </div>
+
+      {/* note for push + mobile filters demo */}
+      {/* <button
+        className="fixed w-20 h-10 bg-orange-400 rounded-lg z-100 right-5 bottom-10 "
+        onClick={() => setFilters(!filters)}
+      >
+        Filter Here
+      </button> */}
     </div>
   );
 }
@@ -458,30 +477,36 @@ type StyledCharactersSummaryTableProps = {
 /**
  * Table of a brief summary of characters on the {@link Characters} page.
  */
+
 function StyledCharactersSummaryTable({
   characters,
   columns,
   columnDirections,
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
+  const [imageSize, setImageSize] = useState({
+    width: 1,
+    height: 1,
+  });
+
   return (
-    <StyledCard title="Characters" className="flex-1">
-      <table>
+    <StyledCard className="grid grid-cols-2 grid-rows-2 lg:flex lg:flex-1">
+      <table className="">
         <SortableTableHeader
           columns={columns}
           columnDirections={columnDirections}
           onSortChange={onSortChange}
         />
-        <tbody className="">
+        <tbody>
           {characters.snapshots.map((snapshot) => (
             <tr
-              className="hover:bg-skin-primary border-y-2 border-slate-700/50"
+              className="h-20 hover:bg-skin-primary border-y-2 border-slate-700/50"
               key={snapshot.characterId}
             >
               <td>
                 <Link
                   href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="pl-3 hover:text-content-accent hover:underline"
+                  className="pl-3 text-lg hover:text-content-accent hover:underline"
                 >
                   {snapshot?.name}
                 </Link>
@@ -498,8 +523,8 @@ function StyledCharactersSummaryTable({
                       <Image
                         src={`/assets/poe/classes/${snapshot.characterClass}.png`}
                         alt={snapshot.characterClass}
-                        width={39}
-                        height={30}
+                        width={50}
+                        height={60}
                       />
                     </StyledTooltip>
                   </div>
@@ -525,8 +550,8 @@ function StyledCharactersSummaryTable({
                             <Image
                               src={`/assets/common/twitch_logo.png`}
                               alt={"twitch"}
-                              width={39}
-                              height={39}
+                              width={50}
+                              height={60}
                             />
                           </StyledTooltip>
                         </a>
@@ -551,45 +576,54 @@ function StyledCharactersSummaryTable({
                           snapshot.mainSkillKey
                         )}.png`}
                         alt=""
-                        width={39}
-                        height={30}
+                        width={35}
+                        height={35}
                       />
                     </StyledSkillImageTooltip>
                   </li>
                 ) : null}
               </td>
 
-              <td className="font-semibold text-red-600">{snapshot.life}</td>
-              <td className="font-semibold text-teal-300">
+              <td className="w-10 pr-8 font-semibold text-right text-red-600 ">
+                {snapshot.life}
+              </td>
+              <td className="w-10 pr-8 font-semibold text-right text-teal-300">
                 {snapshot.energyShield}
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row items-center space-x-1">
-                    {snapshot.topItems.map((e) => (
-                      <>
-                        <div>
-                          <StyledTooltip texts={[e.name]} placement={"left"}>
-                            <div>
-                              <Image
-                                src={e.icon}
-                                alt={e.name}
-                                width={30}
-                                height={30}
-                              />
-                            </div>
-                          </StyledTooltip>
-                        </div>
-                      </>
-                    ))}
+                  <div className="flex flex-row items-center space-x-4">
+                    {snapshot.topItems.map((e) => {
+                      return (
+                        <>
+                          <div>
+                            <StyledTooltip texts={[e.name]} placement={"left"}>
+                              <div className="">
+                                <Image
+                                  src={e.icon}
+                                  alt={e.name}
+                                  priority={true}
+                                  width={25}
+                                  height={20}
+                                />
+                              </div>
+                            </StyledTooltip>
+                          </div>
+                        </>
+                      );
+                    })}
                   </div>
                 )}
               </td>
               <td className="font-semibold">
                 {!!snapshot.totalValueDivine && (
-                  <div className="flex flex-row">
-                    <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
-                    <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                  <div className="grid w-32 grid-cols-2">
+                    <div className="grid items-center justify-end">
+                      {+snapshot.totalValueDivine.toFixed(1)}
+                    </div>
+                    <div className="pl-2 ">
+                      <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                    </div>
                   </div>
                 )}
               </td>
@@ -634,7 +668,7 @@ function StyledMultiSearch({
       title={`Search - ${totalMatches} Characters`}
       className="focus:border-color-accent border-color-base"
     >
-      <div className="flex flex-col space-y-2">
+      <div className="w-full space-y-2 overflow-x-hidden lg:flex lg:flex-col">
         <StyledInput
           value={value}
           onChange={onValueChange}
@@ -696,7 +730,8 @@ function StyledAggregatorPanel({
   matches = matches ? matches : 0;
 
   return (
-    <StyledCard title={title} className="h-[400px]">
+    <StyledCard className="h-[400px] ">
+      <div className="mb-2 font-bold">{title}</div>
       <CharacterAggregationDisplay
         values={aggregation?.values}
         onSelectionChanged={onSelectionChanged}
