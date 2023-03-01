@@ -1,6 +1,6 @@
 import "moment-timezone";
 import moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { StashSnapshot } from "../__generated__/graphql";
