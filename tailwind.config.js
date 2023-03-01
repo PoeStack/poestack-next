@@ -64,6 +64,7 @@ module.exports = {
           'url("/images/landingpage/landingPage_Economy_001.png")',
         economyEssences:
           'url("/images/landingpage/landingPage_Economy_002.png")',
+        kekw: 'url("/KEKW.png")',
       },
       // colors: {
       //   "theme-color-0": "#060F2F",
