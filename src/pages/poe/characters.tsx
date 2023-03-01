@@ -452,6 +452,7 @@ export default function Characters({
         />
       </div>
 
+      {/* note for push + mobile filters demo */}
       {/* <button
         className="fixed w-20 h-10 bg-orange-400 rounded-lg z-100 right-5 bottom-10 "
         onClick={() => setFilters(!filters)}
