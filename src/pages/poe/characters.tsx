@@ -421,9 +421,9 @@ export default function Characters({
    */
 
   return (
-    <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20">
+    <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
       {/* Column 1 on Desktop */}
-      <div className="flex flex-row w-full lg:flex-col lg:w-1/5">
+      <div className="flex flex-row w-full lg:flex-col lg:w-1/5 ">
         <div className="mb-2">
           <StyledMultiSearch
             totalMatches={aggregations?.totalMatches ?? 0}
@@ -484,12 +484,18 @@ type StyledCharactersSummaryTableProps = {
 /**
  * Table of a brief summary of characters on the {@link Characters} page.
  */
+
 function StyledCharactersSummaryTable({
   characters,
   columns,
   columnDirections,
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
+  const [imageSize, setImageSize] = useState({
+    width: 1,
+    height: 1,
+  });
+
   return (
     <StyledCard className="grid grid-cols-2 grid-rows-2 lg:flex lg:flex-1">
       <table className="">
@@ -501,13 +507,13 @@ function StyledCharactersSummaryTable({
         <tbody>
           {characters.snapshots.map((snapshot) => (
             <tr
-              className="max-h-14 hover:bg-skin-primary border-y-2 border-slate-700/50"
+              className="h-20 hover:bg-skin-primary border-y-2 border-slate-700/50"
               key={snapshot.characterId}
             >
               <td>
                 <Link
                   href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="pl-3 hover:text-content-accent hover:underline"
+                  className="pl-3 text-lg hover:text-content-accent hover:underline"
                 >
                   {snapshot?.name}
                 </Link>
@@ -524,8 +530,8 @@ function StyledCharactersSummaryTable({
                       <Image
                         src={`/assets/poe/classes/${snapshot.characterClass}.png`}
                         alt={snapshot.characterClass}
-                        width={39}
-                        height={30}
+                        width={50}
+                        height={60}
                       />
                     </StyledTooltip>
                   </div>
@@ -551,8 +557,8 @@ function StyledCharactersSummaryTable({
                             <Image
                               src={`/assets/common/twitch_logo.png`}
                               alt={"twitch"}
-                              width={39}
-                              height={39}
+                              width={50}
+                              height={60}
                             />
                           </StyledTooltip>
                         </a>
@@ -577,8 +583,8 @@ function StyledCharactersSummaryTable({
                           snapshot.mainSkillKey
                         )}.png`}
                         alt=""
-                        width={39}
-                        height={30}
+                        width={35}
+                        height={35}
                       />
                     </StyledSkillImageTooltip>
                   </li>
@@ -593,18 +599,18 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row items-center space-x-1">
+                  <div className="flex flex-row items-center space-x-4">
                     {snapshot.topItems.map((e) => {
-                      console.log(e);
                       return (
                         <>
                           <div>
                             <StyledTooltip texts={[e.name]} placement={"left"}>
-                              <div>
+                              <div className="">
                                 <Image
                                   src={e.icon}
                                   alt={e.name}
-                                  width={20}
+                                  priority={true}
+                                  width={25}
                                   height={20}
                                 />
                               </div>
