@@ -140,17 +140,20 @@ export default function Economy() {
   return (
     <>
       <div className="h-screen my-4 md:mx-4 lg:mx-20">
-        <StyledCard title={"Economy"}>
-          <LeagueSelect />
-          <ItemGroupTagSelect
-            selected={tag}
-            league={league?.toString() ?? POE_LEAGUES[0]}
-            onSelectChange={(e: string[]) => {
-              router.push({ query: { league: league, tag: e } });
-            }}
-          />
-
-          <div className="min-h-[20rem]">
+        <StyledCard>
+          <div className="grid grid-cols-8">
+            <div className="col-span-6 col-start-2 mb-4 space-y-2 lg:col-span-2 lg:col-start-4">
+              <LeagueSelect />
+              <ItemGroupTagSelect
+                selected={tag}
+                league={league?.toString() ?? POE_LEAGUES[0]}
+                onSelectChange={(e: string[]) => {
+                  router.push({ query: { league: league, tag: e } });
+                }}
+              />
+            </div>
+          </div>
+          <div className="min-h-[20rem] ">
             <table className="w-full">
               <SortableTableHeader
                 columns={columns}
