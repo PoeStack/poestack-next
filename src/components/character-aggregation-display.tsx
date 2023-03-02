@@ -48,8 +48,6 @@ export default function CharacterAggregationDisplay({
     )
     .sort((a, b) => b.value - a.value);
 
-  console.log("aall keys", mappedRow);
-
   const Row = ({ index, style }) => (
     <div
       style={style}
@@ -98,7 +96,7 @@ export default function CharacterAggregationDisplay({
   return (
     <>
       <div className="flex flex-col flex-1 h-full">
-        <div className="grid items-center pr-2 space-x-1 text-sm capitalize truncate cursor-pointer hover:bg-color-primary ">
+        <div className="grid items-center pr-2 space-y-1 text-sm capitalize truncate cursor-pointer hover:bg-color-primary ">
           {excludedRows.map((e) => (
             <>
               <div
@@ -114,7 +112,7 @@ export default function CharacterAggregationDisplay({
                   className="mr-2 capitalize bg-red-900/50"
                   noDuration={true}
                 >
-                  <div>{e}</div>
+                  <div>{keyToText(e)}</div>
                 </StyledTooltip>
               </div>
             </>

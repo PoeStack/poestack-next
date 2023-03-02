@@ -33,6 +33,8 @@ export default function Atlas() {
 
   const [search, setSearch] = useState<AtlasPassiveSnapshotSearch>({
     league: league,
+    includedHashes: [],
+    excludedHashes: [],
   });
 
   const [aggregateData, setAggregateData] = useState<GenericAggregation | null>(
@@ -124,11 +126,31 @@ export default function Atlas() {
   addPop(keyStones);
   addPop(notables);
 
+  function updateAggFilter(node) {
+    if (search.includedHashes?.includes(node.key)) {
+      setSearch({
+        ...search,
+        excludedHashes: [...search.excludedHashes!, node.key],
+        includedHashes: search.includedHashes?.filter((e) => e !== node.key),
+      });
+    } else if (search.excludedHashes?.includes(node.key)) {
+      setSearch({
+        ...search,
+        excludedHashes: search.excludedHashes?.filter((e) => e !== node.key),
+      });
+    } else {
+      setSearch({
+        ...search,
+        includedHashes: [...search.includedHashes!, node.key],
+      });
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
         <div className="flex flex-row space-x-2">
-          <div className="flex flex-col min-w-[260px]">
+          <div className="flex flex-col space-y-2 min-w-[260px]">
             <StyledCard title={"Search"}>
               <LeagueSelect />
             </StyledCard>
@@ -139,10 +161,19 @@ export default function Atlas() {
                 totalMatches={keyStones.reduce((p, c) => p + c.value!, 0)}
                 localSearchString={""}
                 onSelectionChanged={(e) => {
-                  setSearch({ ...search, includedHashes: [e.key] });
+                  updateAggFilter(e);
                 }}
-                includedRows={search.includedHashes ?? []}
-                keyToText={(e) => e.node?.name}
+                includedRows={
+                  search.includedHashes?.filter(
+                    (e) => passiveTreeData.nodeMap[e]?.keystone
+                  ) ?? []
+                }
+                excludedRows={
+                  search.excludedHashes?.filter(
+                    (e) => passiveTreeData.nodeMap[e]?.keystone
+                  ) ?? []
+                }
+                keyToText={(e) => passiveTreeData.nodeMap[e.key ?? e]?.name}
               />
             </StyledCard>
             <StyledCard title="Notables" className="h-[400px]">
@@ -152,10 +183,19 @@ export default function Atlas() {
                 totalMatches={notables.reduce((p, c) => p + c.value!, 0)}
                 localSearchString={""}
                 onSelectionChanged={(e) => {
-                  setSearch({ ...search, includedHashes: [e.key] });
+                  updateAggFilter(e);
                 }}
-                includedRows={search.includedHashes ?? []}
-                keyToText={(e) => e.node?.name}
+                includedRows={
+                  search.includedHashes?.filter(
+                    (e) => passiveTreeData.nodeMap[e]?.notable
+                  ) ?? []
+                }
+                excludedRows={
+                  search.excludedHashes?.filter(
+                    (e) => passiveTreeData.nodeMap[e]?.notable
+                  ) ?? []
+                }
+                keyToText={(e) => passiveTreeData.nodeMap[e.key ?? e]?.name}
               />
             </StyledCard>
           </div>
