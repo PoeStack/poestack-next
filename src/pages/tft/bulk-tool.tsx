@@ -98,10 +98,12 @@ export default function BulkTool() {
               selected={selectedStashTabs ?? []}
               items={stashTabs ?? []}
               itemToText={(e) => e?.name ?? "na"}
+              itemToId={(e) => e?.id ?? "na"}
               placeholder={"Stash name..."}
               onSelectChange={function (e: any[]): void {
                 setSelectedStashTabs(e);
               }}
+              multiple={true}
               additionalFilters={[
                 {
                   title: "Remove Only",
