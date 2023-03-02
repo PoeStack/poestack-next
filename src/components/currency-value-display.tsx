@@ -71,16 +71,31 @@ export default function CurrencyValueDisplay({
     setDisplay(newDisplay);
   }, [chaosRates, valueChaos, setIcon]);
 
+  // <td className="font-semibold">
+  //   {!!snapshot.totalValueDivine && (
+  //     <div className="grid w-32 grid-cols-2">
+  //       <div className="grid items-center justify-end">
+  //         {+snapshot.totalValueDivine.toFixed(1)}
+  //       </div>
+  //       <div className="pl-2 ">
+  //         <Image src={DIV_ICON} alt={""} width={30} height={30} />
+  //       </div>
+  //     </div>
+  //   )}
+  // </td>;
+
   return (
     <>
       <div
-        className="flex flex-row space-x-1"
+        className="grid grid-cols-4 space-x-1"
         onClick={() => {
           onClick?.(display);
         }}
       >
-        <div>{display}</div>
-        <Image src={icon} alt={""} width={30} height={30} />
+        <div className="grid justify-end col-start-2 ">{display}</div>
+        <div className="col-start-3 pl-2">
+          <Image src={icon} alt={""} width={30} height={30} />
+        </div>
       </div>
     </>
   );

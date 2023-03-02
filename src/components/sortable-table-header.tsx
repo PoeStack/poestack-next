@@ -75,7 +75,7 @@ export default function SortableTableHeader({
         {columns.map((column) => (
           <th className="pl-2 " key={column.key}>
             <button
-              className="flex flex-row w-full "
+              className="flex flex-row justify-center w-full "
               onClick={(e) => {
                 onColumnHeaderClick(column.key);
               }}

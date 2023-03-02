@@ -8,9 +8,6 @@ import {
   BookmarkSquareIcon,
   ComputerDesktopIcon,
   GlobeAltIcon,
-  InformationCircleIcon,
-  NewspaperIcon,
-  UserGroupIcon,
 } from "@heroicons/react/24/outline";
 
 import {

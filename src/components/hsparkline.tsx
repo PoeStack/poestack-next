@@ -133,12 +133,21 @@ export default function HSparkline({
 
   return (
     <>
-      <div className="flex flex-row space-x-1">
-        <HighchartsReact highcharts={Highcharts} options={options} />
+      <div className="grid grid-cols-12">
+        <div className="invisible col-span-7 col-start-2 lg:visible">
+          <HighchartsReact highcharts={Highcharts} options={options} />
+        </div>
         <div
-          className={
-            pChange === 0 ? "" : pChange > 0 ? "text-green-500" : "text-red-400"
-          }
+          className={`
+            grid items-end justify-end col-span-1 col-start-9 ml-2 text-right
+            ${
+              pChange === 0
+                ? ""
+                : pChange > 0
+                ? "text-green-500"
+                : "text-red-400"
+            }
+          `}
         >
           {pChange}%
         </div>
