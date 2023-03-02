@@ -133,7 +133,7 @@ export default function HSparkline({
 
   return (
     <>
-      <div className="w-full grid grid-cols-2 space-x-2 gap-0 justify-center ">
+      <div className="w-fit grid grid-flow-col auto-cols-min space-x-2 gap-0 justify-center ">
         <div className="hidden place-self-end lg:block">
           <HighchartsReact highcharts={Highcharts} options={options} />
         </div>

@@ -9,7 +9,7 @@ import {
   StashSnapshotItemGroupSummarySearch,
   StashSnapshotItemGroupSummarySearchResponse,
 } from "@generated/graphql";
-import { GeneralUtils } from "@utils/general-util";
+import { GeneralUtils, myLoader } from "@utils/general-util";
 import Link from "next/link";
 import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
@@ -131,7 +131,7 @@ export default function ItemTableBody({
             <th></th>
             <th></th>
             <th>Name</th>
-            <th></th>
+            <th>Price History (1 Week)</th>
             <th>Quantity</th>
             <th>Value</th>
             {searchUserInput.itemValueOverrides && <th>Override</th>}
@@ -186,6 +186,7 @@ export default function ItemTableBody({
                     )}`}
                   >
                     <Image
+                      loader={myLoader}
                       src={itemSummary.itemGroup?.icon ?? ""}
                       alt="icon"
                       width="25"
@@ -204,7 +205,7 @@ export default function ItemTableBody({
                   </Link>
                 </td>
                 <td>
-                  <div className="flex flex-row space-x-3">
+                  <div className="flex flex-row place space-x-2">
                     <HSparkline
                       series={itemValueTimeseries
                         ?.find(
