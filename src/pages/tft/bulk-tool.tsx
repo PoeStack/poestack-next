@@ -51,7 +51,7 @@ export default function BulkTool() {
   );
 
   const [snapshot, setSnapshot] = useState<StashSnapshot | null>(null);
-  const [takeDetatchedSnapshot] = useMutation(
+  const [takeDetatchedSnapshot, { loading: snapshotLoading }] = useMutation(
     gql`
       mutation TakeDeatachedSnapshot($input: DetachedStashSnapshotInput!) {
         takeDeatachedSnapshot(input: $input) {
@@ -86,8 +86,7 @@ export default function BulkTool() {
   const [removeOnlyEnabled, setRemoveOnlyEnabled] = useState(false);
   const removeOnlyFunction = (stashName: string) => {
     return !stashName.toLowerCase().includes("(remove-only)");
-  }
-
+  };
 
   return (
     <>
@@ -100,13 +99,20 @@ export default function BulkTool() {
               items={stashTabs ?? []}
               itemToText={(e) => e?.name ?? "na"}
               placeholder={"Stash name..."}
-              onSelectChange={function(e: any[]): void {
+              onSelectChange={function (e: any[]): void {
                 setSelectedStashTabs(e);
               }}
-              additionalFilters={[{ title: "Remove Only", enabled: removeOnlyEnabled, toggle: () => setRemoveOnlyEnabled(!removeOnlyEnabled), filterFunction: removeOnlyFunction }]}
+              additionalFilters={[
+                {
+                  title: "Remove Only",
+                  enabled: removeOnlyEnabled,
+                  toggle: () => setRemoveOnlyEnabled(!removeOnlyEnabled),
+                  filterFunction: removeOnlyFunction,
+                },
+              ]}
             />
             <StyledButton
-              text={"Grab Items"}
+              text={snapshotLoading ? "Loading..." : "Grab Items"}
               onClick={() => {
                 takeDetatchedSnapshot();
               }}

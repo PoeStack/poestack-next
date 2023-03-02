@@ -46,6 +46,21 @@ export default function CreateBulkListingPanel({
   );
   const [generatingImage, setGeneratingImage] = useState(false);
 
+  function buildInput() {
+    console.log("asdasd", searchUserInput?.itemValueOverrides);
+    return {
+      ...exporterInput,
+      search: itemGroupSearch,
+      ...{
+        itemGroupValueOverrides: Object.entries(
+          searchUserInput?.itemValueOverrides ?? {}
+        )
+          .filter((e) => e[1] !== null)
+          .map((o) => ({ itemGroupHashString: o[0], valueChaos: o[1]! })),
+      },
+    };
+  }
+
   const [bulkListing, setBulkListing] = useState<StashSnapshotExport | null>(
     null
   );
@@ -64,17 +79,7 @@ export default function CreateBulkListingPanel({
     `,
     {
       variables: {
-        input: {
-          ...exporterInput,
-          search: itemGroupSearch,
-          ...{
-            itemGroupValueOverrides: Object.entries(
-              searchUserInput?.itemValueOverrides ?? {}
-            )
-              .filter((e) => e[1] !== null)
-              .map((o) => ({ itemGroupHashString: o[0], valueChaos: o[1]! })),
-          },
-        },
+        input: buildInput(),
       },
       onCompleted(data) {
         setBulkListing(data?.exportStashSnapshot);
@@ -199,7 +204,7 @@ export default function CreateBulkListingPanel({
               setGeneratingImage(true);
               const cpy = async () => {
                 const response = await fetch(
-                  `/api/bulk-export/test?input=${JSON.stringify(exporterInput)}`
+                  `/api/bulk-export/test?input=${JSON.stringify(buildInput())}`
                 );
                 const blob = await response.blob();
                 await navigator.clipboard.write([

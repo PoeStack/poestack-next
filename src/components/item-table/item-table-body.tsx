@@ -259,9 +259,9 @@ export default function ItemTableBody({
                           : null;
                         setSearchUserInput((p) => ({
                           ...p,
-                          ...{
+                          itemValueOverrides: {
                             ...p.itemValueOverrides,
-                            [itemSummary.itemGroup!.hashString]: v,
+                            [itemSummary.itemGroup?.hashString!]: v!,
                           },
                         }));
                       }}

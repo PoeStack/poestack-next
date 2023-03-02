@@ -11,7 +11,7 @@ import StyledPaginate from "@components/styled-paginate";
 
 export interface ItemSearchUserInput {
   excludedItemGroupHashStrings: string[];
-  itemValueOverrides: Record<string, string> | null | undefined;
+  itemValueOverrides: Record<string, number> | null | undefined;
   league: string;
   sortKey: string;
   sortDirection: string;

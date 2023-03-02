@@ -15,7 +15,7 @@ export default function PublicStash() {
   const [publicTab, setPublicTab] = useState<any | null>(null);
   const { refetch: fetchPublicTab } = useQuery(
     gql`
-      query PublicTabsQuery($publicStashId: String!) {
+      query Query($publicStashId: String!) {
         publicStash(id: $publicStashId)
       }
     `,
@@ -71,27 +71,29 @@ export default function PublicStash() {
     <>
       <div className="my-4 md:mx-4 lg:mx-20">
         <div className="flex flex-row space-x-2">
-          <StyledCard title={"Tabs"}>
-            <div className="flex flex-col space-y-2">
-              {tabsResponse?.results?.map((e) => (
-                <>
-                  <div
-                    onClick={() => {
-                      router.push({
-                        query: {
-                          profileName: profileName,
-                          selectedTabId: e?.publicStashId,
-                        },
-                      });
-                    }}
-                  >
-                    <div>{e.league}</div>
-                    <div>{e.stashName}</div>
-                  </div>
-                </>
-              ))}
-            </div>
-          </StyledCard>
+          <div>
+            <StyledCard title={"Tabs"}>
+              <div className="flex flex-col space-y-2">
+                {tabsResponse?.results?.map((e) => (
+                  <>
+                    <div
+                      onClick={() => {
+                        router.push({
+                          query: {
+                            profileName: profileName,
+                            selectedTabId: e?.publicStashId,
+                          },
+                        });
+                      }}
+                    >
+                      <div>{e.league}</div>
+                      <div>{e.stashName}</div>
+                    </div>
+                  </>
+                ))}
+              </div>
+            </StyledCard>
+          </div>
           <StyledCard title={"Contents"} className="flex-1">
             <div className="grid grid-cols-12">
               {publicTab?.items?.map((e) => (
