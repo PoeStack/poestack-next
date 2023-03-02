@@ -8,6 +8,7 @@ import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "@components/league-select";
 import StyledMultiSelect2 from "../../components/styled-multi-select-2";
 import { usePoeStackAuth } from "@contexts/user-context";
+import SnapshotItemTable from "@components/item-table/snapshot-item-table";
 
 export default function BulkTool() {
   const { profile } = usePoeStackAuth();
@@ -101,7 +102,7 @@ export default function BulkTool() {
                 takeDetatchedSnapshot();
               }}
             />
-            {snapshot && <FilterableItemTable snapshot={snapshot!} />}
+            {snapshot && <SnapshotItemTable snapshot={snapshot!} />}
           </div>
         </StyledCard>
       </div>
