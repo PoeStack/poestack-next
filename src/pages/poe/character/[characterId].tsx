@@ -75,6 +75,7 @@ const snapshotQuery = gql`
         implicitMods
         fracturedMods
         enchantMods
+        valueChaos
       }
       characterSnapshotPobStats {
         accuracy

@@ -51,6 +51,7 @@ export default function SnapshotItemTable({
       excludedItemGroupHashStrings: applyexcludedItemGroupHashStrings
         ? searchUserInput.excludedItemGroupHashStrings
         : [],
+      keys: searchUserInput.keys?.map((e) => e.toLowerCase()) ?? undefined,
     };
     return search;
   }

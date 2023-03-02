@@ -49,34 +49,9 @@ export default function CreateBulkListingPanel({
   const [bulkListing, setBulkListing] = useState<StashSnapshotExport | null>(
     null
   );
-  const [generateListing, { loading: generatingListing }] = useMutation(
+  const [generateListing, { loading: generatingListingLoading }] = useMutation(
     gql`
       mutation BulkModalExportStashSnapshot($input: StashSnapshotExportInput!) {
-        exportStashSnapshot(input: $input) {
-          id
-          userId
-          createdAtTimestamp
-          totalValueChaos
-          divineChaosValue
-          exportRaw
-        }
-      }
-    `,
-    {
-      onCompleted(data, clientOptions) {
-        setBulkListing(data?.exportStashSnapshot);
-      },
-    }
-  );
-
-  const [
-    generateListingToClipboard,
-    { loading: generateListingToClipboardLoading },
-  ] = useMutation(
-    gql`
-      mutation BulkModalExportStashSnapshotToClipBoard(
-        $input: StashSnapshotExportInput!
-      ) {
         exportStashSnapshot(input: $input) {
           id
           userId
@@ -91,31 +66,25 @@ export default function CreateBulkListingPanel({
       variables: {
         input: {
           ...exporterInput,
+          search: itemGroupSearch,
+          ...{
+            itemGroupValueOverrides: Object.entries(
+              searchUserInput?.itemValueOverrides ?? {}
+            )
+              .filter((e) => e[1] !== null)
+              .map((o) => ({ itemGroupHashString: o[0], valueChaos: o[1]! })),
+          },
         },
       },
-      onCompleted(data, clientOptions) {
-        navigator.clipboard.writeText(data?.exportStashSnapshot.exportRaw);
+      onCompleted(data) {
+        setBulkListing(data?.exportStashSnapshot);
       },
     }
   );
 
   useEffect(() => {
-    if (exporterInput.exportType && itemGroupSearch) {
-      generateListing({
-        variables: {
-          input: {
-            ...exporterInput,
-            search: itemGroupSearch,
-            ...{
-              itemGroupValueOverrides: Object.entries(
-                searchUserInput?.itemValueOverrides ?? {}
-              )
-                .filter((e) => e[1] !== null)
-                .map((o) => ({ itemGroupHashString: o[0], valueChaos: o[1]! })),
-            },
-          },
-        },
-      });
+    if (exporterInput?.exportType && itemGroupSearch) {
+      generateListing();
     }
   }, [
     generateListing,
@@ -133,7 +102,11 @@ export default function CreateBulkListingPanel({
           onSelectChange={(e) => {
             setSelectedSubFilter(undefined);
             setSelectedExporter(e);
-            setSearchUserInput({ ...searchUserInput, tags: [e.name] });
+            setSearchUserInput({
+              ...searchUserInput,
+              tags: [e.name],
+              keys: undefined,
+            });
             setExporterInput({
               ...exporterInput,
               ...{ exportType: e?.name },
@@ -152,6 +125,9 @@ export default function CreateBulkListingPanel({
             }
             onSelectChange={(e) => {
               setSelectedSubFilter(e);
+              if (e.keys) {
+                setSearchUserInput({ ...searchUserInput, keys: e.keys });
+              }
             }}
             selected={selectedSubFilter}
             mapToText={(e) => e?.name}
@@ -204,9 +180,15 @@ export default function CreateBulkListingPanel({
         </div>
 
         <StyledButton
-          text={generateListingToClipboardLoading ? "Loading..." : "Copy"}
+          text={generatingListingLoading ? "Loading..." : "Copy"}
           onClick={() => {
-            generateListingToClipboard();
+            generateListing({
+              onCompleted(data) {
+                navigator.clipboard.writeText(
+                  data?.exportStashSnapshot.exportRaw
+                );
+              },
+            });
           }}
         />
         {!exporterTypesToPanels[exporterInput.exportType]
@@ -236,15 +218,11 @@ export default function CreateBulkListingPanel({
           ?.disableTftButtons && (
           <StyledButton
             text={
-              generatingListing ? "Loading..." : "Post to TFT (coming soon)"
+              generatingListingLoading
+                ? "Loading..."
+                : "Post to TFT (coming soon)"
             }
-            onClick={() => {
-              generateListing({
-                variables: {
-                  input: { ...exporterInput, oneClickPost: true },
-                },
-              });
-            }}
+            onClick={() => {}}
           />
         )}
       </div>

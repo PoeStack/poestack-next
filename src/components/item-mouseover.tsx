@@ -3,6 +3,7 @@ import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image from "next/image";
 import { useState } from "react";
 import { myLoader } from "../utils/general-util";
+import CurrencyValueDisplay from "./currency-value-display";
 
 export default function ItemMouseOver({
   children,
@@ -169,6 +170,13 @@ export function ItemStatDisplay({ item }) {
         {!!item?.note && (
           <>
             <div>{item?.note}</div>
+          </>
+        )}
+        {!!item?.valueChaos && (
+          <>
+            <div className="flex w-full text-center place-content-center place-items-center">
+              <CurrencyValueDisplay valueChaos={item?.valueChaos} />
+            </div>
           </>
         )}
       </div>
