@@ -16,6 +16,48 @@ import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
 import StyledFooter from "@components/styled-footer";
 
+
+declare global {
+  interface Array<T> {
+    sortByMultiple<T>(
+      this: Array<T>,
+      ...keys: { key: keyof T; order?: "asc" | "desc" }[]
+    ): this;
+  }
+}
+interface Array<T> {
+  sortByMultiple<T>(
+    this: Array<T>,
+    ...keys: { key: keyof T; order?: "asc" | "desc" }[]
+  ): this;
+}
+
+Array.prototype.sortByMultiple = function sortByMultiple<T>(
+  this: [],
+  ...keys: { key: keyof T; order?: "asc" | "desc" }[]
+) {
+  return [...keys].reverse().reduce(
+    (curr, key) =>
+      //@ts-ignore
+      curr.sort((a: any, b: any) =>
+        key.order === "asc"
+          ? a[key.key] < b[key.key]
+            ? -1
+            : a[key.key] == b[key.key]
+              ? 0
+              : 1
+          : a[key.key] > b[key.key]
+            ? -1
+            : a[key.key] == b[key.key]
+              ? 0
+              : 1
+      ),
+    this
+  );
+};
+
+
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <CookiesProvider>
