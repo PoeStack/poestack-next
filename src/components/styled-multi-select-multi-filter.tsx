@@ -58,7 +58,8 @@ export default function StyledMultiSelectMultiFilter({
   };
 
   return (
-    <Combobox value={selected} onChange={onSelectChange} multiple={true}>
+    // @ts-ignore
+    <Combobox value={selected} onChange={onSelectChange} multiple={multiple}>
       <div className="relative mt-1 ">
         <div className="relative h-12 fit flex w-full cursor-default overflow-hidden rounded-lg bg-color-primary text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
           <Combobox.Button className="flex items-center pr-2">
