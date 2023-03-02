@@ -9,6 +9,7 @@ import LeagueSelect from "@components/league-select";
 import StyledMultiSelect2 from "../../components/styled-multi-select-2";
 import { usePoeStackAuth } from "@contexts/user-context";
 import SnapshotItemTable from "@components/item-table/snapshot-item-table";
+import StyledMultiSelectMultiFilter from "@components/styled-multi-select-multi-filter";
 
 export default function BulkTool() {
   const { profile } = usePoeStackAuth();
@@ -82,22 +83,30 @@ export default function BulkTool() {
     }
   );
 
+  const [removeOnlyEnabled, setRemoveOnlyEnabled] = useState(false);
+  const removeOnlyFunction = (stashName: string) => {
+    return !stashName.toLowerCase().includes("(remove-only)");
+  }
+
+
   return (
     <>
       <div>
         <StyledCard title="Tool">
           <div>
             <LeagueSelect />
-            <StyledMultiSelect2
+            <StyledMultiSelectMultiFilter
               selected={selectedStashTabs ?? []}
               items={stashTabs ?? []}
               itemToText={(e) => e?.name ?? "na"}
-              onSelectChange={function (e: any[]): void {
+              placeholder={"Stash name..."}
+              onSelectChange={function(e: any[]): void {
                 setSelectedStashTabs(e);
               }}
+              additionalFilters={[{ title: "Remove Only", enabled: removeOnlyEnabled, toggle: () => setRemoveOnlyEnabled(!removeOnlyEnabled), filterFunction: removeOnlyFunction }]}
             />
             <StyledButton
-              text={"Take Snapshot"}
+              text={"Grab Items"}
               onClick={() => {
                 takeDetatchedSnapshot();
               }}
