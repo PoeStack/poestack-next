@@ -133,13 +133,13 @@ export default function HSparkline({
 
   return (
     <>
-      <div className="grid grid-cols-12">
-        <div className="invisible col-span-7 col-start-2 lg:visible">
+      <div className="w-full grid grid-cols-2 space-x-2 gap-0 justify-center ">
+        <div className="hidden place-self-end lg:block">
           <HighchartsReact highcharts={Highcharts} options={options} />
         </div>
         <div
           className={`
-            grid items-end justify-end col-span-1 col-start-9 ml-2 text-right
+            text-center w-fit 
             ${
               pChange === 0
                 ? ""

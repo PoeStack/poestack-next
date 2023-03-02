@@ -206,7 +206,7 @@ export default function Economy() {
                         );
                       })()}
                     </td>
-                    <td className="flex flex-col">
+                    <td className="flex flex-col place-content-center place-items-center">
                       {(() => {
                         const recent = groupSeries.series?.find(
                           (s) => s.type === "p10"

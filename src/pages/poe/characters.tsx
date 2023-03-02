@@ -31,6 +31,7 @@ import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "../../components/styled-button";
 import { POE_LEAGUES } from "../../contexts/league-context";
+import { myLoader } from "../../utils/general-util";
 
 const ssrFullSearch = gql`
   query FullCharacterSnapshotsSearchAggregations(
@@ -600,9 +601,10 @@ function StyledCharactersSummaryTable({
                             <StyledTooltip texts={[e.name]} placement={"left"}>
                               <div className="">
                                 <Image
+                                  loader={myLoader}
                                   src={e.icon}
                                   alt={e.name}
-                                  priority={true}
+                                  priority={false}
                                   width={25}
                                   height={20}
                                 />
