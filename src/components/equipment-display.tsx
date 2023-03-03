@@ -17,11 +17,13 @@ export default function EquipmentDisplay({
   }
 
   const weapon = items.find((i) => i.inventoryId === "Weapon");
-  console.log("WEapon: ", weapon);
+  console.log("Weapon: ", weapon);
   const helm = items.find((i) => i.inventoryId === "Helm");
+  console.log("Helm: ", helm);
   const body = items.find((i) => i.inventoryId === "BodyArmour");
-  console.log("Body: ", body);
+  //console.log("Body: ", body);
   const offHand = items.find((i) => i.inventoryId === "Offhand");
+  console.log("OffHand: ", offHand);
   const gloves = items.find((i) => i.inventoryId === "Gloves");
   const boots = items.find((i) => i.inventoryId === "Boots");
 
@@ -43,116 +45,136 @@ export default function EquipmentDisplay({
           {/* Head */}
           <div className="col-start-4 col-end-6 col-span-2 row-span-2 row-start-1 row-end-3">
             <ItemMouseOver item={helm} items={items}>
-              <Image height={90} width={90} src={helm?.icon!} alt={""} />
+              <div className="flex flex-row items-center">
+                <Image height={90} width={90} src={helm?.icon!} alt={""} />
+              </div>
             </ItemMouseOver>
           </div>
           {/* Amulet */}
           <div className="col-start-6 row-start-3">
             <ItemMouseOver item={amulet} items={items}>
-              <Image
-                loader={myLoader}
-                height={40}
-                width={40}
-                src={amulet?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={40}
+                  width={40}
+                  src={amulet?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
 
           {/* MainHand */}
           <div className="col-start-1 col-end-3 row-start-1 row-end-5 col-span-2 row-span-4 ">
             <ItemMouseOver item={weapon} items={items}>
-              <Image
-                loader={myLoader}
-                height={130}
-                width={50 * (weapon?.w ?? 1)}
-                src={weapon?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={130}
+                  width={50 * (weapon?.w ?? 1)}
+                  src={weapon?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* Body */}
           <div className="col-start-4 col-end-6 col-span-2 row-span-3 row-start-3 row-end-6">
             <ItemMouseOver item={body} items={items}>
-              <Image
-                loader={myLoader}
-                height={180}
-                width={90}
-                src={body?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={180}
+                  width={140}
+                  src={body?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* OffHand */}
           <div className="col-start-7 col-end-9 col-span-2 row-start-1 row-end-5 row-span-4">
             <ItemMouseOver item={offHand} items={items}>
-              <Image
-                loader={myLoader}
-                height={110}
-                width={50 * (offHand?.w ?? 1)}
-                src={offHand?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={110}
+                  width={50 * (offHand?.w ?? 1)}
+                  src={offHand?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* RingLeft */}
           <div className="col-start-3 col-end-4 row-start-4 row-end-5">
             <ItemMouseOver item={ring1} items={items}>
-              <Image
-                loader={myLoader}
-                height={45}
-                width={45}
-                src={ring1?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={45}
+                  width={45}
+                  src={ring1?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* Belt */}
           <div className="col-start-4 col-end-6 row-start-6 row-end-7 col-span-2 row-span-1">
             <ItemMouseOver item={belt} items={items}>
-              <Image
-                loader={myLoader}
-                height={45}
-                width={90}
-                src={belt?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={45}
+                  width={90}
+                  src={belt?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* RingRight */}
           <div className="col-start-6 col-end-7 row-start-4 row-end-5">
             <ItemMouseOver item={ring2} items={items}>
-              <Image
-                loader={myLoader}
-                height={45}
-                width={45}
-                src={ring2?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={45}
+                  width={45}
+                  src={ring2?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* Gloves */}
           <div className="col-start-2 col-end-4 row-start-5 row-end-7 col-span-2 row-span-2">
             <ItemMouseOver item={gloves} items={items}>
-              <Image
-                loader={myLoader}
-                height={90}
-                width={90}
-                src={gloves?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={90}
+                  width={90}
+                  src={gloves?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
           {/* Boots */}
           <div className="col-start-6 col-end-8 row-start-5 row-end-7 col-span-2 row-span-2">
             <ItemMouseOver item={boots} items={items}>
-              <Image
-                loader={myLoader}
-                height={90}
-                width={90}
-                src={boots?.icon!}
-                alt={""}
-              />
+              <div className="flex flex-row items-center">
+                <Image
+                  loader={myLoader}
+                  height={90}
+                  width={90}
+                  src={boots?.icon!}
+                  alt={""}
+                />
+              </div>
             </ItemMouseOver>
           </div>
         </div>
