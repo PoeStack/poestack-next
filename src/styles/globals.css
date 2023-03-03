@@ -19,6 +19,11 @@
     --color-secondary-variant: #5b5f62;
     --color-accent: #faa307;
     --color-accent-variant: #bb7526;
+    /* Item Colors */
+    --color-normal: #c8c8c8;
+    --color-magic: #8888ff;
+    --color-rare: #ffff77;
+    --color-unique: #af6025;
     /* Surfaces - Backgrounds/Components */
     --color-background-primary: #121212;
     --color-background-primary-variant: #252525;
