@@ -46,7 +46,7 @@ const getCharactersForUser: TypedDocumentNode<{
 const getCharacterSnapshots: TypedDocumentNode<{
   characterSnapshotsSearch: { snapshots: CharactersSnapshotsFragment[] };
 }> = gql`
-  query Query($search: CharacterSnapshotSearch!) {
+  query PullCharacterSnapshotsQuery($search: CharacterSnapshotSearch!) {
     characterSnapshotsSearch(search: $search) {
       snapshots {
         name

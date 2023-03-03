@@ -56,6 +56,7 @@ export function PoeStackAuthProvider({ children }) {
           createdAtTimestamp
           lastConnectedTimestamp
           oAuthTokenUpdatedAtTimestamp
+          discordUserId
         }
       }
     `,
