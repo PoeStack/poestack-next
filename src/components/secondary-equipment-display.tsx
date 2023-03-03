@@ -137,6 +137,8 @@ export default function SecondaryEquipmentDisplay({
               </div>
             </>
           ))}
+        </div>
+        <div className="flex flex-row space-x-1">
           {/* Unique Jewels */}
           {uniqueJewels.map((f) => (
             <>
@@ -153,6 +155,7 @@ export default function SecondaryEquipmentDisplay({
               </div>
             </>
           ))}
+
           {/* Prismatic Jewels */}
           {prismaticJewels.map((f) => (
             <>
