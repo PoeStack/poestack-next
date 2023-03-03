@@ -87,19 +87,18 @@ export default function LandingPage() {
         <div className="relative h-full ">
           <div className="max-w-full ">
             {/* Page 1 */}
-            <div className="flex flex-col items-center h-full my-20 bg-surface-secondary sm:py-32 lg:pb-20">
+            <div className="flex flex-col items-center h-full my-10 bg-surface-secondary sm:py-32 lg:pb-20">
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl hover:text-content-red">
                 Welcome to PoeStack
               </h1>
               <p className="w-5/6 mt-6 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
-                An app designed to provide players with the information they
-                need to make better decisions when it comes to building their
-                characters and optimizing their currency farming strategies.
-                <br />
-                <br />
-                If you want to browse, use the navbar above. To better
-                understand how the application works, scroll down or click the
-                button below for guidance.
+                Our goal is to increase the amount of information the average POE player has access to.
+                We acomplish this by providing tools that use the combined information of all of our users to give everyone a better understanding of their own data.
+                When you link your POE account you will gain access to automatic stash tracking/valuation, a full history of your POE characters over the course of a league,
+                a nonlimited charcter ladder any character of any level can appear on, atlas tree data from thousands of players, and finally some utilities to make it easier to sell items.   
+                <br/>
+                <br/>
+                If any of these tools sound interesting read more below. Thank you for your interest in PoeStack.
               </p>
               <div className="flex items-center justify-center mb-2 mt-14">
                 <a
@@ -170,7 +169,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        PoeNinja style character ladder with added functionality
+                        PoeNinja style character ladder with no character limit. 
+                        Snapshot any of your characters at any level and they will show up on the ladder. 
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -180,8 +180,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Create your own ladders consisting of friends, or
-                        players you want to emulate
+                        Create custom ladders of your friends, streamers, or pro builders.
+                        Then compare your progress or keep track of them throughout the league.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -192,8 +192,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Daily snapshotting to ensure more current and accurate
-                        tracking of progress
+                        Automatic snapshots capture all characters progress when items, levels, or POB changes
+                        giving you full insight into a characters progression.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
@@ -244,8 +244,7 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Gain full access to your characters by syncing your GGG
-                        account
+                        View an overview of all your characters by linking your POE Account.
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -255,8 +254,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Keep track of your progress over time with daily
-                        snapshots, accessible at any time
+                        Track your characters history from the twilight strand through ubers.
+                        Automatically capture and preserve each levelup, item upgrade, and passive tree respec.
+                        Use the history view to look back on your progress over a league.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -267,7 +267,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Effortlessly share your POB to others
+                        These pages are fully shareable and embedable. Got a new item? Link your profile to your friends on Discord.
+                        Automatic POB code generation will let people you link your profile to easily import your well rounded beast of a build.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
@@ -318,8 +319,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Gain full access to all your stash tabs by syncing your
-                        GGG account
+                        Select some or all of your stash tabs and get a quick valuation using our pricing data.
+                        View/sort breakdowns by item type to quickly find extra value in your stash.
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -329,7 +330,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Build your own profiles consisting of any stash tabs.
+                        Take snapshots manually or setup automatic capture intervals to see how much many divs you are making per hour
+                        and if that the 15 div per hour youtube video was lying.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -340,8 +342,7 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Use snapshots to monitor the profits and losses of your
-                        currency strategy.
+                        View your total net worth over time throughout a league. Look back on the big drops and the big harvest gamble losses.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
@@ -405,7 +406,7 @@ export default function LandingPage() {
                           alt="-"
                         />
                         Explore pricing in greater depth with multiple price
-                        tiers
+                        tiers and stock based pricing.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -416,7 +417,7 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Monitor historical pricing data for trends
+                        Monitor historical pricing data for trends.
                       </li>
 
                       <ul className="flex flex-row justify-center space-x-10 ">
