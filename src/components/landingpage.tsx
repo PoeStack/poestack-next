@@ -256,7 +256,7 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Track your characters history from the twilight strand through ubers.
+                        Track your characters history from Twilight Strand through ubers.
                         Automatically capture and preserve each levelup, item upgrade, and passive tree respec.
                         Use the history view to look back on your progress over a league.
                       </li>
