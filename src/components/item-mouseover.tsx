@@ -63,9 +63,9 @@ export default function ItemMouseOver({
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
-            <div className="flex flex-row space-x-5">
-              <ItemStatDisplay item={item} />
+            <div className="flex flex-row space-x-5 ml-10">
               {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+              <ItemStatDisplay item={item} />
             </div>
           </div>
 
