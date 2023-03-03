@@ -41,6 +41,13 @@ export default function CreateBulkListingPanel({
     oneClickPost: false,
   });
 
+  useEffect(() => {
+    setExporterInput((e) => ({
+      ...e,
+      ign: localStorage.getItem("bulk_last_ign") ?? "",
+    }));
+  }, []);
+
   const [selectedExporter, setSelectedExporter] = useState<any | undefined>(
     undefined
   );
@@ -287,6 +294,7 @@ export function TftBaseExporterOptions({ exporterInput, setExporterInput }) {
         placeholder="IGN"
         value={exporterInput.ign!}
         onChange={(e) => {
+          localStorage.setItem("bulk_last_ign", e);
           setExporterInput({
             ...exporterInput,
             ...{ ign: e },

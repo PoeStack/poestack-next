@@ -94,7 +94,6 @@ export default function BulkTool() {
     }
 
     const lastSnapshot = localStorage?.getItem("bulkTool_lastSnapshot");
-    console.log("last snapshot", lastSnapshot);
     if (lastSnapshot) {
       setSnapshot(JSON.parse(lastSnapshot));
     }
