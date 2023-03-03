@@ -28,7 +28,7 @@ export default function ItemMouseOver({
     <>
       {item && (
         <div
-          className={`group relative flex justify-center bg-opacity-80${
+          className={`group relative flex w-full h-full mx-auto justify-center bg-opacity-80  ${
             item.frameType === 0 ? "bg-color-normal " : null
           }
           // magic
