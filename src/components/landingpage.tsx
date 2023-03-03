@@ -91,8 +91,10 @@ export default function LandingPage() {
               <h1 className="text-4xl font-bold tracking-tight sm:text-6xl hover:text-content-red">
                 Welcome to PoeStack
               </h1>
-              <p className="w-5/6 mt-6 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
+              <p className="w-5/6 mt-16 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
                 Our goal is to increase the amount of information the average POE player has access to.
+                <br/>
+                <br/>
                 We acomplish this by providing tools that use the combined information of all of our users to give everyone a better understanding of their own data.
                 When you link your POE account you will gain access to automatic stash tracking/valuation, a full history of your POE characters over the course of a league,
                 a nonlimited charcter ladder any character of any level can appear on, atlas tree data from thousands of players, and finally some utilities to make it easier to sell items.   
