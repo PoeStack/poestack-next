@@ -63,17 +63,9 @@ module.exports = {
         },
       },
       backgroundImage: {
-        characterLadder:
-          'url("/images/landingpage/landingPage_Char_Ladder_001.png")',
-        stash: 'url("/images/landingpage/landingPage_Stash_001.png")',
-        characterProfile:
-          'url("/images/landingpage/landingPage_User_Characters_001.png")',
-        economyMageblood:
-          'url("/images/landingpage/landingPage_Economy_001.png")',
-        economyEssences:
-          'url("/images/landingpage/landingPage_Economy_002.png")',
         kekw: 'url("/KEKW.png")',
       },
+
       // colors: {
       //   "theme-color-0": "#060F2F",
       //   "theme-color-1": "#1B2240",
