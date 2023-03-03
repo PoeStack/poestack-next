@@ -32,16 +32,22 @@ export default function EquipmentDisplay({
 
   return (
     <>
-      <div className="max-w-[400px] ">
-        <div className="grid grid-cols-6 justify-items-center">
-          <div className="col-span-2 row-span-2"></div>
-          <div className="col-span-2 row-span-2">
+      <div className="">
+        {/* //! Swap to 8 grid column and overspecifiy each item slots location:
+        
+      
+    
+        
+        */}
+        <div className="grid grid-cols-8 grid-rows-6 gap-1">
+          {/* Head */}
+          <div className="col-start-4 col-end-6 col-span-2 row-span-2 row-start-1 row-end-3">
             <ItemMouseOver item={helm} items={items}>
-              <Image height={94} width={94} src={helm?.icon!} alt={""} />
+              <Image height={90} width={90} src={helm?.icon!} alt={""} />
             </ItemMouseOver>
           </div>
-          <div className="col-span-2"></div>
-          <div>
+          {/* Amulet */}
+          <div className="col-start-6 row-start-3">
             <ItemMouseOver item={amulet} items={items}>
               <Image
                 loader={myLoader}
@@ -52,93 +58,98 @@ export default function EquipmentDisplay({
               />
             </ItemMouseOver>
           </div>
-          <div></div>
-          <div className="col-span-2 row-span-3  ">
+
+          {/* MainHand */}
+          <div className="col-start-1 col-end-3 row-start-1 row-end-5 col-span-2 row-span-4 ">
             <ItemMouseOver item={weapon} items={items}>
               <Image
                 loader={myLoader}
-                height={200}
+                height={130}
                 width={50 * (weapon?.w ?? 1)}
                 src={weapon?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div className="col-span-2 row-span-3">
+          {/* Body */}
+          <div className="col-start-4 col-end-6 col-span-2 row-span-3 row-start-3 row-end-6">
             <ItemMouseOver item={body} items={items}>
               <Image
                 loader={myLoader}
-                height={200}
-                width={100}
+                height={180}
+                width={90}
                 src={body?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div className="col-span-2 row-span-3">
+          {/* OffHand */}
+          <div className="col-start-7 col-end-9 col-span-2 row-start-1 row-end-5 row-span-4">
             <ItemMouseOver item={offHand} items={items}>
               <Image
                 loader={myLoader}
-                height={200}
+                height={110}
                 width={50 * (offHand?.w ?? 1)}
                 src={offHand?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div></div>
-          <div>
+          {/* RingLeft */}
+          <div className="col-start-3 col-end-4 row-start-4 row-end-5">
             <ItemMouseOver item={ring1} items={items}>
               <Image
                 loader={myLoader}
-                height={40}
-                width={40}
+                height={45}
+                width={45}
                 src={ring1?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div className="col-span-2">
+          {/* Belt */}
+          <div className="col-start-4 col-end-6 row-start-6 row-end-7 col-span-2 row-span-1">
             <ItemMouseOver item={belt} items={items}>
               <Image
                 loader={myLoader}
-                height={40}
-                width={80}
+                height={45}
+                width={90}
                 src={belt?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div>
+          {/* RingRight */}
+          <div className="col-start-6 col-end-7 row-start-4 row-end-5">
             <ItemMouseOver item={ring2} items={items}>
               <Image
                 loader={myLoader}
-                height={40}
-                width={40}
+                height={45}
+                width={45}
                 src={ring2?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div></div>
-          <div className="row-span-2"></div>
-          <div className="col-span-2 row-span-2">
+          {/* Gloves */}
+          <div className="col-start-2 col-end-4 row-start-5 row-end-7 col-span-2 row-span-2">
             <ItemMouseOver item={gloves} items={items}>
               <Image
                 loader={myLoader}
-                height={94}
-                width={94}
+                height={90}
+                width={90}
                 src={gloves?.icon!}
                 alt={""}
               />
             </ItemMouseOver>
           </div>
-          <div className="col-span-2 row-span-2">
+          {/* Boots */}
+          <div className="col-start-6 col-end-8 row-start-5 row-end-7 col-span-2 row-span-2">
             <ItemMouseOver item={boots} items={items}>
               <Image
                 loader={myLoader}
-                height={94}
-                width={94}
+                height={90}
+                width={90}
                 src={boots?.icon!}
                 alt={""}
               />
