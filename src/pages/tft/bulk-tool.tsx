@@ -2,14 +2,13 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import { PoeStashTab, StashSnapshot } from "../../__generated__/graphql";
 import { useState } from "react";
 import StyledCard from "@components/styled-card";
-import FilterableItemTable from "../../components/filterable-item-table";
 import StyledButton from "@components/styled-button";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "@components/league-select";
-import StyledMultiSelect2 from "../../components/styled-multi-select-2";
 import { usePoeStackAuth } from "@contexts/user-context";
 import SnapshotItemTable from "@components/item-table/snapshot-item-table";
 import StyledMultiSelectMultiFilter from "@components/styled-multi-select-multi-filter";
+import { useEffect } from "react";
 
 export default function BulkTool() {
   const { profile } = usePoeStackAuth();
@@ -17,6 +16,7 @@ export default function BulkTool() {
   const { league } = usePoeLeagueCtx();
 
   const [selectedStashTabs, setSelectedStashTabs] = useState<PoeStashTab[]>([]);
+
   const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
   const { refetch: refetchStashTabs } = useQuery<{
     stashTabs: PoeStashTab[];
@@ -79,9 +79,25 @@ export default function BulkTool() {
       },
       onCompleted(data) {
         setSnapshot(data.takeDeatachedSnapshot);
+        localStorage.setItem(
+          "bulkTool_lastSnapshot",
+          JSON.stringify(data.takeDeatachedSnapshot)
+        );
       },
     }
   );
+
+  useEffect(() => {
+    const selectedTabs = localStorage?.getItem("bulkTool_selectedStashTabs");
+    if (selectedTabs) {
+      setSelectedStashTabs(JSON.parse(selectedTabs));
+    }
+
+    const lastSnapshot = localStorage?.getItem("bulkTool_lastSnapshot");
+    if (lastSnapshot) {
+      setSnapshot(JSON.parse(lastSnapshot));
+    }
+  }, []);
 
   const [removeOnlyEnabled, setRemoveOnlyEnabled] = useState(false);
   const removeOnlyFunction = (stashName: string) => {
@@ -100,8 +116,12 @@ export default function BulkTool() {
               itemToText={(e) => e?.name ?? "na"}
               itemToId={(e) => e?.id ?? "na"}
               placeholder={"Stash name..."}
-              onSelectChange={function (e: any[]): void {
+              onSelectChange={(e: any[]) => {
                 setSelectedStashTabs(e);
+                localStorage.setItem(
+                  "bulkTool_selectedStashTabs",
+                  JSON.stringify(e)
+                );
               }}
               multiple={true}
               additionalFilters={[

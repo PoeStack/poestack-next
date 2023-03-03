@@ -11,6 +11,7 @@ import Highcharts from "highcharts";
 import StyledMultiSelect2 from "@components/styled-multi-select-2";
 import moment from "moment";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import StyledSelect2 from "../../../../../components/styled-select-2";
 
 export default function EconomyOne() {
   const router = useRouter();
@@ -20,6 +21,8 @@ export default function EconomyOne() {
   useEffect(() => {
     setLeague(routerLeague);
   }, [routerLeague, setLeague]);
+
+  const [selectedBucketType, setSelectedBucketType] = useState<string>("daily");
 
   const [itemValueTimeseries, setItemValueTimeseries] =
     useState<ItemGroupValueTimeseries | null>(null);
@@ -53,6 +56,7 @@ export default function EconomyOne() {
       skip: !hashString || !league,
       variables: {
         search: {
+          bucketType: selectedBucketType,
           seriesTypes: [
             "p7",
             "p10",
@@ -99,6 +103,13 @@ export default function EconomyOne() {
               )}
             </h3>
             <h3>Tag: {itemValueTimeseries.itemGroup?.tag}</h3>
+            <StyledSelect2
+              selected={selectedBucketType}
+              onSelectChange={(e) => {
+                setSelectedBucketType(e);
+              }}
+              items={["hourly", "daily"]}
+            />
           </StyledCard>
           <StyledCard title={"Properties"} className="flex-1">
             {itemValueTimeseries.itemGroup?.properties?.map((p) => (

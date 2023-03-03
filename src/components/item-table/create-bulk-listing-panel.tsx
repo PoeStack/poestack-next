@@ -14,6 +14,9 @@ import {
   StashSnapshotExport,
 } from "@generated/graphql";
 import { ItemSearchUserInput } from "./snapshot-item-table";
+import { profile } from "console";
+import { usePoeStackAuth } from "@contexts/user-context";
+import TftOneClickButton from "./tft-one-click-button";
 
 export default function CreateBulkListingPanel({
   itemGroupSearch,
@@ -38,6 +41,13 @@ export default function CreateBulkListingPanel({
     oneClickPost: false,
   });
 
+  useEffect(() => {
+    setExporterInput((e) => ({
+      ...e,
+      ign: localStorage.getItem("bulk_last_ign") ?? "",
+    }));
+  }, []);
+
   const [selectedExporter, setSelectedExporter] = useState<any | undefined>(
     undefined
   );
@@ -47,7 +57,6 @@ export default function CreateBulkListingPanel({
   const [generatingImage, setGeneratingImage] = useState(false);
 
   function buildInput() {
-    console.log("asdasd", searchUserInput?.itemValueOverrides);
     return {
       ...exporterInput,
       search: itemGroupSearch,
@@ -221,13 +230,13 @@ export default function CreateBulkListingPanel({
         )}
         {!exporterTypesToPanels[exporterInput.exportType]
           ?.disableTftButtons && (
-          <StyledButton
-            text={
-              generatingListingLoading
-                ? "Loading..."
-                : "Post to TFT (coming soon)"
-            }
-            onClick={() => {}}
+          <TftOneClickButton
+            loading={generatingListingLoading}
+            onClick={() => {
+              generateListing({
+                variables: { input: { ...buildInput(), oneClickPost: true } },
+              });
+            }}
           />
         )}
       </div>
@@ -285,6 +294,7 @@ export function TftBaseExporterOptions({ exporterInput, setExporterInput }) {
         placeholder="IGN"
         value={exporterInput.ign!}
         onChange={(e) => {
+          localStorage.setItem("bulk_last_ign", e);
           setExporterInput({
             ...exporterInput,
             ...{ ign: e },
