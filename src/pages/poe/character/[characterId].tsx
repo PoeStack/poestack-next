@@ -185,7 +185,7 @@ export default function Character({ characterSnapshot }) {
             content={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
           />
         </Head>
-        <div className="flex space-x-2 ">
+        <div className="grid">
           <div>
             <StyledCard title="Equipment" className="min-w-[450px]">
               <div className="flex flex-col space-y-1 items-center">
