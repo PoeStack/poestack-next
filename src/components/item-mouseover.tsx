@@ -20,11 +20,37 @@ export default function ItemMouseOver({
 
   const socketedGems = items?.filter((i) => i.socketedInId === item?.itemId);
 
+  // const test = item?.sockets?.filter((i, index) => index < 2);
+  // const test2 = item?.sockets?.filter((i, index) => index === 3 || index === 2);
+  // console.log("test: ", item, test);
+  // console.log("test2: ", item, test2);
   return (
     <>
       {item && (
         <div
-          className="group relative flex justify-center"
+          className={`group relative flex justify-center bg-opacity-80${
+            item.frameType === 0 ? "bg-color-normal " : null
+          }
+          // magic
+          ${
+            item.frameType === 1
+              ? " bg-indigo-300  bg-opacity-25 border border-color-magic "
+              : null
+          } 
+          // rare
+          ${
+            item.frameType === 2
+              ? "bg-yellow-100 bg-opacity-25 border border-color-rare"
+              : null
+          } 
+          // unique
+          ${
+            item.frameType === 3
+              ? "bg-orange-400 bg-opacity-25 border  border-color-unique"
+              : null
+          } 
+          
+          `}
           onClick={() => {
             console.log(item);
           }}
@@ -42,33 +68,68 @@ export default function ItemMouseOver({
               item?.w! > 1 ? "grid-cols-2" : "grid-cols-1"
             } items-center`}
           >
-            {item?.sockets?.map((s, i) => {
-              const gem = socketedGems?.find((e) => e.socket === i);
-              return (
-                <>
-                  {gem && (
-                    <div
-                      className="items-center"
-                      key={i}
-                      onMouseEnter={() => {
-                        setHoveredGem(gem);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredGem(null);
-                      }}
-                    >
-                      <Image
-                        loader={myLoader}
-                        height={30}
-                        width={30}
-                        src={gem?.icon ?? ""}
-                        alt={""}
-                      />
-                    </div>
-                  )}
-                </>
-              );
-            })}
+            {/* 1st Row */}
+            {item?.sockets
+              ?.filter((d, index) => index < 2)
+              .map((s, i) => {
+                const gem = socketedGems?.find((e) => e.socket === i);
+                return (
+                  <>
+                    {gem && (
+                      <div
+                        className="flex justify-center"
+                        key={i}
+                        onMouseEnter={() => {
+                          setHoveredGem(gem);
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredGem(null);
+                        }}
+                      >
+                        <Image
+                          loader={myLoader}
+                          height={30}
+                          width={30}
+                          src={gem?.icon ?? ""}
+                          alt={""}
+                        />
+                      </div>
+                    )}
+                  </>
+                );
+              })}
+            {/* 2nd Row */}
+            {item?.sockets
+              ?.filter((i, index) => index === 3 || index === 2)
+              ?.reverse()
+              .map((s, i) => {
+                let newI = i + 2;
+                const gem = socketedGems?.find((e) => e.socket === newI);
+                return (
+                  <>
+                    {gem && (
+                      <div
+                        className="flex justify-center"
+                        key={newI}
+                        onMouseEnter={() => {
+                          setHoveredGem(gem);
+                        }}
+                        onMouseLeave={() => {
+                          setHoveredGem(null);
+                        }}
+                      >
+                        <Image
+                          loader={myLoader}
+                          height={30}
+                          width={30}
+                          src={gem?.icon ?? ""}
+                          alt={""}
+                        />
+                      </div>
+                    )}
+                  </>
+                );
+              })}
           </div>
           {children}
         </div>

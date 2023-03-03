@@ -34,6 +34,10 @@ module.exports = {
           accent: "var(--color-accent)",
           "accent-variant": "var(--color-accent-variant)",
           red: "var(--color-red)",
+          normal: "var(--color-normal)",
+          magic: "var(--color-magic)",
+          rare: "var(--color-rare)",
+          unique: "var(--color-unique)",
         },
         // surfaces
         surface: {
@@ -52,6 +56,10 @@ module.exports = {
           secondary: "var(--color-background-secondary)",
           "secondary-variant": "var(--color-background-secondary-variant)",
           accent: "var(--color-accent)",
+          normal: "var(--color-normal)",
+          magic: "var(--color-magic)",
+          rare: "var(--color-rare)",
+          unique: "var(--color-unique)",
         },
       },
       backgroundImage: {

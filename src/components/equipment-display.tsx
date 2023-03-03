@@ -17,8 +17,10 @@ export default function EquipmentDisplay({
   }
 
   const weapon = items.find((i) => i.inventoryId === "Weapon");
+  console.log("WEapon: ", weapon);
   const helm = items.find((i) => i.inventoryId === "Helm");
   const body = items.find((i) => i.inventoryId === "BodyArmour");
+  console.log("Body: ", body);
   const offHand = items.find((i) => i.inventoryId === "Offhand");
   const gloves = items.find((i) => i.inventoryId === "Gloves");
   const boots = items.find((i) => i.inventoryId === "Boots");
@@ -30,7 +32,7 @@ export default function EquipmentDisplay({
 
   return (
     <>
-      <div className="max-w-[400px]">
+      <div className="max-w-[400px] ">
         <div className="grid grid-cols-6 justify-items-center">
           <div className="col-span-2 row-span-2"></div>
           <div className="col-span-2 row-span-2">
@@ -51,7 +53,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           <div></div>
-          <div className="col-span-2 row-span-3">
+          <div className="col-span-2 row-span-3  ">
             <ItemMouseOver item={weapon} items={items}>
               <Image
                 loader={myLoader}
