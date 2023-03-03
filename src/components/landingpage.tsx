@@ -32,14 +32,14 @@ export default function LandingPage() {
   ];
   const characterProfileImages = [
     {
-      path: "/images/landingpage/char_profile_001_mainpage_SteelMage_16x9.png",
-      text: "Easily access your characters & map atlas regardless of league",
-      id: "CharProfile1",
-    },
-    {
       path: "/images/landingpage/char_profile_002_inside_SteelMage_16x9.png",
       text: "Use Snapshots to track your progress throughout the league on each character ",
       id: "CharProfile2",
+    },
+    {
+      path: "/images/landingpage/char_profile_001_mainpage_SteelMage_16x9.png",
+      text: "Easily access your characters & map atlas regardless of league",
+      id: "CharProfile1",
     },
     {
       path: "/images/landingpage/char_profile_003_inside_SteelMage_16x9.png",
@@ -92,15 +92,22 @@ export default function LandingPage() {
                 Welcome to PoeStack
               </h1>
               <p className="w-5/6 mt-16 text-lg leading-8 lg:w-2/3 xl:w-5/12 text-slate-300">
-                Our goal is to increase the amount of information the average POE player has access to.
-                <br/>
-                <br/>
-                We acomplish this by providing tools that use the combined information of all of our users to give everyone a better understanding of their own data.
-                When you link your POE account you will gain access to automatic stash tracking/valuation, a full history of your POE characters over the course of a league,
-                a nonlimited charcter ladder any character of any level can appear on, atlas tree data from thousands of players, and finally some utilities to make it easier to sell items.   
-                <br/>
-                <br/>
-                If any of these tools sound interesting read more below. Thank you for your interest in PoeStack.
+                Our goal is to increase the amount of information the average
+                POE player has access to.
+                <br />
+                <br />
+                We acomplish this by providing tools that use the combined
+                information of all of our users to give everyone a better
+                understanding of their own data. When you link your POE account
+                you will gain access to automatic stash tracking/valuation, a
+                full history of your POE characters over the course of a league,
+                a nonlimited charcter ladder any character of any level can
+                appear on, atlas tree data from thousands of players, and
+                finally some utilities to make it easier to sell items.
+                <br />
+                <br />
+                If any of these tools sound interesting read more below. Thank
+                you for your interest in PoeStack.
               </p>
               <div className="flex items-center justify-center mb-2 mt-14">
                 <a
@@ -171,8 +178,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        PoeNinja style character ladder with no character limit. 
-                        Snapshot any of your characters at any level and they will show up on the ladder. 
+                        PoeNinja style character ladder with no character limit.
+                        Snapshot any of your characters at any level and they
+                        will show up on the ladder.
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -182,8 +190,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Create custom ladders of your friends, streamers, or pro builders.
-                        Then compare your progress or keep track of them throughout the league.
+                        Create custom ladders of your friends, streamers, or pro
+                        builders. Then compare your progress or keep track of
+                        them throughout the league.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -194,8 +203,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Automatic snapshots capture all characters progress when items, levels, or POB changes
-                        giving you full insight into a characters progression.
+                        Automatic snapshots capture all characters progress when
+                        items, levels, or POB changes giving you full insight
+                        into a characters progression.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
@@ -246,7 +256,8 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        View an overview of all your characters by linking your POE Account.
+                        View an overview of all your characters by linking your
+                        POE Account.
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -256,9 +267,11 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Track your characters history from Twilight Strand through ubers.
-                        Automatically capture and preserve each levelup, item upgrade, and passive tree respec.
-                        Use the history view to look back on your progress over a league.
+                        Track your characters history from Twilight Strand
+                        through ubers. Automatically capture and preserve each
+                        levelup, item upgrade, and passive tree respec. Use the
+                        history view to look back on your progress over a
+                        league.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -269,8 +282,11 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        These pages are fully shareable and embedable. Got a new item? Link your profile to your friends on Discord.
-                        Automatic POB code generation will let people you link your profile to easily import your well rounded beast of a build.
+                        These pages are fully shareable and embedable. Got a new
+                        item? Link your profile to your friends on Discord.
+                        Automatic POB code generation will let people you link
+                        your profile to easily import your well rounded beast of
+                        a build.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
@@ -321,8 +337,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Select some or all of your stash tabs and get a quick valuation using our pricing data.
-                        View/sort breakdowns by item type to quickly find extra value in your stash.
+                        Select some or all of your stash tabs and get a quick
+                        valuation using our pricing data. View/sort breakdowns
+                        by item type to quickly find extra value in your stash.
                       </li>
                       <li className="flex flex-row items-center text-left ">
                         <Image
@@ -332,8 +349,10 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        Take snapshots manually or setup automatic capture intervals to see how much many divs you are making per hour
-                        and if that the 15 div per hour youtube video was lying.
+                        Take snapshots manually or setup automatic capture
+                        intervals to see how much many divs you are making per
+                        hour and if that the 15 div per hour youtube video was
+                        lying.
                       </li>
 
                       <li className="flex flex-row items-center text-left">
@@ -344,7 +363,9 @@ export default function LandingPage() {
                           className="mr-2"
                           alt="-"
                         />
-                        View your total net worth over time throughout a league. Look back on the big drops and the big harvest gamble losses.
+                        View your total net worth over time throughout a league.
+                        Look back on the big drops and the big harvest gamble
+                        losses.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>

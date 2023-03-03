@@ -9,6 +9,7 @@ import { usePoeStackAuth } from "@contexts/user-context";
 import SnapshotItemTable from "@components/item-table/snapshot-item-table";
 import StyledMultiSelectMultiFilter from "@components/styled-multi-select-multi-filter";
 import { useEffect } from "react";
+import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 
 export default function BulkTool() {
   const { profile } = usePoeStackAuth();
@@ -106,7 +107,7 @@ export default function BulkTool() {
 
   return (
     <>
-      <div>
+      <TftGuardPanel>
         <StyledCard title="Tool">
           <div>
             <LeagueSelect />
@@ -142,7 +143,7 @@ export default function BulkTool() {
             {snapshot && <SnapshotItemTable snapshot={snapshot!} />}
           </div>
         </StyledCard>
-      </div>
+      </TftGuardPanel>
     </>
   );
 }

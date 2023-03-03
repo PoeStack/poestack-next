@@ -501,6 +501,7 @@ export type Query = {
   characterSnapshotsSearch: CharacterSnapshotSearchResponse;
   characterSnapshotsSearchAggregations: CharacterSnapshotSearchAggregationsResponse;
   characterSnapshotsUniqueAggregationKeys: CharacterSnapshotUniqueAggregationKeysResponse;
+  checkTftMembership: Scalars['Boolean'];
   customLadderGroup: CustomLadderGroup;
   customLadderGroupsByOwner: Array<CustomLadderGroup>;
   globalSearch: GlobalSearchResponse;

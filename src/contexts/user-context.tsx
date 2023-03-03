@@ -5,13 +5,17 @@ import { UserProfile } from "@generated/graphql";
 const initalContext: {
   jwt: string | null;
   profile: UserProfile | null;
+  tftMember: boolean | null;
   connect: any | null;
   logout: any | null;
+  refetchMyProfile: any | null;
 } = {
   jwt: null,
   profile: null,
+  tftMember: null,
   connect: (code: string) => {},
   logout: () => {},
+  refetchMyProfile: () => {},
 };
 
 export const PoeStackAuthContext = createContext(initalContext);
@@ -25,6 +29,7 @@ export function PoeStackAuthProvider({ children }) {
       : null
   );
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [tftMember, setTftMember] = useState<boolean | null>(null);
 
   const [code, setCode] = useState<string | null>(null);
   const [connectAccount] = useMutation(
@@ -58,6 +63,7 @@ export function PoeStackAuthProvider({ children }) {
           oAuthTokenUpdatedAtTimestamp
           discordUserId
         }
+        checkTftMembership
       }
     `,
     {
@@ -70,6 +76,7 @@ export function PoeStackAuthProvider({ children }) {
         ) {
           setProfile(p);
         }
+        setTftMember(data.checkTftMembership);
       },
     }
   );
@@ -100,9 +107,11 @@ export function PoeStackAuthProvider({ children }) {
 
   const value = {
     profile: profile,
+    tftMember: tftMember,
     jwt: jwt as any,
     connect: connect,
     logout: logout,
+    refetchMyProfile: refetchMyProfile,
   };
 
   return (
