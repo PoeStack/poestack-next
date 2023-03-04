@@ -284,19 +284,28 @@ export default function CharactersByUser() {
               />
             </div>
             {isCurrentUser ? (
-              <StyledButton
-                text={"Refresh"}
-                onClick={() => {
-                  takeSnapshot();
-                }}
-              />
+              <div className=" flex justify-center  w-full">
+                <div className="relative group">
+                  <div className="absolute inset-0 bg-slate-500 mb-2 mt-2 rounded-lg group-hover:blur-sm w-32 "></div>
+                  <button
+                    className="relative mb-2 mt-2"
+                    onClick={() => {
+                      takeSnapshot();
+                    }}
+                  >
+                    <a className="flex flex-row rounded-md  w-32 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-content-accent ">
+                      <h4>Refresh</h4>
+                    </a>
+                  </button>
+                </div>
+              </div>
             ) : (
               <></>
             )}
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 mx-40 bg-surface-primary-variant">
               <LeagueSelect />
               <AtlasPassivesTree
                 version={"3.20"}
@@ -331,18 +340,19 @@ function CharactersByUserTable({
   onSortChange,
 }: StyledCharactersSummaryTableProps) {
   return (
-    <div className="flex w-full h-full grow lg:basis-5/6">
-      <StyledCard title="Characters" className="flex-1">
-        <table>
+    <div className="flex w-full h-full">
+      <StyledCard>
+        <table className="">
           <SortableTableHeader
             columns={columns}
             columnDirections={columnDirections}
             onSortChange={onSortChange}
           />
+
           <tbody className="">
             {characters.map((snapshot) => (
               <tr
-                className="hover:bg-skin-primary border-y-2 border-slate-700/50"
+                className="hover:bg-skin-primary border-y-2 border-slate-700/50 h-12"
                 key={snapshot.id}
               >
                 <td>
@@ -352,13 +362,13 @@ function CharactersByUserTable({
                         ? `?snapshotId=${snapshot.snapshotId}`
                         : ""
                     }`}
-                    className="pl-3 hover:text-skin-accent hover:underline"
+                    className="pl-3 lg:pl-10 hover:text-skin-accent hover:underline"
                   >
                     {snapshot?.name}
                   </Link>
                 </td>
                 <td>
-                  <ul className="flex flex-row items-center space-x-2 justify-left">
+                  <ul className="flex flex-row items-center justify-center space-x-2">
                     <div className="text-center">{snapshot.level}</div>
                     <div>
                       <StyledTooltip
@@ -377,7 +387,7 @@ function CharactersByUserTable({
                   </ul>
                 </td>
 
-                <td>
+                <td className="relative flex justify-center h-full bg-orange-300">
                   {snapshot.mainSkillKey ? (
                     <li className="list-none">
                       <StyledSkillImageTooltip
@@ -399,16 +409,20 @@ function CharactersByUserTable({
                     </li>
                   ) : null}
                 </td>
-                <td>
+                <td className="">
                   {snapshot.league ? (
-                    <div className="text-left">{snapshot.league}</div>
+                    <div className="flex flex-row justify-center">
+                      {snapshot.league}
+                    </div>
                   ) : null}
                 </td>
-                <td>
+                <td className="flex justify-center items-center ">
                   {snapshot.totalValueDivine ? (
-                    <div className="flex flex-row text-left">
+                    <div className="grid grid-cols-2 my-auto">
                       <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
-                      <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                      <div>
+                        <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                      </div>
                     </div>
                   ) : null}
                 </td>
