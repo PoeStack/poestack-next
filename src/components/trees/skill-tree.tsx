@@ -85,15 +85,15 @@ export default function SkillTree({
         <LoadingIndicator />
       ) : (
         <>
-          <NodesTree
-            treeData={treeData}
-            selectedNodes={selectedNodes}
-            resetZoomEmitter={resetEmitter}
-          />
+          <div className="h-full ">
+            <NodesTree
+              treeData={treeData}
+              selectedNodes={selectedNodes}
+              resetZoomEmitter={resetEmitter}
+            />
+          </div>
           <StyledButton
-            className={
-              "w-32 flex flex-col items-center mx-auto text-center mt-4"
-            }
+            className={"w-32 flex flex-col items-center mx-auto"}
             text={"Reset View"}
             onClick={() => {
               resetEmitter?.dispatch();
