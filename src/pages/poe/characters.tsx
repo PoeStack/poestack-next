@@ -570,7 +570,7 @@ function StyledCharactersSummaryTable({
                 </ul>
               </td>
 
-              <td>
+              <td className="flex flex-row  mx-auto  justify-center h-full w-full items-center pr-4 pt-5">
                 {snapshot.mainSkillKey ? (
                   <li className="list-none">
                     <StyledSkillImageTooltip
@@ -601,14 +601,14 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row items-center space-x-4">
+                  <div className="flex flex-row items-center space-x-4  justify-center">
                     {snapshot.topItems.map((e) => {
                       return (
                         <>
                           <div>
                             <StyledTooltip
                               texts={[e.name]}
-                              placement={"left"}
+                              placement={"top"}
                               className="capitalize"
                             >
                               <div className="">
