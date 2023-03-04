@@ -159,14 +159,14 @@ export default function LandingPage() {
 
             <ul className=" lg:space-y-8">
               {/* //?Character Ladders */}
-              <li className="h-screen lg:h-full">
+              <li className="h-screen lg:h-full" id="section2">
                 <div className="grid w-full h-full lg:grid-cols-[_1fr,_2fr] lg:flex-row grid-rows-[_1fr,_3fr] lg:grid-rows-1">
                   {/* Text & Description */}
                   <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     {/* //!Have link go to account login unless logged in then */}
                     <Link href={`/poe/characters?league=${league}`}>
                       <h1
-                        id="section2"
+                        // id="section2"
                         className="text-4xl text-center text-content-accent hover:text-content-red"
                       >
                         Character Ladder
