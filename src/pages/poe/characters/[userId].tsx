@@ -387,7 +387,7 @@ function CharactersByUserTable({
                   </ul>
                 </td>
 
-                <td className="relative flex justify-center h-full bg-orange-300">
+                <td className="relative flex justify-center h-full ">
                   {snapshot.mainSkillKey ? (
                     <li className="list-none">
                       <StyledSkillImageTooltip
