@@ -53,31 +53,31 @@ export default function CharacterStatsDisplay({
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Armour:</h3>
-              <h5 className="mx-4 text-amber-400 text-right w-full">
+              <h5 className="mx-4 text-neutral-200 text-right w-full">
                 {pobStats.armour}
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Evasion:</h3>
-              <h5 className="mx-4 text-emerald-500 text-right w-full">
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
                 {pobStats.evasion}
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Block:</h3>
-              <h5 className="mx-4 text-neutral-300 text-right w-full">
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
                 {pobStats.blockChance}
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3 className="w-60 ">Spell Block:</h3>
-              <h5 className="mx-4 text-purple-400 text-right w-full">
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
                 {pobStats.spellBlockChance}
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Supression:</h3>
-              <h5 className="mx-4 text-emerald-300 text-right w-full">
+              <h5 className="mx-4 text-neutral-200 text-right w-full">
                 {pobStats.supression}
               </h5>
             </div>
@@ -104,7 +104,7 @@ export default function CharacterStatsDisplay({
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Chaos: </h3>{" "}
-              <h5 className="mx-4 text-pink-500 text-right w-full">
+              <h5 className="mx-4 text-pink-400 text-right w-full">
                 {pobStats.chaosResist}
               </h5>
             </div>
@@ -114,19 +114,19 @@ export default function CharacterStatsDisplay({
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Endurance: </h3>{" "}
               <h5 className="mx-4 text-rose-500 text-right w-full">
-                {pobStats.coldResist}
+                Placeholder
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Frenzy: </h3>{" "}
               <h5 className="mx-4 text-lime-400 text-right w-full">
-                {pobStats.fireResist}
+                Placeholder
               </h5>
             </div>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Power: </h3>{" "}
               <h5 className="mx-4 text-blue-300 text-right w-full">
-                {pobStats.lightningResist}
+                Placeholder
               </h5>
             </div>
           </div>
