@@ -188,6 +188,7 @@ export default function Character({ characterSnapshot }) {
           />
         </Head>
         <div className="flex flex-col gap-2 lg:grid lg:grid-cols-12 lg:grid-rows-[200px, 200px, 200px, 200px] ">
+          {/* Equipment */}
           <div className="flex lg:grid lg:col-start-4 lg:col-end-9 lg:row-start-1 lg:row-end-2  w-full h-full bg-primary ">
             <div className="flex flex-col space-y-1 items-center bg-surface-secondary p-3">
               <EquipmentDisplay
@@ -198,6 +199,7 @@ export default function Character({ characterSnapshot }) {
               />
             </div>
           </div>
+          {/* Stats */}
           <div className="grid col-start-1 col-end-4 row-start-1 row-end-2 font-semibold">
             <StyledCard>
               <div className="grid grid-cols-2 w-full h-full">
@@ -304,6 +306,7 @@ export default function Character({ characterSnapshot }) {
             </StyledCard>
           </div>
 
+          {/* Atlas */}
           <div className="flex lg:grid lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-2">
             <StyledCard title={"Passive Tree"}>
               <SkillTree
@@ -314,6 +317,7 @@ export default function Character({ characterSnapshot }) {
               />
             </StyledCard>
           </div>
+          {/* Graphs & Snapshots */}
           <div className="grid col-start-4 col-end-9 row-start-2 row-end-3">
             <StyledCard title="Snapshots" className="flex-1">
               <div className="flex flex-col space-y-2">
