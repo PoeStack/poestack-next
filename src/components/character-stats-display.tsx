@@ -1,6 +1,5 @@
 import React from "react";
 import { CharacterSnapshotPobStats } from "../__generated__/graphql";
-import StyledButton from "./styled-button";
 
 export default function CharacterStatsDisplay({
   pobStats,
@@ -16,40 +15,121 @@ export default function CharacterStatsDisplay({
   return (
     <>
       <div>
-        <div className="grid grid-cols-4 gap-x-1">
+        <div className="grid grid-cols-1 gap-x-3 w-full h-full">
           <div>
-            <div>Life: {pobStats.life}</div>
-            <div>Energy Shield: {pobStats.energyShield}</div>
-            <div>Armour: {pobStats.armour}</div>
-            <div>Evasion: {pobStats.evasion}</div>
+            <h2 className="text-center">Attributes</h2>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Str:</h3>{" "}
+              <h5 className="mx-4 text-red-500 text-right w-full">
+                {pobStats.str}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Int:</h3>{" "}
+              <h5 className="mx-4 text-blue-500 text-right w-full">
+                {pobStats.int}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Dex:</h3>{" "}
+              <h5 className="mx-4 text-green-400 text-right w-full">
+                {pobStats.dex}
+              </h5>
+            </div>
           </div>
-
-          <div>
-            <div>Str: {pobStats.str}</div>
-            <div>Int: {pobStats.int}</div>
-            <div>Dex: {pobStats.dex}</div>
+          <div className="mt-2">
+            <h2 className="text-center">Defenses</h2>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Life:</h3>
+              <h5 className="mx-4 text-red-500 text-right w-full">
+                {pobStats.life}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>ES:</h3>
+              <h5 className="mx-4 text-teal-300 text-right w-full">
+                {pobStats.energyShield}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Armour:</h3>
+              <h5 className="mx-4 text-neutral-200 text-right w-full">
+                {pobStats.armour}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Evasion:</h3>
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
+                {pobStats.evasion}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Block:</h3>
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
+                {pobStats.blockChance}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3 className="w-60 ">Spell Block:</h3>
+              <h5 className="mx-4 text-neutral-200  text-right w-full">
+                {pobStats.spellBlockChance}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Supression:</h3>
+              <h5 className="mx-4 text-neutral-200 text-right w-full">
+                {pobStats.supression}
+              </h5>
+            </div>
           </div>
-
-          <div>
-            <div>Cold Res: {pobStats.coldResist}</div>
-            <div>Fire Res: {pobStats.fireResist}</div>
-            <div>Lightning Res: {pobStats.lightningResist}</div>
-            <div>Chaos Res: {pobStats.chaosResist}</div>
+          <div className="mt-2">
+            <h2 className="text-center">Resistances</h2>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Cold: </h3>{" "}
+              <h5 className="mx-4 text-teal-500 text-right w-full">
+                {pobStats.coldResist}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Fire: </h3>{" "}
+              <h5 className="mx-4 text-orange-400 text-right w-full">
+                {pobStats.fireResist}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Lightning: </h3>{" "}
+              <h5 className="mx-4 text-yellow-300 text-right w-full">
+                {pobStats.lightningResist}
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Chaos: </h3>{" "}
+              <h5 className="mx-4 text-pink-400 text-right w-full">
+                {pobStats.chaosResist}
+              </h5>
+            </div>
           </div>
-
-          <div>
-            <div>Block: {pobStats.blockChance}</div>
-            <div>Spell Block: {pobStats.spellBlockChance}</div>
-            <div>Supression: {pobStats.supression}</div>
+          <div className="mt-2">
+            <h2 className="text-center">Charges Placeholder</h2>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Endurance: </h3>{" "}
+              <h5 className="mx-4 text-rose-500 text-right w-full">
+                Placeholder
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Frenzy: </h3>{" "}
+              <h5 className="mx-4 text-lime-400 text-right w-full">
+                Placeholder
+              </h5>
+            </div>
+            <div className="flex flex-row hover:bg-color-primary-variant ">
+              <h3>Power: </h3>{" "}
+              <h5 className="mx-4 text-blue-300 text-right w-full">
+                Placeholder
+              </h5>
+            </div>
           </div>
-        </div>
-        <div>
-          <StyledButton
-            text={"Copy POB Code"}
-            onClick={() => {
-              navigator.clipboard.writeText(pobStats?.pobCode ?? "not found");
-            }}
-          />
         </div>
       </div>
     </>

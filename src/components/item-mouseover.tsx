@@ -19,12 +19,52 @@ export default function ItemMouseOver({
   >(null);
 
   const socketedGems = items?.filter((i) => i.socketedInId === item?.itemId);
+  // console.log("SocketedGems:", socketedGems);
 
+  // const firstRowGems = item?.sockets?.filter((i, index) => index < 2);
+  // const secondRowGems = item?.sockets?.filter(
+  //   (i, index) => index === 3 || index === 2
+  // );
+  // console.log("firstRowGems: ", item, firstRowGems);
+  // console.log("secondRowGems: ", item, secondRowGems);
   return (
     <>
       {item && (
         <div
-          className="group relative flex justify-center"
+          className={`group relative flex w-full h-full mx-auto justify-center  
+          ${item.corrupted ? "border-2 border-red-900 bg-red-400" : null}
+
+          ${
+            item.frameType === 0
+              ? "bg-white bg-opacity-40 border-color-normal border "
+              : null
+          }
+          // magic
+          ${
+            item.frameType === 1
+              ? " bg-indigo-300  bg-opacity-25 border border-color-magic "
+              : null
+          } 
+          // rare
+          ${
+            item.frameType === 2
+              ? "bg-yellow-100 bg-opacity-25 border border-color-rare"
+              : null
+          } 
+          // unique
+          ${
+            item.frameType === 3
+              ? "bg-orange-400 bg-opacity-25 border  border-color-unique"
+              : null
+          } 
+          ${
+            item.frameType === 9
+              ? "bg-pink-400 bg-opacity-25 border  border-pink-400"
+              : null
+          } 
+          
+          
+          `}
           onClick={() => {
             console.log(item);
           }}
@@ -32,44 +72,1927 @@ export default function ItemMouseOver({
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
-            <div className="flex flex-row space-x-5">
-              <ItemStatDisplay item={item} />
+            <div className="flex flex-col z-100 pl-10">
               {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+              <ItemStatDisplay item={item} />
             </div>
           </div>
-          <div
-            className={`absolute scale-0 group-hover:scale-100 w-full h-full grid ${
-              item?.w! > 1 ? "grid-cols-2" : "grid-cols-1"
-            } items-center`}
-          >
-            {item?.sockets?.map((s, i) => {
-              const gem = socketedGems?.find((e) => e.socket === i);
-              return (
-                <>
-                  {gem && (
-                    <div
-                      className="items-center"
-                      key={i}
-                      onMouseEnter={() => {
-                        setHoveredGem(gem);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredGem(null);
-                      }}
-                    >
-                      <Image
-                        loader={myLoader}
-                        height={30}
-                        width={30}
-                        src={gem?.icon ?? ""}
-                        alt={""}
-                      />
-                    </div>
-                  )}
-                </>
-              );
-            })}
-          </div>
+
+          {/* w-1 items */}
+          {/* lg:group-hover:scale-150 */}
+          {item?.w! === 1 ? (
+            <div className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-[1px, 3_fr, 3_fr, 3_fr, 1px] grid-cols-3 items-center justify-center z-0 ">
+              {item?.sockets?.map((s, i) => {
+                const gem = socketedGems?.find((e) => e.socket === i);
+                const currentSocketGroup = item?.sockets[i - 1]?.group;
+                //console.log("currentSocketGroup", currentSocketGroup);
+
+                if (i === 0) {
+                  return (
+                    <>
+                      <span className="row-start-1 row-end-1"></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 1) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-3 row-end-5 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 2) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+              })}
+              <span className="row-start-5 row-end-6"></span>
+            </div>
+          ) : null}
+          {/* w-2 items */}
+
+          {/* w-2 && h-2 - Shields*/}
+          {item?.w! === 2 &&
+          item?.h! === 2 &&
+          item?.inventoryId === "Offhand" ? (
+            <div
+              className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-[_1fr, _1fr, _1fr, _10fr, _10fr, _10fr,  _1fr, _1fr, _1fr] 
+            grid-cols-[_1fr, _10fr, _10fr, _1fr] items-center justify-center z-0 gap-x-2 gap-y-2 "
+            >
+              {item?.sockets?.map((s, i) => {
+                const gem = socketedGems?.find((e) => e.socket === i);
+                const currentSocketGroup = item?.sockets[i - 1]?.group;
+                //console.log("currentSocketGroup", currentSocketGroup);
+
+                if (i === 0) {
+                  return (
+                    <>
+                      <span className="row-start-1 row-span-3"></span>
+                      <span className="row-start-6 row-span-3"></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-4 row-end-5 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90  row-start-4 row-end-5 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 1) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4  rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-4 row-end-6 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 2) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90  row-start-5 row-end-6 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+              })}
+              <span className="row-start-4 row-end-5"></span>
+            </div>
+          ) : null}
+          {/* w-2 && h-2 - Helms, Gloves, Boots*/}
+          {item?.w! === 2 &&
+          item?.h! === 2 &&
+          item?.inventoryId !== "Offhand" ? (
+            <div className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-[1px, _10fr, _10fr, 1px] grid-cols-[1px, _10fr, _10fr, 1px] items-center justify-center z-0 gap-x-3 gap-y-3 ">
+              {item?.sockets?.map((s, i) => {
+                const gem = socketedGems?.find((e) => e.socket === i);
+                const currentSocketGroup = item?.sockets[i - 1]?.group;
+                //console.log("GEM: ", gem);
+                //console.log("currentSocketGroup", currentSocketGroup);
+
+                if (i === 0) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3  ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-2 row-end-3 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 1) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4   rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 2) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 3 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-3 row-end-4 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 3) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+              })}
+              <span className="row-start-4 row-end-5"></span>
+            </div>
+          ) : null}
+
+          {/* w-2 && h-3 - Body, Bows, 2 Handers, Scepters*/}
+          {(item?.w! === 2 && item?.h! === 3) || item?.h! === 4 ? (
+            <div
+              className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-7 
+            grid-cols-[1px, _10fr, _10fr, 1px] items-center justify-center z-0 gap-x-3 gap-y-2 "
+            >
+              {item?.sockets?.map((s, i) => {
+                const gem = socketedGems?.find((e) => e.socket === i);
+                const currentSocketGroup = item?.sockets[i - 1]?.group;
+                //console.log("currentSocketGroup", currentSocketGroup);
+
+                if (i === 0) {
+                  return (
+                    <>
+                      <span className="row-start-1 row-span-1"></span>
+                      <span className="row-start-5 row-span-1"></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-2 row-end-3 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4  rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 1) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4  rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4   rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 2) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4   rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 3 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-3 row-end-4 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0 "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3  rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 3) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 4 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-3 row-end-5 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-125sss"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 4) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+                if (i === 5 && item?.sockets[i].group === currentSocketGroup) {
+                  return (
+                    <>
+                      <span className="grid row-start-4 row-end-5 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0 "></span>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                } else if (i === 5) {
+                  return (
+                    <>
+                      {gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
+                        
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
+                       
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div
+                            className={`${gem.support ? null : "-rotate-45 "}`}
+                          >
+                            <Image
+                              loader={myLoader}
+                              height={30}
+                              width={30}
+                              className="scale-150"
+                              src={gem?.icon ?? ""}
+                              alt={""}
+                            />
+                          </div>
+                        </div>
+                      )}
+                      {!gem && (
+                        <div
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 rounded-full 
+                        `}
+                          key={i}
+                          onMouseEnter={() => {
+                            setHoveredGem(gem);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGem(null);
+                          }}
+                        >
+                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                        </div>
+                      )}
+                    </>
+                  );
+                }
+              })}
+            </div>
+          ) : null}
           {children}
         </div>
       )}
