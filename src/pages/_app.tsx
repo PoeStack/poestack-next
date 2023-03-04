@@ -15,6 +15,7 @@ import Head from "next/head";
 import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
 import StyledFooter from "@components/styled-footer";
+import { PoeStackOptionsProvider } from "@contexts/options-context";
 
 
 declare global {
@@ -62,39 +63,41 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <CookiesProvider>
       <ApolloProvider client={client}>
-        <ThemeProvider>
-          <PoeStackAuthProvider>
-            <PoeStackLeagueProvider>
-              <Script
-                strategy="afterInteractive"
-                src="https://www.googletagmanager.com/gtag/js?id=G-V6G8CPK4ZY"
-              />
-              <Script
-                id="google-analytics"
-                strategy="afterInteractive"
-                dangerouslySetInnerHTML={{
-                  __html: `window.dataLayer = window.dataLayer || [];
+        <PoeStackOptionsProvider>
+          <ThemeProvider>
+            <PoeStackAuthProvider>
+              <PoeStackLeagueProvider>
+                <Script
+                  strategy="afterInteractive"
+                  src="https://www.googletagmanager.com/gtag/js?id=G-V6G8CPK4ZY"
+                />
+                <Script
+                  id="google-analytics"
+                  strategy="afterInteractive"
+                  dangerouslySetInnerHTML={{
+                    __html: `window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-V6G8CPK4ZY', {
                 page_path: window.location.pathname,
               });`,
-                }}
-              />
-              <Head>
-                <title>PoeStack</title>
-              </Head>
-              <div className="w-full h-full overflow-auto bg-surface-secondary text-content-base">
-                <div className="flex flex-col w-full h-full min-h-screen ">
-                  <StyledNavBar />
-                  <Component {...pageProps} />
-                  {/* Footer */}
-                  <StyledFooter />
+                  }}
+                />
+                <Head>
+                  <title>PoeStack</title>
+                </Head>
+                <div className="w-full h-full overflow-auto bg-surface-secondary text-content-base">
+                  <div className="flex flex-col w-full h-full min-h-screen ">
+                    <StyledNavBar />
+                    <Component {...pageProps} />
+                    {/* Footer */}
+                    <StyledFooter />
+                  </div>
                 </div>
-              </div>
-            </PoeStackLeagueProvider>
-          </PoeStackAuthProvider>
-        </ThemeProvider>
+              </PoeStackLeagueProvider>
+            </PoeStackAuthProvider>
+          </ThemeProvider>
+        </PoeStackOptionsProvider >
       </ApolloProvider>
     </CookiesProvider>
   );
