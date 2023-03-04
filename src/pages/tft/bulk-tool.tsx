@@ -81,7 +81,7 @@ export default function BulkTool() {
       onCompleted(data) {
         setSnapshot(data.takeDeatachedSnapshot);
         localStorage.setItem(
-          "bulkTool_lastSnapshot",
+          `bulkTool_${league}_lastSnapshot`,
           JSON.stringify(data.takeDeatachedSnapshot)
         );
       },
@@ -89,16 +89,24 @@ export default function BulkTool() {
   );
 
   useEffect(() => {
-    const selectedTabs = localStorage?.getItem("bulkTool_selectedStashTabs");
+    const selectedTabs = localStorage?.getItem(
+      `bulkTool_${league}_selectedStashTabs`
+    );
     if (selectedTabs) {
       setSelectedStashTabs(JSON.parse(selectedTabs));
+    } else {
+      setSelectedStashTabs([]);
     }
 
-    const lastSnapshot = localStorage?.getItem("bulkTool_lastSnapshot");
+    const lastSnapshot = localStorage?.getItem(
+      `bulkTool_${league}_lastSnapshot`
+    );
     if (lastSnapshot) {
       setSnapshot(JSON.parse(lastSnapshot));
+    } else {
+      setSnapshot(null);
     }
-  }, []);
+  }, [league]);
 
   const [removeOnlyEnabled, setRemoveOnlyEnabled] = useState(false);
   const removeOnlyFunction = (stashName: string) => {
@@ -120,7 +128,7 @@ export default function BulkTool() {
               onSelectChange={(e: any[]) => {
                 setSelectedStashTabs(e);
                 localStorage.setItem(
-                  "bulkTool_selectedStashTabs",
+                  `bulkTool_${league}_selectedStashTabs`,
                   JSON.stringify(e)
                 );
               }}

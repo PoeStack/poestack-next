@@ -12,7 +12,6 @@ import StyledPaginate from "@components/styled-paginate";
 export interface ItemSearchUserInput {
   excludedItemGroupHashStrings: string[];
   itemValueOverrides: Record<string, number> | null | undefined;
-  league: string;
   sortKey: string;
   sortDirection: string;
   tags: string[] | null | undefined;
@@ -29,7 +28,6 @@ export default function SnapshotItemTable({
   const [searchUserInput, setSearchUserInput] = useState<ItemSearchUserInput>({
     excludedItemGroupHashStrings: [],
     itemValueOverrides: {},
-    league: snapshot.league,
     sortKey: "totalValueChaos",
     sortDirection: "desc",
     tags: null,
@@ -73,6 +71,7 @@ export default function SnapshotItemTable({
       />
       <ItemTableBody
         itemGroupSearch={buildSearch(false)}
+        league={snapshot.league}
         searchUserInput={searchUserInput}
         setSearchUserInput={setSearchUserInput}
         disableTotalValueRow={true}

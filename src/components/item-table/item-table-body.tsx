@@ -17,11 +17,13 @@ import { ItemSearchUserInput } from "./snapshot-item-table";
 
 export default function ItemTableBody({
   itemGroupSearch,
+  league,
   searchUserInput,
   setSearchUserInput,
   disableTotalValueRow,
 }: {
   itemGroupSearch: StashSnapshotItemGroupSummarySearch;
+  league: string;
   searchUserInput: ItemSearchUserInput;
   setSearchUserInput: Dispatch<SetStateAction<ItemSearchUserInput>>;
   disableTotalValueRow?: boolean;
@@ -92,9 +94,7 @@ export default function ItemTableBody({
       }
     `,
     {
-      skip:
-        !searchUserInput.league ||
-        !itemGroupSearchResult?.itemGroupSummaries?.length,
+      skip: !league || !itemGroupSearchResult?.itemGroupSummaries?.length,
       variables: {
         search: {
           seriesTypes: ["p5", "p10", "p20", "p50"],
@@ -105,7 +105,7 @@ export default function ItemTableBody({
                 (i) => i?.itemGroup?.hashString
               ),
             itemGroupHashKeys: [],
-            league: searchUserInput.league,
+            league: league,
             skip: null,
             limit: null,
             searchString: null,
@@ -196,7 +196,7 @@ export default function ItemTableBody({
                 </td>
                 <td className="">
                   <Link
-                    href={`/poe/economy/${searchUserInput.league}/item-group/${itemSummary.itemGroup?.hashString}`}
+                    href={`/poe/economy/${league}/item-group/${itemSummary.itemGroup?.hashString}`}
                     className="hover:text-content-accent peer-checked:text-content-accent"
                   >
                     {GeneralUtils.itemGroupToDisplayName(

@@ -109,7 +109,7 @@ export default function CharacterStatsDisplay({
               </h5>
             </div>
           </div>
-          <div className="mt-2">
+          {/* <div className="mt-2">
             <h2 className="text-center">Charges Placeholder</h2>
             <div className="flex flex-row hover:bg-color-primary-variant ">
               <h3>Endurance: </h3>{" "}
@@ -129,7 +129,7 @@ export default function CharacterStatsDisplay({
                 Placeholder
               </h5>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>

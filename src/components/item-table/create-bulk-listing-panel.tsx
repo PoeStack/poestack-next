@@ -154,90 +154,98 @@ export default function CreateBulkListingPanel({
           setExporterInput,
         })}
 
-        <input
-          id="minmax-range"
-          type="range"
-          min={0}
-          max={200}
-          step={5}
-          value={exporterInput.listedValueMultiplier! * 100}
-          onChange={(e) => {
-            setExporterInput({
-              ...exporterInput,
-              ...{
-                listedValueMultiplier: parseInt(e.target.value) / 100,
-              },
-            });
-          }}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-        />
+        {!!exporterInput.exportType && (
+          <div>
+            <input
+              id="minmax-range"
+              type="range"
+              min={0}
+              max={200}
+              step={5}
+              value={exporterInput.listedValueMultiplier! * 100}
+              onChange={(e) => {
+                setExporterInput({
+                  ...exporterInput,
+                  ...{
+                    listedValueMultiplier: parseInt(e.target.value) / 100,
+                  },
+                });
+              }}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+            />
 
-        <div className="flex flex-row space-x-2">
-          <h3>Value: </h3>{" "}
-          <CurrencyValueDisplay
-            valueChaos={bulkListing?.totalValueChaos ?? 0}
-          />
-        </div>
+            <div className="flex flex-row space-x-2">
+              <h3>Value: </h3>{" "}
+              <CurrencyValueDisplay
+                valueChaos={bulkListing?.totalValueChaos ?? 0}
+              />
+            </div>
 
-        <div className="flex flex-row space-x-2">
-          <h3>Multiplier: {exporterInput.listedValueMultiplier! * 100}%</h3>
-        </div>
+            <div className="flex flex-row space-x-2">
+              <h3>Multiplier: {exporterInput.listedValueMultiplier! * 100}%</h3>
+            </div>
 
-        <div className="flex flex-row space-x-2">
-          <h3>Listed Value: </h3>{" "}
-          <CurrencyValueDisplay
-            valueChaos={
-              (bulkListing?.totalValueChaos ?? 0) *
-              (exporterInput.listedValueMultiplier ?? 1)
-            }
-          />
-        </div>
+            <div className="flex flex-row space-x-2">
+              <h3>Listed Value: </h3>{" "}
+              <CurrencyValueDisplay
+                valueChaos={
+                  (bulkListing?.totalValueChaos ?? 0) *
+                  (exporterInput.listedValueMultiplier ?? 1)
+                }
+              />
+            </div>
 
-        <StyledButton
-          text={generatingListingLoading ? "Loading..." : "Copy"}
-          onClick={() => {
-            generateListing({
-              onCompleted(data) {
-                navigator.clipboard.writeText(
-                  data?.exportStashSnapshot.exportRaw
-                );
-              },
-            });
-          }}
-        />
-        {!exporterTypesToPanels[exporterInput.exportType]
-          ?.disableTftButtons && (
-          <StyledButton
-            text={generatingImage ? "Loading..." : "Copy Image"}
-            onClick={() => {
-              setGeneratingImage(true);
-              const cpy = async () => {
-                const response = await fetch(
-                  `/api/bulk-export/test?input=${JSON.stringify(buildInput())}`
-                );
-                const blob = await response.blob();
-                await navigator.clipboard.write([
-                  new ClipboardItem({
-                    [blob.type]: blob,
-                  }),
-                ]);
-              };
-              cpy().finally(() => {
-                setGeneratingImage(false);
-              });
-            }}
-          />
-        )}
-        {!exporterTypesToPanels[exporterInput.exportType]
-          ?.disableTftButtons && (
-          <TftOneClickButton
-            loading={generatingListingLoading}
-            onClick={() => {
-              generateListing({
-                variables: { input: { ...buildInput(), oneClickPost: true } },
-              });
-            }}
-          />
+            <StyledButton
+              text={generatingListingLoading ? "Loading..." : "Copy"}
+              onClick={() => {
+                generateListing({
+                  onCompleted(data) {
+                    navigator.clipboard.writeText(
+                      data?.exportStashSnapshot.exportRaw
+                    );
+                  },
+                });
+              }}
+            />
+            {!exporterTypesToPanels[exporterInput.exportType]
+              ?.disableTftButtons && (
+              <StyledButton
+                text={generatingImage ? "Loading..." : "Copy Image"}
+                onClick={() => {
+                  setGeneratingImage(true);
+                  const cpy = async () => {
+                    const response = await fetch(
+                      `/api/bulk-export/test?input=${JSON.stringify(
+                        buildInput()
+                      )}`
+                    );
+                    const blob = await response.blob();
+                    await navigator.clipboard.write([
+                      new ClipboardItem({
+                        [blob.type]: blob,
+                      }),
+                    ]);
+                  };
+                  cpy().finally(() => {
+                    setGeneratingImage(false);
+                  });
+                }}
+              />
+            )}
+            {!exporterTypesToPanels[exporterInput.exportType]
+              ?.disableTftButtons && (
+              <TftOneClickButton
+                loading={generatingListingLoading}
+                onClick={() => {
+                  generateListing({
+                    variables: {
+                      input: { ...buildInput(), oneClickPost: true },
+                    },
+                  });
+                }}
+              />
+            )}
+          </div>
         )}
       </div>
     </>
