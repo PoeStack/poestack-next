@@ -109,13 +109,16 @@ export default function LandingPage() {
                 If any of these tools sound interesting read more below. Thank
                 you for your interest in PoeStack.
               </p>
-              <div className="flex items-center justify-center mb-2 mt-14">
-                <a
-                  href="#section2"
-                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-color-red hover:text-content-inverted"
-                >
-                  <h4>Get started</h4>
-                </a>
+              <div className="relative group">
+                <div className="absolute inset-0 bg-red-700 mb-2 mt-14 rounded-lg blur-sm  group-hover:blur-md"></div>
+                <button className="relative mb-2 mt-14">
+                  <a
+                    href="#section2"
+                    className="flex flex-row rounded-md  px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-red-800"
+                  >
+                    <h4>Get started</h4>
+                  </a>
+                </button>
               </div>
               <div className="mt-10 text-slate-300">
                 <p>
@@ -209,16 +212,32 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/characters?league=${league}`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/characters?league=${league}`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-                        <li className="mb-10">
+                        <li>
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
+                            </button>
+                          </div>
+                        </li>
+                        {/* <li className="mb-10">
                           <Link
                             href="/poe/tutorial"
                             className="relative justify-end mx-auto mt-10 text-sm "
@@ -227,7 +246,7 @@ export default function LandingPage() {
                               Learn More
                             </button>
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </ul>
                   </div>
@@ -290,24 +309,30 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/characters/${profile?.userId}`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/characters/${profile?.userId}`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
@@ -369,25 +394,30 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href="/poe/stash/snapshot/profiles"
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/stash/snapshot/profiles"
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
@@ -445,25 +475,30 @@ export default function LandingPage() {
 
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/economy/${league}?tag=currency`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/economy/${league}?tag=currency`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
