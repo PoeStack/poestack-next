@@ -18,6 +18,7 @@ import CharacterLevelChart from "@components/character-level-chart";
 import Head from "next/head";
 import client from "poe-stack-apollo-client";
 import { GeneralUtils } from "@utils/general-util";
+import Image from "next/image";
 
 const snapshotQuery = gql`
   query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {
@@ -169,6 +170,7 @@ export default function Character({ characterSnapshot }) {
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
   DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
 
+  console.log("currentSnapshotchar: ", currentSnapshot);
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">
@@ -196,7 +198,7 @@ export default function Character({ characterSnapshot }) {
               />
             </div>
           </div>
-          <div className="grid col-start-1 col-end-4 row-start-1 row-end-2">
+          <div className="grid col-start-1 col-end-4 row-start-1 row-end-2 font-semibold">
             <StyledCard>
               <div className="grid grid-cols-2 w-full h-full">
                 <div className="col-start-1 col-end-2  ">
@@ -204,16 +206,91 @@ export default function Character({ characterSnapshot }) {
                     pobStats={currentSnapshot?.characterSnapshotPobStats}
                   />
                 </div>
-                <div className="col-start-2 col-end-3">
-                  <p>other column</p>
+                <div className="col-start-2 col-end-3 pl-4">
+                  <div className="flex flex-row mt-4 justify-center">
+                    <Image
+                      src={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
+                      alt={currentSnapshot!.characterClass}
+                      width={120}
+                      height={30}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-x-3 w-full h-full mt-4 ">
+                    <div>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>Name:</h3>
+                        <h5 className=" mx-2  text-right w-full">
+                          {currentSnapshot?.poeCharacter?.name}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>League:</h3>{" "}
+                        <h5 className=" mx-2 text-right w-full">
+                          {currentSnapshot?.league}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>Level:</h3>{" "}
+                        <h5 className=" mx-2 text-right w-full">
+                          {currentSnapshot?.level}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant">
+                        <h3>Class:</h3>{" "}
+                        <h5 className=" mx-2 text-right w-full">
+                          {currentSnapshot?.characterClass}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant">
+                        <h3>Skill:</h3>{" "}
+                        <h5 className=" mx-2 text-right w-full">
+                          {GeneralUtils.capitalize(
+                            currentSnapshot?.mainSkillKey
+                          )}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant">
+                        <h3>DPS:</h3>{" "}
+                        <h5 className=" mx-2 text-right w-full">
+                          {
+                            currentSnapshot?.characterSnapshotPobStats
+                              ?.totalDpsWithIgnite
+                          }
+                        </h5>
+                      </div>
+                      <h2 className="text-center mt-8">Choices</h2>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>Bandit:</h3>
+                        <h5 className=" mx-4  text-right w-full">
+                          {
+                            currentSnapshot?.characterPassivesSnapshot
+                              ?.banditChoice
+                          }
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>Major:</h3>{" "}
+                        <h5 className=" mx-4  text-right w-full">
+                          {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor?.replace(
+                            /([a-z])([A-Z])/g,
+                            "$1 $2"
+                          )}
+                        </h5>
+                      </div>
+                      <div className="flex flex-row hover:bg-color-primary-variant ">
+                        <h3>Minor:</h3>{" "}
+                        <h5 className=" mx-4  text-right w-full">
+                          {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor?.replace(
+                            /([a-z])([A-Z])/g,
+                            "$1 $2"
+                          )}
+                        </h5>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </StyledCard>
-          </div>
-
-          <div className="flex lg:grid lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-2">
-            <StyledCard title={"Passive Tree"}>
-              <div className="flex flex-row w-full justify-center pb-4 ">
+              <div className="flex flex-row w-full justify-center mt-2 ">
                 <StyledButton
                   text={"Copy POB Code"}
                   onClick={() => {
@@ -224,6 +301,11 @@ export default function Character({ characterSnapshot }) {
                   }}
                 />
               </div>
+            </StyledCard>
+          </div>
+
+          <div className="flex lg:grid lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-2">
+            <StyledCard title={"Passive Tree"}>
               <SkillTree
                 version={"3.20"}
                 selectedNodes={
@@ -303,40 +385,6 @@ export default function Character({ characterSnapshot }) {
             </StyledCard>
           </div>
         </div>
-      </div>
-      <div className="flex flex-row space-x-2">
-        <StyledCard title="Character" className="flex-1">
-          <div>
-            <div>{currentSnapshot?.league}</div>
-            <div>{currentSnapshot?.poeCharacter?.name}</div>
-            <div>
-              Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
-            </div>
-            <div>
-              Main Skill{" "}
-              {GeneralUtils.capitalize(currentSnapshot?.mainSkillKey)}
-            </div>
-            <div>
-              DPS{" "}
-              {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
-            </div>
-          </div>
-        </StyledCard>
-        <StyledCard title={"Info"} className="flex-1">
-          <div>
-            <div>
-              Bandit: {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
-            </div>
-            <div>
-              Pantheon Major:{" "}
-              {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
-            </div>
-            <div>
-              Pantheon Minor:{" "}
-              {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
-            </div>
-          </div>
-        </StyledCard>
       </div>
     </>
   );
