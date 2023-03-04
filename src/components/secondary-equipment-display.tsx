@@ -43,7 +43,12 @@ export default function SecondaryEquipmentDisplay({
 
   //Unique Jewels
   const uniqueJewels = items.filter(
-    (i) => i.inventoryId === "PassiveJewels" && i.frameType === 3
+    (i) =>
+      i.inventoryId === "PassiveJewels" &&
+      i.frameType === 3 &&
+      i.typeLine !== "Small Cluster Jewel" &&
+      i.typeLine !== "Medium Cluster Jewel" &&
+      i.typeLine !== "Large Cluster Jewel"
   );
   //console.log("uniqueJewels: ", uniqueJewels);
 
