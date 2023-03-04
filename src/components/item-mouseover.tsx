@@ -32,7 +32,7 @@ export default function ItemMouseOver({
       {item && (
         <div
           className={`group relative flex w-full h-full mx-auto justify-center  
-          ${item.corrupted ? "border-2 border-red-900 bg-red-400" : null}
+          ${item.corrupted ? " border-red-900 bg-red-400" : null}
 
           ${
             item.frameType === 0
