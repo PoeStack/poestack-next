@@ -531,65 +531,68 @@ function StyledCarousel({ images }) {
   };
 
   return (
-    <div className="relative rounded-lg lg:mx-10 xl:pt-4 bg-zinc-900">
-      <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
-        {/* <div className="relative bg-surface-primary"> */}
-        <AiOutlineLeft
-          onClick={handlePrevSlide}
-          className="absolute left-0 z-20 w-20 col-start-1 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
-        />
-        <div className="w-full h-[30vh] md:h-[50vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
-          <Swipe
-            onSwipeLeft={handleNextSlide}
-            onSwipeRight={handlePrevSlide}
-            className="z-10 flex flex-row items-center justify-center w-11/12 h-full"
-          >
-            {images.map((item, index) => {
-              if (index === currentSlide) {
-                return (
-                  <Image
-                    unoptimized={true}
-                    key={item.id}
-                    src={item.path}
-                    fill
-                    style={{ objectFit: "contain" }}
-                    className="bg-surface-primary"
-                    alt={`Landing Page Image ${item.id}`}
-                    sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
-                    quality={100}
-                  />
-                );
-              }
-            })}
-          </Swipe>
+    <div className="relative">
+      <div className="absolute inset-0 rounded-lg mb-16 lg:mb-0 lg:mx-10 xl:pt-4 lg:bg-white/80 blur-sm"></div>
+      <div className="relative rounded-lg lg:mx-10  xl:pt-4 bg-surface-secondary">
+        <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
+          {/* <div className="relative bg-surface-primary"> */}
+          <AiOutlineLeft
+            onClick={handlePrevSlide}
+            className="absolute left-0 z-20 w-20 col-start-1 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
+          />
+          <div className="w-full h-[30vh] md:h-[50vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
+            <Swipe
+              onSwipeLeft={handleNextSlide}
+              onSwipeRight={handlePrevSlide}
+              className="z-10 flex flex-row items-center justify-center w-11/12 h-full"
+            >
+              {images.map((item, index) => {
+                if (index === currentSlide) {
+                  return (
+                    <Image
+                      unoptimized={true}
+                      key={item.id}
+                      src={item.path}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      className="bg-surface-secondary"
+                      alt={`Landing Page Image ${item.id}`}
+                      sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
+                      quality={100}
+                    />
+                  );
+                }
+              })}
+            </Swipe>
+          </div>
+          <AiOutlineRight
+            onClick={handleNextSlide}
+            className="absolute right-0 z-20 col-start-3 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
+          />
         </div>
-        <AiOutlineRight
-          onClick={handleNextSlide}
-          className="absolute right-0 z-20 col-start-3 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
-        />
-      </div>
 
-      <div className="relative flex justify-center pb-2">
-        {images.map((_, index) => {
-          return (
-            <div
-              className={
-                index === currentSlide
-                  ? "h-4 w-4 bg-color-accent rounded-full mx-2 m-4 cursor-pointer"
-                  : "h-4 w-4 bg-white rounded-full mx-2 m-4 cursor-pointer"
-              }
-              key={index}
-              onClick={() => {
-                setCurrentSlide(index);
-              }}
-            />
-          );
-        })}
-      </div>
-      <div className="pb-4 text-center">
-        {images.map((item, index) => {
-          if (index === currentSlide) return <div>{item.text}</div>;
-        })}
+        <div className="relative flex justify-center pb-2">
+          {images.map((_, index) => {
+            return (
+              <div
+                className={
+                  index === currentSlide
+                    ? "h-4 w-4 bg-color-accent rounded-full mx-2 m-4 cursor-pointer"
+                    : "h-4 w-4 bg-white rounded-full mx-2 m-4 cursor-pointer"
+                }
+                key={index}
+                onClick={() => {
+                  setCurrentSlide(index);
+                }}
+              />
+            );
+          })}
+        </div>
+        <div className="pb-4 text-center">
+          {images.map((item, index) => {
+            if (index === currentSlide) return <div>{item.text}</div>;
+          })}
+        </div>
       </div>
     </div>
   );
