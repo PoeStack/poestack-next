@@ -642,8 +642,10 @@ function StyledCharactersSummaryTable({
                 )}
               </td>
               <td className="font-semibold">
-                {!!snapshot.pobDps &&
-                  GeneralUtils.compactNumberFormat(snapshot.pobDps)}
+                <div className=" w-full flex flex-row items-center justify-center pr-2 ">
+                  {!!snapshot.pobDps &&
+                    GeneralUtils.compactNumberFormat(snapshot.pobDps)}
+                </div>
               </td>
             </tr>
           ))}
