@@ -31,7 +31,10 @@ export default function ItemMouseOver({
     <>
       {item && (
         <div
-          className={`group relative flex w-full h-full mx-auto justify-center   ${
+          className={`group relative flex w-full h-full mx-auto justify-center  
+          ${item.corrupted ? "border-2 border-red-900 bg-red-400" : null}
+
+          ${
             item.frameType === 0
               ? "bg-white bg-opacity-40 border-color-normal border "
               : null
@@ -54,6 +57,12 @@ export default function ItemMouseOver({
               ? "bg-orange-400 bg-opacity-25 border  border-color-unique"
               : null
           } 
+          ${
+            item.frameType === 9
+              ? "bg-pink-400 bg-opacity-25 border  border-pink-400"
+              : null
+          } 
+          
           
           `}
           onClick={() => {
