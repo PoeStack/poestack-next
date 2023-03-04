@@ -46,7 +46,7 @@ export default function EquipmentDisplay({
           <div className="col-start-4 col-end-6 col-span-2 row-span-2 row-start-1 row-end-3">
             <ItemMouseOver item={helm} items={items}>
               <div className="flex flex-row items-center">
-                <Image height={90} width={90} src={helm?.icon!} alt={""} />
+                <Image height={90} width={105} src={helm?.icon!} alt={""} />
               </div>
             </ItemMouseOver>
           </div>
@@ -56,8 +56,8 @@ export default function EquipmentDisplay({
               <div className="flex flex-row items-center">
                 <Image
                   loader={myLoader}
-                  height={40}
-                  width={40}
+                  height={45}
+                  width={45}
                   src={amulet?.icon!}
                   alt={""}
                 />
@@ -72,7 +72,7 @@ export default function EquipmentDisplay({
                 <Image
                   loader={myLoader}
                   height={130}
-                  width={50 * (weapon?.w ?? 1)}
+                  width={55 * (weapon?.w ?? 1)}
                   src={weapon?.icon!}
                   alt={""}
                 />
@@ -86,7 +86,7 @@ export default function EquipmentDisplay({
                 <Image
                   loader={myLoader}
                   height={180}
-                  width={140}
+                  width={105}
                   src={body?.icon!}
                   alt={""}
                 />
@@ -128,7 +128,7 @@ export default function EquipmentDisplay({
                 <Image
                   loader={myLoader}
                   height={45}
-                  width={90}
+                  width={100}
                   src={belt?.icon!}
                   alt={""}
                 />
@@ -156,7 +156,7 @@ export default function EquipmentDisplay({
                 <Image
                   loader={myLoader}
                   height={90}
-                  width={90}
+                  width={105}
                   src={gloves?.icon!}
                   alt={""}
                 />
@@ -170,7 +170,7 @@ export default function EquipmentDisplay({
                 <Image
                   loader={myLoader}
                   height={90}
-                  width={90}
+                  width={105}
                   src={boots?.icon!}
                   alt={""}
                 />
