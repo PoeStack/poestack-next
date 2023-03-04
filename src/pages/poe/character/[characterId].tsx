@@ -185,21 +185,54 @@ export default function Character({ characterSnapshot }) {
             content={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
           />
         </Head>
-        <div className="grid">
-          <div>
-            <StyledCard title="Equipment" className="min-w-[450px]">
-              <div className="flex flex-col space-y-1 items-center">
-                <EquipmentDisplay
-                  items={currentSnapshot?.characterSnapshotItems!}
-                />
-                <SecondaryEquipmentDisplay
-                  items={currentSnapshot?.characterSnapshotItems!}
-                />
+        <div className="flex flex-col gap-2 lg:grid lg:grid-cols-12 lg:grid-rows-[200px, 200px, 200px, 200px] ">
+          <div className="flex lg:grid lg:col-start-4 lg:col-end-9 lg:row-start-1 lg:row-end-2  w-full h-full bg-primary ">
+            <div className="flex flex-col space-y-1 items-center bg-surface-secondary p-3">
+              <EquipmentDisplay
+                items={currentSnapshot?.characterSnapshotItems!}
+              />
+              <SecondaryEquipmentDisplay
+                items={currentSnapshot?.characterSnapshotItems!}
+              />
+            </div>
+          </div>
+          <div className="grid col-start-1 col-end-4 row-start-1 row-end-2">
+            <StyledCard>
+              <div className="grid grid-cols-2 w-full h-full">
+                <div className="col-start-1 col-end-2  ">
+                  <CharacterStatsDisplay
+                    pobStats={currentSnapshot?.characterSnapshotPobStats}
+                  />
+                </div>
+                <div className="col-start-2 col-end-3">
+                  <p>other column</p>
+                </div>
               </div>
             </StyledCard>
           </div>
 
-          <div className="flex flex-col flex-1 space-y-2 ">
+          <div className="flex lg:grid lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-2">
+            <StyledCard title={"Passive Tree"}>
+              <div className="flex flex-row w-full justify-center pb-4 ">
+                <StyledButton
+                  text={"Copy POB Code"}
+                  onClick={() => {
+                    navigator.clipboard.writeText(
+                      currentSnapshot?.characterSnapshotPobStats?.pobCode ??
+                        "not found"
+                    );
+                  }}
+                />
+              </div>
+              <SkillTree
+                version={"3.20"}
+                selectedNodes={
+                  currentSnapshot?.characterPassivesSnapshot?.hashes
+                }
+              />
+            </StyledCard>
+          </div>
+          <div className="grid col-start-4 col-end-9 row-start-2 row-end-3">
             <StyledCard title="Snapshots" className="flex-1">
               <div className="flex flex-col space-y-2">
                 <StyledSelect2
@@ -215,6 +248,7 @@ export default function Character({ characterSnapshot }) {
                     });
                   }}
                 />
+
                 <div className="flex flex-row w-full space-x-2">
                   <StyledButton
                     className="flex-1"
@@ -269,54 +303,39 @@ export default function Character({ characterSnapshot }) {
             </StyledCard>
           </div>
         </div>
-        <div className="flex flex-row space-x-2">
-          <StyledCard title="Character" className="flex-1">
+      </div>
+      <div className="flex flex-row space-x-2">
+        <StyledCard title="Character" className="flex-1">
+          <div>
+            <div>{currentSnapshot?.league}</div>
+            <div>{currentSnapshot?.poeCharacter?.name}</div>
             <div>
-              <div>{currentSnapshot?.league}</div>
-              <div>{currentSnapshot?.poeCharacter?.name}</div>
-              <div>
-                Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
-              </div>
-              <div>
-                Main Skill{" "}
-                {GeneralUtils.capitalize(currentSnapshot?.mainSkillKey)}
-              </div>
-              <div>
-                DPS{" "}
-                {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
-              </div>
+              Level {currentSnapshot?.level} {currentSnapshot?.characterClass}
             </div>
-          </StyledCard>
-          <StyledCard title={"Info"} className="flex-1">
             <div>
-              <div>
-                Bandit:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
-              </div>
-              <div>
-                Pantheon Major:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
-              </div>
-              <div>
-                Pantheon Minor:{" "}
-                {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
-              </div>
+              Main Skill{" "}
+              {GeneralUtils.capitalize(currentSnapshot?.mainSkillKey)}
             </div>
-          </StyledCard>
-        </div>
-        <div className="flex flex-row space-x-2">
-          <StyledCard title={"Pob Stats"} className="flex-1">
-            <CharacterStatsDisplay
-              pobStats={currentSnapshot?.characterSnapshotPobStats}
-            />
-          </StyledCard>
-        </div>
-
-        <StyledCard title={"Passive Tree"}>
-          <SkillTree
-            version={"3.20"}
-            selectedNodes={currentSnapshot?.characterPassivesSnapshot?.hashes}
-          />
+            <div>
+              DPS{" "}
+              {currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}
+            </div>
+          </div>
+        </StyledCard>
+        <StyledCard title={"Info"} className="flex-1">
+          <div>
+            <div>
+              Bandit: {currentSnapshot?.characterPassivesSnapshot?.banditChoice}
+            </div>
+            <div>
+              Pantheon Major:{" "}
+              {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor}
+            </div>
+            <div>
+              Pantheon Minor:{" "}
+              {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor}
+            </div>
+          </div>
         </StyledCard>
       </div>
     </>
