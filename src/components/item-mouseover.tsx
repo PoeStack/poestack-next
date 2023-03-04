@@ -345,7 +345,7 @@ export default function ItemMouseOver({
           item?.h! === 2 &&
           item?.inventoryId === "Offhand" ? (
             <div
-              className="absolute scale-0 group-hover:scale-100 bg-pink-700 lg:group-hover:scale-110 w-full h-full grid grid-rows-[_1fr, _1fr, _1fr, _10fr, _10fr, _10fr,  _1fr, _1fr, _1fr] 
+              className="absolute scale-0 group-hover:scale-100  lg:group-hover:scale-110 w-full h-full grid grid-rows-[_1fr, _1fr, _1fr, _10fr, _10fr, _10fr,  _1fr, _1fr, _1fr] 
             grid-cols-[_1fr, _10fr, _10fr, _1fr] items-center justify-center z-0 gap-x-4 gap-y-4 "
             >
               {item?.sockets?.map((s, i) => {
