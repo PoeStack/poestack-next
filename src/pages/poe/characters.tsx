@@ -598,7 +598,11 @@ function StyledCharactersSummaryTable({
                       return (
                         <>
                           <div>
-                            <StyledTooltip texts={[e.name]} placement={"left"}>
+                            <StyledTooltip
+                              texts={[e.name]}
+                              placement={"left"}
+                              className="capitalize"
+                            >
                               <div className="">
                                 <Image
                                   loader={myLoader}
