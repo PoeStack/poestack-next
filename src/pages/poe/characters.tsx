@@ -513,56 +513,64 @@ function StyledCharactersSummaryTable({
                 </Link>
               </td>
               <td>
-                <ul className="flex flex-row items-center space-x-2 justify-left">
-                  <div className="text-center">{snapshot.level}</div>
-                  <div>
-                    <StyledTooltip
-                      texts={[`${snapshot.characterClass}`]}
-                      placement="right"
-                      className="bg-slate-800"
-                    >
-                      <Image
-                        src={`/assets/poe/classes/${snapshot.characterClass}.png`}
-                        alt={snapshot.characterClass}
-                        width={50}
-                        height={60}
-                      />
-                    </StyledTooltip>
-                  </div>
-                  {snapshot.twitchProfileName ? (
-                    <>
-                      <Link
-                        href={`https://twitch.tv/${snapshot.twitchProfileName}`}
-                        legacyBehavior
-                      >
-                        <a
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-content-accent"
+                <ul className="grid grid-cols-3  grid-rows-1 items-center space-x-2 justify-center">
+                  <div className="col-start-1 col-end-1">
+                    {snapshot.twitchProfileName ? (
+                      <>
+                        <Link
+                          href={`https://twitch.tv/${snapshot.twitchProfileName}`}
+                          legacyBehavior
                         >
-                          <StyledTooltip
-                            texts={[
-                              GeneralUtils.capitalize(
-                                snapshot.twitchProfileName
-                              )!,
-                            ]}
-                            placement={"right"}
+                          <a
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-content-accent"
                           >
-                            <Image
-                              src={`/assets/common/twitch_logo.png`}
-                              alt={"twitch"}
-                              width={50}
-                              height={60}
-                            />
-                          </StyledTooltip>
-                        </a>
-                      </Link>
-                    </>
-                  ) : null}
+                            <StyledTooltip
+                              texts={[
+                                GeneralUtils.capitalize(
+                                  snapshot.twitchProfileName
+                                )!,
+                              ]}
+                              placement={"right"}
+                            >
+                              <Image
+                                src={`/assets/common/twitch_logo.png`}
+                                alt={"twitch"}
+                                width={50}
+                                height={60}
+                              />
+                            </StyledTooltip>
+                          </a>
+                        </Link>
+                      </>
+                    ) : null}
+                  </div>
+                  <div className="text-center col-start-2 col-end-3">
+                    <div className="flex flex-row items-center ml-3">
+                      {snapshot.level}
+                    </div>
+                  </div>
+                  <div className="text-center col-start-3 col-end-4">
+                    <div className="flex flex-row items-center">
+                      <StyledTooltip
+                        texts={[`${snapshot.characterClass}`]}
+                        placement="top"
+                        className="bg-slate-800"
+                      >
+                        <Image
+                          src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                          alt={snapshot.characterClass}
+                          width={50}
+                          height={60}
+                        />
+                      </StyledTooltip>
+                    </div>
+                  </div>
                 </ul>
               </td>
 
-              <td>
+              <td className="flex flex-row  mx-auto  justify-center h-full w-full items-center pr-4 pt-5">
                 {snapshot.mainSkillKey ? (
                   <li className="list-none">
                     <StyledSkillImageTooltip
@@ -593,12 +601,16 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItems && (
-                  <div className="flex flex-row items-center space-x-4">
+                  <div className="flex flex-row items-center space-x-4  justify-center">
                     {snapshot.topItems.map((e) => {
                       return (
                         <>
                           <div>
-                            <StyledTooltip texts={[e.name]} placement={"left"}>
+                            <StyledTooltip
+                              texts={[e.name]}
+                              placement={"top"}
+                              className="capitalize"
+                            >
                               <div className="">
                                 <Image
                                   loader={myLoader}
@@ -630,8 +642,10 @@ function StyledCharactersSummaryTable({
                 )}
               </td>
               <td className="font-semibold">
-                {!!snapshot.pobDps &&
-                  GeneralUtils.compactNumberFormat(snapshot.pobDps)}
+                <div className=" w-full flex flex-row items-center justify-center pr-2 ">
+                  {!!snapshot.pobDps &&
+                    GeneralUtils.compactNumberFormat(snapshot.pobDps)}
+                </div>
               </td>
             </tr>
           ))}

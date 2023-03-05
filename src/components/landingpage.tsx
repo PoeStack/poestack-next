@@ -109,13 +109,16 @@ export default function LandingPage() {
                 If any of these tools sound interesting read more below. Thank
                 you for your interest in PoeStack.
               </p>
-              <div className="flex items-center justify-center mb-2 mt-14">
-                <a
-                  href="#section2"
-                  className="rounded-md hover:bg-color-accent px-3.5 py-1.5 text-base font-semibold leading-7 text-content-base shadow-sm bg-color-red hover:text-content-inverted"
-                >
-                  <h4>Get started</h4>
-                </a>
+              <div className="relative group">
+                <div className="absolute inset-0 bg-red-700 mb-2 mt-14 rounded-lg blur-sm  group-hover:blur-md"></div>
+                <button className="relative mb-2 mt-14">
+                  <a
+                    href="#section2"
+                    className="flex flex-row rounded-md  px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-red-800"
+                  >
+                    <h4>Get started</h4>
+                  </a>
+                </button>
               </div>
               <div className="mt-10 text-slate-300">
                 <p>
@@ -156,14 +159,14 @@ export default function LandingPage() {
 
             <ul className=" lg:space-y-8">
               {/* //?Character Ladders */}
-              <li className="h-screen lg:h-full">
+              <li className="h-screen lg:h-full" id="section2">
                 <div className="grid w-full h-full lg:grid-cols-[_1fr,_2fr] lg:flex-row grid-rows-[_1fr,_3fr] lg:grid-rows-1">
                   {/* Text & Description */}
                   <div className="flex flex-col justify-center w-full row-start-1 p-4 lg:h-full">
                     {/* //!Have link go to account login unless logged in then */}
                     <Link href={`/poe/characters?league=${league}`}>
                       <h1
-                        id="section2"
+                        // id="section2"
                         className="text-4xl text-center text-content-accent hover:text-content-red"
                       >
                         Character Ladder
@@ -209,16 +212,32 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/characters?league=${league}`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/characters?league=${league}`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-                        <li className="mb-10">
+                        <li>
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
+                            </button>
+                          </div>
+                        </li>
+                        {/* <li className="mb-10">
                           <Link
                             href="/poe/tutorial"
                             className="relative justify-end mx-auto mt-10 text-sm "
@@ -227,7 +246,7 @@ export default function LandingPage() {
                               Learn More
                             </button>
                           </Link>
-                        </li>
+                        </li> */}
                       </ul>
                     </ul>
                   </div>
@@ -290,24 +309,30 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/characters/${profile?.userId}`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/characters/${profile?.userId}`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
@@ -369,25 +394,30 @@ export default function LandingPage() {
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href="/poe/stash/snapshot/profiles"
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/stash/snapshot/profiles"
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
@@ -445,25 +475,30 @@ export default function LandingPage() {
 
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
-                          <Link
-                            href={`/poe/economy/${league}?tag=currency`}
-                            className="relative justify-start mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base w-28 bg-color-red hover:bg-color-accent hover:text-content-inverted">
-                              Try it
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href={`/poe/economy/${league}?tag=currency`}
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                              >
+                                <h4>Try It</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
-
                         <li>
-                          <Link
-                            href="/poe/tutorial"
-                            className="relative justify-end mx-auto mt-10 text-sm "
-                          >
-                            <button className="px-4 py-2 font-bold rounded-full text-content-base bg-color-primary hover:bg-color-secondary-variant w-28 ">
-                              Learn More
+                          <div className="relative group">
+                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <button className="relative mb-2 mt-14">
+                              <Link
+                                href="/poe/tutorial"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                              >
+                                <h4>Learn More</h4>
+                              </Link>
                             </button>
-                          </Link>
+                          </div>
                         </li>
                       </ul>
                     </ul>
@@ -496,65 +531,68 @@ function StyledCarousel({ images }) {
   };
 
   return (
-    <div className="relative rounded-lg lg:mx-10 xl:pt-4 bg-zinc-900">
-      <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
-        {/* <div className="relative bg-surface-primary"> */}
-        <AiOutlineLeft
-          onClick={handlePrevSlide}
-          className="absolute left-0 z-20 w-20 col-start-1 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
-        />
-        <div className="w-full h-[30vh] md:h-[50vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
-          <Swipe
-            onSwipeLeft={handleNextSlide}
-            onSwipeRight={handlePrevSlide}
-            className="z-10 flex flex-row items-center justify-center w-11/12 h-full"
-          >
-            {images.map((item, index) => {
-              if (index === currentSlide) {
-                return (
-                  <Image
-                    unoptimized={true}
-                    key={item.id}
-                    src={item.path}
-                    fill
-                    style={{ objectFit: "contain" }}
-                    className="bg-surface-primary"
-                    alt={`Landing Page Image ${item.id}`}
-                    sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
-                    quality={100}
-                  />
-                );
-              }
-            })}
-          </Swipe>
+    <div className="relative">
+      <div className="absolute inset-0 rounded-lg mb-16 lg:mb-0 lg:mx-10 xl:pt-4 lg:bg-white/80 blur-sm"></div>
+      <div className="relative rounded-lg lg:mx-10  xl:pt-4 bg-surface-secondary">
+        <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
+          {/* <div className="relative bg-surface-primary"> */}
+          <AiOutlineLeft
+            onClick={handlePrevSlide}
+            className="absolute left-0 z-20 w-20 col-start-1 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
+          />
+          <div className="w-full h-[30vh] md:h-[50vh] lg:h-[60vh] grid col-start-2 overflow-hidden relative">
+            <Swipe
+              onSwipeLeft={handleNextSlide}
+              onSwipeRight={handlePrevSlide}
+              className="z-10 flex flex-row items-center justify-center w-11/12 h-full"
+            >
+              {images.map((item, index) => {
+                if (index === currentSlide) {
+                  return (
+                    <Image
+                      unoptimized={true}
+                      key={item.id}
+                      src={item.path}
+                      fill
+                      style={{ objectFit: "contain" }}
+                      className="bg-surface-secondary"
+                      alt={`Landing Page Image ${item.id}`}
+                      sizes="(min-width: 60em) 24vw, (min-width: 28em) 45vw, 100vw"
+                      quality={100}
+                    />
+                  );
+                }
+              })}
+            </Swipe>
+          </div>
+          <AiOutlineRight
+            onClick={handleNextSlide}
+            className="absolute right-0 z-20 col-start-3 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
+          />
         </div>
-        <AiOutlineRight
-          onClick={handleNextSlide}
-          className="absolute right-0 z-20 col-start-3 p-2 text-5xl text-white cursor-pointer inset-y-1/2 hover:text-content-accent"
-        />
-      </div>
 
-      <div className="relative flex justify-center pb-2">
-        {images.map((_, index) => {
-          return (
-            <div
-              className={
-                index === currentSlide
-                  ? "h-4 w-4 bg-color-accent rounded-full mx-2 m-4 cursor-pointer"
-                  : "h-4 w-4 bg-white rounded-full mx-2 m-4 cursor-pointer"
-              }
-              key={index}
-              onClick={() => {
-                setCurrentSlide(index);
-              }}
-            />
-          );
-        })}
-      </div>
-      <div className="pb-4 text-center">
-        {images.map((item, index) => {
-          if (index === currentSlide) return <div>{item.text}</div>;
-        })}
+        <div className="relative flex justify-center pb-2">
+          {images.map((_, index) => {
+            return (
+              <div
+                className={
+                  index === currentSlide
+                    ? "h-4 w-4 bg-color-accent rounded-full mx-2 m-4 cursor-pointer"
+                    : "h-4 w-4 bg-white rounded-full mx-2 m-4 cursor-pointer"
+                }
+                key={index}
+                onClick={() => {
+                  setCurrentSlide(index);
+                }}
+              />
+            );
+          })}
+        </div>
+        <div className="pb-4 text-center">
+          {images.map((item, index) => {
+            if (index === currentSlide) return <div>{item.text}</div>;
+          })}
+        </div>
       </div>
     </div>
   );
