@@ -206,6 +206,7 @@ export default function CreateBulkListingModal({
   itemValueOverrides: Record<string, number | null>;
 }) {
   const [exporterInput, setExporterInput] = useState<StashSnapshotExportInput>({
+    league: "",
     search: itemGroupSearch,
     alwaysPriceInChaos: false,
     visualDecimalPrecision: 2,

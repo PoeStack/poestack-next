@@ -210,7 +210,7 @@ export default function Character({ characterSnapshot }) {
                   <div className="flex flex-row mt-4 justify-center">
                     <Image
                       src={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
-                      alt={currentSnapshot!.characterClass}
+                      alt={currentSnapshot?.characterClass ?? ""}
                       width={120}
                       height={30}
                     />

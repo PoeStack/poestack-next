@@ -1,8 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
 
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
@@ -14,9 +13,7 @@ import {
   StashSnapshotExport,
 } from "@generated/graphql";
 import { ItemSearchUserInput } from "./snapshot-item-table";
-import { profile } from "console";
-import { usePoeStackAuth } from "@contexts/user-context";
-import TftOneClickButton from "./tft-one-click-button";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function CreateBulkListingPanel({
   itemGroupSearch,
@@ -27,14 +24,18 @@ export default function CreateBulkListingPanel({
   searchUserInput: ItemSearchUserInput;
   setSearchUserInput: Dispatch<SetStateAction<ItemSearchUserInput>>;
 }) {
+  const { league } = usePoeLeagueCtx();
+
   const [exporterInput, setExporterInput] = useState<StashSnapshotExportInput>({
     search: {},
     alwaysPriceInChaos: false,
+    league: league,
     visualDecimalPrecision: 2,
     maxStackSizeSetting: "max",
     ign: "",
     listedValueMultiplier: 1.0,
     exportType: "",
+    exportSubType: null,
     stashIndexOffset: 0,
     absoluteMinValueChaos: 0,
     itemGroupValueOverrides: [],
@@ -59,6 +60,7 @@ export default function CreateBulkListingPanel({
   function buildInput() {
     return {
       ...exporterInput,
+      league: league,
       search: itemGroupSearch,
       ...{
         itemGroupValueOverrides: Object.entries(
@@ -123,7 +125,8 @@ export default function CreateBulkListingPanel({
             });
             setExporterInput({
               ...exporterInput,
-              ...{ exportType: e?.name },
+              exportType: e?.name,
+              exportSubType: selectedSubFilter?.name,
             });
           }}
           mapToText={(e) => e?.name}
@@ -141,6 +144,10 @@ export default function CreateBulkListingPanel({
               setSelectedSubFilter(e);
               if (e.keys) {
                 setSearchUserInput({ ...searchUserInput, keys: e.keys });
+                setExporterInput({
+                  ...exporterInput,
+                  exportSubType: e?.name,
+                });
               }
             }}
             selected={selectedSubFilter}
@@ -195,6 +202,20 @@ export default function CreateBulkListingPanel({
               />
             </div>
 
+            {!exporterTypesToPanels[exporterInput.exportType]
+              ?.disableTftButtons && (
+              <StyledButton
+                text={generatingListingLoading ? "Loading..." : `Post to TFT`}
+                onClick={() => {
+                  generateListing({
+                    variables: {
+                      input: { ...buildInput(), oneClickPost: true },
+                    },
+                  });
+                }}
+              />
+            )}
+            {/* 
             <StyledButton
               text={generatingListingLoading ? "Loading..." : "Copy"}
               onClick={() => {
@@ -231,20 +252,7 @@ export default function CreateBulkListingPanel({
                   });
                 }}
               />
-            )}
-            {!exporterTypesToPanels[exporterInput.exportType]
-              ?.disableTftButtons && (
-              <TftOneClickButton
-                loading={generatingListingLoading}
-                onClick={() => {
-                  generateListing({
-                    variables: {
-                      input: { ...buildInput(), oneClickPost: true },
-                    },
-                  });
-                }}
-              />
-            )}
+            )} */}
           </div>
         )}
       </div>
@@ -387,7 +395,7 @@ export const exporterTypesToPanels = {
         ],
       },
       {
-        name: "atizir",
+        name: "atziri",
         icon: "https://web.poecdn.com/gen/image/WzI4LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9WYWFsQ29tcGxldGUiLCJzY2FsZSI6MX1d/63035d86d7/VaalComplete.png",
         keys: [
           "Sacrifice at Midnight",
