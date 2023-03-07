@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { usePoeStackAuth } from "../../contexts/user-context";
 import StyledButton from "../styled-button";
+import { useRouter } from "next/router";
 
 export default function TftGuardPanel({ children }) {
+  const router = useRouter();
+
   const { profile, tftMember, refetchMyProfile } = usePoeStackAuth();
 
   const poeAccountConnected = !!profile?.poeProfileName;
@@ -30,9 +33,9 @@ export default function TftGuardPanel({ children }) {
                 <div
                   className="text-content-accent"
                   onClick={() => {
-                    window.open(
-                      "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:league_accounts&state=closeafter&redirect_uri=https://poestack.com/ggg/connected&prompt=consent",
-                      "_ blank"
+                    localStorage.setItem("variable-redirect", router.asPath);
+                    router.push(
+                      "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:league_accounts&state=closeafter&redirect_uri=https://poestack.com/ggg/connected&prompt=consent"
                     );
                   }}
                 >
@@ -51,14 +54,14 @@ export default function TftGuardPanel({ children }) {
               ></div>
               <div>Discord Account Connected</div>
             </div>
-            {!discordAccountConnected && (
+            {poeAccountConnected && !discordAccountConnected && (
               <>
                 <div
                   className="text-content-accent"
                   onClick={() => {
-                    window.open(
-                      "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify",
-                      "_ blank"
+                    localStorage.setItem("variable-redirect", router.asPath);
+                    router.push(
+                      "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
                     );
                   }}
                 >

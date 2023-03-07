@@ -1,6 +1,7 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { createContext, useContext, useEffect, useState } from "react";
 import { UserProfile } from "@generated/graphql";
+import { useRouter } from "next/router";
 
 const initalContext: {
   jwt: string | null;
@@ -23,6 +24,8 @@ export const PoeStackAuthContext = createContext(initalContext);
 export const localStorageJwtName = "doNotSharePoeStackAuthJwt";
 
 export function PoeStackAuthProvider({ children }) {
+  const router = useRouter();
+
   const [jwt, setJwt] = useState<string | null>(
     typeof window !== "undefined"
       ? localStorage.getItem(localStorageJwtName)

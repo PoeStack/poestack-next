@@ -12,8 +12,15 @@ export default function Connected() {
   useEffect(() => {
     if (code?.length) {
       connect(code.toString());
+
+      if (
+        typeof window !== "undefined" &&
+        localStorage.getItem("variable-redirect")
+      ) {
+        router.push(localStorage.getItem("variable-redirect")!.toString());
+      }
     }
-  }, [code, connect]);
+  }, [code, connect, router]);
 
   return (
     <>

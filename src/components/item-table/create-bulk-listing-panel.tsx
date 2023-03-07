@@ -62,6 +62,8 @@ export default function CreateBulkListingPanel({
       ...exporterInput,
       league: league,
       search: itemGroupSearch,
+      exportType: selectedExporter?.name,
+      exportSubType: selectedSubFilter?.name,
       ...{
         itemGroupValueOverrides: Object.entries(
           searchUserInput?.itemValueOverrides ?? {}
@@ -99,12 +101,12 @@ export default function CreateBulkListingPanel({
   );
 
   useEffect(() => {
-    if (exporterInput?.exportType && itemGroupSearch) {
+    if (selectedExporter && itemGroupSearch) {
       generateListing();
     }
   }, [
     generateListing,
-    exporterInput,
+    selectedExporter,
     itemGroupSearch,
     selectedSubFilter,
     searchUserInput,
@@ -116,17 +118,12 @@ export default function CreateBulkListingPanel({
         <StyledSelect2
           items={Object.values(exporterTypesToPanels)}
           onSelectChange={(e) => {
-            setSelectedSubFilter(undefined);
             setSelectedExporter(e);
+            setSelectedSubFilter(undefined);
             setSearchUserInput({
               ...searchUserInput,
               tags: [e.name],
               keys: undefined,
-            });
-            setExporterInput({
-              ...exporterInput,
-              exportType: e?.name,
-              exportSubType: selectedSubFilter?.name,
             });
           }}
           mapToText={(e) => e?.name}
@@ -134,20 +131,13 @@ export default function CreateBulkListingPanel({
           selected={selectedExporter}
         />
 
-        {exporterTypesToPanels[exporterInput.exportType]?.subFilters
-          ?.length && (
+        {selectedExporter?.subFilters?.length && (
           <StyledSelect2
-            items={
-              exporterTypesToPanels[exporterInput.exportType]?.subFilters ?? []
-            }
+            items={selectedExporter?.subFilters ?? []}
             onSelectChange={(e) => {
               setSelectedSubFilter(e);
               if (e.keys) {
                 setSearchUserInput({ ...searchUserInput, keys: e.keys });
-                setExporterInput({
-                  ...exporterInput,
-                  exportSubType: e?.name,
-                });
               }
             }}
             selected={selectedSubFilter}
@@ -156,12 +146,12 @@ export default function CreateBulkListingPanel({
           />
         )}
 
-        {exporterTypesToPanels[exporterInput.exportType]?.panel?.({
+        {exporterTypesToPanels[selectedExporter?.name]?.panel?.({
           exporterInput,
           setExporterInput,
         })}
 
-        {!!exporterInput.exportType && (
+        {!!selectedExporter && (
           <div>
             <input
               id="minmax-range"
@@ -193,7 +183,7 @@ export default function CreateBulkListingPanel({
             </div>
 
             <div className="flex flex-row space-x-2">
-              <h3>Listed Value: </h3>{" "}
+              <h3>Listed Value: </h3>
               <CurrencyValueDisplay
                 valueChaos={
                   (bulkListing?.totalValueChaos ?? 0) *
@@ -202,8 +192,7 @@ export default function CreateBulkListingPanel({
               />
             </div>
 
-            {!exporterTypesToPanels[exporterInput.exportType]
-              ?.disableTftButtons && (
+            {!selectedExporter?.disableTftButtons && (
               <StyledButton
                 text={generatingListingLoading ? "Loading..." : `Post to TFT`}
                 onClick={() => {
@@ -306,17 +295,23 @@ export function ForumExporterOptions({ exporterInput, setExporterInput }) {
 export function TftBaseExporterOptions({ exporterInput, setExporterInput }) {
   return (
     <>
-      <StyledInput
-        placeholder="IGN"
-        value={exporterInput.ign!}
-        onChange={(e) => {
-          localStorage.setItem("bulk_last_ign", e);
-          setExporterInput({
-            ...exporterInput,
-            ...{ ign: e },
-          });
-        }}
-      />
+      <div
+        className={
+          exporterInput?.ign?.length < 3 ? "border-red-600 border-2" : ""
+        }
+      >
+        <StyledInput
+          placeholder="IGN"
+          value={exporterInput.ign!}
+          onChange={(e) => {
+            localStorage.setItem("bulk_last_ign", e);
+            setExporterInput({
+              ...exporterInput,
+              ...{ ign: e },
+            });
+          }}
+        />
+      </div>
     </>
   );
 }

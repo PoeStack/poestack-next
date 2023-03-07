@@ -470,23 +470,6 @@ export default function CreateBulkListingModal({
                         }}
                       />
                     )}
-                    {!exporterTypesToPanels[exporterInput.exportType]
-                      ?.disableTftButtons && (
-                      <StyledButton
-                        text={
-                          generatingListing
-                            ? "Loading..."
-                            : "Post to TFT (coming soon)"
-                        }
-                        onClick={() => {
-                          generateListing({
-                            variables: {
-                              input: { ...exporterInput, oneClickPost: true },
-                            },
-                          });
-                        }}
-                      />
-                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

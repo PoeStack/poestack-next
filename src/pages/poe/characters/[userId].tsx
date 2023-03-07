@@ -369,21 +369,25 @@ function CharactersByUserTable({
                 </td>
                 <td>
                   <ul className="flex flex-row items-center justify-center space-x-2">
-                    <div className="text-center">{snapshot.level}</div>
-                    <div>
-                      <StyledTooltip
-                        texts={[`${snapshot.characterClass}`]}
-                        placement="right"
-                        className="bg-slate-800"
-                      >
-                        <Image
-                          src={`/assets/poe/classes/${snapshot.characterClass}.png`}
-                          alt={snapshot.characterClass}
-                          width={39}
-                          height={30}
-                        />
-                      </StyledTooltip>
-                    </div>
+                    {snapshot.level > 0 && (
+                      <>
+                        <div className="text-center">{snapshot.level}</div>
+                        <div>
+                          <StyledTooltip
+                            texts={[`${snapshot.characterClass}`]}
+                            placement="right"
+                            className="bg-slate-800"
+                          >
+                            <Image
+                              src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                              alt={snapshot.characterClass}
+                              width={39}
+                              height={30}
+                            />
+                          </StyledTooltip>
+                        </div>
+                      </>
+                    )}
                   </ul>
                 </td>
 
