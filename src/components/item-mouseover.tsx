@@ -72,7 +72,7 @@ export default function ItemMouseOver({
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
-            <div className="flex flex-col z-100 pl-10 space-y-2">
+            <div className="flex flex-col pl-10 space-y-2 z-100">
               <ItemStatDisplay item={item} />
               {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
             </div>
@@ -148,7 +148,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -157,7 +157,7 @@ export default function ItemMouseOver({
                 if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
@@ -215,7 +215,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -280,7 +280,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -289,7 +289,7 @@ export default function ItemMouseOver({
                 if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-3 row-end-5 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-3 row-end-5 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
@@ -347,7 +347,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -412,7 +412,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -440,8 +440,8 @@ export default function ItemMouseOver({
                 if (i === 0) {
                   return (
                     <>
-                      <span className="row-start-1 row-span-3"></span>
-                      <span className="row-start-6 row-span-3"></span>
+                      <span className="row-span-3 row-start-1"></span>
+                      <span className="row-span-3 row-start-6"></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
@@ -499,7 +499,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -508,7 +508,7 @@ export default function ItemMouseOver({
                 if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-4 row-end-5 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-4 row-end-5 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
@@ -566,7 +566,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -631,7 +631,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -640,7 +640,7 @@ export default function ItemMouseOver({
                 if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-4 row-end-6 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-4 row-end-6 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${
@@ -698,7 +698,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -763,7 +763,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -844,7 +844,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -853,7 +853,7 @@ export default function ItemMouseOver({
                 if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-2 row-end-3 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-2 row-end-3 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
@@ -911,7 +911,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -976,7 +976,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -985,7 +985,7 @@ export default function ItemMouseOver({
                 if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
@@ -1043,7 +1043,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1108,7 +1108,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1117,7 +1117,7 @@ export default function ItemMouseOver({
                 if (i === 3 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-3 row-end-4 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-3 row-end-4 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
@@ -1175,7 +1175,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1240,7 +1240,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1265,8 +1265,8 @@ export default function ItemMouseOver({
                 if (i === 0) {
                   return (
                     <>
-                      <span className="row-start-1 row-span-1"></span>
-                      <span className="row-start-5 row-span-1"></span>
+                      <span className="row-span-1 row-start-1"></span>
+                      <span className="row-span-1 row-start-5"></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${
@@ -1324,7 +1324,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1333,7 +1333,7 @@ export default function ItemMouseOver({
                 if (i === 1 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-2 row-end-3 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-2 row-end-3 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
@@ -1391,7 +1391,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1456,7 +1456,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1465,7 +1465,7 @@ export default function ItemMouseOver({
                 if (i === 2 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-2 row-end-4 w-3 h-1/3 col-start-3 col-end-4 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
@@ -1523,7 +1523,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1588,7 +1588,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1597,7 +1597,7 @@ export default function ItemMouseOver({
                 if (i === 3 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-3 row-end-4 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0 "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-3 row-end-4 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
@@ -1655,7 +1655,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1720,7 +1720,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1729,7 +1729,7 @@ export default function ItemMouseOver({
                 if (i === 4 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-3 row-end-5 w-3 h-1/3 col-start-2 col-end-3 mx-auto bg-yellow-400 z-0  "></span>
+                      <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-3 row-end-5 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
@@ -1787,7 +1787,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1852,7 +1852,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1861,7 +1861,7 @@ export default function ItemMouseOver({
                 if (i === 5 && item?.sockets[i].group === currentSocketGroup) {
                   return (
                     <>
-                      <span className="grid row-start-4 row-end-5 w-1/3 h-3 col-start-2 col-end-4 mx-auto bg-yellow-400 z-0 "></span>
+                      <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-4 row-end-5 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
                           className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
@@ -1919,7 +1919,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -1984,7 +1984,7 @@ export default function ItemMouseOver({
                             setHoveredGem(null);
                           }}
                         >
-                          <div className="rounded-full w-7 h-7 bg-slate-700 border-2 border-yellow-400"></div>
+                          <div className="border-2 border-yellow-400 rounded-full w-7 h-7 bg-slate-700"></div>
                         </div>
                       )}
                     </>
@@ -2019,20 +2019,20 @@ export function ItemStatDisplay({ item }) {
     <>
       <div
         className={
-          "flex flex-col space-y-2 bg-color-primary p-3 w-96 text-center border-t-2 border-b-2 divide-y " +
+          "flex flex-col space-y-2 bg-color-primary p-3 w-96 text-center border-t-2 border-b-2 divide-y font-semibold  " +
           frameTypeToBorderColorMap[item.frameType ?? 0]
         }
       >
         <div>{`${item?.name} ${item?.typeLine}`.trim()}</div>
         {!!item?.properties?.length && (
           <>
-            <div className="flex flex-col w-full items-center">
+            <div className="flex flex-col items-center w-full pt-2">
               {item?.properties
                 ?.filter((p) => p.values?.length > 0)
                 .map((p, i) => (
                   <>
                     <div key={i} className="flex flex-row space-x-1">
-                      <div className="text-slate-500">{p.name}:</div>
+                      <div className="text-slate-400">{p.name}:</div>
                       <div>{p.values?.[0]?.[0]}</div>
                     </div>
                   </>
@@ -2045,7 +2045,7 @@ export function ItemStatDisplay({ item }) {
             <div>
               {item?.enchantMods?.map((p, i) => (
                 <>
-                  <div key={i} className=" text-blue-400">
+                  <div key={i} className="pt-2 text-blue-400 ">
                     {p}
                   </div>
                 </>
@@ -2055,16 +2055,18 @@ export function ItemStatDisplay({ item }) {
         )}
         {!!item?.implicitMods?.length && (
           <>
-            <div className="flex flex-col">
+            <div className="flex flex-col items-center pt-2 text-center">
               {item?.implicitMods?.map((p, i) => (
                 <>
-                  <div key={i}>{p}</div>
+                  <div className="text-blue-200" key={i}>
+                    {p}
+                  </div>
                 </>
               ))}
             </div>
           </>
         )}
-        <div className="flex flex-col">
+        <div className="flex flex-col pt-2">
           {item?.fracturedMods?.map((p, i) => (
             <>
               <div key={i} className=" text-amber-200">
@@ -2074,12 +2076,14 @@ export function ItemStatDisplay({ item }) {
           ))}
           {item?.explicitMods?.map((p, i) => (
             <>
-              <div key={i}>{p}</div>
+              <div key={i} className="text-blue-400">
+                {p}
+              </div>
             </>
           ))}
           {item?.craftedMods?.map((p, i) => (
             <>
-              <div key={i} className=" text-blue-400">
+              <div key={i} className="text-blue-200 ">
                 {p}
               </div>
             </>
