@@ -72,9 +72,13 @@ export default function ItemMouseOver({
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
-            <div className="flex flex-col pl-10 space-x-2 lg:flex-row z-100">
-              {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
-              <ItemStatDisplay item={item} />
+            <div className="flex flex-col pl-10 lg:flex-row z-100">
+              <div className="p-1">
+                {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+              </div>
+              <div className="p-1">
+                <ItemStatDisplay item={item} />
+              </div>
             </div>
           </div>
 
@@ -2294,58 +2298,37 @@ export function ItemStatDisplay({ item }) {
   return (
     <>
       <div
-        className={`flex flex-col  bg-color-primary w-96 text-center border-t-2 border-b-2 divide-y font-semibold text-base
-          //! normal
+        className={`flex flex-col  bg-surface-primary w-96 text-center border-t-2 border-b-2 divide-y font-semibold text-base
           ${
             item.frameType === 0
               ? "  border-color-normal divide-color-normal border"
               : null
           }
-          //! magic
           ${
             item.frameType === 1
               ? "    border border-color-magic  divide-color-magic"
               : null
           } 
-          //! rare
           ${
             item.frameType === 2
               ? " border border-color-rare divide-color-rare "
               : null
           } 
-          //! unique
           ${
             item.frameType === 3
               ? " border  border-color-unique divide-color-unique"
               : null
           } 
-          //! foil
+          ${
+            item.frameType === 4
+              ? " border  border-green-800 divide-green-700"
+              : null
+          } 
           ${
             item.frameType === 9
               ? "  border  border-pink-400 divide-pink-400"
               : null
           } 
-          ${
-            item.frameType === 4 && item.gemColor === "D"
-              ? "  border  border-green-400 divide-green-400"
-              : null
-          } 
-          ${
-            item.frameType === 4 && item.gemColor === "I"
-              ? "  border  border-blue-400 divide-blue-400"
-              : null
-          } 
-          ${
-            item.frameType === 4 && item.gemColor === "S"
-              ? "  border  border-red-400 divide-red-400"
-              : null
-          } 
-          //!gemred
-
-          //!gemblue
-          //!gemgreen
-          
-          
           `}
       >
         <div
@@ -2355,45 +2338,32 @@ export function ItemStatDisplay({ item }) {
             ? "  text-content-normal bg-white bg-opacity-40 "
             : null
         }
-        //! magic
         ${
           item.frameType === 1
             ? "    text-content-magic bg-indigo-800  bg-opacity-10"
             : null
         } 
-        //! rare
         ${
           item.frameType === 2
             ? " text-content-rare bg-yellow-200 bg-opacity-10"
             : null
         } 
-        //! unique
         ${
           item.frameType === 3
             ? " text-content-unique bg-orange-800 bg-opacity-10"
             : null
         } 
-        //! foil
+        ${
+          item.frameType === 4
+            ? "    text-content-gem bg-teal-400 bg-opacity-10"
+            : null
+        }
         ${
           item.frameType === 9
             ? "  text-pink-400 bg-pink-400 bg-opacity-25"
             : null
         } 
-        ${
-          item.frameType === 4 && item.gemColor === "D"
-            ? "    text-green-400 bg-green-400 bg-opacity-10"
-            : null
-        } 
-        ${
-          item.frameType === 4 && item.gemColor === "I"
-            ? "    text-blue-400 bg-blue-400 bg-opacity-10"
-            : null
-        } 
-        ${
-          item.frameType === 4 && item.gemColor === "S"
-            ? "    text-red-400 bg-red-400 bg-opacity-10"
-            : null
-        } 
+        
         `}
         >
           {`${item?.name} ${item?.typeLine}`.trim()}

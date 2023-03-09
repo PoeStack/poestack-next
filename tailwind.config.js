@@ -26,6 +26,7 @@ module.exports = {
           magic: "var(--color-magic)",
           rare: "var(--color-rare)",
           unique: "var(--color-unique)",
+          gem: "var(--color-gem)",
         },
       },
       backgroundColor: {
@@ -38,10 +39,6 @@ module.exports = {
           accent: "var(--color-accent)",
           "accent-variant": "var(--color-accent-variant)",
           red: "var(--color-red)",
-          normal: "var(--color-normal)",
-          magic: "var(--color-magic)",
-          rare: "var(--color-rare)",
-          unique: "var(--color-unique)",
         },
         // surfaces
         surface: {
