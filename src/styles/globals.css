@@ -24,8 +24,9 @@
     --color-magic: #8888ff;
     --color-rare: #ffff77;
     --color-unique: #af6025;
+    --color-gem: #1b9f97;
     /* Surfaces - Backgrounds/Components */
-    --color-background-primary: #121212;
+    --color-background-primary: #221b1b;
     --color-background-primary-variant: #252525;
     --color-background-secondary: #000000;
     --color-background-secondary-variant: #474c50;

@@ -187,8 +187,8 @@ export default function Character({ characterSnapshot }) {
           />
         </Head>
         <div className="flex flex-col gap-2 lg:grid lg:grid-cols-12 lg:grid-rows-[200px, 200px, 200px, 200px] ">
-          <div className="flex lg:grid lg:col-start-4 lg:col-end-9 lg:row-start-1 lg:row-end-2  w-full h-full bg-primary ">
-            <div className="flex flex-col space-y-1 items-center bg-surface-secondary p-3">
+          <div className="flex w-full h-full lg:grid lg:col-start-4 lg:col-end-9 lg:row-start-1 lg:row-end-2 bg-primary ">
+            <div className="flex flex-col items-center p-3 space-y-1 bg-surface-secondary">
               <EquipmentDisplay
                 items={currentSnapshot?.characterSnapshotItems!}
               />
@@ -197,16 +197,16 @@ export default function Character({ characterSnapshot }) {
               />
             </div>
           </div>
-          <div className="grid col-start-1 col-end-4 row-start-1 row-end-2 font-semibold">
+          <div className="grid col-start-1 col-end-4 row-start-1 row-end-2 text-base font-semibold xl:text-base lg:text-xs">
             <StyledCard>
-              <div className="grid grid-cols-2 w-full h-full">
-                <div className="col-start-1 col-end-2  ">
+              <div className="grid w-full h-full grid-cols-2">
+                <div className="col-start-1 col-end-2 ">
                   <CharacterStatsDisplay
                     pobStats={currentSnapshot?.characterSnapshotPobStats}
                   />
                 </div>
                 <div className="col-start-2 col-end-3 pl-4">
-                  <div className="flex flex-row mt-4 justify-center">
+                  <div className="flex flex-row justify-center mt-4">
                     <Image
                       src={`/assets/poe/classes/${currentSnapshot?.characterClass}.png`}
                       alt={currentSnapshot?.characterClass ?? ""}
@@ -214,35 +214,35 @@ export default function Character({ characterSnapshot }) {
                       height={30}
                     />
                   </div>
-                  <div className="grid grid-cols-1 gap-x-3 w-full h-full mt-4 ">
+                  <div className="grid w-full h-full grid-cols-1 mt-4 gap-x-3 ">
                     <div>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>Name:</h3>
-                        <h5 className=" mx-2  text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {currentSnapshot?.poeCharacter?.name}
                         </h5>
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>League:</h3>{" "}
-                        <h5 className=" mx-2 text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {currentSnapshot?.league}
                         </h5>
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>Level:</h3>{" "}
-                        <h5 className=" mx-2 text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {currentSnapshot?.level}
                         </h5>
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant">
                         <h3>Class:</h3>{" "}
-                        <h5 className=" mx-2 text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {currentSnapshot?.characterClass}
                         </h5>
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant">
                         <h3>Skill:</h3>{" "}
-                        <h5 className=" mx-2 text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {GeneralUtils.capitalize(
                             currentSnapshot?.mainSkillKey
                           )}
@@ -250,17 +250,17 @@ export default function Character({ characterSnapshot }) {
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant">
                         <h3>DPS:</h3>{" "}
-                        <h5 className=" mx-2 text-right w-full">
+                        <h5 className="w-full mx-2 text-right ">
                           {
                             currentSnapshot?.characterSnapshotPobStats
                               ?.totalDpsWithIgnite
                           }
                         </h5>
                       </div>
-                      <h2 className="text-center mt-8">Choices</h2>
+                      <h2 className="mt-8 text-center">Choices</h2>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>Bandit:</h3>
-                        <h5 className=" mx-4  text-right w-full">
+                        <h5 className="w-full mx-4 text-right ">
                           {
                             currentSnapshot?.characterPassivesSnapshot
                               ?.banditChoice
@@ -269,7 +269,7 @@ export default function Character({ characterSnapshot }) {
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>Major:</h3>{" "}
-                        <h5 className=" mx-4  text-right w-full">
+                        <h5 className="w-full mx-4 text-right ">
                           {currentSnapshot?.characterPassivesSnapshot?.pantheonMajor?.replace(
                             /([a-z])([A-Z])/g,
                             "$1 $2"
@@ -278,7 +278,7 @@ export default function Character({ characterSnapshot }) {
                       </div>
                       <div className="flex flex-row hover:bg-color-primary-variant ">
                         <h3>Minor:</h3>{" "}
-                        <h5 className=" mx-4  text-right w-full">
+                        <h5 className="w-full mx-4 text-right ">
                           {currentSnapshot?.characterPassivesSnapshot?.pantheonMinor?.replace(
                             /([a-z])([A-Z])/g,
                             "$1 $2"
@@ -289,7 +289,7 @@ export default function Character({ characterSnapshot }) {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-row w-full justify-center mt-2 ">
+              <div className="flex flex-row justify-center w-full mt-2 ">
                 <StyledButton
                   text={"Copy POB Code"}
                   onClick={() => {
