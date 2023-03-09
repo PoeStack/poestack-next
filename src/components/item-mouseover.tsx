@@ -2302,6 +2302,24 @@ export default function ItemMouseOver({
   );
 }
 
+export function ItemStatSeperator({ item }) {
+  return (
+    <>
+      {" "}
+      <div
+        className={` m-3 w-1/3 h-[1px] mx-auto bg-gradient-to-r from-primary to-primary 
+${item.frameType === 0 ? "via-grey-200" : null}
+${item.frameType === 1 ? "via-indigo-600" : null} 
+${item.frameType === 2 ? "via-yellow-300" : null} 
+${item.frameType === 3 ? "via-orange-400" : null} 
+${item.frameType === 4 ? "via-teal-800" : null}
+${item.frameType === 9 ? "via-pink-400" : null} 
+`}
+      ></div>
+    </>
+  );
+}
+
 export function ItemStatDisplay({ item }) {
   return (
     <>
@@ -2366,16 +2384,7 @@ export function ItemStatDisplay({ item }) {
                     </div>
                   </>
                 ))}
-              <div
-                className={` m-3 w-1/3 h-[1px] mx-auto  bg-gradient-to-r from-primary to-primary 
-        ${item.frameType === 0 ? "via-grey-200" : null}
-        ${item.frameType === 1 ? "via-indigo-600" : null} 
-        ${item.frameType === 2 ? "via-yellow-300" : null} 
-        ${item.frameType === 3 ? "via-orange-400" : null} 
-        ${item.frameType === 4 ? "via-teal-800" : null}
-        ${item.frameType === 9 ? "via-pink-400" : null} 
-        `}
-              ></div>
+              <ItemStatSeperator item={item} />
             </div>
           </>
         )}
@@ -2384,12 +2393,13 @@ export function ItemStatDisplay({ item }) {
             <div className="p-1">
               {item?.enchantMods?.map((p, i) => (
                 <>
-                  <div key={i} className="text-blue-400">
+                  <div key={i} className="text-blue-200">
                     {p}
                   </div>
                 </>
               ))}
             </div>
+            <ItemStatSeperator item={item} />
           </>
         )}
         {!!item?.implicitMods?.length && (
@@ -2397,7 +2407,40 @@ export function ItemStatDisplay({ item }) {
             <div className="flex flex-col items-center p-1 text-center ">
               {item?.implicitMods?.map((p, i) => (
                 <>
-                  <div className="text-blue-200" key={i}>
+                  <div className="text-blue-400" key={i}>
+                    {p}
+                  </div>
+                </>
+              ))}
+            </div>
+            <ItemStatSeperator item={item} />
+          </>
+        )}
+        {item?.fracturedMods?.length +
+          item?.explicitMods?.length +
+          item?.craftedMods?.length >
+          0 && (
+          <>
+            <div className="flex flex-col mx-2">
+              {item?.fracturedMods?.map((p, i) => (
+                <>
+                  <div key={i} className=" text-amber-200">
+                    {p}
+                  </div>
+                </>
+              ))}
+
+              {item?.explicitMods?.map((p, i) => (
+                <>
+                  <div key={i} className="text-blue-400">
+                    {p}
+                  </div>
+                </>
+              ))}
+              <ItemStatSeperator item={item} />
+              {item?.craftedMods?.map((p, i) => (
+                <>
+                  <div key={i} className="text-blue-200 ">
                     {p}
                   </div>
                 </>
@@ -2405,40 +2448,7 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
-        <div className="flex flex-col mx-2">
-          {item?.fracturedMods?.map((p, i) => (
-            <>
-              <div key={i} className=" text-amber-200">
-                {p}
-              </div>
-            </>
-          ))}
 
-          {item?.explicitMods?.map((p, i) => (
-            <>
-              <div key={i} className="text-blue-400">
-                {p}
-              </div>
-            </>
-          ))}
-          <div
-            className={` m-3 w-1/3 h-[1px] mx-auto  bg-gradient-to-r from-primary to-primary 
-        ${item.frameType === 0 ? "via-grey-200" : null}
-        ${item.frameType === 1 ? "via-indigo-600" : null} 
-        ${item.frameType === 2 ? "via-yellow-300" : null} 
-        ${item.frameType === 3 ? "via-orange-400" : null} 
-        ${item.frameType === 4 ? "via-teal-800" : null}
-        ${item.frameType === 9 ? "via-pink-400" : null} 
-        `}
-          ></div>
-          {item?.craftedMods?.map((p, i) => (
-            <>
-              <div key={i} className="text-blue-200 ">
-                {p}
-              </div>
-            </>
-          ))}
-        </div>
         {!!item.corrupted && (
           <>
             <div className="text-red-700  bg-opacity-10">Corrupted</div>
