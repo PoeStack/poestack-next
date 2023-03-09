@@ -22,6 +22,10 @@ module.exports = {
           inverted: "var(--color-text-inverted)",
           accent: "var(--color-accent)",
           red: "var(--color-red)",
+          normal: "var(--color-normal)",
+          magic: "var(--color-magic)",
+          rare: "var(--color-rare)",
+          unique: "var(--color-unique)",
         },
       },
       backgroundColor: {

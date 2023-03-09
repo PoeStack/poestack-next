@@ -32,7 +32,7 @@ export default function ItemMouseOver({
       {item && (
         <div
           className={`group relative flex w-full h-full mx-auto justify-center  
-          ${item.corrupted ? "border-2 border-red-900 bg-red-400" : null}
+          
 
           ${
             item.frameType === 0
@@ -72,9 +72,9 @@ export default function ItemMouseOver({
           <div
             className={`absolute top-10 left-28 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
-            <div className="flex flex-col pl-10 space-y-2 z-100">
-              <ItemStatDisplay item={item} />
+            <div className="flex flex-row pl-10 space-x-2 z-100">
               {hoveredGem && <ItemStatDisplay item={hoveredGem} />}
+              <ItemStatDisplay item={item} />
             </div>
           </div>
 
@@ -2001,32 +2001,116 @@ export default function ItemMouseOver({
 }
 
 export function ItemStatDisplay({ item }) {
-  const frameTypeToBorderColorMap = [
-    "",
-    "border-purple-600 divide-purple-600",
-    "border-yellow-300 divide-yellow-300",
-    "border-orange-800 divide-orange-800",
-    "border-green-600 divide-green-600",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "border-orange-800 divide-orange-800",
-  ];
-
   return (
     <>
       <div
-        className={
-          "flex flex-col space-y-2 bg-color-primary p-3 w-96 text-center border-t-2 border-b-2 divide-y font-semibold  " +
-          frameTypeToBorderColorMap[item.frameType ?? 0]
-        }
+        className={`flex flex-col  bg-color-primary w-96 text-center border-t-2 border-b-2 divide-y font-semibold text-base
+          //! normal
+          ${
+            item.frameType === 0
+              ? "  border-color-normal divide-color-normal border"
+              : null
+          }
+          //! magic
+          ${
+            item.frameType === 1
+              ? "    border border-color-magic  divide-color-magic"
+              : null
+          } 
+          //! rare
+          ${
+            item.frameType === 2
+              ? " border border-color-rare divide-color-rare "
+              : null
+          } 
+          //! unique
+          ${
+            item.frameType === 3
+              ? " border  border-color-unique divide-color-unique"
+              : null
+          } 
+          //! foil
+          ${
+            item.frameType === 9
+              ? "  border  border-pink-400 divide-pink-400"
+              : null
+          } 
+          ${
+            item.frameType === 4 && item.gemColor === "D"
+              ? "  border  border-green-400 divide-green-400"
+              : null
+          } 
+          ${
+            item.frameType === 4 && item.gemColor === "I"
+              ? "  border  border-blue-400 divide-blue-400"
+              : null
+          } 
+          ${
+            item.frameType === 4 && item.gemColor === "S"
+              ? "  border  border-red-400 divide-red-400"
+              : null
+          } 
+          //!gemred
+
+          //!gemblue
+          //!gemgreen
+          
+          
+          `}
       >
-        <div>{`${item?.name} ${item?.typeLine}`.trim()}</div>
+        <div
+          className={`text-lg font-bold
+        ${
+          item.frameType === 0
+            ? "  text-content-normal bg-white bg-opacity-40 "
+            : null
+        }
+        //! magic
+        ${
+          item.frameType === 1
+            ? "    text-content-magic bg-indigo-800  bg-opacity-10"
+            : null
+        } 
+        //! rare
+        ${
+          item.frameType === 2
+            ? " text-content-rare bg-yellow-200 bg-opacity-10"
+            : null
+        } 
+        //! unique
+        ${
+          item.frameType === 3
+            ? " text-content-unique bg-orange-800 bg-opacity-10"
+            : null
+        } 
+        //! foil
+        ${
+          item.frameType === 9
+            ? "  text-pink-400 bg-pink-400 bg-opacity-25"
+            : null
+        } 
+        ${
+          item.frameType === 4 && item.gemColor === "D"
+            ? "    text-green-400 bg-green-400 bg-opacity-10"
+            : null
+        } 
+        ${
+          item.frameType === 4 && item.gemColor === "I"
+            ? "    text-blue-400 bg-blue-400 bg-opacity-10"
+            : null
+        } 
+        ${
+          item.frameType === 4 && item.gemColor === "S"
+            ? "    text-red-400 bg-red-400 bg-opacity-10"
+            : null
+        } 
+        `}
+        >
+          {`${item?.name} ${item?.typeLine}`.trim()}
+        </div>
         {!!item?.properties?.length && (
           <>
-            <div className="flex flex-col items-center w-full pt-2">
+            <div className="flex flex-col items-center w-full p-1">
               {item?.properties
                 ?.filter((p) => p.values?.length > 0)
                 .map((p, i) => (
@@ -2042,10 +2126,10 @@ export function ItemStatDisplay({ item }) {
         )}
         {!!item?.enchantMods?.length && (
           <>
-            <div>
+            <div className="p-1">
               {item?.enchantMods?.map((p, i) => (
                 <>
-                  <div key={i} className="pt-2 text-blue-400 ">
+                  <div key={i} className="text-blue-400">
                     {p}
                   </div>
                 </>
@@ -2055,7 +2139,7 @@ export function ItemStatDisplay({ item }) {
         )}
         {!!item?.implicitMods?.length && (
           <>
-            <div className="flex flex-col items-center pt-2 text-center">
+            <div className="flex flex-col items-center p-1 text-center ">
               {item?.implicitMods?.map((p, i) => (
                 <>
                   <div className="text-blue-200" key={i}>
@@ -2066,7 +2150,7 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
-        <div className="flex flex-col pt-2">
+        <div className="flex flex-col p-1">
           {item?.fracturedMods?.map((p, i) => (
             <>
               <div key={i} className=" text-amber-200">
@@ -2091,7 +2175,9 @@ export function ItemStatDisplay({ item }) {
         </div>
         {!!item.corrupted && (
           <>
-            <div className="text-red-700">Corrupted</div>
+            <div className="p-1 text-red-700 bg-red-900 bg-opacity-10">
+              Corrupted
+            </div>
           </>
         )}
         {!!item?.note && (
@@ -2101,7 +2187,7 @@ export function ItemStatDisplay({ item }) {
         )}
         {!!item?.valueChaos && (
           <>
-            <div className="flex w-full text-center place-content-center place-items-center">
+            <div className="flex w-full p-1 text-center place-content-center place-items-center">
               <CurrencyValueDisplay valueChaos={item?.valueChaos} />
             </div>
           </>
