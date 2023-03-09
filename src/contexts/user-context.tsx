@@ -95,14 +95,12 @@ export function PoeStackAuthProvider({ children }) {
   }, [jwt, refetchMyProfile]);
 
   function connect(code: string) {
-    console.log("connect: " + code);
     if (code?.length) {
       setCode(code);
     }
   }
 
   function logout() {
-    console.log("log out");
     localStorage.removeItem(localStorageJwtName);
     setJwt(null);
     setProfile(null);

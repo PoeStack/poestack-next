@@ -38,7 +38,6 @@ export default function ProfitCard({
 
         const perHourValue =
           valueDiff === 0 ? 0 : (valueDiff * (1000 * 60 * 60)) / timeDiff;
-        console.log(`${valueDiff} in ${timeDiff} ms`);
         setTotalProfitChaos(valueDiff);
         setTotalProfitChaosPerHour(perHourValue);
       }

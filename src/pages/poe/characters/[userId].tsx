@@ -170,7 +170,6 @@ export default function CharactersByUser() {
           league: "",
           characterId: char.id,
         }));
-        console.log("char", state);
       } else if (action.type === "snapshots") {
         /*
          * This is just a naive search through the snapshots for each character.

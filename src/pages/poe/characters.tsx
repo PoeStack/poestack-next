@@ -684,7 +684,7 @@ function StyledMultiSearch({
       title={`Search - ${totalMatches} Characters`}
       className="focus:border-color-accent border-color-base"
     >
-      <div className="w-full space-y-2 overflow-x-hidden lg:flex lg:flex-col">
+      <div className="w-full space-y-2  lg:flex lg:flex-col">
         <StyledInput
           value={value}
           onChange={onValueChange}
@@ -777,11 +777,6 @@ const uniqueKeysQuery = gql`
 `;
 
 export async function getServerSideProps({ req, res, query }) {
-  res.setHeader(
-    "Cache-Control",
-    "no-store, s-maxage=60, stale-while-revalidate=800000"
-  );
-
   const resp = {
     props: {},
   };
@@ -807,7 +802,7 @@ export async function getServerSideProps({ req, res, query }) {
 
   const generalSearchResult: any = await client.query({
     query: ssrFullSearch,
-    fetchPolicy: "network-only",
+    fetchPolicy: "no-cache",
     variables: {
       search: baseSearch,
       aggregationTypes: ["items", "nodes", "mainSkills", "classes"],
@@ -819,6 +814,7 @@ export async function getServerSideProps({ req, res, query }) {
 
   const unqiueKeysResult: any = await client.query({
     query: uniqueKeysQuery,
+    fetchPolicy: "no-cache",
     variables: {
       league: league,
     },
@@ -828,5 +824,6 @@ export async function getServerSideProps({ req, res, query }) {
       unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys;
   }
 
+  console.log("fetching chracter data");
   return resp;
 }

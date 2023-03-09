@@ -493,7 +493,6 @@ export function QuantityChart({
       return [new Date(e?.timestamp).valueOf(), e?.value ?? 0];
     }),
   }));
-  console.log("series", series);
 
   const options = {
     chart: {

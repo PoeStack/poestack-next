@@ -17,16 +17,11 @@ export default function EquipmentDisplay({
   }
 
   const weapon = items.find((i) => i.inventoryId === "Weapon");
-  console.log("Weapon: ", weapon);
   const helm = items.find((i) => i.inventoryId === "Helm");
-  console.log("Helm: ", helm);
   const body = items.find((i) => i.inventoryId === "BodyArmour");
-  //console.log("Body: ", body);
   const offHand = items.find((i) => i.inventoryId === "Offhand");
-  console.log("OffHand: ", offHand);
   const gloves = items.find((i) => i.inventoryId === "Gloves");
   const boots = items.find((i) => i.inventoryId === "Boots");
-
   const ring1 = items.find((i) => i.inventoryId === "Ring");
   const ring2 = items.find((i) => i.inventoryId === "Ring2");
   const amulet = items.find((i) => i.inventoryId === "Amulet");

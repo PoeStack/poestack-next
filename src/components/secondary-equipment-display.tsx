@@ -22,24 +22,18 @@ export default function SecondaryEquipmentDisplay({
     (i) => i.inventoryId === "PassiveJewels" && i.frameType !== 3
   );
 
-  //console.log("jewels: ", jewels);
-  //console.log("nonUniqueJewels: ", nonUniqueJewels);
-
   // Clusters
   const largeClusterJewels = jewels.filter(
     (i) => i.typeLine === "Large Cluster Jewel"
   );
-  //console.log("largeClusterJewels: ", largeClusterJewels);
 
   const mediumClusterJewels = jewels.filter(
     (i) => i.typeLine === "Medium Cluster Jewel"
   );
-  //console.log("mediumClusterJewels: ", mediumClusterJewels);
 
   const smallClusterJewels = jewels.filter(
     (i) => i.typeLine === "Small Cluster Jewel"
   );
-  //console.log("smallClusterJewels: ", smallClusterJewels);
 
   //Unique Jewels
   const uniqueJewels = items.filter(

@@ -170,7 +170,6 @@ export default function Character({ characterSnapshot }) {
   Res ${currentSnapshot?.characterSnapshotPobStats?.fireResist}/${currentSnapshot?.characterSnapshotPobStats?.coldResist}/${currentSnapshot?.characterSnapshotPobStats?.lightningResist}/${currentSnapshot?.characterSnapshotPobStats?.chaosResist}
   DPS ${currentSnapshot?.characterSnapshotPobStats?.totalDpsWithIgnite}`;
 
-  console.log("currentSnapshotchar: ", currentSnapshot);
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">

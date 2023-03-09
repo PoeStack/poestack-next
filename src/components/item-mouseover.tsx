@@ -19,14 +19,7 @@ export default function ItemMouseOver({
   >(null);
 
   const socketedGems = items?.filter((i) => i.socketedInId === item?.itemId);
-  // console.log("SocketedGems:", socketedGems);
 
-  // const firstRowGems = item?.sockets?.filter((i, index) => index < 2);
-  // const secondRowGems = item?.sockets?.filter(
-  //   (i, index) => index === 3 || index === 2
-  // );
-  // console.log("firstRowGems: ", item, firstRowGems);
-  // console.log("secondRowGems: ", item, secondRowGems);
   return (
     <>
       {item && (
@@ -85,7 +78,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
@@ -435,7 +427,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
@@ -781,8 +772,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("GEM: ", gem);
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
@@ -1260,7 +1249,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (

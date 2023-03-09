@@ -13,7 +13,6 @@ export default function CharacterLevelChart({
   snapshots: CharacterSnapshotRecord[];
   props: any;
 }) {
-  console.log("ss", snapshots);
   const chart = useRef<any>();
 
   const options = {

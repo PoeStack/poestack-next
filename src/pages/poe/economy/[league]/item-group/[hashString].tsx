@@ -156,8 +156,6 @@ export function ListingsStockBracketChart({
       }),
     }));
 
-  console.log("timeseries", timeseries);
-
   const options = {
     chart: {
       type: "spline",
@@ -239,8 +237,6 @@ export function ValueChaosStockBracketChart({
         return [new Date(e?.timestamp).valueOf(), e?.value ?? 0];
       }),
     }));
-
-  console.log("timeseries", timeseries);
 
   const options = {
     chart: {

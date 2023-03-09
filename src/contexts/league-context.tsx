@@ -11,6 +11,7 @@ const initalContext: {
 
 export const POE_LEAGUES = [
   "Sanctum",
+  "Ruthless with Gold",
   "Ziz Sanctum HCSSF Class Gauntlet",
   "Hardcore Sanctum",
   "SSF Sanctum",
