@@ -16,6 +16,9 @@ module.exports = {
     // - States (such as error states)
     // - Content (typography and iconography)
     extend: {
+      colors: {
+        primary: "var(--color-primary)",
+      },
       textColor: {
         content: {
           base: "var(--color-text-base)",

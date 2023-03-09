@@ -35,26 +35,46 @@ export default function ItemMouseOver({
           
 
           ${
+            item.frameType === 0 && item.corrupted
+              ? "bg-white bg-opacity-40 border-2  border-red-900"
+              : null
+          }
+          ${
             item.frameType === 0
               ? "bg-white bg-opacity-40 border-color-normal border "
               : null
           }
-          // magic
+    
+          ${
+            item.frameType === 1 && item.corrupted
+              ? " bg-indigo-300  bg-opacity-25 border-2  border-red-900 "
+              : null
+          } 
           ${
             item.frameType === 1
               ? " bg-indigo-300  bg-opacity-25 border border-color-magic "
               : null
           } 
-          // rare
+ 
           ${
-            item.frameType === 2
-              ? "bg-yellow-100 bg-opacity-25 border border-color-rare"
+            item.frameType === 2 && item.corrupted
+              ? "bg-yellow-200 bg-opacity-25 border-2  border-red-900"
               : null
           } 
-          // unique
+          ${
+            item.frameType === 2
+              ? "bg-yellow-200 bg-opacity-25 border border-color-rare"
+              : null
+          } 
+      
+          ${
+            item.frameType === 3 && item.corrupted
+              ? "bg-orange-500 bg-opacity-30 border-2  border-red-900"
+              : null
+          } 
           ${
             item.frameType === 3
-              ? "bg-orange-400 bg-opacity-25 border  border-color-unique"
+              ? "bg-orange-400 bg-opacity-20 border  border-color-unique"
               : null
           } 
           ${
@@ -2298,69 +2318,45 @@ export function ItemStatDisplay({ item }) {
   return (
     <>
       <div
-        className={`flex flex-col  bg-surface-primary w-96 text-center border-t-2 border-b-2 divide-y font-semibold text-base
-          ${
-            item.frameType === 0
-              ? "  border-color-normal divide-color-normal border"
-              : null
-          }
-          ${
-            item.frameType === 1
-              ? "    border border-color-magic  divide-color-magic"
-              : null
-          } 
-          ${
-            item.frameType === 2
-              ? " border border-color-rare divide-color-rare "
-              : null
-          } 
-          ${
-            item.frameType === 3
-              ? " border  border-color-unique divide-color-unique"
-              : null
-          } 
-          ${
-            item.frameType === 4
-              ? " border  border-green-800 divide-green-700"
-              : null
-          } 
-          ${
-            item.frameType === 9
-              ? "  border  border-pink-400 divide-pink-400"
-              : null
-          } 
+        className={`flex flex-col  bg-surface-primary w-96 text-center border-t-2 border-b-2 font-semibold text-base
+          ${item.frameType === 0 ? "  border-color-normal border" : null}
+          ${item.frameType === 1 ? "    border-indigo-600  " : null} 
+          ${item.frameType === 2 ? " border-yellow-300 " : null} 
+          ${item.frameType === 3 ? "   border-color-unique " : null} 
+          ${item.frameType === 4 ? "  border-teal-700 " : null} 
+          ${item.frameType === 9 ? "   border-pink-400 " : null} 
           `}
       >
         <div
-          className={`text-lg font-bold
+          className={`text-lg font-bold mb-2
         ${
           item.frameType === 0
-            ? "  text-content-normal bg-white bg-opacity-40 "
+            ? "  text-content-normal bg-white bg-opacity-40 border-b-2 border-color-normal"
             : null
         }
         ${
           item.frameType === 1
-            ? "    text-content-magic bg-indigo-800  bg-opacity-10"
+            ? "    text-content-magic bg-indigo-800  bg-opacity-10 border-b-2 border-indigo-600"
             : null
         } 
         ${
           item.frameType === 2
-            ? " text-content-rare bg-yellow-200 bg-opacity-10"
+            ? " text-content-rare bg-yellow-200 bg-opacity-10 border-b-2 border-yellow-300"
             : null
         } 
         ${
           item.frameType === 3
-            ? " text-content-unique bg-orange-800 bg-opacity-10"
+            ? " text-content-unique bg-orange-800 bg-opacity-10  border-b-2 border-color-unique"
             : null
         } 
         ${
           item.frameType === 4
-            ? "    text-content-gem bg-teal-400 bg-opacity-10"
+            ? "    text-content-gem bg-teal-400 bg-opacity-10  border-b-2 border-teal-800"
             : null
         }
         ${
           item.frameType === 9
-            ? "  text-pink-400 bg-pink-400 bg-opacity-25"
+            ? "  text-pink-400 bg-pink-400 bg-opacity-25  border-b-2 border-pink-400"
             : null
         } 
         
@@ -2368,9 +2364,10 @@ export function ItemStatDisplay({ item }) {
         >
           {`${item?.name} ${item?.typeLine}`.trim()}
         </div>
+
         {!!item?.properties?.length && (
           <>
-            <div className="flex flex-col items-center w-full p-1">
+            <div className="flex flex-col items-center w-full">
               {item?.properties
                 ?.filter((p) => p.values?.length > 0)
                 .map((p, i) => (
@@ -2381,6 +2378,16 @@ export function ItemStatDisplay({ item }) {
                     </div>
                   </>
                 ))}
+              <div
+                className={` m-3 w-1/3 h-[1px] mx-auto  bg-gradient-to-r from-primary to-primary 
+        ${item.frameType === 0 ? "via-grey-200" : null}
+        ${item.frameType === 1 ? "via-indigo-600" : null} 
+        ${item.frameType === 2 ? "via-yellow-300" : null} 
+        ${item.frameType === 3 ? "via-orange-400" : null} 
+        ${item.frameType === 4 ? "via-teal-800" : null}
+        ${item.frameType === 9 ? "via-pink-400" : null} 
+        `}
+              ></div>
             </div>
           </>
         )}
@@ -2410,7 +2417,7 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
-        <div className="flex flex-col p-1">
+        <div className="flex flex-col mx-2">
           {item?.fracturedMods?.map((p, i) => (
             <>
               <div key={i} className=" text-amber-200">
@@ -2418,6 +2425,7 @@ export function ItemStatDisplay({ item }) {
               </div>
             </>
           ))}
+
           {item?.explicitMods?.map((p, i) => (
             <>
               <div key={i} className="text-blue-400">
@@ -2425,6 +2433,16 @@ export function ItemStatDisplay({ item }) {
               </div>
             </>
           ))}
+          <div
+            className={` m-3 w-1/3 h-[1px] mx-auto  bg-gradient-to-r from-primary to-primary 
+        ${item.frameType === 0 ? "via-grey-200" : null}
+        ${item.frameType === 1 ? "via-indigo-600" : null} 
+        ${item.frameType === 2 ? "via-yellow-300" : null} 
+        ${item.frameType === 3 ? "via-orange-400" : null} 
+        ${item.frameType === 4 ? "via-teal-800" : null}
+        ${item.frameType === 9 ? "via-pink-400" : null} 
+        `}
+          ></div>
           {item?.craftedMods?.map((p, i) => (
             <>
               <div key={i} className="text-blue-200 ">
@@ -2435,9 +2453,7 @@ export function ItemStatDisplay({ item }) {
         </div>
         {!!item.corrupted && (
           <>
-            <div className="p-1 text-red-700 bg-red-900 bg-opacity-10">
-              Corrupted
-            </div>
+            <div className="text-red-700  bg-opacity-10">Corrupted</div>
           </>
         )}
         {!!item?.note && (
@@ -2452,6 +2468,7 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
+        <div className="pb-2"></div>
       </div>
     </>
   );
