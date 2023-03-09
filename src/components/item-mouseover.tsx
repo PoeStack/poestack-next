@@ -2437,7 +2437,6 @@ export function ItemStatDisplay({ item }) {
                   </div>
                 </>
               ))}
-              <ItemStatSeperator item={item} />
               {item?.craftedMods?.map((p, i) => (
                 <>
                   <div key={i} className="text-blue-200 ">
@@ -2446,6 +2445,7 @@ export function ItemStatDisplay({ item }) {
                 </>
               ))}
             </div>
+            <ItemStatSeperator item={item} />
           </>
         )}
 

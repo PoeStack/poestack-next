@@ -6,7 +6,7 @@ import Image from "next/image";
 import StyledCard from "@components/styled-card";
 import StyledPaginate from "@components/styled-paginate";
 import { useRouter } from "next/router";
-import { GeneralUtils } from "@utils/general-util";
+import { GeneralUtils, myLoader } from "@utils/general-util";
 import _ from "lodash";
 import { ItemGroupValueTimeseriesSearchInput } from "@generated/graphql";
 import ItemGroupTagSelect from "@components/item-group-tag-select";
@@ -169,6 +169,7 @@ export default function Economy() {
                   >
                     <td className="">
                       <Image
+                        loader={myLoader}
                         src={groupSeries.itemGroup?.icon ?? ""}
                         alt="icon"
                         width="25"

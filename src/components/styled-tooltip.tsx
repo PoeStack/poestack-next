@@ -16,6 +16,7 @@ import { usePopper } from "react-popper";
 import { InformationCircleIcon } from "@heroicons/react/24/solid";
 import Portal from "./portal";
 import Image from "next/image";
+import { myLoader } from "@utils/general-util";
 
 interface Props {
   children?: ReactNode;

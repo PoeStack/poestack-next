@@ -27,6 +27,7 @@ import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "../../../components/league-select";
 import { chart } from "highcharts";
 import { DIV_ICON } from "@components/currency-value-display";
+import { myLoader } from "@utils/general-util";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -424,7 +425,13 @@ function CharactersByUserTable({
                     <div className="grid grid-cols-2 my-auto">
                       <div>{+snapshot.totalValueDivine.toFixed(1)}</div>
                       <div>
-                        <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                        <Image
+                          loader={myLoader}
+                          src={DIV_ICON}
+                          alt={""}
+                          width={30}
+                          height={30}
+                        />
                       </div>
                     </div>
                   ) : null}

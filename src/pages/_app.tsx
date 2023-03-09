@@ -17,7 +17,6 @@ import { ThemeProvider } from "next-themes";
 import StyledFooter from "@components/styled-footer";
 import { PoeStackOptionsProvider } from "@contexts/options-context";
 
-
 declare global {
   interface Array<T> {
     sortByMultiple<T>(
@@ -25,12 +24,6 @@ declare global {
       ...keys: { key: keyof T; order?: "asc" | "desc" }[]
     ): this;
   }
-}
-interface Array<T> {
-  sortByMultiple<T>(
-    this: Array<T>,
-    ...keys: { key: keyof T; order?: "asc" | "desc" }[]
-  ): this;
 }
 
 Array.prototype.sortByMultiple = function sortByMultiple<T>(
@@ -45,19 +38,17 @@ Array.prototype.sortByMultiple = function sortByMultiple<T>(
           ? a[key.key] < b[key.key]
             ? -1
             : a[key.key] == b[key.key]
-              ? 0
-              : 1
+            ? 0
+            : 1
           : a[key.key] > b[key.key]
-            ? -1
-            : a[key.key] == b[key.key]
-              ? 0
-              : 1
+          ? -1
+          : a[key.key] == b[key.key]
+          ? 0
+          : 1
       ),
     this
   );
 };
-
-
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -97,7 +88,7 @@ export default function App({ Component, pageProps }: AppProps) {
               </PoeStackLeagueProvider>
             </PoeStackAuthProvider>
           </ThemeProvider>
-        </PoeStackOptionsProvider >
+        </PoeStackOptionsProvider>
       </ApolloProvider>
     </CookiesProvider>
   );

@@ -163,9 +163,12 @@ export type CharacterSnapshotSearch = {
 export type CharacterSnapshotSearchAggregationsResponse = {
   __typename?: 'CharacterSnapshotSearchAggregationsResponse';
   characterClassAggregation?: Maybe<GenericAggregation>;
+  characterClassTimeseriesAggregation?: Maybe<GenericAggregation>;
   itemKeyAggreagtion?: Maybe<GenericAggregation>;
   keystoneAggregation?: Maybe<GenericAggregation>;
+  levelTimeseriesAggregation?: Maybe<GenericAggregation>;
   mainSkillAggreagtion?: Maybe<GenericAggregation>;
+  mainSkillTimeseriesAggregation?: Maybe<GenericAggregation>;
   totalMatches?: Maybe<Scalars['Float']>;
 };
 
@@ -244,6 +247,7 @@ export type GenericAggregation = {
 export type GenericIntKeyValue = {
   __typename?: 'GenericIntKeyValue';
   key?: Maybe<Scalars['String']>;
+  timestamp?: Maybe<Scalars['DateTime']>;
   value?: Maybe<Scalars['Float']>;
 };
 

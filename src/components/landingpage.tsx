@@ -96,12 +96,12 @@ export default function LandingPage() {
                 POE player has access to.
                 <br />
                 <br />
-                We acomplish this by providing tools that use the combined
+                We accomplish this by providing tools that use the combined
                 information of all of our users to give everyone a better
                 understanding of their own data. When you link your POE account
                 you will gain access to automatic stash tracking/valuation, a
                 full history of your POE characters over the course of a league,
-                a nonlimited charcter ladder any character of any level can
+                a nonlimited character ladder any character of any level can
                 appear on, atlas tree data from thousands of players, and
                 finally some utilities to make it easier to sell items.
                 <br />
@@ -376,7 +376,7 @@ export default function LandingPage() {
                         />
                         Take snapshots manually or setup automatic capture
                         intervals to see how much many divs you are making per
-                        hour and if that the 15 div per hour youtube video was
+                        hour and if that 15 div per hour youtube video was
                         lying.
                       </li>
 
@@ -389,8 +389,8 @@ export default function LandingPage() {
                           alt="-"
                         />
                         View your total net worth over time throughout a league.
-                        Look back on the big drops and the big harvest gamble
-                        losses.
+                        Look back on the big drops and even bigger harvest
+                        gamble losses.
                       </li>
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
