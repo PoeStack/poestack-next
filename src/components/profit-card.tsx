@@ -50,11 +50,17 @@ export default function ProfitCard({
         <div className="flex flex-col grow align-bottom">
           <div className="grow">
             <div className="flex space-x-1">
-              <CurrencyValueDisplay valueChaos={totalProfitChaos} />
+              <CurrencyValueDisplay
+                pValue={totalProfitChaos}
+                league={snapshots?.[0]?.league}
+              />
               <div>total</div>
             </div>
             <div className="flex space-x-1">
-              <CurrencyValueDisplay valueChaos={totalProfitChaosPerHour} />
+              <CurrencyValueDisplay
+                pValue={totalProfitChaosPerHour}
+                league={snapshots?.[0]?.league}
+              />
               <div>per hour</div>
             </div>
           </div>

@@ -174,7 +174,8 @@ export default function CreateBulkListingPanel({
             <div className="flex flex-row space-x-2">
               <h3>Value: </h3>{" "}
               <CurrencyValueDisplay
-                valueChaos={bulkListing?.totalValueChaos ?? 0}
+                pValue={bulkListing?.totalValueChaos ?? 0}
+                league={league}
               />
             </div>
 
@@ -185,10 +186,11 @@ export default function CreateBulkListingPanel({
             <div className="flex flex-row space-x-2">
               <h3>Listed Value: </h3>
               <CurrencyValueDisplay
-                valueChaos={
+                pValue={
                   (bulkListing?.totalValueChaos ?? 0) *
                   (exporterInput.listedValueMultiplier ?? 1)
                 }
+                league={league}
               />
             </div>
 

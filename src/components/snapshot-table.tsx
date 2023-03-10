@@ -91,15 +91,17 @@ export default function SnapshotTable({
                   </td>
                   <td>
                     <CurrencyValueDisplay
-                      valueChaos={snapshot.totalValueChaos ?? 0}
+                      pValue={snapshot.totalValueChaos ?? 0}
+                      league={snapshot.league}
                     />
                   </td>
                   <td>
                     <CurrencyValueDisplay
-                      valueChaos={
+                      pValue={
                         snapshot.totalValueChaos! -
                         (snapshots[index + 1]?.totalValueChaos ?? 0)
                       }
+                      league={snapshot.league}
                     />
                   </td>
                 </tr>

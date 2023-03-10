@@ -108,7 +108,8 @@ export default function ViewProfile() {
             <div className="flex flex-row space-x-1">
               <h4>Total Value:</h4>
               <CurrencyValueDisplay
-                valueChaos={snapshot?.totalValueChaos ?? 0}
+                pValue={snapshot?.totalValueChaos ?? 0}
+                league={snapshot?.league}
               />
             </div>
 

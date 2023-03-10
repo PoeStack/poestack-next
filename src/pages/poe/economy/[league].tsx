@@ -215,10 +215,11 @@ export default function Economy() {
                         return (
                           <>
                             <CurrencyValueDisplay
-                              valueChaos={
+                              pValue={
                                 recent?.entries?.[recent.entries.length - 1]
                                   ?.value ?? 0
                               }
+                              league={league}
                             />
                           </>
                         );

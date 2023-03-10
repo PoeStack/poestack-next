@@ -407,7 +407,8 @@ export default function FilterableItemTable({
                               "" + summary?.valueChaos
                             );
                           }}
-                          valueChaos={summary?.valueChaos!}
+                          league={snapshot?.league}
+                          pValue={summary?.valueChaos!}
                         />
                         {itemValueOverridesEnabled && (
                           <input
@@ -442,7 +443,8 @@ export default function FilterableItemTable({
                             `${display}/${summary?.quantity}`
                           );
                         }}
-                        valueChaos={summary?.totalValueChaos!}
+                        league={snapshot?.league}
+                        pValue={summary?.totalValueChaos!}
                       />
                     </td>
                   </tr>
@@ -456,7 +458,8 @@ export default function FilterableItemTable({
                 </th>
                 <td>
                   <CurrencyValueDisplay
-                    valueChaos={itemGroupSearchResult?.totalValueChaos ?? 0}
+                    league={snapshot?.league}
+                    pValue={itemGroupSearchResult?.totalValueChaos ?? 0}
                   />
                 </td>
               </tr>

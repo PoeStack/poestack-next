@@ -237,7 +237,8 @@ export default function ItemTableBody({
                           "" + itemSummary?.valueChaos
                         );
                       }}
-                      valueChaos={itemSummary?.valueChaos!}
+                      pValue={itemSummary?.valueChaos!}
+                      league={league}
                     />
                   </div>
                 </td>
@@ -251,7 +252,12 @@ export default function ItemTableBody({
                         ] ?? null
                       }
                       className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"
-                      placeholder={"" + itemSummary?.valueChaos}
+                      placeholder={
+                        "" +
+                        GeneralUtils.roundToFirstNoneZeroN(
+                          itemSummary?.valueChaos ?? 0
+                        )
+                      }
                       required
                       onChange={(e) => {
                         const v = e.target.value
@@ -275,7 +281,8 @@ export default function ItemTableBody({
                         `${display}/${itemSummary?.quantity}`
                       );
                     }}
-                    valueChaos={itemSummary?.totalValueChaos!}
+                    pValue={itemSummary?.totalValueChaos!}
+                    league={league}
                   />
                 </td>
               </tr>
@@ -290,7 +297,8 @@ export default function ItemTableBody({
               </th>
               <td>
                 <CurrencyValueDisplay
-                  valueChaos={itemGroupSearchResult?.totalValueChaos ?? 0}
+                  pValue={itemGroupSearchResult?.totalValueChaos ?? 0}
+                  league={league}
                 />
               </td>
             </tr>

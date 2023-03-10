@@ -8,15 +8,18 @@ import { myLoader } from "@utils/general-util";
 export const DIV_ICON =
   "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png";
 
+export const ALCH_ICON =
+  "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlVG9SYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/f0dc27cd7c/CurrencyUpgradeToRare.png";
+
 export default function CurrencyValueDisplay({
-  valueChaos,
+  pValue,
   onClick = null,
+  league,
 }: {
-  valueChaos: number;
+  pValue: number;
+  league: string | null | undefined;
   onClick?: null | ((n) => void);
 }) {
-  const { league } = usePoeLeagueCtx();
-
   const [display, setDisplay] = useState<string>("");
   const [icon, setIcon] = useState<string>(
     "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png"
@@ -54,9 +57,11 @@ export default function CurrencyValueDisplay({
   useEffect(() => {
     const round = (v) => +(v ?? 0).toFixed(1);
 
-    const absValue = Math.abs(valueChaos);
+    const absValue = Math.abs(pValue);
     let newDisplay = "" + round(absValue);
-    if (chaosRates?.div && absValue >= chaosRates?.div) {
+    if (league?.toLowerCase()?.includes("ruthless")) {
+      setIcon(ALCH_ICON);
+    } else if (chaosRates?.div && absValue >= chaosRates?.div) {
       newDisplay = "" + round(absValue / chaosRates?.div);
       setIcon(DIV_ICON);
     } else {
@@ -65,12 +70,12 @@ export default function CurrencyValueDisplay({
       );
     }
 
-    if (valueChaos < 0) {
+    if (pValue < 0) {
       newDisplay = `(${newDisplay})`;
     }
 
     setDisplay(newDisplay);
-  }, [chaosRates, valueChaos, setIcon]);
+  }, [chaosRates, pValue, setIcon, league]);
 
   return (
     <>

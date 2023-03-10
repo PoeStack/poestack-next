@@ -70,7 +70,10 @@ export default function ValueBreakdownTable({
                 <td>{entry?.key}</td>
                 <td>{entry?.matches}</td>
                 <td>
-                  <CurrencyValueDisplay valueChaos={entry?.value ?? 0} />
+                  <CurrencyValueDisplay
+                    pValue={entry?.value ?? 0}
+                    league={snapshot?.league}
+                  />
                 </td>
               </tr>
             ))}

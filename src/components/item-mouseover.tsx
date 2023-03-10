@@ -2462,7 +2462,10 @@ export function ItemStatDisplay({ item }) {
         {!!item?.valueChaos && (
           <>
             <div className="flex w-full p-1 text-center place-content-center place-items-center">
-              <CurrencyValueDisplay valueChaos={item?.valueChaos} />
+              <CurrencyValueDisplay
+                pValue={item?.valueChaos}
+                league={item?.league}
+              />
             </div>
           </>
         )}
