@@ -61,55 +61,53 @@ export default function StyledMultiSelectMultiFilter({
     // @ts-ignore
     <Combobox value={selected} onChange={onSelectChange} multiple={multiple}>
       <div className="relative mt-1 ">
-        <div className="relative h-12 fit flex w-full cursor-default overflow-hidden rounded-lg bg-color-primary text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-          <Combobox.Button className="flex items-center pr-2">
-            <ChevronUpDownIcon
-              className="h-5 w-5 text-gray-400"
-              aria-hidden="true"
-            />
-          </Combobox.Button>
+        <div className="relative h-12 fit flex w-full cursor-default overflow-hidden rounded-lg text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="bg-color-primary flex w-full rounded-lg mr-2 pr-2">
+            <Combobox.Button className="flex items-center pr-2">
+              <ChevronUpDownIcon
+                className="h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </Combobox.Button>
 
-          <div className="max-w-lg flex items-center overflow-x-auto overflow-y-hidden mxr-1">
-            {(multiple && selected.length) > 0 && (
-              <>
-                {selected.map((el: any) => {
-                  return (
-                    <div
-                      key={itemToId(el)}
-                      className="hover:bg-color-secondary bg-color-primary-variant my-1 mx-2 px-2 text-white rounded flex items-center h-[70%] cursor-pointer text-center"
-                      onClick={() => unselectItem(itemToId(el))}
-                    >
-                      <p className="px-2 truncate mx-1">{itemToText(el)}</p>
-                    </div>
-                  );
-                })}
-              </>
-            )}
+            <div className="flex items-center">
+              {(multiple && selected.length) > 0 && (
+                <>
+                  {selected.map((el: any) => {
+                    return (
+                      <div
+                        key={itemToId(el)}
+                        className="hover:bg-color-secondary bg-color-primary-variant my-1 mx-2 px-2 text-white rounded flex items-center h-[70%] cursor-pointer text-center"
+                        onClick={() => unselectItem(itemToId(el))}
+                      >
+                        <p className="px-2 truncate mx-1">{itemToText(el)}</p>
+                      </div>
+                    );
+                  })}
+                </>
+              )}
+            </div>
+
+            <Combobox.Button className="w-full border-none text-sm leading-5 focus:ring-0 ">
+              <Combobox.Input
+                className="w-full border-none rounded-full text-sm focus:ring-0 bg-color-primary-variant text-content-base backdrop-filter backdrop-blur-lg shadow-lg"
+                placeholder={`${placeholder || ""}`}
+                onChange={(event) => setQuery(event.target.value)}
+              />
+            </Combobox.Button>
           </div>
-
-          <Combobox.Button className="w-full border-none text-sm leading-5 focus:ring-0 ">
-            <Combobox.Input
-              className="w-full border-none rounded-full text-sm focus:ring-0 bg-color-primary-variant text-content-base backdrop-filter backdrop-blur-lg shadow-lg"
-              placeholder={`${placeholder || ""}`}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </Combobox.Button>
 
           {additionalFilters &&
             additionalFilters.map((filter, idx) => {
               return (
                 <button
                   key={filter.title}
-                  className={`bg-color-secondary hover:bg-color-secondary-variant py-1 px-2  border-r-2 border-color-primary font-semibold ${
+                  className={`bg-color-secondary hover:bg-color-secondary-variant py-1 px-2 border-color-primary border-r-2 rounded-l-lg font-semibold ${
                     filter.enabled ? "text-content-accent" : "text-white"
-                  } ${
-                    !multiple && idx === additionalFilters.length - 1
-                      ? "border-r-0"
-                      : ""
                   }`}
                   onClick={() => filter.toggle()}
                 >
-                  {filter.title}
+                  <span>{filter.title}</span>
                 </button>
               );
             })}

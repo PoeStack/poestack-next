@@ -684,6 +684,7 @@ function StyledMultiSearch({
       title={`Search - ${totalMatches} Characters`}
       className="focus:border-color-accent border-color-base"
     >
+      <div>{`Search - ${totalMatches} Characters`}</div>
       <div className="w-full space-y-2  lg:flex lg:flex-col">
         <StyledInput
           value={value}

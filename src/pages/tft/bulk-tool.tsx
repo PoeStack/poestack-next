@@ -117,7 +117,7 @@ export default function BulkTool() {
     <>
       <TftGuardPanel>
         <StyledCard title="Tool">
-          <div>
+          <div className="flex flex-col space-y-2">
             <LeagueSelect />
             <StyledMultiSelectMultiFilter
               selected={selectedStashTabs ?? []}
