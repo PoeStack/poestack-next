@@ -110,11 +110,11 @@ export default function LandingPage() {
                 you for your interest in PoeStack.
               </p>
               <div className="relative group">
-                <div className="absolute inset-0 bg-red-700 mb-2 mt-14 rounded-lg blur-sm  group-hover:blur-md"></div>
+                <div className="absolute inset-0 mb-2 bg-red-700 rounded-lg mt-14 blur-sm group-hover:blur-md"></div>
                 <button className="relative mb-2 mt-14">
                   <a
                     href="#section2"
-                    className="flex flex-row rounded-md  px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-red-800"
+                    className="flex flex-row rounded-md  px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                   >
                     <h4>Get started</h4>
                   </a>
@@ -213,11 +213,11 @@ export default function LandingPage() {
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <div className="absolute inset-0 mb-2 bg-green-600 rounded-lg w-28 mt-14 blur-sm group-hover:blur-md "></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href={`/poe/characters?league=${league}`}
-                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary  "
                               >
                                 <h4>Try It</h4>
                               </Link>
@@ -226,11 +226,11 @@ export default function LandingPage() {
                         </li>
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <div className="absolute inset-0 mb-2 bg-blue-800 w-28 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href="/poe/tutorial"
-                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Learn More</h4>
                               </Link>
@@ -251,7 +251,7 @@ export default function LandingPage() {
                     </ul>
                   </div>
                   {/* Carousel & Future Lightbox */}
-                  <div className="grid w-full md:order-first -order-1 lg:w-full ">
+                  <div className="grid w-full select-none md:order-first -order-1 lg:w-full">
                     <StyledCarousel images={characterLadderImages} />
                   </div>
                 </div>
@@ -310,11 +310,11 @@ export default function LandingPage() {
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <div className="absolute inset-0 mb-2 bg-green-600 rounded-lg w-28 mt-14 blur-sm group-hover:blur-md "></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href={`/poe/characters/${profile?.userId}`}
-                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Try It</h4>
                               </Link>
@@ -323,11 +323,11 @@ export default function LandingPage() {
                         </li>
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <div className="absolute inset-0 mb-2 bg-blue-800 w-28 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href="/poe/tutorial"
-                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Learn More</h4>
                               </Link>
@@ -338,7 +338,7 @@ export default function LandingPage() {
                     </ul>
                   </div>
                   {/* Carousel & Future Lightbox */}
-                  <div className="grid w-full row-start-2 lg:row-start-1 md:order-first -order-1 lg:w-full">
+                  <div className="grid w-full row-start-2 select-none lg:row-start-1 md:order-first -order-1 lg:w-full">
                     <StyledCarousel images={characterProfileImages} />
                   </div>
                 </div>
@@ -395,11 +395,11 @@ export default function LandingPage() {
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <div className="absolute inset-0 mb-2 bg-green-600 rounded-lg w-28 mt-14 blur-sm group-hover:blur-md "></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href="/poe/stash/snapshot/profiles"
-                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary  "
                               >
                                 <h4>Try It</h4>
                               </Link>
@@ -408,11 +408,11 @@ export default function LandingPage() {
                         </li>
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <div className="absolute inset-0 mb-2 bg-blue-800 w-28 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href="/poe/tutorial"
-                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Learn More</h4>
                               </Link>
@@ -423,7 +423,7 @@ export default function LandingPage() {
                     </ul>
                   </div>
                   {/* Carousel & Future Lightbox */}
-                  <div className="grid w-full md:order-first -order-1 lg:w-full ">
+                  <div className="grid w-full select-none md:order-first -order-1 lg:w-full ">
                     <StyledCarousel images={stashImages} />
                   </div>
                 </div>
@@ -476,11 +476,11 @@ export default function LandingPage() {
                       <ul className="flex flex-row justify-center space-x-10 ">
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-green-600 w-28 mb-2 mt-14 rounded-lg blur-sm group-hover:blur-md "></div>
+                            <div className="absolute inset-0 mb-2 bg-green-600 rounded-lg w-28 mt-14 blur-sm group-hover:blur-md "></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href={`/poe/economy/${league}?tag=currency`}
-                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-green-500 "
+                                className="flex flex-row rounded-md  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Try It</h4>
                               </Link>
@@ -489,11 +489,11 @@ export default function LandingPage() {
                         </li>
                         <li>
                           <div className="relative group">
-                            <div className="absolute inset-0 bg-blue-800 w-28 mb-2 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
+                            <div className="absolute inset-0 mb-2 bg-blue-800 w-28 mt-14 rounded-xl blur-sm group-hover:blur-md"></div>
                             <button className="relative mb-2 mt-14">
                               <Link
                                 href="/poe/tutorial"
-                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary hover:text-blue-500"
+                                className="flex flex-row rounded-4xl  w-28 px-3.5 py-1.5 text-base items-center justify-center font-semibold leading-7 text-content-base shadow-sm bg-surface-secondary "
                               >
                                 <h4>Learn More</h4>
                               </Link>
@@ -504,7 +504,7 @@ export default function LandingPage() {
                     </ul>
                   </div>
                   {/* Carousel & Future Lightbox */}
-                  <div className="grid w-full row-start-2 lg:row-start-1 md:order-first -order-1 lg:w-full">
+                  <div className="grid w-full row-start-2 select-none lg:row-start-1 md:order-first -order-1 lg:w-full">
                     <StyledCarousel images={economyImages} />
                   </div>
                 </div>
@@ -532,8 +532,8 @@ function StyledCarousel({ images }) {
 
   return (
     <div className="relative">
-      <div className="absolute inset-0 rounded-lg mb-16 lg:mb-0 lg:mx-10 xl:pt-4 lg:bg-white/80 blur-sm"></div>
-      <div className="relative rounded-lg lg:mx-10  xl:pt-4 bg-surface-secondary">
+      <div className="absolute inset-0 mb-16 rounded-lg lg:mb-0 lg:mx-10 xl:pt-4 lg:bg-white/80 blur-sm"></div>
+      <div className="relative rounded-lg lg:mx-10 xl:pt-4 bg-surface-secondary">
         <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
           {/* <div className="relative bg-surface-primary"> */}
           <AiOutlineLeft
