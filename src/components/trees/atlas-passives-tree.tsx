@@ -96,6 +96,7 @@ export default function AtlasPassivesTree({
               resetEmitter?.dispatch();
             }}
           />
+
           <NodesTree
             treeData={treeData}
             nodeColorOverrides={nodeColorOverrides}

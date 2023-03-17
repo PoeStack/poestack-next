@@ -17,7 +17,7 @@ export default function StyledMultiSelect2({
   const mappedSelected = [selected].flat().filter((e) => !!e);
 
   return (
-    <div className="flex flex-row w-full ">
+    <div className="flex flex-row w-full">
       <Listbox
         value={mappedSelected}
         onChange={(s) => {
@@ -26,7 +26,7 @@ export default function StyledMultiSelect2({
         multiple
       >
         <div className="relative mt-1 grow">
-          <Listbox.Button className="relative overflow-x-hidden bg-color-primary text-content-base w-full cursor-default rounded-l-lg  py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm capitalize">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 overflow-x-hidden text-left capitalize rounded-l-lg shadow-md cursor-default bg-color-primary text-content-base focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm">
             <span className="block truncate">
               {mappedSelected?.length < 1
                 ? "...."
@@ -42,7 +42,7 @@ export default function StyledMultiSelect2({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-40 mt-1 max-h-60 w-full overflow-auto rounded-md bg-color-primary py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Listbox.Options className="absolute z-40 w-full py-1 mt-1 overflow-auto text-base rounded-md shadow-lg max-h-60 bg-color-primary ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {items.map((item, itemIndex) => (
                 <Listbox.Option
                   key={itemIndex}
