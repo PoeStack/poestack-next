@@ -26,7 +26,7 @@
     --color-unique: #af6025;
     --color-gem: #1b9f97;
     /* Surfaces - Backgrounds/Components */
-    --color-background-primary: #221b1b;
+    --color-background-primary: #121212;
     --color-background-primary-variant: #252525;
     --color-background-secondary: #000000;
     --color-background-secondary-variant: #474c50;
@@ -43,12 +43,12 @@
     /*  Color - Primary+ Variants*/
     --color-primary: #212121;
     --color-primary-variant: #252525;
-    --color-secondary: #474c50;
-    --color-secondary-variant: #5b5f62;
-    --color-accent: #faa307;
+    --color-secondary: #343638ae;
+    --color-secondary-variant: #5b5f626c;
+    --color-accent: #f9af25;
     --color-accent-variant: #bb7526;
     /* Surfaces - Backgrounds/Components */
-    --color-background-primary: #121212;
+    --color-background-primary: #121212e9;
     --color-background-primary-variant: #252525;
     --color-background-secondary: #000000;
     --color-background-secondary-variant: #474c50;

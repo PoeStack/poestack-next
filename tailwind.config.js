@@ -68,6 +68,7 @@ module.exports = {
       },
       backgroundImage: {
         kekw: 'url("/KEKW.png")',
+        atlasbg: 'url("/AtlasPassiveBackground-min.png")',
       },
 
       // colors: {
