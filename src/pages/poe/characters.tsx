@@ -1,10 +1,7 @@
-import { useState, useEffect, Dispatch } from "react";
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
-import client from "poe-stack-apollo-client";
+import { useState, useEffect } from "react";
 import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
 import Image from "next/image";
-import { usePoeLeagueCtx } from "@contexts/league-context";
 import CharacterAggregationDisplay from "@components/character-aggregation-display";
 import StyledCard from "@components/styled-card";
 import StyledDatepicker from "@components/styled-datepicker";
@@ -14,15 +11,10 @@ import {
   StyledSkillImageTooltip,
 } from "@components/styled-tooltip";
 import SortableTableHeader, {
-  SortableTableHeaderProps,
   SortableTableColumns,
 } from "@components/sortable-table-header";
-import useSortableTable from "@hooks/use-sort-th-hook";
 import { GeneralUtils } from "@utils/general-util";
 import {
-  CharacterSnapshotSearch,
-  CharacterSnapshotSearchResponse,
-  CharacterSnapshotSearchAggregationsResponse,
   GenericAggregation,
 } from "@generated/graphql";
 import { useRouter } from "next/router";
@@ -30,123 +22,9 @@ import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "../../components/styled-button";
-import { POE_LEAGUES } from "../../contexts/league-context";
 import { myLoader } from "../../utils/general-util";
-
-const ssrFullSearch = gql`
-  query FullCharacterSnapshotsSearchAggregations(
-    $aggregationTypes: [String!]!
-    $search: CharacterSnapshotSearch!
-  ) {
-    characterSnapshotsSearchAggregations(
-      aggregationTypes: $aggregationTypes
-      search: $search
-    ) {
-      itemKeyAggreagtion {
-        values {
-          value
-          key
-        }
-      }
-      totalMatches
-      mainSkillAggreagtion {
-        values {
-          key
-          value
-        }
-      }
-      keystoneAggregation {
-        values {
-          key
-          value
-        }
-      }
-      characterClassAggregation {
-        values {
-          value
-          key
-        }
-      }
-    }
-    characterSnapshotsSearch(search: $search) {
-      snapshots {
-        characterId
-        name
-        level
-        mainSkillKey
-        characterClass
-        energyShield
-        life
-        snapshotId
-        twitchProfileName
-        pobDps
-        totalValueDivine
-        topItems
-      }
-      hasMore
-    }
-  }
-`;
-
-const generalSearch = gql`
-  query Snapshots($search: CharacterSnapshotSearch!) {
-    characterSnapshotsSearch(search: $search) {
-      snapshots {
-        characterId
-        name
-        level
-        mainSkillKey
-        characterClass
-        energyShield
-        life
-        snapshotId
-        twitchProfileName
-        pobDps
-        totalValueDivine
-        topItems
-      }
-      hasMore
-    }
-  }
-`;
-
-const aggregationSearch = gql`
-  query CharacterSnapshotsSearchAggregations(
-    $aggregationTypes: [String!]!
-    $search: CharacterSnapshotSearch!
-  ) {
-    characterSnapshotsSearchAggregations(
-      aggregationTypes: $aggregationTypes
-      search: $search
-    ) {
-      itemKeyAggreagtion {
-        values {
-          value
-          key
-        }
-      }
-      totalMatches
-      mainSkillAggreagtion {
-        values {
-          key
-          value
-        }
-      }
-      keystoneAggregation {
-        values {
-          key
-          value
-        }
-      }
-      characterClassAggregation {
-        values {
-          value
-          key
-        }
-      }
-    }
-  }
-`;
+import { LadderVector, LadderVectorEntry, LadderVectorSearch, LadderVectorUtil } from "@utils/ladder-vector";
+import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
 
 /**
  * Columns used by the characters table.
@@ -189,233 +67,47 @@ const columns: SortableTableColumns = [
 /**
  * Characters page
  */
-export default function Characters({
-  initialSearchResponse
-}) {
+export default function Characters() {
   const router = useRouter();
   const { customLadderGroupId, league } = router.query;
 
-  const [search, setSearch] = useState<CharacterSnapshotSearch>({
-    league: league?.toString() ?? POE_LEAGUES[0],
-    includedKeyStoneNames: [],
-    excludedKeyStoneNames: [],
-    includedCharacterClasses: [],
-    excludedCharacterClasses: [],
-    includedMainSkills: [],
-    excludedMainSkills: [],
-    includedItemKeys: [],
-    excludedItemKeys: [],
-    customLadderGroupId: customLadderGroupId?.toString(),
-    skip: 0,
-    limit: 100,
-    sortKey: "level",
-    sortDirection: "desc",
-  });
 
-  const [localSearchString, setLocalSearchString] = useState<string>("");
+  const [localSearchString, setLocalSearchString] = useState<string>("")
 
-  const [characters, setCharacters] = useState<
-    CharacterSnapshotSearchResponse | undefined | null
-  >(initialSearchResponse?.characterSnapshotsSearch);
+  const [baseVector, setBaseVector] = useState<LadderVector | null>(null);
 
-  const [aggregations, setAggregations] = useState<
-    CharacterSnapshotSearchAggregationsResponse | undefined | null
-  >(initialSearchResponse?.characterSnapshotsSearchAggregations);
+  const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
+  useEffect(() => {
+    fetch(`https://raw.githubusercontent.com/PoeStack/poestack-public-data/master/poe/leagues/Standard/ladder/current.json`)
+      .then((v) => {
+        if (v.ok) {
+          return v.json();
+        }
+      })
+      .then((v) => { setBaseVector(LadderVectorUtil.parse(v)) })
+  }, []);
 
-  const [itemAggregations, setItemAggregations] = useState<
-    CharacterSnapshotSearchAggregationsResponse | undefined | null
-  >(initialSearchResponse?.characterSnapshotsSearchAggregations);
-
-  const [reftechGeneralSearch] = useLazyQuery(generalSearch, {
-    fetchPolicy: "cache-and-network",
-    variables: { search: search },
-    onCompleted(data) {
-      setCharacters({
-        ...characters,
-        ...data.characterSnapshotsSearch,
-      });
-    },
-  });
-
-  const [reftechAggregationSearch] = useLazyQuery(aggregationSearch, {
-    fetchPolicy: "cache-and-network",
-    variables: {
-      search: search,
-      aggregationTypes: ["nodes", "mainSkills", "classes"],
-    },
-    onCompleted(data) {
-      setAggregations({
-        ...aggregations,
-        ...data.characterSnapshotsSearchAggregations,
-      });
-    },
-  });
-
-  const [reftechItemAggregationSearch] = useLazyQuery(aggregationSearch, {
-    fetchPolicy: "cache-and-network",
-    variables: {
-      search: search,
-      aggregationTypes: ["items"],
-    },
-    onCompleted(data) {
-      setItemAggregations({
-        ...aggregations,
-        ...data.characterSnapshotsSearchAggregations,
-      });
-    },
-  });
-
-  const [columnsSortMap, updateSortMap] = useSortableTable(
-    columns,
-    (key, dir) => {
-      setSearch((p) => ({
-        ...p,
-        sortKey: key ?? "level",
-        sortDirection: dir,
-      }));
+  useEffect(() => {
+    if (baseVector) {
+      setDisplayVector(LadderVectorUtil.executeSearch(baseVector, router.query))
     }
-  );
+  }, [baseVector, router.query])
 
-  function refireSearches() {
-    reftechGeneralSearch();
-    reftechAggregationSearch();
-    reftechItemAggregationSearch();
-  }
+  function toggleAggregationSearch(searchKey: string, rowKey: string) {
+    let nextQuery: string[] = [router.query[searchKey] ?? ''].flatMap((e) => e).filter((e) => e?.length);
 
-  function updateIncludeExclude(
-    entry: { key: string; value: any },
-    includedKey: string,
-    excludedKey: string
-  ): void {
-    if (search[includedKey]?.includes(entry.key)) {
-      setSearch({
-        ...search,
-        ...{
-          [excludedKey]: [...search[excludedKey]!, entry.key],
-          [includedKey]: search[includedKey]!.filter(
-            (e: string) => e !== entry.key
-          ),
-        },
-      });
-    } else if (search[excludedKey]?.includes(entry.key)) {
-      setSearch({
-        ...search,
-        ...{
-          [excludedKey]: search[excludedKey]!.filter(
-            (e: string) => e !== entry.key
-          ),
-        },
-      });
+    if (nextQuery.includes(rowKey)) {
+      nextQuery[nextQuery.indexOf(rowKey)] = `!${rowKey}`;
+    } else if (nextQuery.includes(`!${rowKey}`)) {
+      nextQuery = nextQuery.filter((e) => e !== `!${rowKey}`);
     } else {
-      setSearch({
-        ...search,
-        ...{
-          [includedKey]: [...search[includedKey]!, entry.key],
-        },
-      });
+      nextQuery = [...nextQuery, rowKey]
     }
-
-    refireSearches();
+    router.push({ query: { ...router.query, [searchKey]: nextQuery } })
   }
 
-  function onSkillChange(mainSkill: { key: string; value: any }) {
-    updateIncludeExclude(mainSkill, "includedMainSkills", "excludedMainSkills");
-  }
-
-  function onClassChange(characterClass: { key: string; value: any }) {
-    updateIncludeExclude(
-      characterClass,
-      "includedCharacterClasses",
-      "excludedCharacterClasses"
-    );
-  }
-
-  function onItemChange(item: { key: string; value: any }) {
-    updateIncludeExclude(item, "includedItemKeys", "excludedItemKeys");
-  }
-
-  function onKeystoneChange(keyStone: { key: string; value: any }) {
-    updateIncludeExclude(
-      keyStone,
-      "includedKeyStoneNames",
-      "excludedKeyStoneNames"
-    );
-  }
-
-  function onSearchValueChange(e) {
-    setLocalSearchString(e);
-  }
-
-  function onDateChange(d) {
-    setSearch({
-      ...search,
-      ...{ timestampEndInclusive: d.toISOString() },
-    });
-    refireSearches();
-  }
-
-  /**
-   * Change the sorting behavior of the characters table.
-   * @param column The name of the column to change sorting direction on.
-   */
-  function onCharactersSortChange(column: string) {
-    updateSortMap(column);
-    refireSearches();
-  }
-
-  /*
-   * These models are used to create the individual
-   * aggregation panels
-   */
-
-  const aggregatorPanels: Array<StyledAggregatorPanelModel> = [
-    {
-      title: "Skills",
-      aggregation: aggregations?.mainSkillAggreagtion,
-      onSelectionChanged: onSkillChange,
-      includedRows: search.includedMainSkills!,
-      excludedRows: search.excludedMainSkills!,
-      matches: aggregations?.totalMatches,
-      searchString: localSearchString,
-    },
-    {
-      title: "Class",
-      aggregation: aggregations?.characterClassAggregation,
-      onSelectionChanged: onClassChange,
-      includedRows: search.includedCharacterClasses!,
-      excludedRows: search.excludedCharacterClasses!,
-      matches: aggregations?.totalMatches,
-      searchString: localSearchString,
-    },
-    {
-      title: "Items",
-      aggregation: itemAggregations?.itemKeyAggreagtion,
-      onSelectionChanged: onItemChange,
-      includedRows: search.includedItemKeys!,
-      excludedRows: search.excludedItemKeys!,
-      matches: itemAggregations?.totalMatches,
-      searchString: localSearchString,
-    },
-    {
-      title: "Keystones",
-      aggregation: aggregations?.keystoneAggregation,
-      onSelectionChanged: onKeystoneChange,
-      includedRows: search.includedKeyStoneNames!,
-      excludedRows: search.excludedKeyStoneNames!,
-      matches: aggregations?.totalMatches,
-      searchString: localSearchString,
-    },
-  ];
-
-  useEffect(() => {   refireSearches()}, [])
-
-  /*
-   !! Below is the Main Component that ties everything together
-   */
-
-
-   if (!characters) {
-    return <>Loading...</>;
+  if (!displayVector) {
+    return <>loading...</>
   }
 
   return (
@@ -424,30 +116,50 @@ export default function Characters({
       <div className="flex flex-row w-full lg:flex-col lg:w-1/5 ">
         <div className="mb-2">
           <StyledMultiSearch
-            totalMatches={aggregations?.totalMatches ?? 0}
+            totalMatches={displayVector?.entires?.length ?? 0}
             value={localSearchString}
-            onValueChange={onSearchValueChange}
-            onDateChange={onDateChange}
-            onLeagueChange={(e) => {
-              setSearch({ ...search, league: e });
-              refireSearches();
+            onValueChange={(e) => {
+              setLocalSearchString(e)
             }}
+            onDateChange={(e) => { }}
+            onLeagueChange={(e) => { }}
           />
         </div>
         <div className="hidden space-y-2 lg:block">
-          {aggregatorPanels.map((props) => (
-            <StyledAggregatorPanel key={props.title} {...props} />
-          ))}
+          <StyledCard className="h-[400px] ">
+            <div className="mb-2 font-bold">Classes</div>
+            <CharacterAggregationDisplay2
+              onRowClicked={(k) => { toggleAggregationSearch('class', k); }}
+              aggregation={displayVector.classAggregation}
+              localSearchString={localSearchString}
+              query={router.query['class']}
+            />
+          </StyledCard>
+          <StyledCard className="h-[400px] ">
+            <div className="mb-2 font-bold">Skills</div>
+            <CharacterAggregationDisplay2
+              onRowClicked={(k) => { toggleAggregationSearch('skill', k) }}
+              aggregation={displayVector.mainSkillKeyAggregation}
+              localSearchString={localSearchString}
+              query={router.query['skill']}
+            />
+          </StyledCard>
+          <StyledCard className="h-[400px] ">
+            <div className="mb-2 font-bold">Items</div>
+            <CharacterAggregationDisplay2
+              onRowClicked={(k) => { toggleAggregationSearch('item', k) }}
+              aggregation={displayVector.itemKeyAggregation}
+              localSearchString={localSearchString}
+              query={router.query['item']}
+            />
+          </StyledCard>
         </div>
       </div>
 
       {/* Column 2 on Desktop */}
       <div className="w-full row-start-2 overscroll-x-contain lg:flex lg:flex-row lg:mx-20">
         <StyledCharactersSummaryTable
-          characters={characters}
-          columns={columns}
-          columnDirections={columnsSortMap}
-          onSortChange={onCharactersSortChange}
+          characters={displayVector}
         />
       </div>
 
@@ -470,8 +182,8 @@ export default function Characters({
  * Props for {@link StyledCharactersSummaryTable}
  */
 type StyledCharactersSummaryTableProps = {
-  characters: CharacterSnapshotSearchResponse;
-} & SortableTableHeaderProps;
+  characters: LadderVector;
+};
 
 /**
  * Table of a brief summary of characters on the {@link Characters} page.
@@ -479,9 +191,6 @@ type StyledCharactersSummaryTableProps = {
 
 function StyledCharactersSummaryTable({
   characters,
-  columns,
-  columnDirections,
-  onSortChange,
 }: StyledCharactersSummaryTableProps) {
   const [imageSize, setImageSize] = useState({
     width: 1,
@@ -493,11 +202,11 @@ function StyledCharactersSummaryTable({
       <table className="">
         <SortableTableHeader
           columns={columns}
-          columnDirections={columnDirections}
-          onSortChange={onSortChange}
+          columnDirections={{}}
+          onSortChange={(e) => { }}
         />
         <tbody>
-          {characters.snapshots.map((snapshot) => (
+          {characters.entires.slice(0, 25).map((snapshot) => (
             <tr
               className="h-20 hover:bg-skin-primary border-y-2 border-slate-700/50"
               key={snapshot.characterId}
@@ -598,22 +307,22 @@ function StyledCharactersSummaryTable({
                 {snapshot.energyShield}
               </td>
               <td className="font-semibold">
-                {!!snapshot.topItems && (
+                {!!snapshot.topItemNames && (
                   <div className="flex flex-row items-center space-x-4  justify-center">
-                    {snapshot.topItems?.slice(0, 3).map((e) => {
+                    {snapshot.topItemNames.map((name, i) => {
                       return (
                         <>
                           <div>
                             <StyledTooltip
-                              texts={[e.name]}
+                              texts={[name]}
                               placement={"top"}
                               className="capitalize"
                             >
                               <div className="">
                                 <Image
                                   loader={myLoader}
-                                  src={e.icon}
-                                  alt={e.name}
+                                  src={snapshot.topItemIcons[i]}
+                                  alt={name}
                                   priority={false}
                                   width={25}
                                   height={20}
@@ -739,7 +448,6 @@ function StyledAggregatorPanel({
   matches,
   searchString,
 }: StyledAggregatorPanelProps) {
-  console.log("inc rows", aggregation)
   matches = matches ? matches : 0;
 
   return (
