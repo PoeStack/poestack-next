@@ -78,14 +78,16 @@ export default function Characters() {
 
   const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
   useEffect(() => {
-    fetch(`https://raw.githubusercontent.com/PoeStack/poestack-public-data/master/poe/leagues/Standard/ladder/current.json`)
-      .then((v) => {
-        if (v.ok) {
-          return v.json();
-        }
-      })
-      .then((v) => { setBaseVector(LadderVectorUtil.parse(v)) })
-  }, []);
+    if (league) {
+      fetch(`https://raw.githubusercontent.com/PoeStack/poestack-public-data/master/poe/leagues/${league}/ladder/current.json`)
+        .then((v) => {
+          if (v.ok) {
+            return v.json();
+          }
+        })
+        .then((v) => { setBaseVector(LadderVectorUtil.parse(v)) })
+    }
+  }, [league]);
 
   useEffect(() => {
     if (baseVector) {
