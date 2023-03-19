@@ -190,8 +190,7 @@ const columns: SortableTableColumns = [
  * Characters page
  */
 export default function Characters({
-  initialSearchResponse,
-  unqiueKeysResponse,
+  initialSearchResponse
 }) {
   const router = useRouter();
   const { customLadderGroupId, league } = router.query;
@@ -276,10 +275,6 @@ export default function Characters({
       }));
     }
   );
-
-  if (!characters) {
-    return <>Loading...</>;
-  }
 
   function refireSearches() {
     reftechGeneralSearch();
@@ -380,7 +375,6 @@ export default function Characters({
       onSelectionChanged: onSkillChange,
       includedRows: search.includedMainSkills!,
       excludedRows: search.excludedMainSkills!,
-      keys: unqiueKeysResponse?.mainSkillKeys,
       matches: aggregations?.totalMatches,
       searchString: localSearchString,
     },
@@ -390,7 +384,6 @@ export default function Characters({
       onSelectionChanged: onClassChange,
       includedRows: search.includedCharacterClasses!,
       excludedRows: search.excludedCharacterClasses!,
-      keys: unqiueKeysResponse?.characterClassKeys,
       matches: aggregations?.totalMatches,
       searchString: localSearchString,
     },
@@ -400,7 +393,6 @@ export default function Characters({
       onSelectionChanged: onItemChange,
       includedRows: search.includedItemKeys!,
       excludedRows: search.excludedItemKeys!,
-      keys: unqiueKeysResponse?.itemKeys,
       matches: itemAggregations?.totalMatches,
       searchString: localSearchString,
     },
@@ -410,15 +402,21 @@ export default function Characters({
       onSelectionChanged: onKeystoneChange,
       includedRows: search.includedKeyStoneNames!,
       excludedRows: search.excludedKeyStoneNames!,
-      keys: unqiueKeysResponse?.keystoneKeys,
       matches: aggregations?.totalMatches,
       searchString: localSearchString,
     },
   ];
 
+  useEffect(() => {   refireSearches()}, [])
+
   /*
    !! Below is the Main Component that ties everything together
    */
+
+
+   if (!characters) {
+    return <>Loading...</>;
+  }
 
   return (
     <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
@@ -602,7 +600,7 @@ function StyledCharactersSummaryTable({
               <td className="font-semibold">
                 {!!snapshot.topItems && (
                   <div className="flex flex-row items-center space-x-4  justify-center">
-                    {snapshot.topItems.map((e) => {
+                    {snapshot.topItems?.slice(0, 3).map((e) => {
                       return (
                         <>
                           <div>
@@ -718,7 +716,6 @@ type StyledAggregatorPanelProps = {
   onSelectionChanged: (e: { key: string; value: any }) => void;
   includedRows?: any[];
   excludedRows?: any[];
-  keys: string[];
   matches?: Maybe<number>;
   searchString: string;
 };
@@ -739,11 +736,10 @@ function StyledAggregatorPanel({
   onSelectionChanged,
   includedRows,
   excludedRows,
-  keys,
   matches,
   searchString,
 }: StyledAggregatorPanelProps) {
-  keys = keys ? keys : [];
+  console.log("inc rows", aggregation)
   matches = matches ? matches : 0;
 
   return (
@@ -754,7 +750,7 @@ function StyledAggregatorPanel({
         onSelectionChanged={onSelectionChanged}
         includedRows={includedRows}
         excludedRows={excludedRows}
-        allKeys={keys}
+        allKeys={aggregation?.values?.map((e) => e.key!) ?? []}
         totalMatches={matches}
         localSearchString={searchString}
       />
@@ -762,22 +758,7 @@ function StyledAggregatorPanel({
   );
 }
 
-/*
- * For ssr
- */
-
-const uniqueKeysQuery = gql`
-  query CharacterSnapshotsUniqueAggregationKeys($league: String!) {
-    characterSnapshotsUniqueAggregationKeys(league: $league) {
-      characterClassKeys
-      keystoneKeys
-      mainSkillKeys
-      itemKeys
-    }
-  }
-`;
-
-export async function getServerSideProps({ req, res, query }) {
+/* export async function getServerSideProps({ req, res, query }) {
   const resp = {
     props: {},
   };
@@ -813,18 +794,6 @@ export async function getServerSideProps({ req, res, query }) {
     resp.props["initialSearchResponse"] = generalSearchResult?.data;
   }
 
-  const unqiueKeysResult: any = await client.query({
-    query: uniqueKeysQuery,
-    fetchPolicy: "no-cache",
-    variables: {
-      league: league,
-    },
-  });
-  if (unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys) {
-    resp.props["unqiueKeysResponse"] =
-      unqiueKeysResult?.data?.characterSnapshotsUniqueAggregationKeys;
-  }
-
   console.log("fetching chracter data");
   return resp;
-}
+} */

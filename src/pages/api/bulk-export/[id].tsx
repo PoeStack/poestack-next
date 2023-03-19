@@ -52,9 +52,9 @@ export default async function BulkExportImage(req: NextRequest) {
         <div tw="flex flex-col text-white">
           <div tw="min-h-5 pl-2 flex flex-row pt-3">
             PoeStack Bulk Export - Asking price{" "}
-            {d?.data?.exportStashSnapshot.totalValueChaos}c or{" "}
-            {d?.data?.exportStashSnapshot.totalValueChaos /
-              d?.data?.exportStashSnapshot.divineChaosValue}{" "}
+            {GeneralUtils.roundToFirstNoneZeroN(d?.data?.exportStashSnapshot.totalValueChaos)}c or{" "}
+            {GeneralUtils.roundToFirstNoneZeroN(d?.data?.exportStashSnapshot.totalValueChaos /
+              d?.data?.exportStashSnapshot.divineChaosValue)}{" "}
             div
           </div>
           <div tw="flex flex-col flex-wrap h-[95%] pt-3">

@@ -4,15 +4,17 @@ import StyledSelect2 from "./styled-select-2";
 
 export default function LeagueSelect({
   onChange = () => {},
+  leagueFilter = (e) => true,
 }: {
   onChange?: (e: string) => void;
+  leagueFilter?: (e: string) => boolean;
 }) {
   const { league, setLeague } = usePoeLeagueCtx();
 
   return (
     <>
       <StyledSelect2
-        items={POE_LEAGUES}
+        items={POE_LEAGUES.filter(leagueFilter)}
         onSelectChange={(e) => {
           setLeague(e);
           onChange?.(e);
