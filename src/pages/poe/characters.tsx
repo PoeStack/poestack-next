@@ -79,7 +79,7 @@ export default function Characters() {
   const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
   useEffect(() => {
     if (league) {
-      fetch(`https://raw.githubusercontent.com/PoeStack/poestack-public-data/master/poe/leagues/${league}/ladder/current.json`)
+      fetch(`https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/current.json`)
         .then((v) => {
           if (v.ok) {
             return v.json();
