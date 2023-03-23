@@ -373,19 +373,19 @@ export default function CreateBulkListingModal({
 
                     {exporterTypesToPanels[exporterInput.exportType]?.subFilters
                       ?.length && (
-                      <StyledSelect2
-                        items={
-                          exporterTypesToPanels[exporterInput.exportType]
-                            ?.subFilters ?? []
-                        }
-                        onSelectChange={(e) => {
-                          setSelectedSubFilter(e);
-                        }}
-                        selected={selectedSubFilter}
-                        mapToText={(e) => e?.name}
-                        mapToIcon={(e) => e?.icon}
-                      />
-                    )}
+                        <StyledSelect2
+                          items={
+                            exporterTypesToPanels[exporterInput.exportType]
+                              ?.subFilters ?? []
+                          }
+                          onSelectChange={(e) => {
+                            setSelectedSubFilter(e);
+                          }}
+                          selected={selectedSubFilter}
+                          mapToText={(e) => e?.name}
+                          mapToIcon={(e) => e?.icon}
+                        />
+                      )}
 
                     {exporterTypesToPanels[exporterInput.exportType]?.panel?.({
                       exporterInput,
@@ -449,29 +449,29 @@ export default function CreateBulkListingModal({
                     />
                     {!exporterTypesToPanels[exporterInput.exportType]
                       ?.disableTftButtons && (
-                      <StyledButton
-                        text={generatingImage ? "Loading..." : "Copy Image"}
-                        onClick={() => {
-                          setGeneratingImage(true);
-                          const cpy = async () => {
-                            const response = await fetch(
-                              `/api/bulk-export/test?input=${JSON.stringify(
-                                exporterInput
-                              )}`
-                            );
-                            const blob = await response.blob();
-                            await navigator.clipboard.write([
-                              new ClipboardItem({
-                                [blob.type]: blob,
-                              }),
-                            ]);
-                          };
-                          cpy().finally(() => {
-                            setGeneratingImage(false);
-                          });
-                        }}
-                      />
-                    )}
+                        <StyledButton
+                          text={generatingImage ? "Loading..." : "Copy Image"}
+                          onClick={() => {
+                            setGeneratingImage(true);
+                            const cpy = async () => {
+                              const response = await fetch(
+                                `/api/bulk-export/test?input=${JSON.stringify(
+                                  exporterInput
+                                )}`
+                              );
+                              const blob = await response.blob();
+                              await navigator.clipboard.write([
+                                new ClipboardItem({
+                                  [blob.type]: blob,
+                                }),
+                              ]);
+                            };
+                            cpy().finally(() => {
+                              setGeneratingImage(false);
+                            });
+                          }}
+                        />
+                      )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

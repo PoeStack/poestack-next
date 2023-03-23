@@ -70,13 +70,14 @@ export function Meta2TimeseriesChart({
         marker: {
           enabled: false,
         },
+        minPopulation: v.some((e) => (e.value ?? 0) >= 10),
         lastV: v[v.length - 1]?.value,
         data: data,
       };
     })
-    .filter((e) => (e.lastV ?? 0) >= 10);
+    .filter((e) => e.minPopulation);
 
-  series.sort((a, b) => (a.lastV ?? 0) - (b.lastV ?? 0));
+  series.sort((a, b) => (b.lastV ?? 0) - (a.lastV ?? 0));
 
   const options = {
     chart: {
@@ -115,7 +116,7 @@ export function Meta2TimeseriesChart({
         color: "white",
       },
     },
-    series: series.filter((e) => !!e?.name).slice(-10),
+    series: series.filter((e) => !!e?.name),
   };
 
   return (

@@ -290,12 +290,14 @@ function StyledCharactersSummaryTable({
                       className="bg-slate-800"
                     >
                       <Image
+                        loader={myLoader}
                         src={`/assets/poe/skill_icons/${encodeURIComponent(
-                          snapshot.mainSkillKey
+                          snapshot?.mainSkillKey
                         )}.png`}
-                        alt=""
+                        alt={snapshot?.mainSkillKey}
                         width={35}
                         height={35}
+                        priority={false}
                       />
                     </StyledSkillImageTooltip>
                   </li>
@@ -310,7 +312,7 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItemNames && (
-                  <div className="flex flex-row items-center space-x-4  justify-center">
+                  <div className="flex flex-row items-center space-x-4 justify-center">
                     {snapshot.topItemNames.map((name, i) => {
                       return (
                         <>
