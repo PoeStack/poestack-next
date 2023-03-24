@@ -8,7 +8,6 @@ import { TreeNodeProps, MemoisedTreeNode } from "./tree-node";
 import { TreeConnectionProps, MemoisedTreeConnection } from "./tree-connection";
 import ZoomableSVG from "./zoomable-svg";
 import { ResetEventEmitter } from "./reset-zoom-event-emitter";
-import Image from "next/image";
 
 /**
  * Generate an array of props suitable for creating {@link MemoisedTreeNode MemoisedTreeNodes}
@@ -25,7 +24,10 @@ function createNodeProps(
     return Object.values<PassiveTreeNode>(treeData.nodeMap).map((node) => ({
       fillColor:
         nodeColorOverrides?.[node.hash] ??
-        (nodes.has(node.hash) ? "red" : "#232323"),
+        (nodes.has(node.hash) ? "#9a5b28" : "#72645550"),
+      borderColor:
+        nodeColorOverrides?.[node.hash] ??
+        (nodes.has(node.hash) ? "#7e2a08" : "#72645550"),
       x: node.x,
       y: node.y,
       size: node.size,
@@ -56,8 +58,10 @@ function createConnectionProps(
         toNode.orbitIndex! - fromNode.orbitIndex! > skillsInOrbit / 2 ? 0 : 1;
       const strokeColor =
         nodes.has(fromNode.hash) && nodes.has(toNode.hash)
-          ? "red"
-          : "#ffffffaf";
+          ? "#ecc170"
+          : "#ffffff44";
+      const strokeWidth =
+        nodes.has(fromNode.hash) && nodes.has(toNode.hash) ? 20 : 6;
 
       return {
         fromX: fromNode.x,
@@ -72,6 +76,7 @@ function createConnectionProps(
         skillsInOrbit: skillsInOrbit,
         sweep: sweep,
         strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
         from: fromNode.hash,
         to: toNode.hash,
         curved: connection.curved,
