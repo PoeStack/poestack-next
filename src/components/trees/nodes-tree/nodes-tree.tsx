@@ -8,7 +8,6 @@ import { TreeNodeProps, MemoisedTreeNode } from "./tree-node";
 import { TreeConnectionProps, MemoisedTreeConnection } from "./tree-connection";
 import ZoomableSVG from "./zoomable-svg";
 import { ResetEventEmitter } from "./reset-zoom-event-emitter";
-import Image from "next/image";
 
 /**
  * Generate an array of props suitable for creating {@link MemoisedTreeNode MemoisedTreeNodes}
