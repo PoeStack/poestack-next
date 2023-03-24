@@ -9,9 +9,9 @@ export type TreeConnectionProps = {
   toX: number;
   toY: number;
   orbit: {
-    radius: number,
-    fromIndex: number,
-    toIndex: number
+    radius: number;
+    fromIndex: number;
+    toIndex: number;
   };
   skillsInOrbit: number;
   sweep: number;
@@ -19,10 +19,10 @@ export type TreeConnectionProps = {
   from: number;
   to: number;
   curved: boolean;
-}
+};
 
 /**
- * Draw a connection between 2 nodes on a {@link NodesTree}. 
+ * Draw a connection between 2 nodes on a {@link NodesTree}.
  */
 export function TreeConnection({
   fromX,
@@ -32,15 +32,18 @@ export function TreeConnection({
   orbit,
   sweep,
   strokeColor,
+  strokeWidth,
+  borderColor,
   from,
   to,
-  curved
+  curved,
 }: TreeConnectionProps) {
   if (curved) {
     return (
       <path
         stroke={strokeColor}
-        strokeWidth={6}
+        strokeWidth={strokeWidth}
+        borderColor={borderColor}
         d={`M ${fromX} ${fromY} A ${orbit.radius} ${orbit.radius}, 0, 0 ${sweep}, ${toX} ${toY}`}
         fill="transparent"
         data-from={from}
@@ -55,7 +58,7 @@ export function TreeConnection({
         x2={toX}
         y2={toY}
         stroke={strokeColor}
-        strokeWidth={6}
+        strokeWidth={strokeWidth}
         data-from={from}
         data-to={to}
       />
