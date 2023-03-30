@@ -94,7 +94,6 @@ export default function FilterableItemTable({
               hashString
               key
               tag
-              league
               baseType
               icon
               inventoryMaxStackSize
@@ -200,23 +199,23 @@ export default function FilterableItemTable({
             items={
               profile?.userId === snapshot?.userId
                 ? [
-                    {
-                      text: "Export",
-                      onClick: () => {
-                        setCreateBulkListingOpen(true);
-                      },
+                  {
+                    text: "Export",
+                    onClick: () => {
+                      setCreateBulkListingOpen(true);
                     },
-                    {
-                      text: itemValueOverridesEnabled
-                        ? "Disable Overrides"
-                        : "Enable Overrides",
-                      onClick: () => {
-                        setItemValueOverridesEnabled(
-                          !itemValueOverridesEnabled
-                        );
-                      },
+                  },
+                  {
+                    text: itemValueOverridesEnabled
+                      ? "Disable Overrides"
+                      : "Enable Overrides",
+                    onClick: () => {
+                      setItemValueOverridesEnabled(
+                        !itemValueOverridesEnabled
+                      );
                     },
-                  ]
+                  },
+                ]
                 : []
             }
             text={"Actions"}
@@ -415,7 +414,7 @@ export default function FilterableItemTable({
                             type={"number"}
                             value={
                               itemValueOverrides[
-                                summary.itemGroup!.hashString
+                              summary.itemGroup!.hashString
                               ] ?? null
                             }
                             className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"

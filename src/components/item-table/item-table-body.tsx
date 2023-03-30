@@ -50,7 +50,6 @@ export default function ItemTableBody({
               hashString
               key
               tag
-              league
               baseType
               icon
               inventoryMaxStackSize
@@ -248,7 +247,7 @@ export default function ItemTableBody({
                       type={"number"}
                       value={
                         searchUserInput.itemValueOverrides[
-                          itemSummary.itemGroup!.hashString
+                        itemSummary.itemGroup!.hashString
                         ] ?? null
                       }
                       className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"
