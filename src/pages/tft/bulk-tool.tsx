@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 
 export default function BulkTool() {
+  const router = useRouter();
+
   const { profile } = usePoeStackAuth();
 
   const { league } = usePoeLeagueCtx();
@@ -118,7 +120,7 @@ export default function BulkTool() {
       <TftGuardPanel>
         <StyledCard title="Tool">
           <div className="flex flex-col space-y-2">
-            <LeagueSelect leagueFilter={(e) => ['Sanctum'].includes(e)}/>
+            <LeagueSelect leagueFilter={(e) => ["Sanctum"].includes(e)} />
             <StyledMultiSelectMultiFilter
               selected={selectedStashTabs ?? []}
               items={stashTabs ?? []}
@@ -149,6 +151,18 @@ export default function BulkTool() {
               }}
             />
             {snapshot && <SnapshotItemTable snapshot={snapshot!} />}
+
+            <div
+              className=""
+              onClick={() => {
+                localStorage.setItem("variable-redirect", router.asPath);
+                router.push(
+                  "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
+                );
+              }}
+            >
+              Reconnect Discord
+            </div>
           </div>
         </StyledCard>
       </TftGuardPanel>
