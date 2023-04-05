@@ -28,6 +28,7 @@ import LeagueSelect from "../../../components/league-select";
 import { chart } from "highcharts";
 import { DIV_ICON } from "@components/currency-value-display";
 import { myLoader } from "@utils/general-util";
+import StyledLoading from "@components/styled-loading";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -271,7 +272,7 @@ export default function CharactersByUser() {
   return (
     <>
       {loadingCharactersById && loadingCharSnapshots ? (
-        <LoadingIndicator />
+        <StyledLoading />
       ) : (
         <div className="flex flex-col my-4 space-x-2 space-y-2 md:mx-4 lg:mx-20">
           <StyledCard title="Characters" className="flex-1 ">
@@ -284,11 +285,11 @@ export default function CharactersByUser() {
               />
             </div>
             {isCurrentUser ? (
-              <div className=" flex justify-center  w-full">
+              <div className="flex justify-center w-full ">
                 <div className="relative group">
-                  <div className="absolute inset-0 bg-slate-500 mb-2 mt-2 rounded-lg group-hover:blur-sm w-32 "></div>
+                  <div className="absolute inset-0 w-32 mt-2 mb-2 rounded-lg bg-slate-500 group-hover:blur-sm "></div>
                   <button
-                    className="relative mb-2 mt-2"
+                    className="relative mt-2 mb-2"
                     onClick={() => {
                       takeSnapshot();
                     }}
@@ -305,7 +306,7 @@ export default function CharactersByUser() {
           </StyledCard>
 
           <StyledCard title="Atlas Passives">
-            <div className="flex flex-col space-y-2 mx-40 bg-surface-primary-variant">
+            <div className="flex flex-col mx-40 space-y-2 bg-surface-primary-variant">
               <LeagueSelect />
               <AtlasPassivesTree
                 version={"3.20"}
@@ -352,7 +353,7 @@ function CharactersByUserTable({
           <tbody className="">
             {characters.map((snapshot) => (
               <tr
-                className="hover:bg-skin-primary border-y-2 border-slate-700/50 h-12"
+                className="h-12 hover:bg-skin-primary border-y-2 border-slate-700/50"
                 key={snapshot.id}
               >
                 <td>
@@ -420,7 +421,7 @@ function CharactersByUserTable({
                     </div>
                   ) : null}
                 </td>
-                <td className="flex justify-center items-center ">
+                <td className="flex items-center justify-center ">
                   {snapshot.totalValueDivine ? (
                     <div className="grid grid-cols-2 my-auto">
                       <div>{+snapshot.totalValueDivine.toFixed(1)}</div>

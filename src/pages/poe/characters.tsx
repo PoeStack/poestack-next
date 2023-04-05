@@ -14,19 +14,21 @@ import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
 import { GeneralUtils } from "@utils/general-util";
-import {
-  CustomLadderGroup,
-  GenericAggregation,
-} from "@generated/graphql";
+import { GenericAggregation } from "@generated/graphql";
 import { useRouter } from "next/router";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "../../components/styled-button";
 import { myLoader } from "../../utils/general-util";
-import { LadderVector, LadderVectorEntry, LadderVectorSearch, LadderVectorUtil } from "@utils/ladder-vector";
+import {
+  LadderVector,
+  LadderVectorEntry,
+  LadderVectorSearch,
+  LadderVectorUtil,
+} from "@utils/ladder-vector";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
-import { gql, useQuery } from "@apollo/client";
+import StyledLoading from "@components/styled-loading";
 
 /**
  * Columns used by the characters table.
@@ -73,30 +75,32 @@ export default function Characters() {
   const router = useRouter();
   const { customLadderGroupId, league } = router.query;
 
+  const [localSearchString, setLocalSearchString] = useState<string>("");
 
-  const [localSearchString, setLocalSearchString] = useState<string>("")
-
-  const [timemachineDate, setTimemachineDate] = useState<Date | null>(null)
+  const [timemachineDate, setTimemachineDate] = useState<Date | null>(null);
 
   const [baseVector, setBaseVector] = useState<LadderVector | null>(null);
 
   const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
   useEffect(() => {
     if (league) {
-      if (timemachineDate) {
-        timemachineDate.setUTCHours(0, 0, 0, 0);
-      }
-      fetch(`https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/${!!timemachineDate ? timemachineDate?.toISOString() : 'current'}.json`)
+      fetch(
+        `https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/current.json`
+      )
         .then((v) => {
           if (v.ok) {
             return v.json();
           }
         })
-        .then((v) => { setBaseVector(LadderVectorUtil.parse(v)) })
+        .then((v) => {
+          setBaseVector(LadderVectorUtil.parse(v));
+        });
     }
   }, [league, timemachineDate]);
 
-  const [ladderGroup, setLadderGroup] = useState<CustomLadderGroup | null>(null);
+  const [ladderGroup, setLadderGroup] = useState<CustomLadderGroup | null>(
+    null
+  );
   useQuery(
     gql`
       query CustomLadderGroup($groupId: String!) {
@@ -125,25 +129,33 @@ export default function Characters() {
 
   useEffect(() => {
     if (baseVector) {
-      setDisplayVector(LadderVectorUtil.executeSearch(baseVector, router.query, ladderGroup))
+      setDisplayVector(
+        LadderVectorUtil.executeSearch(baseVector, router.query)
+      );
     }
-  }, [baseVector, router.query, ladderGroup])
+  }, [baseVector, router.query]);
 
   function toggleAggregationSearch(searchKey: string, rowKey: string) {
-    let nextQuery: string[] = [router.query[searchKey] ?? ''].flatMap((e) => e).filter((e) => e?.length);
+    let nextQuery: string[] = [router.query[searchKey] ?? ""]
+      .flatMap((e) => e)
+      .filter((e) => e?.length);
 
     if (nextQuery.includes(rowKey)) {
       nextQuery[nextQuery.indexOf(rowKey)] = `!${rowKey}`;
     } else if (nextQuery.includes(`!${rowKey}`)) {
       nextQuery = nextQuery.filter((e) => e !== `!${rowKey}`);
     } else {
-      nextQuery = [...nextQuery, rowKey]
+      nextQuery = [...nextQuery, rowKey];
     }
-    router.push({ query: { ...router.query, [searchKey]: nextQuery } })
+    router.push({ query: { ...router.query, [searchKey]: nextQuery } });
   }
 
   if (!displayVector) {
-    return <>loading...</>
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (
@@ -155,40 +167,44 @@ export default function Characters() {
             totalMatches={displayVector?.entires?.length ?? 0}
             value={localSearchString}
             onValueChange={(e) => {
-              setLocalSearchString(e)
+              setLocalSearchString(e);
             }}
-            onDateChange={(e) => {
-              setTimemachineDate(e)
-            }}
-            onLeagueChange={(e) => { }}
+            onDateChange={(e) => {}}
+            onLeagueChange={(e) => {}}
           />
         </div>
         <div className="hidden space-y-2 lg:block">
           <StyledCard className="h-[400px] ">
             <div className="mb-2 font-bold">Classes</div>
             <CharacterAggregationDisplay2
-              onRowClicked={(k) => { toggleAggregationSearch('class', k); }}
+              onRowClicked={(k) => {
+                toggleAggregationSearch("class", k);
+              }}
               aggregation={displayVector.classAggregation}
               localSearchString={localSearchString}
-              query={router.query['class']}
+              query={router.query["class"]}
             />
           </StyledCard>
           <StyledCard className="h-[400px] ">
             <div className="mb-2 font-bold">Skills</div>
             <CharacterAggregationDisplay2
-              onRowClicked={(k) => { toggleAggregationSearch('skill', k) }}
+              onRowClicked={(k) => {
+                toggleAggregationSearch("skill", k);
+              }}
               aggregation={displayVector.mainSkillKeyAggregation}
               localSearchString={localSearchString}
-              query={router.query['skill']}
+              query={router.query["skill"]}
             />
           </StyledCard>
           <StyledCard className="h-[400px] ">
             <div className="mb-2 font-bold">Items</div>
             <CharacterAggregationDisplay2
-              onRowClicked={(k) => { toggleAggregationSearch('item', k) }}
+              onRowClicked={(k) => {
+                toggleAggregationSearch("item", k);
+              }}
               aggregation={displayVector.itemKeyAggregation}
               localSearchString={localSearchString}
-              query={router.query['item']}
+              query={router.query["item"]}
             />
           </StyledCard>
         </div>
@@ -196,9 +212,7 @@ export default function Characters() {
 
       {/* Column 2 on Desktop */}
       <div className="w-full row-start-2 overscroll-x-contain lg:flex lg:flex-row lg:mx-20">
-        <StyledCharactersSummaryTable
-          characters={displayVector}
-        />
+        <StyledCharactersSummaryTable characters={displayVector} />
       </div>
 
       {/* note for push + mobile filters demo */}
@@ -241,7 +255,7 @@ function StyledCharactersSummaryTable({
         <SortableTableHeader
           columns={columns}
           columnDirections={{}}
-          onSortChange={(e) => { }}
+          onSortChange={(e) => {}}
         />
         <tbody>
           {characters.entires.slice(0, 25).map((snapshot) => (
@@ -258,7 +272,7 @@ function StyledCharactersSummaryTable({
                 </Link>
               </td>
               <td>
-                <ul className="grid grid-cols-3  grid-rows-1 items-center space-x-2 justify-center">
+                <ul className="grid items-center justify-center grid-cols-3 grid-rows-1 space-x-2">
                   <div className="col-start-1 col-end-1">
                     {snapshot.twitchProfileName ? (
                       <>
@@ -291,12 +305,12 @@ function StyledCharactersSummaryTable({
                       </>
                     ) : null}
                   </div>
-                  <div className="text-center col-start-2 col-end-3">
+                  <div className="col-start-2 col-end-3 text-center">
                     <div className="flex flex-row items-center ml-3">
                       {snapshot.level}
                     </div>
                   </div>
-                  <div className="text-center col-start-3 col-end-4">
+                  <div className="col-start-3 col-end-4 text-center">
                     <div className="flex flex-row items-center">
                       <StyledTooltip
                         texts={[`${snapshot.characterClass}`]}
@@ -315,7 +329,7 @@ function StyledCharactersSummaryTable({
                 </ul>
               </td>
 
-              <td className="flex flex-row  mx-auto  justify-center h-full w-full items-center pr-4 pt-5">
+              <td className="flex flex-row items-center justify-center w-full h-full pt-5 pr-4 mx-auto">
                 {snapshot.mainSkillKey ? (
                   <li className="list-none">
                     <StyledSkillImageTooltip
@@ -348,7 +362,7 @@ function StyledCharactersSummaryTable({
               </td>
               <td className="font-semibold">
                 {!!snapshot.topItemNames && (
-                  <div className="flex flex-row items-center space-x-4 justify-center">
+                  <div className="flex flex-row items-center justify-center space-x-4">
                     {snapshot.topItemNames.map((name, i) => {
                       return (
                         <>
@@ -389,7 +403,7 @@ function StyledCharactersSummaryTable({
                 )}
               </td>
               <td className="font-semibold">
-                <div className=" w-full flex flex-row items-center justify-center pr-2 ">
+                <div className="flex flex-row items-center justify-center w-full pr-2 ">
                   {!!snapshot.pobDps &&
                     GeneralUtils.compactNumberFormat(snapshot.pobDps)}
                 </div>
@@ -432,7 +446,7 @@ function StyledMultiSearch({
       className="focus:border-color-accent border-color-base"
     >
       <div>{`Search - ${totalMatches} Characters`}</div>
-      <div className="w-full space-y-2  lg:flex lg:flex-col">
+      <div className="w-full space-y-2 lg:flex lg:flex-col">
         <StyledInput
           value={value}
           onChange={onValueChange}

@@ -16,6 +16,7 @@ import useSortableTable from "@hooks/use-sort-th-hook";
 import LeagueSelect from "@components/league-select";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 import CharacterAggregationDisplay from "../../components/character-aggregation-display";
+import StyledLoading from "@components/styled-loading";
 
 const columns: SortableTableColumns = [
   {
@@ -94,7 +95,11 @@ export default function Atlas() {
   );
 
   if (!passiveTreeData || !aggregateData) {
-    return <>loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   const keyStones = aggregateData.values

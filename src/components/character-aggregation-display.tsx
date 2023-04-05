@@ -4,6 +4,7 @@ import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "@utils/general-util";
 import { StyledTooltip } from "./styled-tooltip";
 import { GenericIntKeyValue } from "@generated/graphql";
+import StyledLoading from "./styled-loading";
 
 export default function CharacterAggregationDisplay({
   values,
@@ -25,7 +26,11 @@ export default function CharacterAggregationDisplay({
   keyToText?: (e) => string;
 }) {
   if (!values) {
-    return <>Loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   const valueMap = {};

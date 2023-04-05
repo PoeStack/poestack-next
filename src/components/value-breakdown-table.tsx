@@ -7,6 +7,7 @@ import {
   StashSnapshot,
   StashSnapshotItemGroupSummarySearchAggregationResponse,
 } from "../__generated__/graphql";
+import StyledLoading from "./styled-loading";
 
 export default function ValueBreakdownTable({
   snapshot,
@@ -50,13 +51,17 @@ export default function ValueBreakdownTable({
   );
 
   if (!chaosValuesByTag) {
-    return <>loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (
     <>
       <div className="h-64 overflow-y-auto">
-        <table className="table-auto w-full">
+        <table className="w-full table-auto">
           <thead>
             <tr>
               <th>Tag</th>

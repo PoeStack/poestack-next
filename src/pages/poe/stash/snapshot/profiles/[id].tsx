@@ -11,6 +11,7 @@ import ValueBreakdownTable from "@components/value-breakdown-table";
 import { usePoeStackAuth } from "@contexts/user-context";
 import ProfitCard from "@components/profit-card";
 import { StashSnapshot, StashSnapshotProfile } from "@generated/graphql";
+import StyledLoading from "@components/styled-loading";
 
 export default function ViewProfile() {
   const router = useRouter();
@@ -95,7 +96,11 @@ export default function ViewProfile() {
   const { profile: psUserProfile } = usePoeStackAuth();
 
   if (!profile) {
-    return <>loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (

@@ -26,6 +26,7 @@ import {
   StashSnapshotItemGroupSummarySearchInput,
   StashSnapshotItemGroupSummarySearchResponse,
 } from "../__generated__/graphql";
+import StyledLoading from "./styled-loading";
 
 export default function FilterableItemTable({
   snapshot,
@@ -176,7 +177,11 @@ export default function FilterableItemTable({
   }, [snapshot, setItemGroupSearch]);
 
   if (!itemGroupSearchResult) {
-    return <>loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (
@@ -194,28 +199,28 @@ export default function FilterableItemTable({
           }
         />
 
-        <div className="flex flex-row-reverse space-x-4 pb-3">
+        <div className="flex flex-row-reverse pb-3 space-x-4">
           <StyledDropdown
             items={
               profile?.userId === snapshot?.userId
                 ? [
-                  {
-                    text: "Export",
-                    onClick: () => {
-                      setCreateBulkListingOpen(true);
+                    {
+                      text: "Export",
+                      onClick: () => {
+                        setCreateBulkListingOpen(true);
+                      },
                     },
-                  },
-                  {
-                    text: itemValueOverridesEnabled
-                      ? "Disable Overrides"
-                      : "Enable Overrides",
-                    onClick: () => {
-                      setItemValueOverridesEnabled(
-                        !itemValueOverridesEnabled
-                      );
+                    {
+                      text: itemValueOverridesEnabled
+                        ? "Disable Overrides"
+                        : "Enable Overrides",
+                      onClick: () => {
+                        setItemValueOverridesEnabled(
+                          !itemValueOverridesEnabled
+                        );
+                      },
                     },
-                  },
-                ]
+                  ]
                 : []
             }
             text={"Actions"}
@@ -271,7 +276,7 @@ export default function FilterableItemTable({
         </div>
 
         <div>
-          <table className="table-auto w-full">
+          <table className="w-full table-auto">
             <thead>
               <tr className="w-full text-left">
                 <th></th>
@@ -320,7 +325,7 @@ export default function FilterableItemTable({
                     <td>
                       <input
                         type="checkbox"
-                        className="peer w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded "
+                        className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
                         checked={
                           !excludedItemGroupHashStrings.includes(
                             summary?.itemGroup?.hashString!
@@ -414,10 +419,10 @@ export default function FilterableItemTable({
                             type={"number"}
                             value={
                               itemValueOverrides[
-                              summary.itemGroup!.hashString
+                                summary.itemGroup!.hashString
                               ] ?? null
                             }
-                            className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"
+                            className="bg-transparent border rounded-lg border-color-primary focus:border-color-primary"
                             placeholder={"" + summary?.valueChaos}
                             required
                             onChange={(e) => {
@@ -450,7 +455,7 @@ export default function FilterableItemTable({
                 )
               )}
             </tbody>
-            <tfoot className="sticky bottom-0 bg-theme-color-1 w-full">
+            <tfoot className="sticky bottom-0 w-full bg-theme-color-1">
               <tr>
                 <th id="total" colSpan={6}>
                   Total Value:

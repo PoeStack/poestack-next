@@ -6,6 +6,7 @@ import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image from "next/image";
 import ItemMouseOver from "./item-mouseover";
 import { myLoader } from "../utils/general-util";
+import StyledLoading from "./styled-loading";
 
 export default function SecondaryEquipmentDisplay({
   items,
@@ -13,7 +14,11 @@ export default function SecondaryEquipmentDisplay({
   items: CharacterSnapshotItem[];
 }) {
   if (!items) {
-    return <>Loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   const flasks = items.filter((i) => i.inventoryId === "Flask");

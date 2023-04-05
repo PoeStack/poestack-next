@@ -6,6 +6,7 @@ import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image, { ImageLoaderProps } from "next/image";
 import ItemMouseOver from "./item-mouseover";
 import { myLoader } from "../utils/general-util";
+import StyledLoading from "./styled-loading";
 
 export default function EquipmentDisplay({
   items,
@@ -13,7 +14,11 @@ export default function EquipmentDisplay({
   items: CharacterSnapshotItem[];
 }) {
   if (!items) {
-    return <>Loading...</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   const weapon = items.find((i) => i.inventoryId === "Weapon");
@@ -38,7 +43,7 @@ export default function EquipmentDisplay({
         */}
         <div className="grid grid-cols-8 grid-rows-6 gap-1">
           {/* Head */}
-          <div className="col-start-4 col-end-6 col-span-2 row-span-2 row-start-1 row-end-3">
+          <div className="col-span-2 col-start-4 col-end-6 row-span-2 row-start-1 row-end-3">
             <ItemMouseOver item={helm} items={items}>
               <div className="flex flex-row items-center">
                 <Image height={90} width={105} src={helm?.icon!} alt={""} />
@@ -61,7 +66,7 @@ export default function EquipmentDisplay({
           </div>
 
           {/* MainHand */}
-          <div className="col-start-1 col-end-3 row-start-1 row-end-5 col-span-2 row-span-4 ">
+          <div className="col-span-2 col-start-1 col-end-3 row-span-4 row-start-1 row-end-5 ">
             <ItemMouseOver item={weapon} items={items}>
               <div className="flex flex-row items-center">
                 <Image
@@ -75,7 +80,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           {/* Body */}
-          <div className="col-start-4 col-end-6 col-span-2 row-span-3 row-start-3 row-end-6">
+          <div className="col-span-2 col-start-4 col-end-6 row-span-3 row-start-3 row-end-6">
             <ItemMouseOver item={body} items={items}>
               <div className="flex flex-row items-center">
                 <Image
@@ -89,7 +94,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           {/* OffHand */}
-          <div className="col-start-7 col-end-9 col-span-2 row-start-1 row-end-5 row-span-4">
+          <div className="col-span-2 col-start-7 col-end-9 row-span-4 row-start-1 row-end-5">
             <ItemMouseOver item={offHand} items={items}>
               <div className="flex flex-row items-center">
                 <Image
@@ -117,7 +122,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           {/* Belt */}
-          <div className="col-start-4 col-end-6 row-start-6 row-end-7 col-span-2 row-span-1">
+          <div className="col-span-2 col-start-4 col-end-6 row-span-1 row-start-6 row-end-7">
             <ItemMouseOver item={belt} items={items}>
               <div className="flex flex-row items-center">
                 <Image
@@ -145,7 +150,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           {/* Gloves */}
-          <div className="col-start-2 col-end-4 row-start-5 row-end-7 col-span-2 row-span-2">
+          <div className="col-span-2 col-start-2 col-end-4 row-span-2 row-start-5 row-end-7">
             <ItemMouseOver item={gloves} items={items}>
               <div className="flex flex-row items-center">
                 <Image
@@ -159,7 +164,7 @@ export default function EquipmentDisplay({
             </ItemMouseOver>
           </div>
           {/* Boots */}
-          <div className="col-start-6 col-end-8 row-start-5 row-end-7 col-span-2 row-span-2">
+          <div className="col-span-2 col-start-6 col-end-8 row-span-2 row-start-5 row-end-7">
             <ItemMouseOver item={boots} items={items}>
               <div className="flex flex-row items-center">
                 <Image
