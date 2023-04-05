@@ -133,8 +133,8 @@ export default function ItemTableBody({
             <th>Price History (1 Week)</th>
             <th>Quantity</th>
             <th>Value</th>
-            {searchUserInput.itemValueOverrides && <th>Override</th>}
-            <th>Total Value</th>
+            {searchUserInput.itemValueOverrides && <th>Asking Price</th>}
+            <th>Total Asking Price</th>
           </tr>
         </thead>
         <tbody className="h-80">

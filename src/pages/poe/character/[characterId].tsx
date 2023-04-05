@@ -102,7 +102,7 @@ const snapshotQuery = gql`
   }
 `;
 
-export default function Character({ characterSnapshot }) {
+export default function Character() {
   const router = useRouter();
   const { characterId, snapshotId } = router.query;
 
@@ -110,7 +110,7 @@ export default function Character({ characterSnapshot }) {
     CharacterSnapshotRecord[]
   >([]);
   const [currentSnapshot, setCurrentSnapshot] =
-    useState<CharacterSnapshot | null>(characterSnapshot);
+    useState<CharacterSnapshot | null>(null);
 
   const { refetch: refetchSnapshots } = useQuery(
     gql`
@@ -389,7 +389,7 @@ export default function Character({ characterSnapshot }) {
   );
 }
 
-export async function getServerSideProps(context) {
+/* export async function getServerSideProps(context) {
   const { characterId, snapshotId } = context.query;
 
   if (characterId && snapshotId) {
@@ -408,4 +408,4 @@ export async function getServerSideProps(context) {
   return {
     props: {},
   };
-}
+} */

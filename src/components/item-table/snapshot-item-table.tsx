@@ -61,6 +61,13 @@ export default function SnapshotItemTable({
         searchUserInput={searchUserInput}
         setSearchUserInput={setSearchUserInput}
       />
+      <ItemTableBody
+        itemGroupSearch={buildSearch(false)}
+        league={snapshot.league}
+        searchUserInput={searchUserInput}
+        setSearchUserInput={setSearchUserInput}
+        disableTotalValueRow={true}
+      />
       <StyledPaginate
         currentSkip={searchUserInput.skip}
         onSelectionChange={(skip: number, limit: number) => {
@@ -68,13 +75,6 @@ export default function SnapshotItemTable({
         }}
         limit={searchUserInput.limit}
         hasMore={true}
-      />
-      <ItemTableBody
-        itemGroupSearch={buildSearch(false)}
-        league={snapshot.league}
-        searchUserInput={searchUserInput}
-        setSearchUserInput={setSearchUserInput}
-        disableTotalValueRow={true}
       />
     </>
   );

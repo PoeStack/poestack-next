@@ -74,12 +74,17 @@ export default function Characters() {
 
   const [localSearchString, setLocalSearchString] = useState<string>("")
 
+  const [timemachineDate, setTimemachineDate] = useState<Date | null>(null)
+
   const [baseVector, setBaseVector] = useState<LadderVector | null>(null);
 
   const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
   useEffect(() => {
     if (league) {
-      fetch(`https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/current.json`)
+      if (timemachineDate) {
+        timemachineDate.setUTCHours(0, 0, 0, 0);
+      }
+      fetch(`https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/${!!timemachineDate ? timemachineDate?.toISOString() : 'current'}.json`)
         .then((v) => {
           if (v.ok) {
             return v.json();
@@ -87,7 +92,7 @@ export default function Characters() {
         })
         .then((v) => { setBaseVector(LadderVectorUtil.parse(v)) })
     }
-  }, [league]);
+  }, [league, timemachineDate]);
 
   useEffect(() => {
     if (baseVector) {
@@ -123,7 +128,11 @@ export default function Characters() {
             onValueChange={(e) => {
               setLocalSearchString(e)
             }}
-            onDateChange={(e) => { }}
+            onDateChange={(e) => {
+
+              console.log("dc", e?.toISOString())
+              setTimemachineDate(e)
+            }}
             onLeagueChange={(e) => { }}
           />
         </div>
@@ -469,43 +478,3 @@ function StyledAggregatorPanel({
     </StyledCard>
   );
 }
-
-/* export async function getServerSideProps({ req, res, query }) {
-  const resp = {
-    props: {},
-  };
-
-  const { league, customLadderGroupId } = query;
-
-  const baseSearch = {
-    league: league ?? "Sanctum",
-    includedKeyStoneNames: [],
-    excludedKeyStoneNames: [],
-    includedCharacterClasses: [],
-    excludedCharacterClasses: [],
-    includedMainSkills: [],
-    excludedMainSkills: [],
-    includedItemKeys: [],
-    excludedItemKeys: [],
-    customLadderGroupId: customLadderGroupId,
-    skip: 0,
-    limit: 100,
-    sortKey: "level",
-    sortDirection: "desc",
-  };
-
-  const generalSearchResult: any = await client.query({
-    query: ssrFullSearch,
-    fetchPolicy: "no-cache",
-    variables: {
-      search: baseSearch,
-      aggregationTypes: ["items", "nodes", "mainSkills", "classes"],
-    },
-  });
-  if (generalSearchResult?.data) {
-    resp.props["initialSearchResponse"] = generalSearchResult?.data;
-  }
-
-  console.log("fetching chracter data");
-  return resp;
-} */
