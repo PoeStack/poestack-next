@@ -84,8 +84,13 @@ export default function Characters() {
   const [displayVector, setDisplayVector] = useState<LadderVector | null>(null);
   useEffect(() => {
     if (league) {
+      if (timemachineDate) {
+        timemachineDate.setUTCHours(0, 0, 0, 0);
+      }
       fetch(
-        `https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/current.json`
+        `https://poe-stack-poe-ladder-vectors.nyc3.digitaloceanspaces.com/${league}/${
+          !!timemachineDate ? timemachineDate?.toISOString() : "current"
+        }.json`
       )
         .then((v) => {
           if (v.ok) {
@@ -97,35 +102,6 @@ export default function Characters() {
         });
     }
   }, [league, timemachineDate]);
-
-  const [ladderGroup, setLadderGroup] = useState<CustomLadderGroup | null>(
-    null
-  );
-  useQuery(
-    gql`
-      query CustomLadderGroup($groupId: String!) {
-        customLadderGroup(groupId: $groupId) {
-          id
-          name
-          ownerUserId
-          createdAtTimestamp
-          members {
-            poeProfileName
-            userId
-          }
-        }
-      }
-    `,
-    {
-      variables: { groupId: customLadderGroupId },
-      onCompleted(data) {
-        setLadderGroup(data.customLadderGroup);
-      },
-      onError() {
-        setLadderGroup(null);
-      },
-    }
-  );
 
   useEffect(() => {
     if (baseVector) {
@@ -169,7 +145,10 @@ export default function Characters() {
             onValueChange={(e) => {
               setLocalSearchString(e);
             }}
-            onDateChange={(e) => {}}
+            onDateChange={(e) => {
+              console.log("dc", e?.toISOString());
+              setTimemachineDate(e);
+            }}
             onLeagueChange={(e) => {}}
           />
         </div>

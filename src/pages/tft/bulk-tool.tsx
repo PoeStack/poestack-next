@@ -121,7 +121,9 @@ export default function BulkTool() {
       <TftGuardPanel>
         <StyledCard title="Tool">
           <div className="flex flex-col space-y-2">
-            <LeagueSelect leagueFilter={(e) => ['Crucible', 'Standard'].includes(e)}/>
+            <LeagueSelect
+              leagueFilter={(e) => ["Sanctum", "Standard"].includes(e)}
+            />
             <StyledMultiSelectMultiFilter
               selected={selectedStashTabs ?? []}
               items={stashTabs ?? []}
