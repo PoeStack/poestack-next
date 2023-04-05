@@ -532,8 +532,8 @@ function StyledCarousel({ images }) {
 
   return (
     <div className="relative">
-      <div className="absolute inset-0 mb-16 border-2 rounded-lg lg:mb-0 lg:mx-10 xl:pt-4 shadow-neutral-700"></div>
-      <div className="relative border-2 rounded-lg border-neutral-900 lg:mx-10 xl:pt-4 bg-surface-primary">
+      <div className="absolute inset-0 mb-16 rounded-lg lg:mb-0 lg:mx-10 xl:pt-4 lg:bg-white/80 blur-sm"></div>
+      <div className="relative rounded-lg lg:mx-10 xl:pt-4 bg-surface-secondary">
         <div className="grid grid-cols-[_1fr,_20fr,_1fr]">
           {/* <div className="relative bg-surface-primary"> */}
           <AiOutlineLeft

@@ -2,8 +2,8 @@ import Link from "next/link";
 import React, { Fragment, useEffect, useState } from "react";
 import GggAuthBtn from "./ggg-auth-btn";
 import Image from "next/image";
-import { Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { Disclosure, Popover, Transition } from "@headlessui/react";
+import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import {
   BookmarkSquareIcon,
   ComputerDesktopIcon,
@@ -199,6 +199,133 @@ function MobileNavBar() {
 }
 
 function DesktopNavBar() {
+  const { profile } = usePoeStackAuth();
+  const { league } = usePoeLeagueCtx();
+
+  const [navigation, setNavigation] = useState([
+    {
+      name: "Economy",
+      href: `/poe/economy/${league}?tag=currency`,
+      current: false,
+    },
+    {
+      name: "Characters",
+      href: `/poe/characters?league=${league}`,
+
+      current: false,
+      // children: [
+      //   { name: "Engineering", href: "#" },
+      //   { name: "Human Resources", href: "#" },
+      //   { name: "Customer Success", href: "#" },
+      // ],
+    },
+    {
+      name: "My Characters",
+      href: `/poe/characters/${profile?.userId}`,
+      current: false,
+      // children: [
+      //   { name: "GraphQL API", href: "#" },
+      //   { name: "iOS App", href: "#" },
+      //   { name: "Android App", href: "#" },
+      //   { name: "New Customer Portal", href: "#" },
+      // ],
+    },
+    { name: "Stash", href: "/poe/stash/snapshot/profiles", current: false },
+    { name: "Atlas", href: `/poe/atlas?league=${league}`, current: false },
+  ]);
+
+  return (
+    <>
+      <div className="sticky top-0 flex flex-col w-full h-full px-6 gap-y-5 bg-surface-primary">
+        <div className="flex items-center h-16 shrink-0 ">
+          <Link href={"/"}>
+            <Image
+              height={48}
+              width={130}
+              src={"/logo_white_name.png"}
+              alt={"PoeStack"}
+            />
+          </Link>
+        </div>
+        {/* Profile */}
+
+        <GggAuthBtn />
+
+        <nav className="flex flex-col">
+          <ul role="list" className="flex flex-col flex-1 gap-y-7">
+            <li>
+              <ul role="list" className="-mx-2 space-y-1">
+                {navigation.map((item) => (
+                  <li key={item.name}>
+                    {!item.children ? (
+                      <Link
+                        href={item.href}
+                        className={`
+                          ${
+                            item.current
+                              ? "bg-gray-50"
+                              : "hover:bg-color-primary-variant"
+                          }
+                          block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700"`}
+                        onClick={() => console.log("hi")}
+                      >
+                        {item.name}
+                      </Link>
+                    ) : (
+                      <Disclosure as="div">
+                        {({ open }) => (
+                          <>
+                            <Disclosure.Button
+                              className={`
+                          ${item.current ? "bg-gray-50" : "hover:bg-pink-400"}
+                          flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700"`}
+                            >
+                              <ChevronRightIcon
+                                className={`
+                              ${
+                                open
+                                  ? "rotate-90 text-gray-400"
+                                  : "text-gray-400"
+                              }
+                              h-5 w-5 shrink-0"`}
+                                aria-hidden="true"
+                              />
+                              {item.name}
+                            </Disclosure.Button>
+                            <Disclosure.Panel as="ul" className="px-2 mt-1">
+                              {item.children.map((subItem) => (
+                                <li key={subItem.name}>
+                                  <Disclosure.Button
+                                    as="a"
+                                    href={subItem.href}
+                                    className={
+                                      (subItem.current
+                                        ? "bg-gray-50"
+                                        : "hover:bg-gray-50",
+                                      "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-400")
+                                    }
+                                  >
+                                    {subItem.name}
+                                  </Disclosure.Button>
+                                </li>
+                              ))}
+                            </Disclosure.Panel>
+                          </>
+                        )}
+                      </Disclosure>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </>
+  );
+}
+
+function DesktopNavBarOld() {
   const { profile } = usePoeStackAuth();
   const { league } = usePoeLeagueCtx();
   return (

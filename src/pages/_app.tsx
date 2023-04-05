@@ -77,12 +77,19 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Head>
                   <title>PoeStack</title>
                 </Head>
-                <div className="w-full h-full overflow-auto bg-surface-secondary text-content-base">
-                  <div className="flex flex-col w-full h-full min-h-screen ">
-                    <StyledNavBar />
-                    <Component {...pageProps} />
+                {/* Layout */}
+                <div className="overflow-auto bg-surface-secondary text-content-base">
+                  <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-12 md:grid-rows-2">
+                    <div className="sticky top-0 grid col-start-1 col-end-3 row-start-1 row-end-3 grow ">
+                      <StyledNavBar />
+                    </div>
+                    <div className="grid col-span-8 col-start-3 col-end-13 row-span-2 row-start-1">
+                      <Component {...pageProps} />
+                    </div>
                     {/* Footer */}
-                    <StyledFooter />
+                    <div className="grid col-span-12 col-start-1 col-end-13 row-start-3">
+                      <StyledFooter />
+                    </div>
                   </div>
                 </div>
               </PoeStackLeagueProvider>
