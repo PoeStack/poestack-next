@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Disclosure } from "@headlessui/react";
 import { MinusSmallIcon, PlusSmallIcon } from "@heroicons/react/24/outline";
+import YouTube from "react-youtube";
 
 const faqs = [
   {
@@ -48,115 +49,148 @@ const faqs = [
 // This seems like the best library that's free
 // https://www.lightgalleryjs.com/
 
+const videoData = {
+  name: "Seismic Trap",
+  description: `Seismic Trap is a build that utilizes two skills, one for clear (exsanguinate traps) and one for single target damage (seismic trap). The build is a trap build so that means you'll be throwing out traps which will detonate themselves targeting enemies around them. For the purpose of this section of the index we will be including mostly just the poison variant of this build as it's the most league start friendly but it can transition into a crit based version with some investment. This build excels at single target damage and has decent clear, though you may struggle against moving bosses.`,
+  youtubeVideos: [
+    {
+      url: "v2BVj0pl0Io",
+      channelUrl: "https://www.youtube.com/@Zizaran",
+      title: "One Click TFT Bulk Sell",
+      link: "/tft/bulk-tool",
+    },
+    {
+      url: "jUrSW09ka24",
+      channelUrl: "https://www.youtube.com/@Zizaran",
+      title: "Character Ladders",
+      link: "/poe/characters?league=Sanctum",
+    },
+  ],
+};
+
+const opts = {
+  height: "360",
+  width: "680",
+  playerVars: {
+    autoplay: 0,
+  },
+};
+
 export default function FAQPage() {
   return (
     <>
-      <StyledCard>
-        <div className="">
-          <div className="mx-auto  max-w-8xl px-6 py-24 sm:py-32">
-            <div className="mx-auto max-w-4xl divide-y divide-content-base">
-              <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-base">
-                Frequently asked questions
-              </h2>
-              <dl className="mt-4 space-y-6 divide-y divide-color-base">
-                {faqs.map((faq) => (
-                  <Disclosure as="div" key={faq.question} className="pt-6">
-                    {({ open }) => (
-                      <>
-                        <dt>
-                          <Disclosure.Button className="flex w-full items-start justify-between text-left text-content-base">
-                            <span className="text-base font-semibold leading-7">
-                              {faq.question}
-                            </span>
-                            <span className="ml-6 flex h-7 items-center">
-                              {open ? (
-                                <PlusSmallIcon
-                                  className="h-6 w-6"
-                                  aria-hidden="true"
-                                />
-                              ) : (
-                                <MinusSmallIcon
-                                  className="h-6 w-6"
-                                  aria-hidden="true"
-                                />
-                              )}
-                            </span>
-                          </Disclosure.Button>
-                        </dt>
-                        <Disclosure.Panel
-                          as="dd"
-                          className="mt-2 p-4 bg-surface-primary-variant rounded-md"
+      <div className="py-4 md:px-2 lg:px-10 lg:py-4">
+        <StyledCard>
+          <div className="">
+            <div className="px-6 py-8">
+              {/* Video/Help Section */}
+              <div className="">
+                <h2 className="flex flex-col justify-center w-1/6 mx-auto text-2xl font-bold leading-10 tracking-tight text-center border-b-2 text-content-base">
+                  Video Tutorials
+                </h2>
+                <div className="grid grid-cols-1 text-center lg:grid-cols-2">
+                  {videoData.youtubeVideos.map((video, index) => (
+                    <div
+                      key={index}
+                      className="flex flex-col items-center justify-center w-full py-4 mx-auto text-xl font-semibold text-center "
+                    >
+                      <Link href={video.link} legacyBehavior>
+                        <a
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="py-2 text-xl font-semibold text-neutral-200"
                         >
-                          <p className="text-content-base leading-7">
-                            {faq.answer}{" "}
-                            {faq.link ? (
-                              <Link href={faq.link} className="" legacyBehavior>
-                                <a
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-content-accent"
-                                >
-                                  here
-                                </a>
-                              </Link>
-                            ) : null}
-                            {faq.answerCont ? (
-                              <div>
-                                <br />
-                                {faq.answerCont}
-                              </div>
-                            ) : null}
-                            {faq.image ? (
-                              <div className="flex flex-row justify-center">
-                                <Image
-                                  width={1800}
-                                  height={1200}
-                                  object-fit="contain"
-                                  src={faq.image}
-                                  alt="image"
-                                  quality={100}
-                                />
-                              </div>
-                            ) : null}
+                          <p className="h-10 pb-2 hover:text-content-accent ">
+                            {video.title}
                           </p>
-                        </Disclosure.Panel>
-                      </>
-                    )}
-                  </Disclosure>
-                ))}
-              </dl>
+                        </a>
+                      </Link>
+                      <YouTube videoId={video.url} opts={opts} className="" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* FAQ Section */}
+              <div className="max-w-4xl pt-4 mx-auto divide-y lg:pt-8 divide-content-base">
+                <h2 className="text-2xl font-bold leading-10 tracking-tight text-content-base">
+                  Frequently asked questions
+                </h2>
+                <dl className="mt-4 space-y-6 divide-y divide-color-base">
+                  {faqs.map((faq) => (
+                    <Disclosure as="div" key={faq.question} className="pt-6">
+                      {({ open }) => (
+                        <>
+                          <dt>
+                            <Disclosure.Button className="flex items-start justify-between w-full text-left text-content-base">
+                              <span className="text-base font-semibold leading-7">
+                                {faq.question}
+                              </span>
+                              <span className="flex items-center ml-6 h-7">
+                                {open ? (
+                                  <PlusSmallIcon
+                                    className="w-6 h-6"
+                                    aria-hidden="true"
+                                  />
+                                ) : (
+                                  <MinusSmallIcon
+                                    className="w-6 h-6"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                              </span>
+                            </Disclosure.Button>
+                          </dt>
+                          <Disclosure.Panel
+                            as="dd"
+                            className="p-4 mt-2 rounded-md bg-surface-primary-variant"
+                          >
+                            <p className="leading-7 text-content-base">
+                              {faq.answer}{" "}
+                              {faq.link ? (
+                                <Link
+                                  href={faq.link}
+                                  className=""
+                                  legacyBehavior
+                                >
+                                  <a
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-content-accent"
+                                  >
+                                    here
+                                  </a>
+                                </Link>
+                              ) : null}
+                              {faq.answerCont ? (
+                                <div>
+                                  <br />
+                                  {faq.answerCont}
+                                </div>
+                              ) : null}
+                              {faq.image ? (
+                                <div className="flex flex-row justify-center">
+                                  <Image
+                                    width={1800}
+                                    height={1200}
+                                    object-fit="contain"
+                                    src={faq.image}
+                                    alt="image"
+                                    quality={100}
+                                  />
+                                </div>
+                              ) : null}
+                            </p>
+                          </Disclosure.Panel>
+                        </>
+                      )}
+                    </Disclosure>
+                  ))}
+                </dl>
+              </div>
             </div>
           </div>
-        </div>
-      </StyledCard>
+        </StyledCard>
+      </div>
     </>
   );
 }
-
-// rough draft setup
-// <div>
-//         <div className=" text-center">
-//           <StyledCard title="FAQ">
-//             <ul className="space-y-4 text-left">
-//
-//                 <p>
-//                   Currently the frontend is open source{" "}
-//                   <Link
-//                     href="https://github.com/zach-herridge/poestack-next"
-//                     className=""
-//                     legacyBehavior
-//                   >
-//                     <a
-//                       target="_blank"
-//                       rel="noopener noreferrer"
-//                       className="text-content-accent"
-//                     >
-//                       here.
-//                     </a>
-//                   </Link>{" "}
-//                 </p>
-//               </li>
-//             </ul>
-//           </StyledCard>
-//         </div>
-//       </div>
