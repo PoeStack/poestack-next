@@ -24,7 +24,10 @@ function createNodeProps(
     return Object.values<PassiveTreeNode>(treeData.nodeMap).map((node) => ({
       fillColor:
         nodeColorOverrides?.[node.hash] ??
-        (nodes.has(node.hash) ? "red" : "black"),
+        (nodes.has(node.hash) ? "#9a5b28" : "#72645550"),
+      borderColor:
+        nodeColorOverrides?.[node.hash] ??
+        (nodes.has(node.hash) ? "#7e2a08" : "#72645550"),
       x: node.x,
       y: node.y,
       size: node.size,
@@ -54,7 +57,11 @@ function createConnectionProps(
       const sweep =
         toNode.orbitIndex! - fromNode.orbitIndex! > skillsInOrbit / 2 ? 0 : 1;
       const strokeColor =
-        nodes.has(fromNode.hash) && nodes.has(toNode.hash) ? "red" : "black";
+        nodes.has(fromNode.hash) && nodes.has(toNode.hash)
+          ? "#ecc170"
+          : "#ffffff44";
+      const strokeWidth =
+        nodes.has(fromNode.hash) && nodes.has(toNode.hash) ? 20 : 6;
 
       return {
         fromX: fromNode.x,
@@ -69,6 +76,7 @@ function createConnectionProps(
         skillsInOrbit: skillsInOrbit,
         sweep: sweep,
         strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
         from: fromNode.hash,
         to: toNode.hash,
         curved: connection.curved,
@@ -124,17 +132,19 @@ export default function NodesTree({
   const height = maxY - minY;
 
   return (
-    <ZoomableSVG
-      {...{ minX, minY, height, width }}
-      scaleLimit={[0.25, 10]}
-      resetZoomEmitter={resetZoomEmitter}
-    >
-      {memoizedConnectionProps.map((props, index) => (
-        <MemoisedTreeConnection key={index} {...props} />
-      ))}
-      {memoizedNodeProps.map((props, index) => (
-        <MemoisedTreeNode key={index} {...props} />
-      ))}
-    </ZoomableSVG>
+    <div className="">
+      <ZoomableSVG
+        {...{ minX, minY, height, width }}
+        scaleLimit={[0.25, 10]}
+        resetZoomEmitter={resetZoomEmitter}
+      >
+        {memoizedConnectionProps.map((props, index) => (
+          <MemoisedTreeConnection key={index} {...props} />
+        ))}
+        {memoizedNodeProps.map((props, index) => (
+          <MemoisedTreeNode key={index} {...props} />
+        ))}
+      </ZoomableSVG>
+    </div>
   );
 }
