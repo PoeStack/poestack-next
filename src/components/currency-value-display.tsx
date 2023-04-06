@@ -80,13 +80,13 @@ export default function CurrencyValueDisplay({
   return (
     <>
       <div
-        className="grid grid-cols-2 text-center space-x-1 place-content-center place-items-center w-fit"
+        className="grid w-full grid-cols-2 text-center place-content-center place-items-center"
         onClick={() => {
           onClick?.(display);
         }}
       >
-        <div>{display}</div>
-        <div>
+        <div className="w-full mr-4 text-right ">{display}</div>
+        <div className="flex justify-start w-full text-left place-items-start place-content-start">
           <Image loader={myLoader} src={icon} alt={""} width={30} height={30} />
         </div>
       </div>

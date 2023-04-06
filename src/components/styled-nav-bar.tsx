@@ -214,9 +214,9 @@ function DesktopNavBar() {
 
       current: false,
       // children: [
-      //   { name: "Engineering", href: "#" },
-      //   { name: "Human Resources", href: "#" },
-      //   { name: "Customer Success", href: "#" },
+      //   { name: "child1", href: "#" },
+      //   { name: "child2", href: "#" },
+      //   { name: "child3", href: "#" },
       // ],
     },
     {
@@ -224,10 +224,9 @@ function DesktopNavBar() {
       href: `/poe/characters/${profile?.userId}`,
       current: false,
       // children: [
-      //   { name: "GraphQL API", href: "#" },
-      //   { name: "iOS App", href: "#" },
-      //   { name: "Android App", href: "#" },
-      //   { name: "New Customer Portal", href: "#" },
+      //   { name: "child1", href: "#" },
+      //   { name: "child2", href: "#" },
+      //   { name: "child3", href: "#" },
       // ],
     },
     { name: "Stash", href: "/poe/stash/snapshot/profiles", current: false },
@@ -249,10 +248,11 @@ function DesktopNavBar() {
         </div>
         {/* Profile */}
 
-        <GggAuthBtn />
-
         <nav className="flex flex-col">
           <ul role="list" className="flex flex-col flex-1 gap-y-7">
+            <li className="flex pl-6">
+              <GggAuthBtn />
+            </li>
             <li>
               <ul role="list" className="-mx-2 space-y-1">
                 {navigation.map((item) => (
