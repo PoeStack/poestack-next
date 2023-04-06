@@ -6,6 +6,7 @@ import CharacterAggregationDisplay from "@components/character-aggregation-displ
 import StyledCard from "@components/styled-card";
 import StyledDatepicker from "@components/styled-datepicker";
 import StyledInput from "@components/styled-input";
+import StyledLoading from "@components/styled-loading";
 import {
   StyledTooltip,
   StyledSkillImageTooltip,
@@ -14,7 +15,7 @@ import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
 import { GeneralUtils } from "@utils/general-util";
-import { GenericAggregation } from "@generated/graphql";
+import { CustomLadderGroup, GenericAggregation } from "@generated/graphql";
 import { useRouter } from "next/router";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
@@ -28,7 +29,7 @@ import {
   LadderVectorUtil,
 } from "@utils/ladder-vector";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
-import StyledLoading from "@components/styled-loading";
+import { gql, useQuery } from "@apollo/client";
 
 /**
  * Columns used by the characters table.
@@ -103,13 +104,42 @@ export default function Characters() {
     }
   }, [league, timemachineDate]);
 
+  const [ladderGroup, setLadderGroup] = useState<CustomLadderGroup | null>(
+    null
+  );
+  useQuery(
+    gql`
+      query CustomLadderGroup($groupId: String!) {
+        customLadderGroup(groupId: $groupId) {
+          id
+          name
+          ownerUserId
+          createdAtTimestamp
+          members {
+            poeProfileName
+            userId
+          }
+        }
+      }
+    `,
+    {
+      variables: { groupId: customLadderGroupId },
+      onCompleted(data) {
+        setLadderGroup(data.customLadderGroup);
+      },
+      onError() {
+        setLadderGroup(null);
+      },
+    }
+  );
+
   useEffect(() => {
     if (baseVector) {
       setDisplayVector(
-        LadderVectorUtil.executeSearch(baseVector, router.query)
+        LadderVectorUtil.executeSearch(baseVector, router.query, ladderGroup)
       );
     }
-  }, [baseVector, router.query]);
+  }, [baseVector, router.query, ladderGroup]);
 
   function toggleAggregationSearch(searchKey: string, rowKey: string) {
     let nextQuery: string[] = [router.query[searchKey] ?? ""]
@@ -146,7 +176,6 @@ export default function Characters() {
               setLocalSearchString(e);
             }}
             onDateChange={(e) => {
-              console.log("dc", e?.toISOString());
               setTimemachineDate(e);
             }}
             onLeagueChange={(e) => {}}
