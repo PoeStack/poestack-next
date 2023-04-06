@@ -1,3 +1,5 @@
+import { CustomLadderGroup } from "@generated/graphql";
+
 export class LadderVectorUtil {
 
     public static parse(rawVector: LadderVectorRaw): LadderVector {
@@ -24,7 +26,8 @@ export class LadderVectorUtil {
                 topItemIcons: [],
                 characterClass: "",
                 mainSkillKey: "",
-                twitchProfileName: ""
+                twitchProfileName: "",
+                userId: ""
             };
 
             for (const subVector of vector) {
@@ -38,6 +41,8 @@ export class LadderVectorUtil {
                     out.energyShield = subVector[7];
                     out.totalValueChaos = subVector[8];
                     out.totalValueDivine = subVector[9];
+                    out.userId = subVector[10];
+                    out.twitchProfileName = subVector[11];
                 } else {
                     const type = subVector[0];
                     const typeKey = rawVector.types[type];
@@ -90,8 +95,10 @@ export class LadderVectorUtil {
         return true;
     }
 
-    public static executeSearch(baseVector: LadderVector, search: LadderVectorSearch): LadderVector {
+    public static executeSearch(baseVector: LadderVector, search: LadderVectorSearch, ladderGroup: CustomLadderGroup | null): LadderVector {
         const nextVector = baseVector.copy();
+
+        const validUserIds = ladderGroup?.members.map((e) => e.userId) ?? [];
 
         nextVector.entires = nextVector.entires.filter((vector) => {
             if (!LadderVectorUtil.executeFilter(search.class, [vector.characterClass])) {
@@ -103,6 +110,10 @@ export class LadderVectorUtil {
             }
 
             if (!LadderVectorUtil.executeFilter(search.item, vector.itemKeys)) {
+                return false;
+            }
+
+            if(validUserIds.length && !validUserIds.includes(vector.userId)) {
                 return false;
             }
 
@@ -159,6 +170,7 @@ export interface LadderVectorEntry {
     topItemNames: string[]
     topItemIcons: string[]
     twitchProfileName: string;
+    userId: string;
 }
 
 export interface LadderVectorRaw {

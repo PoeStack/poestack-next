@@ -10,6 +10,7 @@ import SnapshotItemTable from "@components/item-table/snapshot-item-table";
 import StyledMultiSelectMultiFilter from "@components/styled-multi-select-multi-filter";
 import { useEffect } from "react";
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
+import { useRouter } from "next/router";
 
 export default function BulkTool() {
   const router = useRouter();
@@ -120,7 +121,7 @@ export default function BulkTool() {
       <TftGuardPanel>
         <StyledCard title="Tool">
           <div className="flex flex-col space-y-2">
-            <LeagueSelect leagueFilter={(e) => ['Sanctum', 'Standard'].includes(e)}/>
+            <LeagueSelect leagueFilter={(e) => ['Crucible', 'Standard'].includes(e)}/>
             <StyledMultiSelectMultiFilter
               selected={selectedStashTabs ?? []}
               items={stashTabs ?? []}

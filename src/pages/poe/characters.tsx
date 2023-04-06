@@ -15,6 +15,7 @@ import SortableTableHeader, {
 } from "@components/sortable-table-header";
 import { GeneralUtils } from "@utils/general-util";
 import {
+  CustomLadderGroup,
   GenericAggregation,
 } from "@generated/graphql";
 import { useRouter } from "next/router";
@@ -25,6 +26,7 @@ import StyledButton from "../../components/styled-button";
 import { myLoader } from "../../utils/general-util";
 import { LadderVector, LadderVectorEntry, LadderVectorSearch, LadderVectorUtil } from "@utils/ladder-vector";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
+import { gql, useQuery } from "@apollo/client";
 
 /**
  * Columns used by the characters table.
@@ -94,11 +96,38 @@ export default function Characters() {
     }
   }, [league, timemachineDate]);
 
+  const [ladderGroup, setLadderGroup] = useState<CustomLadderGroup | null>(null);
+  useQuery(
+    gql`
+      query CustomLadderGroup($groupId: String!) {
+        customLadderGroup(groupId: $groupId) {
+          id
+          name
+          ownerUserId
+          createdAtTimestamp
+          members {
+            poeProfileName
+            userId
+          }
+        }
+      }
+    `,
+    {
+      variables: { groupId: customLadderGroupId },
+      onCompleted(data) {
+        setLadderGroup(data.customLadderGroup);
+      },
+      onError() {
+        setLadderGroup(null);
+      },
+    }
+  );
+
   useEffect(() => {
     if (baseVector) {
-      setDisplayVector(LadderVectorUtil.executeSearch(baseVector, router.query))
+      setDisplayVector(LadderVectorUtil.executeSearch(baseVector, router.query, ladderGroup))
     }
-  }, [baseVector, router.query])
+  }, [baseVector, router.query, ladderGroup])
 
   function toggleAggregationSearch(searchKey: string, rowKey: string) {
     let nextQuery: string[] = [router.query[searchKey] ?? ''].flatMap((e) => e).filter((e) => e?.length);
@@ -129,8 +158,6 @@ export default function Characters() {
               setLocalSearchString(e)
             }}
             onDateChange={(e) => {
-
-              console.log("dc", e?.toISOString())
               setTimemachineDate(e)
             }}
             onLeagueChange={(e) => { }}
