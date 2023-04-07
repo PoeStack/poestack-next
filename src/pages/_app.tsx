@@ -80,10 +80,10 @@ export default function App({ Component, pageProps }: AppProps) {
                 {/* Layout */}
                 <div className="overflow-auto bg-surface-secondary text-content-base">
                   <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-12 md:grid-rows-2">
-                    <div className="sticky top-0 grid col-start-1 col-end-3 row-start-1 row-end-3 grow ">
+                    <div className="sticky top-0 grid col-start-1 col-end-2 row-start-1 row-end-3 grow ">
                       <StyledNavBar />
                     </div>
-                    <div className="grid col-span-8 col-start-3 col-end-13 row-span-2 row-start-1">
+                    <div className="grid col-span-8 col-start-2 col-end-13 row-span-2 row-start-1">
                       <Component {...pageProps} />
                     </div>
                     {/* Footer */}

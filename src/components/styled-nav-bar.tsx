@@ -30,7 +30,7 @@ export default function StyledNavBar() {
 
   const breakpoint = 1125;
 
-  return windowWidth! < breakpoint ? <MobileNavBar /> : <DesktopNavBar />;
+  return windowWidth! < breakpoint ? <DesktopNavBar /> : <DesktopNavBar />;
 }
 
 function MobileNavBar() {
@@ -203,7 +203,7 @@ function DesktopNavBar() {
   const { profile } = usePoeStackAuth();
   const { league } = usePoeLeagueCtx();
 
-  const [navigation, setNavigation] = useState<any[]>([
+  const navigation = [
     {
       name: "Economy",
       href: `/poe/economy/${league}?tag=currency`,
@@ -235,16 +235,11 @@ function DesktopNavBar() {
       href: `/poe/atlas?league=${league}`,
       current: false,
     },
-  ]);
-
-  const discordNav = {
-    name: "Join the Discord",
-    href: `https://discord.gg/zqeTWZvb76`,
-  };
+  ];
 
   return (
     <>
-      <div className="sticky top-0 flex flex-col w-full h-full px-6 bg-surface-primary gap-y-5">
+      <div className="flex flex-col w-full h-full px-6 bg-surface-primary gap-y-5">
         <div className="flex items-center h-16 shrink-0 ">
           <Link href={"/"}>
             <Image
