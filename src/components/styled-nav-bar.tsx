@@ -240,7 +240,6 @@ function DesktopNavBar() {
   const discordNav = {
     name: "Join the Discord",
     href: `https://discord.gg/zqeTWZvb76`,
-    current: false,
   };
 
   return (
@@ -262,68 +261,20 @@ function DesktopNavBar() {
           <ul role="list" className="flex flex-col flex-1 gap-y-7">
             <li>
               {/* Navgiation */}
-              <ul role="list" className="-mx-2 space-y-1">
+              <ul role="list" className="">
                 {navigation.map((item) => (
-                  <li key={item.name}>
-                    {!item ? (
-                      <Link
-                        href={item.href}
-                        className={`
-                          ${
-                            item.current
-                              ? "bg-gray-50"
-                              : "hover:bg-color-primary-variant"
-                          }
-                          block rounded-md py-2 pr-2 pl-10 text-sm font-semibold leading-6 text-gray-400`}
-                        onClick={() => console.log("hi")}
-                      >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <Disclosure as="div">
-                        {({ open }) => (
-                          <>
-                            <Disclosure.Button
-                              className={`
-                          ${item.current ? "bg-gray-50" : "hover:bg-pink-400"}
-                          text-gray-400" flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6`}
-                            >
-                              {item.children >= 1 ? (
-                                <ChevronRightIcon
-                                  className={`
-                              ${
-                                open
-                                  ? "rotate-90 text-gray-400"
-                                  : "text-gray-400"
-                              }
-                              shrink-0" h-5 w-5`}
-                                  aria-hidden="true"
-                                />
-                              ) : null}
-
-                              {item.name}
-                            </Disclosure.Button>
-                            {item.children >= 1 ? (
-                              <Disclosure.Panel as="ul" className="px-2 mt-1">
-                                {item.children.map((subItem) => (
-                                  <li key={subItem.name}>
-                                    <Disclosure.Button
-                                      as="a"
-                                      href={subItem.href}
-                                      className={
-                                        "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-400"
-                                      }
-                                    >
-                                      {subItem.name}
-                                    </Disclosure.Button>
-                                  </li>
-                                ))}
-                              </Disclosure.Panel>
-                            ) : null}
-                          </>
-                        )}
-                      </Disclosure>
-                    )}
+                  <li
+                    key={item.name}
+                    className="block py-2 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary "
+                  >
+                    <Link
+                      href={item.href}
+                      className={`
+                    ${item.current ? "bg-gray-50" : ""}
+                    block rounded-md py-2 pr-2 pl-10 text-sm font-semibold leading-6 text-gray-200`}
+                    >
+                      {item.name}
+                    </Link>
                   </li>
                 ))}
               </ul>
