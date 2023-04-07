@@ -81,7 +81,7 @@ function MobileNavBar() {
               <Popover.Button
                 className={classNames(
                   open ? "text-gray-900" : "text-gray-500",
-                  "group inline-flex items-center   rounded-md text-base font-medium text-content-base hover:text-content-accent focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                  "text-content-base hover:text-content-accent group   inline-flex items-center rounded-md text-base font-medium focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                 )}
               >
                 <span>
@@ -164,7 +164,7 @@ function MobileNavBar() {
                           <span className="ml-4"></span>
                         </Link>
                       </li>
-                      <div className="flex space-x-6 min-w-[200px] text-content-base flex-row items-center">
+                      <div className="text-content-base flex min-w-[200px] flex-row items-center space-x-6">
                         <div className="font-semibold hover:text-content-accent">
                           <Link
                             href="https://discord.gg/zqeTWZvb76"
@@ -203,7 +203,7 @@ function DesktopNavBar() {
   const { profile } = usePoeStackAuth();
   const { league } = usePoeLeagueCtx();
 
-  const [navigation, setNavigation] = useState([
+  const [navigation, setNavigation] = useState<any[]>([
     {
       name: "Economy",
       href: `/poe/economy/${league}?tag=currency`,
@@ -212,8 +212,13 @@ function DesktopNavBar() {
     {
       name: "Characters",
       href: `/poe/characters?league=${league}`,
-
       current: false,
+    },
+    {
+      name: "My Characters",
+      href: `/poe/characters/${profile?.userId}`,
+      current: false,
+
       // children: [
       //   { name: "child1", href: "#" },
       //   { name: "child2", href: "#" },
@@ -221,17 +226,15 @@ function DesktopNavBar() {
       // ],
     },
     {
-      name: "My Characters",
-      href: `/poe/characters/${profile?.userId}`,
+      name: "Stash",
+      href: "/poe/stash/snapshot/profiles",
       current: false,
-      // children: [
-      //   { name: "child1", href: "#" },
-      //   { name: "child2", href: "#" },
-      //   { name: "child3", href: "#" },
-      // ],
     },
-    { name: "Stash", href: "/poe/stash/snapshot/profiles", current: false },
-    { name: "Atlas", href: `/poe/atlas?league=${league}`, current: false },
+    {
+      name: "Atlas",
+      href: `/poe/atlas?league=${league}`,
+      current: false,
+    },
   ]);
 
   const discordNav = {
@@ -242,7 +245,7 @@ function DesktopNavBar() {
 
   return (
     <>
-      <div className="sticky top-0 flex flex-col w-full h-full px-6 gap-y-5 bg-surface-primary">
+      <div className="sticky top-0 flex flex-col w-full h-full px-6 bg-surface-primary gap-y-5">
         <div className="flex items-center h-16 shrink-0 ">
           <Link href={"/"}>
             <Image
@@ -262,7 +265,7 @@ function DesktopNavBar() {
               <ul role="list" className="-mx-2 space-y-1">
                 {navigation.map((item) => (
                   <li key={item.name}>
-                    {!item.children ? (
+                    {!item ? (
                       <Link
                         href={item.href}
                         className={`
@@ -271,7 +274,7 @@ function DesktopNavBar() {
                               ? "bg-gray-50"
                               : "hover:bg-color-primary-variant"
                           }
-                          block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-400`}
+                          block rounded-md py-2 pr-2 pl-10 text-sm font-semibold leading-6 text-gray-400`}
                         onClick={() => console.log("hi")}
                       >
                         {item.name}
@@ -283,38 +286,40 @@ function DesktopNavBar() {
                             <Disclosure.Button
                               className={`
                           ${item.current ? "bg-gray-50" : "hover:bg-pink-400"}
-                          flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-400"`}
+                          text-gray-400" flex w-full items-center gap-x-3 rounded-md p-2 text-left text-sm font-semibold leading-6`}
                             >
-                              <ChevronRightIcon
-                                className={`
+                              {item.children >= 1 ? (
+                                <ChevronRightIcon
+                                  className={`
                               ${
                                 open
                                   ? "rotate-90 text-gray-400"
                                   : "text-gray-400"
                               }
-                              h-5 w-5 shrink-0"`}
-                                aria-hidden="true"
-                              />
+                              shrink-0" h-5 w-5`}
+                                  aria-hidden="true"
+                                />
+                              ) : null}
+
                               {item.name}
                             </Disclosure.Button>
-                            <Disclosure.Panel as="ul" className="px-2 mt-1">
-                              {item.children.map((subItem) => (
-                                <li key={subItem.name}>
-                                  <Disclosure.Button
-                                    as="a"
-                                    href={subItem.href}
-                                    className={
-                                      (subItem.current
-                                        ? "bg-gray-50"
-                                        : "hover:bg-gray-50",
-                                      "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-400")
-                                    }
-                                  >
-                                    {subItem.name}
-                                  </Disclosure.Button>
-                                </li>
-                              ))}
-                            </Disclosure.Panel>
+                            {item.children >= 1 ? (
+                              <Disclosure.Panel as="ul" className="px-2 mt-1">
+                                {item.children.map((subItem) => (
+                                  <li key={subItem.name}>
+                                    <Disclosure.Button
+                                      as="a"
+                                      href={subItem.href}
+                                      className={
+                                        "block rounded-md py-2 pr-2 pl-9 text-sm leading-6 text-gray-400"
+                                      }
+                                    >
+                                      {subItem.name}
+                                    </Disclosure.Button>
+                                  </li>
+                                ))}
+                              </Disclosure.Panel>
+                            ) : null}
                           </>
                         )}
                       </Disclosure>
@@ -366,7 +371,7 @@ function DesktopNavBarOld() {
   const { league } = usePoeLeagueCtx();
   return (
     <>
-      <div className="flex items-center w-full h-12 pl-2 pr-2 min-w-fit bg-surface-primary">
+      <div className="flex items-center w-full h-12 pl-2 pr-2 bg-surface-primary min-w-fit">
         <div className="flex items-center space-x-2 min-w-fit">
           <div className="flex min-w-[130px] space-x-1">
             <Link href={"/"}>
@@ -446,7 +451,7 @@ function DesktopNavBarOld() {
         <div className="grow">
           <SearchBar />
         </div>
-        <div className="flex space-x-6 min-w-[200px] text-content-base flex-row items-center">
+        <div className="text-content-base flex min-w-[200px] flex-row items-center space-x-6">
           <div className="font-semibold hover:text-content-accent">
             <a href="https://discord.gg/zqeTWZvb76">
               <StyledTooltip
