@@ -23,6 +23,7 @@ import SearchBar from "./search-bar";
 import { usePoeStackAuth } from "../contexts/user-context";
 import { usePoeLeagueCtx } from "../contexts/league-context";
 import ThemeChanger from "./theme-changer";
+import LeagueSelect from "@components/league-select";
 
 export default function StyledNavBar() {
   const windowWidth = useWindowSize();
@@ -233,6 +234,12 @@ function DesktopNavBar() {
     { name: "Atlas", href: `/poe/atlas?league=${league}`, current: false },
   ]);
 
+  const discordNav = {
+    name: "Join the Discord",
+    href: `https://discord.gg/zqeTWZvb76`,
+    current: false,
+  };
+
   return (
     <>
       <div className="sticky top-0 flex flex-col w-full h-full px-6 gap-y-5 bg-surface-primary">
@@ -248,12 +255,10 @@ function DesktopNavBar() {
         </div>
         {/* Profile */}
 
-        <nav className="flex flex-col">
+        <nav className="flex flex-col ">
           <ul role="list" className="flex flex-col flex-1 gap-y-7">
-            <li className="flex pl-6">
-              <GggAuthBtn />
-            </li>
             <li>
+              {/* Navgiation */}
               <ul role="list" className="-mx-2 space-y-1">
                 {navigation.map((item) => (
                   <li key={item.name}>
@@ -266,7 +271,7 @@ function DesktopNavBar() {
                               ? "bg-gray-50"
                               : "hover:bg-color-primary-variant"
                           }
-                          block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-700"`}
+                          block rounded-md py-2 pr-2 pl-10 text-sm leading-6 font-semibold text-gray-400`}
                         onClick={() => console.log("hi")}
                       >
                         {item.name}
@@ -278,7 +283,7 @@ function DesktopNavBar() {
                             <Disclosure.Button
                               className={`
                           ${item.current ? "bg-gray-50" : "hover:bg-pink-400"}
-                          flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-700"`}
+                          flex items-center w-full text-left rounded-md p-2 gap-x-3 text-sm leading-6 font-semibold text-gray-400"`}
                             >
                               <ChevronRightIcon
                                 className={`
@@ -316,6 +321,37 @@ function DesktopNavBar() {
                     )}
                   </li>
                 ))}
+              </ul>
+              {/* Settings with no Options */}
+
+              <ul role="settings" className="pt-20 -mx-2 space-y-1">
+                <li className="block py-2 pl-10 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary ">
+                  <Link
+                    href={`http://discord.com/invite/zqeTWZvb76`}
+                    className=""
+                    legacyBehavior
+                  >
+                    <a
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="underline hover:text-content-accent"
+                    >
+                      Join the Discord
+                    </a>
+                  </Link>
+                </li>
+              </ul>
+              {/* Settings with Options */}
+              <ul className="block w-40 py-2 pl-10 pr-2 space-y-4 text-sm font-semibold leading-6 rounded-md">
+                <li className="">
+                  <ThemeChanger />
+                </li>
+                <li>
+                  <LeagueSelect />
+                </li>
+                <li className="">
+                  <GggAuthBtn />
+                </li>
               </ul>
             </li>
           </ul>
@@ -426,9 +462,7 @@ function DesktopNavBarOld() {
             </a>
           </div>
           <ThemeChanger />
-          <div className="font-semibold hover:text-content-accent">
-            <GggAuthBtn />
-          </div>
+          <GggAuthBtn />
         </div>
       </div>
     </>
