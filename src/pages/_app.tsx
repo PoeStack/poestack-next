@@ -38,13 +38,13 @@ Array.prototype.sortByMultiple = function sortByMultiple<T>(
           ? a[key.key] < b[key.key]
             ? -1
             : a[key.key] == b[key.key]
-            ? 0
-            : 1
+              ? 0
+              : 1
           : a[key.key] > b[key.key]
-          ? -1
-          : a[key.key] == b[key.key]
-          ? 0
-          : 1
+            ? -1
+            : a[key.key] == b[key.key]
+              ? 0
+              : 1
       ),
     this
   );
@@ -78,19 +78,18 @@ export default function App({ Component, pageProps }: AppProps) {
                   <title>PoeStack</title>
                 </Head>
                 {/* Layout */}
-                <div className="overflow-auto bg-surface-secondary text-content-base">
-                  <div className="grid grid-cols-1 grid-rows-1 md:grid-cols-12 md:grid-rows-2">
-                    <div className="sticky top-0 grid col-start-1 col-end-2 row-start-1 row-end-3 grow ">
+
+                <div className="flex flex-col min-h-screen text-content-base bg-color-primary">
+                  <div className="flex">
+                    <div className="basis-1/12">
                       <StyledNavBar />
                     </div>
-                    <div className="grid col-span-8 col-start-2 col-end-13 row-span-2 row-start-1">
+                    <div className="grow">
                       <Component {...pageProps} />
                     </div>
-                    {/* Footer */}
-                    <div className="grid col-span-12 col-start-1 col-end-13 row-start-3">
-                      <StyledFooter />
-                    </div>
                   </div>
+                  {/* Footer */}
+                  <StyledFooter />
                 </div>
               </PoeStackLeagueProvider>
             </PoeStackAuthProvider>

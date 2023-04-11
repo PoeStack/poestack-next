@@ -239,8 +239,8 @@ function DesktopNavBar() {
 
   return (
     <>
-      <div className="flex flex-col w-full h-full px-6 bg-surface-primary gap-y-5">
-        <div className="flex items-center h-16 shrink-0 ">
+      <div className="flex flex-col w-full h-full bg-surface-primary gap-y-5">
+        <div className="flex justify-items-center h-16 w-full">
           <Link href={"/"}>
             <Image
               height={48}
@@ -252,167 +252,46 @@ function DesktopNavBar() {
         </div>
         {/* Profile */}
 
-        <nav className="flex flex-col ">
-          <ul role="list" className="flex flex-col flex-1 gap-y-7">
-            <li>
-              {/* Navgiation */}
-              <ul role="list" className="">
-                {navigation.map((item) => (
-                  <li
-                    key={item.name}
-                    className="block py-2 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary "
-                  >
-                    <Link
-                      href={item.href}
-                      className={`
+        {/* Navgiation */}
+        <ul role="list" className="">
+          {navigation.map((item) => (
+            <li
+              key={item.name}
+              className="block py-2 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary "
+            >
+              <Link
+                href={item.href}
+                className={`
                     ${item.current ? "bg-gray-50" : ""}
                     block rounded-md py-2 pr-2 pl-10 text-sm font-semibold leading-6 text-gray-200`}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-              {/* Settings with no Options */}
-
-              <ul role="settings" className="pt-20 -mx-2 space-y-1">
-                <li className="block py-2 pl-10 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary ">
-                  <Link
-                    href={`http://discord.com/invite/zqeTWZvb76`}
-                    className=""
-                    legacyBehavior
-                  >
-                    <a
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline hover:text-content-accent"
-                    >
-                      Join the Discord
-                    </a>
-                  </Link>
-                </li>
-              </ul>
-              {/* Settings with Options */}
-              <ul className="block w-40 py-2 pl-10 pr-2 space-y-4 text-sm font-semibold leading-6 rounded-md">
-                <li className="">
-                  <ThemeChanger />
-                </li>
-                <li>
-                  <LeagueSelect />
-                </li>
-                <li className="">
-                  <GggAuthBtn />
-                </li>
-              </ul>
+              >
+                {item.name}
+              </Link>
             </li>
-          </ul>
-        </nav>
-      </div>
-    </>
-  );
-}
+          ))}
+        </ul>
+        {/* Settings with no Options */}
 
-function DesktopNavBarOld() {
-  const { profile } = usePoeStackAuth();
-  const { league } = usePoeLeagueCtx();
-  return (
-    <>
-      <div className="flex items-center w-full h-12 pl-2 pr-2 bg-surface-primary min-w-fit">
-        <div className="flex items-center space-x-2 min-w-fit">
-          <div className="flex min-w-[130px] space-x-1">
-            <Link href={"/"}>
-              <Image
-                height={48}
-                width={130}
-                src={"/logo_white_name.png"}
-                alt={"PoeStack"}
-              />
-            </Link>
-          </div>
+        <div className="flex-1"></div>
+
+
+        {/* Settings with Options */}
+        <div className="block w-40 py-2 pl-10 pr-2 space-y-4 text-sm font-semibold leading-6 rounded-md">
           <Link
-            className="font-semibold hover:text-content-accent"
-            href={`/poe/economy/${league}?tag=currency`}
+            href={`http://discord.com/invite/zqeTWZvb76`}
+            className=""
+            legacyBehavior
           >
-            <StyledTooltip
-              texts={["Currency Pricing and Listings"]}
-              placement="bottom"
-              className="mt-2"
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-content-accent"
             >
-              <h3>Economy</h3>
-            </StyledTooltip>
-          </Link>
-          <Link
-            className="font-semibold hover:text-content-accent"
-            href={`/poe/atlas?league=${league}`}
-          >
-            <StyledTooltip
-              texts={["Data on Atlas passive trees"]}
-              placement="bottom"
-              className="mt-2"
-            >
-              <h3>Atlas</h3>
-            </StyledTooltip>
-          </Link>
-          <Link
-            className="font-semibold hover:text-content-accent"
-            href={`/poe/characters?league=${league}`}
-          >
-            <StyledTooltip
-              texts={["Search Characters"]}
-              placement="bottom"
-              className="mt-2"
-            >
-              <h3>Characters</h3>
-            </StyledTooltip>
-          </Link>
-          {profile && (
-            <Link
-              className="font-semibold hover:text-content-accent"
-              href={`/poe/characters/${profile.userId}`}
-            >
-              <StyledTooltip
-                texts={["All your Characters"]}
-                placement="bottom"
-                className="mt-2"
-              >
-                <h3>My Characters</h3>
-              </StyledTooltip>
-            </Link>
-          )}
-          {profile && (
-            <Link
-              className="font-semibold hover:text-content-accent"
-              href="/poe/stash/snapshot/profiles"
-            >
-              <StyledTooltip
-                texts={["Create custom profiles around your stash pages"]}
-                placement="bottom"
-                className="mt-2"
-              >
-                <h3>Stash</h3>
-              </StyledTooltip>
-            </Link>
-          )}
-        </div>
-        <div className="grow">
-          <SearchBar />
-        </div>
-        <div className="text-content-base flex min-w-[200px] flex-row items-center space-x-6">
-          <div className="font-semibold hover:text-content-accent">
-            <a href="https://discord.gg/zqeTWZvb76">
-              <StyledTooltip
-                texts={[
-                  "Found any bugs? Have suggestions for features?",
-                  "Or just want to help contribute. Click and join the discord!",
-                ]}
-                placement="bottom"
-                className="mt-2"
-              >
-                <h3>Join Discord</h3>
-              </StyledTooltip>
+              Join the Discord
             </a>
-          </div>
+          </Link>
           <ThemeChanger />
+          <LeagueSelect />
           <GggAuthBtn />
         </div>
       </div>
