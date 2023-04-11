@@ -66,6 +66,7 @@ const snapshotQuery = gql`
         icon
         w
         h
+        crucible
         corrupted
         support
         socket
@@ -306,7 +307,7 @@ export default function Character() {
           <div className="flex lg:grid lg:col-start-9 lg:col-end-13 lg:row-start-1 lg:row-end-2">
             <StyledCard title={"Passive Tree"}>
               <SkillTree
-                version={"3.20"}
+                version={"3.21"}
                 selectedNodes={
                   currentSnapshot?.characterPassivesSnapshot?.hashes
                 }

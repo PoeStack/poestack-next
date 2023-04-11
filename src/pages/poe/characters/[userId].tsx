@@ -308,7 +308,7 @@ export default function CharactersByUser() {
             <div className="flex flex-col space-y-2 mx-40 bg-surface-primary-variant">
               <LeagueSelect />
               <AtlasPassivesTree
-                version={"3.20"}
+                version={"3.21"}
                 selectedNodes={
                   userAtlasPassiveResponse?.results?.find(
                     (e) => e.league === league

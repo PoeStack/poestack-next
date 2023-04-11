@@ -72,7 +72,7 @@ export default function Atlas() {
       }
     `,
     {
-      variables: { passiveTreeVersion: "3.20" },
+      variables: { passiveTreeVersion: "3.21" },
       onCompleted(data) {
         setPassiveTreeData(data.atlasTree);
       },
@@ -201,7 +201,7 @@ export default function Atlas() {
           </div>
           <StyledCard className="flex-1">
             <AtlasPassivesTree
-              version={"3.20"}
+              version={"3.21"}
               nodeColorOverrides={nodeColorOverrides}
             />
           </StyledCard>

@@ -2327,7 +2327,7 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
-        {!!item?.curcible && (<CrucibleMouseover item={item} />)}
+        {!!item?.crucible && (<CrucibleMouseover item={item} />)}
         <div className="pb-2"></div>
       </div>
     </>
@@ -2337,17 +2337,19 @@ export function ItemStatDisplay({ item }) {
 
 export function CrucibleMouseover({ item }) {
   const counts = {};
-  Object.values(item.crucible.nodes).forEach((node: any) => {
+
+  const mappedNodes = {};
+  Object.entries(item.crucible.nodes).forEach(([key, node]: any) => {
+    console.log("n", node)
     const currentCount = (counts[node.orbit] ?? 0) + 1;
-    node['y'] = currentCount * 30;
-    node['x'] = node.orbit * 30;
     counts[node.orbit] = currentCount;
+    mappedNodes[key] = { ...node, y: currentCount * 30, x: node.orbit * 30, }
   })
 
   const connections: { sx: number, sy: number, ex: number, ey: number, color: string }[] = [];
-  Object.values(item.crucible.nodes).forEach((node: any) => {
+  Object.values(mappedNodes).forEach((node: any) => {
     for (const out of node.out) {
-      const endNode = item.crucible.nodes[out];
+      const endNode = mappedNodes[out];
       connections.push({ sx: node['x'], sy: node['y'], ex: endNode['x'], ey: endNode['y'], color: (node['allocated'] && endNode['allocated']) ? 'Orange' : "Grey" })
     }
   })
@@ -2371,7 +2373,7 @@ export function CrucibleMouseover({ item }) {
           </>)
         }
         {
-          Object.values(item.crucible.nodes).map((node: any) => <>
+          Object.values(mappedNodes).map((node: any) => <>
             <circle
               fill={node['allocated'] ? 'Orange' : "Grey"}
               cx={node['x']}
@@ -2384,7 +2386,7 @@ export function CrucibleMouseover({ item }) {
         }
       </svg>
       <div>
-        {Object.values(item.crucible.nodes).filter((e: any) => e['allocated']).map((node: any) => <><div>{node.stats.map((s) => <><div>{s}</div></>)}</div></>)}
+        {Object.values(mappedNodes).filter((e: any) => e['allocated']).map((node: any) => <><div>{node.stats.map((s) => <><div>{s}</div></>)}</div></>)}
       </div>
     </div>
   </>
