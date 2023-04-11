@@ -32,8 +32,6 @@ export function TreeConnection({
   orbit,
   sweep,
   strokeColor,
-  strokeWidth,
-  borderColor,
   from,
   to,
   curved,
@@ -42,8 +40,6 @@ export function TreeConnection({
     return (
       <path
         stroke={strokeColor}
-        strokeWidth={strokeWidth}
-        borderColor={borderColor}
         d={`M ${fromX} ${fromY} A ${orbit.radius} ${orbit.radius}, 0, 0 ${sweep}, ${toX} ${toY}`}
         fill="transparent"
         data-from={from}
@@ -58,7 +54,6 @@ export function TreeConnection({
         x2={toX}
         y2={toY}
         stroke={strokeColor}
-        strokeWidth={strokeWidth}
         data-from={from}
         data-to={to}
       />
