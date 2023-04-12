@@ -139,7 +139,7 @@ export default function Economy() {
 
   return (
     <>
-      <div className="h-screen my-4 md:mx-4 lg:mx-20">
+      <div>
         <StyledCard>
           <div className="grid grid-cols-8">
             <div className="col-span-6 col-start-2 mb-4 space-y-2 lg:col-span-2 lg:col-start-4">

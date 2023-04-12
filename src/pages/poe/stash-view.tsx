@@ -1,46 +1,105 @@
 import { gql, useQuery } from "@apollo/client";
 import StyledLoading from "@components/styled-loading";
-import { CharacterSnapshotItem, StashViewTabSummary } from "@generated/graphql";
+import {
+  CharacterSnapshotItem,
+  PoeStashTab,
+  StashViewItemSummary,
+} from "@generated/graphql";
 import { useEffect, useState } from "react";
 import Image, { ImageLoaderProps } from "next/image";
 import { myLoader } from "@utils/general-util";
 import ItemMouseOver from "@components/item-mouseover";
 import StyledCard from "@components/styled-card";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function StashView() {
+  const { league } = usePoeLeagueCtx();
+
+  const [selectTab, setSelectedTab] = useState<PoeStashTab | null>(null);
+  const [tab, setTab] = useState<{ items: CharacterSnapshotItem[] } | null>(
+    null
+  );
+  useEffect(() => {
+    if (selectTab?.id) {
+      fetch(
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/d3d595b6-6982-48f9-9358-048292beb8a7/Crucible/${selectTab.id}.json`
+      )
+        .then((v) => {
+          if (v.ok) {
+            return v.json();
+          }
+        })
+        .then((v) => {
+          console.log("loaded tab", v);
+          setTab(v);
+        });
+    }
+  }, [selectTab]);
+
+  const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
+  const { refetch: refetchStashTabs } = useQuery<{
+    stashTabs: PoeStashTab[];
+  }>(
+    gql`
+      query StashTabs($league: String!, $forcePull: Boolean) {
+        stashTabs(league: $league, forcePull: $forcePull) {
+          id
+          userId
+          league
+          parent
+          name
+          type
+          index
+          flatIndex
+        }
+      }
+    `,
+    {
+      skip: !league,
+      variables: {
+        league: league,
+        forcePull: false,
+      },
+      onCompleted(data) {
+        setStashTabs(data.stashTabs);
+        setSelectedTab(data.stashTabs?.[0]);
+      },
+      onError(error) {
+        setStashTabs([]);
+      },
+    }
+  );
+
   const [tabSummaries, setTabSummaries] = useState<
-    StashViewTabSummary[] | null
+    StashViewItemSummary[] | null
   >(null);
   useQuery(
     gql`
-      query StashViewTabSummaries($league: String!) {
-        stashViewTabs(league: $league) {
-          userId
-          league
+      query StashViewItemsSummary($league: String!) {
+        stashViewSummary(league: $league) {
           stashId
-          name
-          type
-          color
-          index
-          flatIndex
-          updatedAtTimestamp
-          createdAtTimestamp
-          summary
-          summaryUpdatedAtTimestamp
+          x
+          y
+          itemGroupHashString
+          itemGroupTag
+          quantity
+          searchableString
+          valueChaos
+          totalValueChaos
         }
       }
     `,
     {
       onCompleted(data) {
-        setTabSummaries(data.stashViewTabs);
+        setTabSummaries(data.stashViewSummary);
       },
       variables: {
-        league: "Crucible",
+        league: league,
       },
     }
   );
 
-  if (!tabSummaries) {
+  if (!stashTabs) {
     return (
       <>
         <StyledLoading />
@@ -50,45 +109,33 @@ export default function StashView() {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex space-x-4">
         <div className="basis-1/12">
-          <TabSelectorCard tabs={tabSummaries!} />
+          <TabSelectorCard
+            tabs={stashTabs!}
+            onSelectChange={(tab) => {
+              setSelectedTab(tab);
+            }}
+            selectedTab={selectTab}
+          />
         </div>
-        <div>
-          <TabViewerCard tabId={tabSummaries[0].stashId} />
+        <div className="flex space-x-4">
+          <TabViewerCard items={tab?.items ?? []} />
+          <StashViewSummaryCard items={tabSummaries ?? []} />
         </div>
       </div>
     </>
   );
 }
 
-export function TabViewerCard({ tabId }: { tabId: string }) {
-  const [tab, setTab] = useState<{ items: CharacterSnapshotItem[] } | null>(
-    null
-  );
-
-  useEffect(() => {
-    fetch(
-      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/d3d595b6-6982-48f9-9358-048292beb8a7/Crucible/${tabId}.json`
-    )
-      .then((v) => {
-        if (v.ok) {
-          return v.json();
-        }
-      })
-      .then((v) => {
-        console.log("loaded tab", v);
-        setTab(v);
-      });
-  }, [tabId]);
-
+export function TabViewerCard({ items }: { items: CharacterSnapshotItem[] }) {
   return (
     <>
-      <div className="w-[576px] h-[576px] bg-slate-500 relative">
-        {tab?.items.map((e) => (
+      <div className="shrink-0 w-[586px] h-[586px] bg-surface-primary relative">
+        {items?.map((e) => (
           <>
             <div
-              style={{ top: 24 * e["y"], left: 24 * e["x"] }}
+              style={{ top: 4 + 24 * e["y"], left: 4 + 24 * e["x"] }}
               className={`absolute`}
             >
               <ItemMouseOver item={e}>
@@ -108,15 +155,58 @@ export function TabViewerCard({ tabId }: { tabId: string }) {
   );
 }
 
-export function TabSelectorCard({ tabs }: { tabs: StashViewTabSummary[] }) {
+export function StashViewSummaryCard({
+  items,
+}: {
+  items: StashViewItemSummary[];
+}) {
+  return (
+    <>
+      <StyledCard>
+        <div>
+          {items.map((e) => (
+            <>
+              <div>
+                <div>{e.searchableString}</div>
+              </div>
+            </>
+          ))}
+        </div>
+      </StyledCard>
+    </>
+  );
+}
+
+export function TabSelectorCard({
+  tabs,
+  selectedTab,
+  onSelectChange,
+}: {
+  tabs: PoeStashTab[];
+  selectedTab: PoeStashTab | null;
+  onSelectChange: (PoeStashTab) => void;
+}) {
   return (
     <>
       <StyledCard>
         <div className="flex flex-col">
           {tabs?.map((tab) => (
             <>
-              <div>
-                {tab.name} {tab.stashId}
+              <div
+                onClick={() => {
+                  selectedTab = tab;
+                  onSelectChange(tab);
+                }}
+              >
+                <div
+                  className={`${
+                    selectedTab?.id === tab.id
+                      ? "text-content-accent"
+                      : "text-white"
+                  }`}
+                >
+                  {tab.name}
+                </div>
               </div>
             </>
           ))}

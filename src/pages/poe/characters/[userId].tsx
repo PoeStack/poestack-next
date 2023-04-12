@@ -274,7 +274,7 @@ export default function CharactersByUser() {
       {loadingCharactersById && loadingCharSnapshots ? (
         <StyledLoading />
       ) : (
-        <div className="flex flex-col my-4 space-x-2 space-y-2 md:mx-4 lg:mx-20">
+        <div className="flex flex-col space-y-2">
           <StyledCard title="Characters" className="flex-1 ">
             <div className="flex flex-col space-y-10 ">
               <CharactersByUserTable

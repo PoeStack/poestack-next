@@ -491,7 +491,7 @@ export type Query = {
   stashSnapshotProfiles: Array<StashSnapshotProfile>;
   stashSnapshots: Array<StashSnapshot>;
   stashTabs: Array<PoeStashTab>;
-  stashViewTabs: Array<StashViewTabSummary>;
+  stashViewSummary: Array<StashViewItemSummary>;
 };
 
 
@@ -620,7 +620,7 @@ export type QueryStashTabsArgs = {
 };
 
 
-export type QueryStashViewTabsArgs = {
+export type QueryStashViewSummaryArgs = {
   league: Scalars['String'];
 };
 
@@ -792,20 +792,20 @@ export type StashSnapshotProfileInput = {
   valuationTargetPValue: Scalars['String'];
 };
 
-export type StashViewTabSummary = {
-  __typename?: 'StashViewTabSummary';
-  color?: Maybe<Scalars['String']>;
-  createdAtTimestamp: Scalars['DateTime'];
-  flatIndex?: Maybe<Scalars['Float']>;
-  index?: Maybe<Scalars['Float']>;
+export type StashViewItemSummary = {
+  __typename?: 'StashViewItemSummary';
+  itemGroupHashString?: Maybe<Scalars['String']>;
+  itemGroupTag?: Maybe<Scalars['String']>;
+  itemId: Scalars['String'];
   league: Scalars['String'];
-  name?: Maybe<Scalars['String']>;
+  quantity: Scalars['Float'];
+  searchableString: Scalars['String'];
   stashId: Scalars['String'];
-  summary?: Maybe<Scalars['JSON']>;
-  summaryUpdatedAtTimestamp?: Maybe<Scalars['DateTime']>;
-  type?: Maybe<Scalars['String']>;
-  updatedAtTimestamp: Scalars['DateTime'];
+  totalValueChaos?: Maybe<Scalars['Float']>;
   userId: Scalars['String'];
+  valueChaos?: Maybe<Scalars['Float']>;
+  x: Scalars['Float'];
+  y: Scalars['Float'];
 };
 
 export type UserProfile = {

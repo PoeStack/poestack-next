@@ -54,7 +54,7 @@ export default function Profiles() {
 
   return (
     <>
-      <div className="h-screen my-4 md:mx-4 lg:mx-20">
+      <div>
         <StyledCard title={"Profiles"}>
           <div className="">
             <div className="flex flex-row items-center">

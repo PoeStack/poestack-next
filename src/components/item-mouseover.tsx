@@ -2322,7 +2322,6 @@ ${item.frameType === 9 ? "via-pink-400" : null}
 }
 
 export function ItemStatDisplay({ item }) {
-  console.log("iiii", item);
   return (
     <>
       <div

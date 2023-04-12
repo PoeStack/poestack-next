@@ -165,59 +165,56 @@ export default function Characters() {
   }
 
   return (
-    <div className="flex flex-col my-4 space-x-2 lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
+    <div className="flex flex-col sm:space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4">
       {/* Column 1 on Desktop */}
-      <div className="flex flex-row w-full lg:flex-col lg:w-1/5 ">
-        <div className="mb-2">
-          <StyledMultiSearch
-            totalMatches={displayVector?.entires?.length ?? 0}
-            value={localSearchString}
-            onValueChange={(e) => {
-              setLocalSearchString(e);
+      <div className="flex flex-col basis-1/5 space-y-2 flex-wrap">
+        <StyledMultiSearch
+          totalMatches={displayVector?.entires?.length ?? 0}
+          value={localSearchString}
+          onValueChange={(e) => {
+            setLocalSearchString(e);
+          }}
+          onDateChange={(e) => {
+            setTimemachineDate(e);
+          }}
+          onLeagueChange={(e) => {}}
+        />
+
+        <StyledCard className="h-[400px] ">
+          <div className="mb-2 font-bold">Classes</div>
+          <CharacterAggregationDisplay2
+            onRowClicked={(k) => {
+              toggleAggregationSearch("class", k);
             }}
-            onDateChange={(e) => {
-              setTimemachineDate(e);
-            }}
-            onLeagueChange={(e) => {}}
+            aggregation={displayVector.classAggregation}
+            localSearchString={localSearchString}
+            query={router.query["class"]}
           />
-        </div>
-        <div className="hidden space-y-2 lg:block">
-          <StyledCard className="h-[400px] ">
-            <div className="mb-2 font-bold">Classes</div>
-            <CharacterAggregationDisplay2
-              onRowClicked={(k) => {
-                toggleAggregationSearch("class", k);
-              }}
-              aggregation={displayVector.classAggregation}
-              localSearchString={localSearchString}
-              query={router.query["class"]}
-            />
-          </StyledCard>
-          <StyledCard className="h-[400px] ">
-            <div className="mb-2 font-bold">Skills</div>
-            <CharacterAggregationDisplay2
-              onRowClicked={(k) => {
-                toggleAggregationSearch("skill", k);
-              }}
-              aggregation={displayVector.mainSkillKeyAggregation}
-              localSearchString={localSearchString}
-              query={router.query["skill"]}
-            />
-          </StyledCard>
-          <StyledCard className="h-[400px] ">
-            <div className="mb-2 font-bold">Items</div>
-            <CharacterAggregationDisplay2
-              onRowClicked={(k) => {
-                toggleAggregationSearch("item", k);
-              }}
-              aggregation={displayVector.itemKeyAggregation}
-              localSearchString={localSearchString}
-              query={router.query["item"]}
-            />
-          </StyledCard>
-        </div>
+        </StyledCard>
+        <StyledCard className="h-[400px] ">
+          <div className="mb-2 font-bold">Skills</div>
+          <CharacterAggregationDisplay2
+            onRowClicked={(k) => {
+              toggleAggregationSearch("skill", k);
+            }}
+            aggregation={displayVector.mainSkillKeyAggregation}
+            localSearchString={localSearchString}
+            query={router.query["skill"]}
+          />
+        </StyledCard>
+        <StyledCard className="h-[400px] ">
+          <div className="mb-2 font-bold">Items</div>
+          <CharacterAggregationDisplay2
+            onRowClicked={(k) => {
+              toggleAggregationSearch("item", k);
+            }}
+            aggregation={displayVector.itemKeyAggregation}
+            localSearchString={localSearchString}
+            query={router.query["item"]}
+          />
+        </StyledCard>
       </div>
-      
+
       <StyledCharactersSummaryTable characters={displayVector} />
     </div>
   );

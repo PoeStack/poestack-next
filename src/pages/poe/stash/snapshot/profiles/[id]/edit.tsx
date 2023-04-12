@@ -113,7 +113,7 @@ export default function ViewProfile() {
 
   return (
     <>
-      <div className="my-4 md:mx-4 lg:mx-20">
+      <div>
         <StyledCard title="Edit Profile">
           <div className="flex flex-col space-y-2 ">
             {(profile?.poeStashTabIds?.length ?? 0) > 15 && (

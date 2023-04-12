@@ -105,7 +105,7 @@ export default function ViewProfile() {
 
   return (
     <>
-      <div className="flex flex-col my-4 space-y-4 md:mx-4 lg:mx-20">
+      <div className="flex flex-col space-y-4">
         <div className="flex flex-row space-x-2">
           <StyledCard title="Info" className="flex-1">
             <h4>Profile Name: {profile.name}</h4>

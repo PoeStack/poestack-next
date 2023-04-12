@@ -83,9 +83,12 @@ export default function App({ Component, pageProps }: AppProps) {
                   <StyledNavBar />
 
                   <div className="flex flex-col min-h-screen bg-color-primary ml-[160px]">
-                    <div className="flex-1">
-
-                    <Component {...pageProps} />
+                    <div className="flex-1 flex pt-4 pb-4">
+                      <div className="basis-1/12"></div>
+                      <div className="flex-1">
+                        <Component {...pageProps} />
+                      </div>
+                      <div className="basis-1/12"></div>
                     </div>
                     <StyledFooter />
                   </div>
