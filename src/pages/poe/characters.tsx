@@ -165,7 +165,7 @@ export default function Characters() {
   }
 
   return (
-    <div className="flex flex-col my-4 space-x-2 overflow-x-hidden overscroll-x-contain lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
+    <div className="flex flex-col my-4 space-x-2 lg:grid-cols-2 lg:flex lg:flex-row md:mx-4 lg:mx-20 ">
       {/* Column 1 on Desktop */}
       <div className="flex flex-row w-full lg:flex-col lg:w-1/5 ">
         <div className="mb-2">
@@ -217,19 +217,8 @@ export default function Characters() {
           </StyledCard>
         </div>
       </div>
-
-      {/* Column 2 on Desktop */}
-      <div className="w-full row-start-2 overscroll-x-contain lg:flex lg:flex-row lg:mx-20">
-        <StyledCharactersSummaryTable characters={displayVector} />
-      </div>
-
-      {/* note for push + mobile filters demo */}
-      {/* <button
-        className="fixed w-20 h-10 bg-orange-400 rounded-lg z-100 right-5 bottom-10 "
-        onClick={() => setFilters(!filters)}
-      >
-        Filter Here
-      </button> */}
+      
+      <StyledCharactersSummaryTable characters={displayVector} />
     </div>
   );
 }
@@ -258,7 +247,7 @@ function StyledCharactersSummaryTable({
   });
 
   return (
-    <StyledCard className="grid grid-cols-2 grid-rows-2 lg:flex lg:flex-1">
+    <StyledCard className="">
       <table className="">
         <SortableTableHeader
           columns={columns}
@@ -337,7 +326,7 @@ function StyledCharactersSummaryTable({
                 </ul>
               </td>
 
-              <td className="flex flex-row items-center justify-center w-full h-full pt-5 pr-4 mx-auto">
+              <td className="flex flex-row items-center justify-center w-full h-full pt-5 pr-4">
                 {snapshot.mainSkillKey ? (
                   <li className="list-none">
                     <StyledSkillImageTooltip

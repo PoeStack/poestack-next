@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { myLoader } from "../utils/general-util";
 import CurrencyValueDisplay from "./currency-value-display";
-import ZoomableSVG from './trees/nodes-tree/zoomable-svg';
+import ZoomableSVG from "./trees/nodes-tree/zoomable-svg";
 
 export default function ItemMouseOver({
   children,
@@ -28,45 +28,54 @@ export default function ItemMouseOver({
           className={`group relative flex w-full h-full mx-auto justify-center  
           
 
-          ${item.frameType === 0 && item.corrupted
+          ${
+            item.frameType === 0 && item.corrupted
               ? "bg-white bg-opacity-40 border-2  border-red-900"
               : null
-            }
-          ${item.frameType === 0
+          }
+          ${
+            item.frameType === 0
               ? "bg-white bg-opacity-40 border-color-normal border "
               : null
-            }
+          }
     
-          ${item.frameType === 1 && item.corrupted
+          ${
+            item.frameType === 1 && item.corrupted
               ? " bg-indigo-300  bg-opacity-25 border-2  border-red-900 "
               : null
-            } 
-          ${item.frameType === 1
+          } 
+          ${
+            item.frameType === 1
               ? " bg-indigo-300  bg-opacity-25 border border-color-magic "
               : null
-            } 
+          } 
  
-          ${item.frameType === 2 && item.corrupted
+          ${
+            item.frameType === 2 && item.corrupted
               ? "bg-yellow-200 bg-opacity-25 border-2  border-red-900"
               : null
-            } 
-          ${item.frameType === 2
+          } 
+          ${
+            item.frameType === 2
               ? "bg-yellow-200 bg-opacity-25 border border-color-rare"
               : null
-            } 
+          } 
       
-          ${item.frameType === 3 && item.corrupted
+          ${
+            item.frameType === 3 && item.corrupted
               ? "bg-orange-500 bg-opacity-30 border-2  border-red-900"
               : null
-            } 
-          ${item.frameType === 3
+          } 
+          ${
+            item.frameType === 3
               ? "bg-orange-400 bg-opacity-20 border  border-color-unique"
               : null
-            } 
-          ${item.frameType === 9
+          } 
+          ${
+            item.frameType === 9
               ? "bg-pink-400 bg-opacity-25 border  border-pink-400"
               : null
-            } 
+          } 
           
           
           `}
@@ -104,21 +113,25 @@ export default function ItemMouseOver({
                       <span className="row-start-1 row-end-1"></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90  z-50  ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90  z-50  ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -165,21 +178,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 z-50  ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 z-50  ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -240,21 +257,25 @@ export default function ItemMouseOver({
                       <span className="row-start-1 row-end-1"></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90  z-50  ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90  z-50  ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -301,21 +322,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 z-50 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 z-50 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -375,21 +400,25 @@ export default function ItemMouseOver({
                       <span className="row-start-1 row-end-1"></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -438,21 +467,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -499,21 +532,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -562,21 +599,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-3 row-end-5 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -623,21 +664,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -688,8 +733,8 @@ export default function ItemMouseOver({
 
           {/* w-2 && h-2 - Shields*/}
           {item?.w! === 2 &&
-            item?.h! === 2 &&
-            item?.inventoryId === "Offhand" ? (
+          item?.h! === 2 &&
+          item?.inventoryId === "Offhand" ? (
             <div
               className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-[_1fr, _1fr, _1fr, _10fr, _10fr, _10fr,  _1fr, _1fr, _1fr] 
             grid-cols-[_1fr, _10fr, _10fr, _1fr] items-center justify-center z-0 gap-x-2 gap-y-2 "
@@ -705,21 +750,25 @@ export default function ItemMouseOver({
                       <span className="row-span-3 row-start-6"></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full " : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -768,21 +817,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-4 row-end-5 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -829,21 +882,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -892,21 +949,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-4 row-end-6 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -953,21 +1014,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-5 row-end-6 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1016,8 +1081,8 @@ export default function ItemMouseOver({
           ) : null}
           {/* w-2 && h-2 - Helms, Gloves, Boots*/}
           {item?.w! === 2 &&
-            item?.h! === 2 &&
-            item?.inventoryId !== "Offhand" ? (
+          item?.h! === 2 &&
+          item?.inventoryId !== "Offhand" ? (
             <div className="absolute scale-0 group-hover:scale-100  w-full h-full grid grid-rows-[1px, _10fr, _10fr, 1px] grid-cols-[1px, _10fr, _10fr, 1px] items-center justify-center z-0 gap-x-3 gap-y-3 ">
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
@@ -1028,21 +1093,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3  ${gem.support ? " rounded-full " : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3  ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1091,21 +1160,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-2 row-end-3 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1152,21 +1225,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1215,21 +1292,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1276,21 +1357,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1339,21 +1424,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-3 row-end-4 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1400,21 +1489,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1479,21 +1572,25 @@ export default function ItemMouseOver({
                       <span className="row-span-1 row-start-5"></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full " : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full " : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1542,21 +1639,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-2 row-end-3 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1603,21 +1704,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-2 row-end-3 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1666,21 +1771,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-3 col-end-4 row-start-2 row-end-4 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1727,21 +1836,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1790,21 +1903,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-3 row-end-4 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1851,21 +1968,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-3 row-end-4 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1914,21 +2035,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-3 col-start-2 col-end-3 row-start-3 row-end-5 mx-auto bg-yellow-400 h-1/3 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700  border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -1975,21 +2100,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700 border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700 border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -2038,21 +2167,25 @@ export default function ItemMouseOver({
                       <span className="z-0 grid w-1/3 h-3 col-start-2 col-end-4 row-start-4 row-end-5 mx-auto bg-yellow-400 "></span>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${gem.support ? " rounded-full" : "rotate-45"
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-3 col-end-4 ${
+                            gem.support ? " rounded-full" : "rotate-45"
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -2099,21 +2232,25 @@ export default function ItemMouseOver({
                     <>
                       {gem && (
                         <div
-                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${gem.support ? " rounded-full" : "rotate-45 "
-                            } 
+                          className={`flex justify-center scale-90 row-start-4 row-end-5 z-50 col-start-2 col-end-3 ${
+                            gem.support ? " rounded-full" : "rotate-45 "
+                          } 
                         
-                        ${gem.gemColor === "D"
-                              ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "I"
-                              ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
-                              : null
-                            }
-                        ${gem.gemColor === "S"
-                              ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
-                              : null
-                            }
+                        ${
+                          gem.gemColor === "D"
+                            ? "bg-slate-700 border-2  border-green-600  hover:border-green-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "I"
+                            ? "bg-slate-700  border-2  border-blue-600  hover:border-blue-400 "
+                            : null
+                        }
+                        ${
+                          gem.gemColor === "S"
+                            ? "bg-slate-700  border-2  border-red-600  hover:border-red-400 "
+                            : null
+                        }
                        
                         `}
                           key={i}
@@ -2185,6 +2322,7 @@ ${item.frameType === 9 ? "via-pink-400" : null}
 }
 
 export function ItemStatDisplay({ item }) {
+  console.log("iiii", item);
   return (
     <>
       <div
@@ -2199,30 +2337,36 @@ export function ItemStatDisplay({ item }) {
       >
         <div
           className={`text-lg font-bold mb-2
-        ${item.frameType === 0
-              ? "  text-content-normal bg-white bg-opacity-40 border-b-2 border-color-normal"
-              : null
-            }
-        ${item.frameType === 1
-              ? "    text-content-magic bg-indigo-800  bg-opacity-10 border-b-2 border-indigo-600"
-              : null
-            } 
-        ${item.frameType === 2
-              ? " text-content-rare bg-yellow-200 bg-opacity-10 border-b-2 border-yellow-300"
-              : null
-            } 
-        ${item.frameType === 3
-              ? " text-content-unique bg-orange-800 bg-opacity-10  border-b-2 border-color-unique"
-              : null
-            } 
-        ${item.frameType === 4
-              ? "    text-content-gem bg-teal-400 bg-opacity-10  border-b-2 border-teal-800"
-              : null
-            }
-        ${item.frameType === 9
-              ? "  text-pink-400 bg-pink-400 bg-opacity-25  border-b-2 border-pink-400"
-              : null
-            } 
+        ${
+          item.frameType === 0
+            ? "  text-content-normal bg-white bg-opacity-40 border-b-2 border-color-normal"
+            : null
+        }
+        ${
+          item.frameType === 1
+            ? "    text-content-magic bg-indigo-800  bg-opacity-10 border-b-2 border-indigo-600"
+            : null
+        } 
+        ${
+          item.frameType === 2
+            ? " text-content-rare bg-yellow-200 bg-opacity-10 border-b-2 border-yellow-300"
+            : null
+        } 
+        ${
+          item.frameType === 3
+            ? " text-content-unique bg-orange-800 bg-opacity-10  border-b-2 border-color-unique"
+            : null
+        } 
+        ${
+          item.frameType === 4
+            ? "    text-content-gem bg-teal-400 bg-opacity-10  border-b-2 border-teal-800"
+            : null
+        }
+        ${
+          item.frameType === 9
+            ? "  text-pink-400 bg-pink-400 bg-opacity-25  border-b-2 border-pink-400"
+            : null
+        } 
         
         `}
         >
@@ -2274,38 +2418,38 @@ export function ItemStatDisplay({ item }) {
             <ItemStatSeperator item={item} />
           </>
         )}
-        {item?.fracturedMods?.length +
-          item?.explicitMods?.length +
-          item?.craftedMods?.length >
+        {(item?.fracturedMods?.length ?? 0) +
+          (item?.explicitMods?.length ?? 0) +
+          (item?.craftedMods?.length ?? 0) >
           0 && (
-            <>
-              <div className="flex flex-col mx-2">
-                {item?.fracturedMods?.map((p, i) => (
-                  <>
-                    <div key={i} className=" text-amber-200">
-                      {p}
-                    </div>
-                  </>
-                ))}
+          <>
+            <div className="flex flex-col mx-2">
+              {item?.fracturedMods?.map((p, i) => (
+                <>
+                  <div key={i} className=" text-amber-200">
+                    {p}
+                  </div>
+                </>
+              ))}
 
-                {item?.explicitMods?.map((p, i) => (
-                  <>
-                    <div key={i} className="text-blue-400">
-                      {p}
-                    </div>
-                  </>
-                ))}
-                {item?.craftedMods?.map((p, i) => (
-                  <>
-                    <div key={i} className="text-blue-200 ">
-                      {p}
-                    </div>
-                  </>
-                ))}
-              </div>
-              <ItemStatSeperator item={item} />
-            </>
-          )}
+              {item?.explicitMods?.map((p, i) => (
+                <>
+                  <div key={i} className="text-blue-400">
+                    {p}
+                  </div>
+                </>
+              ))}
+              {item?.craftedMods?.map((p, i) => (
+                <>
+                  <div key={i} className="text-blue-200 ">
+                    {p}
+                  </div>
+                </>
+              ))}
+            </div>
+            <ItemStatSeperator item={item} />
+          </>
+        )}
 
         {!!item.corrupted && (
           <>
@@ -2327,67 +2471,102 @@ export function ItemStatDisplay({ item }) {
             </div>
           </>
         )}
-        {!!item?.crucible && (<CrucibleMouseover item={item} />)}
+
+        {!item?.identified && (
+          <>
+            <div className="flex w-full p-1 text-center place-content-center place-items-center text-red-600">
+              Unidentified
+            </div>
+          </>
+        )}
+        {!!item?.crucible && <CrucibleMouseover item={item} />}
         <div className="pb-2"></div>
       </div>
     </>
   );
 }
 
-
 export function CrucibleMouseover({ item }) {
   const counts = {};
 
   const mappedNodes = {};
   Object.entries(item.crucible.nodes).forEach(([key, node]: any) => {
-    console.log("n", node)
+    console.log("n", node);
     const currentCount = (counts[node.orbit] ?? 0) + 1;
     counts[node.orbit] = currentCount;
-    mappedNodes[key] = { ...node, y: currentCount * 30, x: node.orbit * 30, }
-  })
+    mappedNodes[key] = { ...node, y: currentCount * 30, x: node.orbit * 30 };
+  });
 
-  const connections: { sx: number, sy: number, ex: number, ey: number, color: string }[] = [];
+  const connections: {
+    sx: number;
+    sy: number;
+    ex: number;
+    ey: number;
+    color: string;
+  }[] = [];
   Object.values(mappedNodes).forEach((node: any) => {
     for (const out of node.out) {
       const endNode = mappedNodes[out];
-      connections.push({ sx: node['x'], sy: node['y'], ex: endNode['x'], ey: endNode['y'], color: (node['allocated'] && endNode['allocated']) ? 'Orange' : "Grey" })
+      connections.push({
+        sx: node["x"],
+        sy: node["y"],
+        ex: endNode["x"],
+        ey: endNode["y"],
+        color: node["allocated"] && endNode["allocated"] ? "Orange" : "Grey",
+      });
     }
-  })
+  });
 
-  return <>
-    <div>
-      <svg
-        width="100%"
-        viewBox={`${-250} ${-30} ${600} ${200}`}
-        preserveAspectRatio="xMidYMid meet">
-        {
-          connections.map((connection) => <>
-            <line
-              x1={connection.sx}
-              y1={connection.sy}
-              x2={connection.ex}
-              y2={connection.ey}
-              stroke={connection.color}
-              strokeWidth={3}
-            />
-          </>)
-        }
-        {
-          Object.values(mappedNodes).map((node: any) => <>
-            <circle
-              fill={node['allocated'] ? 'Orange' : "Grey"}
-              cx={node['x']}
-              cy={node['y']}
-              r={10}
-              data-id={node.skill}>
-              <title>{node.stats.join("\n")}</title>
-            </circle>
-          </>)
-        }
-      </svg>
+  return (
+    <>
       <div>
-        {Object.values(mappedNodes).filter((e: any) => e['allocated']).map((node: any) => <><div>{node.stats.map((s) => <><div>{s}</div></>)}</div></>)}
+        <svg
+          width="100%"
+          viewBox={`${-250} ${-30} ${600} ${200}`}
+          preserveAspectRatio="xMidYMid meet"
+        >
+          {connections.map((connection) => (
+            <>
+              <line
+                x1={connection.sx}
+                y1={connection.sy}
+                x2={connection.ex}
+                y2={connection.ey}
+                stroke={connection.color}
+                strokeWidth={3}
+              />
+            </>
+          ))}
+          {Object.values(mappedNodes).map((node: any) => (
+            <>
+              <circle
+                fill={node["allocated"] ? "Orange" : "Grey"}
+                cx={node["x"]}
+                cy={node["y"]}
+                r={10}
+                data-id={node.skill}
+              >
+                <title>{node.stats.join("\n")}</title>
+              </circle>
+            </>
+          ))}
+        </svg>
+        <div>
+          {Object.values(mappedNodes)
+            .filter((e: any) => e["allocated"])
+            .map((node: any) => (
+              <>
+                <div>
+                  {node.stats.map((s) => (
+                    <>
+                      <div>{s}</div>
+                    </>
+                  ))}
+                </div>
+              </>
+            ))}
+        </div>
       </div>
-    </div>
-  </>
+    </>
+  );
 }

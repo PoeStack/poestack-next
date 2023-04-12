@@ -38,13 +38,13 @@ Array.prototype.sortByMultiple = function sortByMultiple<T>(
           ? a[key.key] < b[key.key]
             ? -1
             : a[key.key] == b[key.key]
-              ? 0
-              : 1
+            ? 0
+            : 1
           : a[key.key] > b[key.key]
-            ? -1
-            : a[key.key] == b[key.key]
-              ? 0
-              : 1
+          ? -1
+          : a[key.key] == b[key.key]
+          ? 0
+          : 1
       ),
     this
   );
@@ -79,17 +79,16 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Head>
                 {/* Layout */}
 
-                <div className="flex flex-col min-h-screen text-content-base bg-color-primary">
-                  <div className="flex">
-                    <div className="basis-1/12">
-                      <StyledNavBar />
+                <div className="text-content-base bg-color-primary">
+                  <StyledNavBar />
+
+                  <div className="flex flex-col min-h-screen bg-color-primary ml-[160px]">
+                    <div className="flex-1">
+
+                    <Component {...pageProps} />
                     </div>
-                    <div className="grow">
-                      <Component {...pageProps} />
-                    </div>
+                    <StyledFooter />
                   </div>
-                  {/* Footer */}
-                  <StyledFooter />
                 </div>
               </PoeStackLeagueProvider>
             </PoeStackAuthProvider>

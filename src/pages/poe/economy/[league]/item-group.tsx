@@ -35,7 +35,6 @@ export default function EconomyKeyGroup() {
               icon
               displayName
               key
-              league
               hashString
               properties
             }
@@ -109,7 +108,7 @@ export default function EconomyKeyGroup() {
                           <td></td>
                           <td>
                             <Link
-                              href={`/poe/economy/${series.itemGroup.league}/item-group/${series.itemGroup.hashString}`}
+                              href={`/poe/economy/${league}/item-group/${series.itemGroup.hashString}`}
                             >
                               {GeneralUtils.itemGroupToDisplayName(
                                 series.itemGroup
@@ -119,8 +118,8 @@ export default function EconomyKeyGroup() {
                           {cols.map((col) => (
                             <>
                               <td>
-                                {series.itemGroup.properties
-                                  .find((p) => p.key === col)
+                                {series?.itemGroup?.properties
+                                  ?.find((p) => p.key === col)
                                   ?.value?.toString()}
                               </td>
                             </>

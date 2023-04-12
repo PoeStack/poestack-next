@@ -8,6 +8,7 @@ module.exports = {
     "./public/**/*.html",
     "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
+  safelist: [{ pattern: /col-start-./ }, { pattern: /row-start-./ }, { pattern: /col-span-./ }, { pattern: /row-span-./ }],
   plugins: [require("flowbite/plugin")],
   theme: {
     // Theme Design Principles and Distinctions:
@@ -71,13 +72,37 @@ module.exports = {
         atlasbg: 'url("/AtlasPassiveBackground-min.png")',
       },
 
-      // colors: {
-      //   "theme-color-0": "#060F2F",
-      //   "theme-color-1": "#1B2240",
-      //   "theme-color-2": "#383D5B",
-      //   "theme-color-3": "#1054A1",
-      //   "theme-color-4": "#99A6DB",
-      // },
+      gridTemplateColumns: {
+        24: "repeat(24, minmax(24, 24))",
+      },
+      gridColumnStart: {
+        13: "13",
+        14: "14",
+        15: "15",
+        16: "16",
+        17: "17",
+        18: "18",
+        19: "19",
+        20: "20",
+        21: "21",
+        22: "22",
+        23: "23",
+        24: "24",
+      },
+      gridColumnEnd: {
+        13: "13",
+        14: "14",
+        15: "15",
+        16: "16",
+        17: "17",
+        18: "18",
+        19: "19",
+        20: "20",
+        21: "21",
+        22: "22",
+        23: "23",
+        24: "24",
+      },
     },
   },
 };
