@@ -21,6 +21,7 @@ import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
 import LeagueSelect from "@components/league-select";
+import StyledLoading from "@components/styled-loading";
 
 const columns: SortableTableColumns = [
   {
@@ -134,7 +135,11 @@ export default function Economy() {
   );
 
   if (!itemValueTimeseries) {
-    return "loading...";
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (

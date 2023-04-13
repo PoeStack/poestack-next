@@ -8,6 +8,7 @@ import StyledButton from "@components/styled-button";
 import createResetZoomEventEmitter, {
   ResetEventEmitter,
 } from "./nodes-tree/reset-zoom-event-emitter";
+import StyledLoading from "@components/styled-loading";
 
 const atlasPassivesLayoutQuery: TypedDocumentNode<{
   atlasTree: PassiveTreeResponse;
@@ -86,7 +87,7 @@ export default function AtlasPassivesTree({
   return (
     <>
       {loading || !treeData ? (
-        <LoadingIndicator />
+        <StyledLoading />
       ) : (
         <>
           <StyledButton

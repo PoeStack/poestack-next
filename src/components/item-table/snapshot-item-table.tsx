@@ -4,7 +4,7 @@ import {
   StashSnapshotItemGroupSummarySearchResponse,
 } from "@generated/graphql";
 import ItemTableBody from "./item-table-body";
-import { SetStateAction, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import CreateBulkListingPanel from "./create-bulk-listing-panel";
 import StyledPaginate from "@components/styled-paginate";
@@ -35,6 +35,15 @@ export default function SnapshotItemTable({
     skip: 0,
     limit: 20,
   });
+
+  useEffect(() => {
+    setSearchUserInput((s) => ({
+      ...s,
+      itemValueOverrides: JSON.parse(
+        localStorage.getItem("itemGroupValueOverrides") ?? "[]"
+      ),
+    }));
+  }, []);
 
   function buildSearch(
     applyexcludedItemGroupHashStrings: boolean

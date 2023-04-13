@@ -8,6 +8,7 @@ import _ from "lodash";
 
 import { useState } from "react";
 import { GenericAggregation } from "@generated/graphql";
+import StyledLoading from "@components/styled-loading";
 
 export default function LeagueTradeActivity() {
   const [leagueActivityResp, setLeagueActivityResp] =
@@ -32,7 +33,11 @@ export default function LeagueTradeActivity() {
   );
 
   if (!leagueActivityResp) {
-    return <>loading..</>;
+    return (
+      <>
+        <StyledLoading />
+      </>
+    );
   }
 
   return (

@@ -8,6 +8,7 @@ import StyledButton from "@components/styled-button";
 import createResetZoomEventEmitter, {
   ResetEventEmitter,
 } from "./nodes-tree/reset-zoom-event-emitter";
+import StyledLoading from "@components/styled-loading";
 
 const passiveSkillsLayoutQuery: TypedDocumentNode<{
   passiveTree: PassiveTreeResponse;
@@ -82,7 +83,7 @@ export default function SkillTree({
   return (
     <>
       {loading || !treeData ? (
-        <LoadingIndicator />
+        <StyledLoading />
       ) : (
         <>
           <div className="h-full ">

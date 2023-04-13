@@ -39,29 +39,23 @@ function DesktopNavBar() {
 
   const navigation = [
     {
-      name: "Economy",
-      href: `/poe/economy/${league}?tag=currency`,
-      current: false,
-    },
-    {
-      name: "Characters",
+      name: "Ladder",
       href: `/poe/characters?league=${league}`,
       current: false,
     },
     {
-      name: "My Characters",
-      href: `/poe/characters/${profile?.userId}`,
-      current: false,
-
-      // children: [
-      //   { name: "child1", href: "#" },
-      //   { name: "child2", href: "#" },
-      //   { name: "child3", href: "#" },
-      // ],
-    },
-    {
       name: "Stash",
       href: "/poe/stash/snapshot/profiles",
+      current: false,
+    },
+    {
+      name: "Profile",
+      href: `/poe/characters/${profile?.userId}`,
+      current: false,
+    },
+    {
+      name: "Economy",
+      href: `/poe/economy/${league}?tag=currency`,
       current: false,
     },
     {
@@ -112,7 +106,6 @@ function DesktopNavBar() {
         {/* Settings with no Options */}
 
         <div className="flex-1"></div>
-
 
         {/* Settings with Options */}
         <div className="block w-40 py-2 pl-10 pr-2 space-y-4 text-sm font-semibold leading-6 rounded-md">

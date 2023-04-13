@@ -30,6 +30,7 @@ import {
 } from "@utils/ladder-vector";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
 import { gql, useQuery } from "@apollo/client";
+import StyledPaginate from "@components/styled-paginate";
 
 /**
  * Columns used by the characters table.
@@ -238,10 +239,7 @@ type StyledCharactersSummaryTableProps = {
 function StyledCharactersSummaryTable({
   characters,
 }: StyledCharactersSummaryTableProps) {
-  const [imageSize, setImageSize] = useState({
-    width: 1,
-    height: 1,
-  });
+  const [skipLimit, setSkipLimit] = useState({ skip: 0, limit: 25 });
 
   return (
     <StyledCard className="">
@@ -252,160 +250,171 @@ function StyledCharactersSummaryTable({
           onSortChange={(e) => {}}
         />
         <tbody>
-          {characters.entires.slice(0, 25).map((snapshot) => (
-            <tr
-              className="h-20 hover:bg-skin-primary border-y-2 border-slate-700/50"
-              key={snapshot.characterId}
-            >
-              <td>
-                <Link
-                  href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
-                  className="pl-3 text-lg hover:text-content-accent hover:underline"
-                >
-                  {snapshot?.name}
-                </Link>
-              </td>
-              <td>
-                <ul className="grid items-center justify-center grid-cols-3 grid-rows-1 space-x-2">
-                  <div className="col-start-1 col-end-1">
-                    {snapshot.twitchProfileName ? (
-                      <>
-                        <Link
-                          href={`https://twitch.tv/${snapshot.twitchProfileName}`}
-                          legacyBehavior
-                        >
-                          <a
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-content-accent"
+          {characters.entires
+            .slice(skipLimit.skip, skipLimit.skip + skipLimit.limit)
+            .map((snapshot) => (
+              <tr
+                className="h-20 hover:bg-skin-primary border-y-2 border-slate-700/50"
+                key={snapshot.characterId}
+              >
+                <td>
+                  <Link
+                    href={`/poe/character/${snapshot.characterId}?snapshotId=${snapshot.snapshotId}`}
+                    className="pl-3 text-lg hover:text-content-accent hover:underline"
+                  >
+                    {snapshot?.name}
+                  </Link>
+                </td>
+                <td>
+                  <ul className="grid items-center justify-center grid-cols-3 grid-rows-1 space-x-2">
+                    <div className="col-start-1 col-end-1">
+                      {snapshot.twitchProfileName ? (
+                        <>
+                          <Link
+                            href={`https://twitch.tv/${snapshot.twitchProfileName}`}
+                            legacyBehavior
                           >
-                            <StyledTooltip
-                              texts={[
-                                GeneralUtils.capitalize(
-                                  snapshot.twitchProfileName
-                                )!,
-                              ]}
-                              placement={"right"}
+                            <a
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-content-accent"
                             >
-                              <Image
-                                src={`/assets/common/twitch_logo.png`}
-                                alt={"twitch"}
-                                width={50}
-                                height={60}
-                              />
-                            </StyledTooltip>
-                          </a>
-                        </Link>
-                      </>
-                    ) : null}
-                  </div>
-                  <div className="col-start-2 col-end-3 text-center">
-                    <div className="flex flex-row items-center ml-3">
-                      {snapshot.level}
+                              <StyledTooltip
+                                texts={[
+                                  GeneralUtils.capitalize(
+                                    snapshot.twitchProfileName
+                                  )!,
+                                ]}
+                                placement={"right"}
+                              >
+                                <Image
+                                  src={`/assets/common/twitch_logo.png`}
+                                  alt={"twitch"}
+                                  width={50}
+                                  height={60}
+                                />
+                              </StyledTooltip>
+                            </a>
+                          </Link>
+                        </>
+                      ) : null}
                     </div>
-                  </div>
-                  <div className="col-start-3 col-end-4 text-center">
-                    <div className="flex flex-row items-center">
-                      <StyledTooltip
-                        texts={[`${snapshot.characterClass}`]}
-                        placement="top"
+                    <div className="col-start-2 col-end-3 text-center">
+                      <div className="flex flex-row items-center ml-3">
+                        {snapshot.level}
+                      </div>
+                    </div>
+                    <div className="col-start-3 col-end-4 text-center">
+                      <div className="flex flex-row items-center">
+                        <StyledTooltip
+                          texts={[`${snapshot.characterClass}`]}
+                          placement="top"
+                          className="bg-slate-800"
+                        >
+                          <Image
+                            src={`/assets/poe/classes/${snapshot.characterClass}.png`}
+                            alt={snapshot.characterClass}
+                            width={50}
+                            height={60}
+                          />
+                        </StyledTooltip>
+                      </div>
+                    </div>
+                  </ul>
+                </td>
+
+                <td className="flex flex-row items-center justify-center w-full h-full pt-5 pr-4">
+                  {snapshot.mainSkillKey ? (
+                    <li className="list-none">
+                      <StyledSkillImageTooltip
+                        texts={[`${snapshot.mainSkillKey}`]}
+                        placement="left"
+                        title="Skills"
+                        imageString={snapshot.mainSkillKey}
                         className="bg-slate-800"
                       >
                         <Image
-                          src={`/assets/poe/classes/${snapshot.characterClass}.png`}
-                          alt={snapshot.characterClass}
-                          width={50}
-                          height={60}
+                          loader={myLoader}
+                          src={`/assets/poe/skill_icons/${encodeURIComponent(
+                            snapshot?.mainSkillKey
+                          )}.png`}
+                          alt={snapshot?.mainSkillKey}
+                          width={35}
+                          height={35}
+                          priority={false}
                         />
-                      </StyledTooltip>
-                    </div>
-                  </div>
-                </ul>
-              </td>
+                      </StyledSkillImageTooltip>
+                    </li>
+                  ) : null}
+                </td>
 
-              <td className="flex flex-row items-center justify-center w-full h-full pt-5 pr-4">
-                {snapshot.mainSkillKey ? (
-                  <li className="list-none">
-                    <StyledSkillImageTooltip
-                      texts={[`${snapshot.mainSkillKey}`]}
-                      placement="left"
-                      title="Skills"
-                      imageString={snapshot.mainSkillKey}
-                      className="bg-slate-800"
-                    >
-                      <Image
-                        loader={myLoader}
-                        src={`/assets/poe/skill_icons/${encodeURIComponent(
-                          snapshot?.mainSkillKey
-                        )}.png`}
-                        alt={snapshot?.mainSkillKey}
-                        width={35}
-                        height={35}
-                        priority={false}
-                      />
-                    </StyledSkillImageTooltip>
-                  </li>
-                ) : null}
-              </td>
-
-              <td className="w-10 pr-8 font-semibold text-right text-red-600 ">
-                {snapshot.life}
-              </td>
-              <td className="w-10 pr-8 font-semibold text-right text-teal-300">
-                {snapshot.energyShield}
-              </td>
-              <td className="font-semibold">
-                {!!snapshot.topItemNames && (
-                  <div className="flex flex-row items-center justify-center space-x-4">
-                    {snapshot.topItemNames.map((name, i) => {
-                      return (
-                        <>
-                          <div>
-                            <StyledTooltip
-                              texts={[name]}
-                              placement={"top"}
-                              className="capitalize"
-                            >
-                              <div className="">
-                                <Image
-                                  loader={myLoader}
-                                  src={snapshot.topItemIcons[i]}
-                                  alt={name}
-                                  priority={false}
-                                  width={25}
-                                  height={20}
-                                />
-                              </div>
-                            </StyledTooltip>
-                          </div>
-                        </>
-                      );
-                    })}
-                  </div>
-                )}
-              </td>
-              <td className="font-semibold">
-                {!!snapshot.totalValueDivine && (
-                  <div className="grid w-32 grid-cols-2">
-                    <div className="grid items-center justify-end">
-                      {+snapshot.totalValueDivine.toFixed(1)}
+                <td className="w-10 pr-8 font-semibold text-right text-red-600 ">
+                  {snapshot.life}
+                </td>
+                <td className="w-10 pr-8 font-semibold text-right text-teal-300">
+                  {snapshot.energyShield}
+                </td>
+                <td className="font-semibold">
+                  {!!snapshot.topItemNames && (
+                    <div className="flex flex-row items-center justify-center space-x-4">
+                      {snapshot.topItemNames.map((name, i) => {
+                        return (
+                          <>
+                            <div>
+                              <StyledTooltip
+                                texts={[name]}
+                                placement={"top"}
+                                className="capitalize"
+                              >
+                                <div className="">
+                                  <Image
+                                    loader={myLoader}
+                                    src={snapshot.topItemIcons[i]}
+                                    alt={name}
+                                    priority={false}
+                                    width={25}
+                                    height={20}
+                                  />
+                                </div>
+                              </StyledTooltip>
+                            </div>
+                          </>
+                        );
+                      })}
                     </div>
-                    <div className="pl-2 ">
-                      <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                  )}
+                </td>
+                <td className="font-semibold">
+                  {!!snapshot.totalValueDivine && (
+                    <div className="grid w-32 grid-cols-2">
+                      <div className="grid items-center justify-end">
+                        {+snapshot.totalValueDivine.toFixed(1)}
+                      </div>
+                      <div className="pl-2 ">
+                        <Image src={DIV_ICON} alt={""} width={30} height={30} />
+                      </div>
                     </div>
+                  )}
+                </td>
+                <td className="font-semibold">
+                  <div className="flex flex-row items-center justify-center w-full pr-2 ">
+                    {!!snapshot.pobDps &&
+                      GeneralUtils.compactNumberFormat(snapshot.pobDps)}
                   </div>
-                )}
-              </td>
-              <td className="font-semibold">
-                <div className="flex flex-row items-center justify-center w-full pr-2 ">
-                  {!!snapshot.pobDps &&
-                    GeneralUtils.compactNumberFormat(snapshot.pobDps)}
-                </div>
-              </td>
-            </tr>
-          ))}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
+
+      <StyledPaginate
+        currentSkip={skipLimit.skip}
+        onSelectionChange={(skip: number, limit: number) => {
+          setSkipLimit({ skip: skip, limit: limit });
+        }}
+        limit={skipLimit.limit}
+        hasMore={true}
+      />
     </StyledCard>
   );
 }

@@ -247,8 +247,8 @@ export default function ItemTableBody({
                       type={"number"}
                       value={
                         searchUserInput.itemValueOverrides[
-                        itemSummary.itemGroup!.hashString
-                        ] ?? null
+                          itemSummary.itemGroup!.hashString
+                        ] ?? ""
                       }
                       className="bg-transparent border border-color-primary focus:border-color-primary rounded-lg"
                       placeholder={
@@ -262,13 +262,19 @@ export default function ItemTableBody({
                         const v = e.target.value
                           ? parseFloat(e.target.value)
                           : null;
-                        setSearchUserInput((p) => ({
-                          ...p,
+
+                        const nextSearch = {
+                          ...searchUserInput,
                           itemValueOverrides: {
-                            ...p.itemValueOverrides,
+                            ...searchUserInput.itemValueOverrides,
                             [itemSummary.itemGroup?.hashString!]: v!,
                           },
-                        }));
+                        };
+                        setSearchUserInput(nextSearch);
+                        localStorage.setItem(
+                          "itemGroupValueOverrides",
+                          JSON.stringify(nextSearch.itemValueOverrides)
+                        );
                       }}
                     />
                   )}

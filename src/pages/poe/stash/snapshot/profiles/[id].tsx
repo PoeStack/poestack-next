@@ -142,7 +142,9 @@ export default function ViewProfile() {
               <FilterableItemTable snapshot={snapshot} />
             </>
           ) : (
-            "loading..."
+            <>
+              <StyledLoading />
+            </>
           )}
         </StyledCard>
 

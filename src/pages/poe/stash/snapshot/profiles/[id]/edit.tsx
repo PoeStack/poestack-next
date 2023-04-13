@@ -12,6 +12,7 @@ import { PoeStashTab, StashSnapshotProfileInput } from "@generated/graphql";
 import { nanoid } from "nanoid";
 import { StyledTooltip } from "@components/styled-tooltip";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import StyledLoading from "@components/styled-loading";
 
 export default function ViewProfile() {
   const router = useRouter();
@@ -108,7 +109,7 @@ export default function ViewProfile() {
   );
 
   if (!profile || !stashTabs) {
-    return <>loading</>;
+    return <><StyledLoading /></>;
   }
 
   return (
