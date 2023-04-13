@@ -11,6 +11,7 @@ import StyledMultiSelectMultiFilter from "@components/styled-multi-select-multi-
 import { useEffect } from "react";
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 import { useRouter } from "next/router";
+import TftOneClickMessageHistoryCard from "@components/tft-oneclick-message-history-card";
 
 export default function BulkTool() {
   const router = useRouter();
@@ -118,42 +119,49 @@ export default function BulkTool() {
   return (
     <>
       <TftGuardPanel>
-        <StyledCard title="Tool">
-          <div className="flex flex-col space-y-2">
-            <LeagueSelect
-              leagueFilter={(e) => ["Crucible", "Standard"].includes(e)}
-            />
-            <StyledMultiSelectMultiFilter
-              selected={selectedStashTabs ?? []}
-              items={stashTabs ?? []}
-              itemToText={(e) => e?.name ?? "na"}
-              itemToId={(e) => e?.id ?? "na"}
-              placeholder={"Stash name..."}
-              onSelectChange={(e: any[]) => {
-                setSelectedStashTabs(e);
-                localStorage.setItem(
-                  `bulkTool_${league}_selectedStashTabs`,
-                  JSON.stringify(e)
-                );
-              }}
-              multiple={true}
-              additionalFilters={[
-                {
-                  title: "Remove Only",
-                  enabled: removeOnlyEnabled,
-                  toggle: () => setRemoveOnlyEnabled(!removeOnlyEnabled),
-                  filterFunction: removeOnlyFunction,
-                },
-              ]}
-            />
-            <StyledButton
-              text={snapshotLoading ? "Loading..." : "Grab Items"}
-              onClick={() => {
-                takeDetatchedSnapshot();
-              }}
-            />
-            {snapshot && <SnapshotItemTable snapshot={snapshot!} />}
-
+        <div className="flex flex-col space-y-4">
+          <StyledCard title="Tool">
+            <div className="flex flex-col space-y-2">
+              <LeagueSelect
+                leagueFilter={(e) => ["Crucible", "Standard"].includes(e)}
+              />
+              <StyledMultiSelectMultiFilter
+                selected={selectedStashTabs ?? []}
+                items={stashTabs ?? []}
+                itemToText={(e) => e?.name ?? "na"}
+                itemToId={(e) => e?.id ?? "na"}
+                placeholder={"Stash name..."}
+                onSelectChange={(e: any[]) => {
+                  setSelectedStashTabs(e);
+                  localStorage.setItem(
+                    `bulkTool_${league}_selectedStashTabs`,
+                    JSON.stringify(e)
+                  );
+                }}
+                multiple={true}
+                additionalFilters={[
+                  {
+                    title: "Remove Only",
+                    enabled: removeOnlyEnabled,
+                    toggle: () => setRemoveOnlyEnabled(!removeOnlyEnabled),
+                    filterFunction: removeOnlyFunction,
+                  },
+                ]}
+              />
+              <StyledButton
+                text={snapshotLoading ? "Loading..." : "Grab Items"}
+                onClick={() => {
+                  takeDetatchedSnapshot();
+                }}
+              />
+              {snapshot && <SnapshotItemTable snapshot={snapshot!} />}
+            </div>
+          </StyledCard>
+          <StyledCard>
+            <TftOneClickMessageHistoryCard />
+          </StyledCard>
+          <StyledCard>
+            <div>Settings</div>
             <div
               className=""
               onClick={() => {
@@ -165,8 +173,8 @@ export default function BulkTool() {
             >
               Reconnect Discord
             </div>
-          </div>
-        </StyledCard>
+          </StyledCard>
+        </div>
       </TftGuardPanel>
     </>
   );
