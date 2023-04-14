@@ -1,3 +1,4 @@
+import "moment-timezone";
 import { gql, useMutation, useQuery } from "@apollo/client";
 import StyledLoading from "@components/styled-loading";
 import {
@@ -5,6 +6,7 @@ import {
   PoeStashTab,
   StashViewItemSummary,
   StashViewJob,
+  StashViewValueSnapshotSeries,
 } from "@generated/graphql";
 import { useEffect, useState } from "react";
 import Image, { ImageLoaderProps } from "next/image";
@@ -14,6 +16,9 @@ import StyledCard from "@components/styled-card";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import StyledInput from "@components/styled-input";
 import StyledButton from "@components/styled-button";
+import moment from "moment";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
 export interface StashViewSettings {
   searchString: string;
@@ -145,6 +150,33 @@ export default function StashView() {
     }
   );
 
+  const [valueSnapshots, setValueSnapshots] = useState<
+    StashViewValueSnapshotSeries[]
+  >([]);
+  const { refetch: refetchValueSnapshots } = useQuery(
+    gql`
+      query StashViewValueSnapshotSeries($league: String!) {
+        stashViewValueSnapshotSeries(league: $league) {
+          stashId
+          values
+          timestamps
+        }
+      }
+    `,
+    {
+      skip: !league,
+      variables: {
+        league: league,
+      },
+      onCompleted(data) {
+        setValueSnapshots(data.stashViewValueSnapshotSeries);
+      },
+      onError(error) {
+        setValueSnapshots([]);
+      },
+    }
+  );
+
   if (!stashTabs) {
     return (
       <>
@@ -163,6 +195,17 @@ export default function StashView() {
             stashViewSettings={stashViewSettings}
           />
 
+          <StyledCard>
+            <TabSnapshotCard
+              tabs={stashTabs}
+              stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+              onJobComplete={() => {
+                refetchValueSnapshots()
+              }}
+            />
+          </StyledCard>
+
           <StashViewSearchPanel
             stashViewSettings={stashViewSettings}
             setStashViewSettings={setStashViewSettings}
@@ -170,7 +213,12 @@ export default function StashView() {
         </div>
 
         <div className="grow flex flex-col space-y-4 pl-[200px]">
-          <StashViewValueGraph />
+          <StashViewGraph
+            tabs={stashTabs}
+            stashViewSettings={stashViewSettings}
+            setStashViewSettings={setStashViewSettings}
+            series={valueSnapshots}
+          />
 
           <StashViewItemTable
             items={tabSummaries ?? []}
@@ -342,7 +390,9 @@ export function StashViewItemTable({
                         <td>
                           <img style={{ height: 30 }} src={item.icon!} />
                         </td>
-                        <td>{item.searchableString}</td>
+                        <td>
+                          {GeneralUtils.capitalize(item.searchableString)}
+                        </td>
                         <td
                           className={`${
                             tab?.id == stashSettings.selectedTabId
@@ -398,23 +448,15 @@ export function StashViewItemTable({
   );
 }
 
-export function StashViewValueGraph() {
-  return (
-    <>
-      <StyledCard>
-        <div className="h-[300px]">Graph</div>
-      </StyledCard>
-    </>
-  );
-}
-
 export function TabSnapshotCard({
   stashViewSettings,
   setStashViewSettings,
+  onJobComplete,
 }: {
   tabs: PoeStashTab[];
   stashViewSettings: StashViewSettings;
   setStashViewSettings: (e: StashViewSettings) => void;
+  onJobComplete: () => void;
 }) {
   const { league } = usePoeLeagueCtx();
 
@@ -449,6 +491,7 @@ export function TabSnapshotCard({
           setTimeout(() => {
             setJobStatus(null);
           }, 5000);
+          onJobComplete();
         }
       },
     }
@@ -472,7 +515,7 @@ export function TabSnapshotCard({
     <>
       <div className="flex flex-col space-y-1">
         <StyledButton
-          text={`Fetch ${stashViewSettings.checkedTabIds.length} Tabs`}
+          text={`Snapshot ${stashViewSettings.checkedTabIds.length} Tabs`}
           onClick={() => {
             takeSnapshot({
               variables: {
@@ -497,6 +540,82 @@ export function TabSnapshotCard({
   );
 }
 
+export function StashViewGraph({
+  tabs,
+  stashViewSettings,
+  setStashViewSettings,
+  series,
+}: {
+  tabs: PoeStashTab[];
+  stashViewSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
+  series: StashViewValueSnapshotSeries[];
+}) {
+  const filteredSeries = series
+    .filter(
+      (e) =>
+        !stashViewSettings.filterCheckedTabs ||
+        stashViewSettings.checkedTabIds.includes(e.stashId)
+    )
+    .filter((e) => e.values.some((v) => v > 0));
+
+  const highchartsSeries = filteredSeries.map((s) => {
+    return {
+      name: tabs.find((e) => s.stashId === e.id)?.name ?? "NA",
+      tooltip: {
+        valueDecimals: 0,
+      },
+      data: s.values.map((v, i) => [new Date(s.timestamps[i]).valueOf(), v]),
+    };
+  });
+
+  const options = {
+    chart: {
+      type: "spline",
+    },
+    title: {
+      text: "",
+    },
+    time: {
+      moment: moment,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    yAxis: {
+      title: {
+        enabled: false,
+      },
+    },
+    xAxis: {
+      type: "datetime",
+      dateTimeLabelFormats: {
+        minute: "%l:%M %P",
+        hour: "%l:%M %P",
+        day: "%e. %b",
+        week: "%e. %b",
+        month: "%b '%y",
+        year: "%Y",
+      },
+    },
+    legend: {
+      enabled: false,
+      itemStyle: {
+        color: "white",
+      },
+    },
+    series: highchartsSeries,
+  };
+
+  return (
+    <>
+      <div>
+        <StyledCard>
+          <HighchartsReact highcharts={Highcharts} options={options} />
+        </StyledCard>
+      </div>
+    </>
+  );
+}
+
 export function TabSelectorCard({
   tabs,
   stashViewSettings,
@@ -508,63 +627,54 @@ export function TabSelectorCard({
 }) {
   return (
     <>
-      <div className="flex flex-col space-y-2">
-        <StyledCard>
-          <div className="flex flex-col space-y-1 max-h-[600px] overflow-y-auto">
-            {tabs?.map((tab) => (
-              <>
-                <div className="flex items-center space-x-1">
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
-                    checked={stashViewSettings.checkedTabIds.includes(tab.id)}
-                    onChange={(e) => {
-                      if (stashViewSettings.checkedTabIds.includes(tab.id)) {
-                        setStashViewSettings({
-                          ...stashViewSettings,
-                          checkedTabIds: stashViewSettings.checkedTabIds.filter(
-                            (e) => e !== tab.id
-                          ),
-                        });
-                      } else {
-                        setStashViewSettings({
-                          ...stashViewSettings,
-                          checkedTabIds: [
-                            ...stashViewSettings.checkedTabIds,
-                            tab.id,
-                          ],
-                        });
-                      }
-                    }}
-                  />
-                  <div
-                    className={`${
-                      stashViewSettings.selectedTabId === tab.id
-                        ? "text-content-accent"
-                        : "text-white"
-                    } cursor-pointer`}
-                    onClick={() => {
+      <StyledCard>
+        <div className="flex flex-col space-y-1 max-h-[600px] overflow-y-auto">
+          {tabs?.map((tab) => (
+            <>
+              <div className="flex items-center space-x-1">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                  checked={stashViewSettings.checkedTabIds.includes(tab.id)}
+                  onChange={(e) => {
+                    if (stashViewSettings.checkedTabIds.includes(tab.id)) {
                       setStashViewSettings({
                         ...stashViewSettings,
-                        selectedTabId: tab.id,
+                        checkedTabIds: stashViewSettings.checkedTabIds.filter(
+                          (e) => e !== tab.id
+                        ),
                       });
-                    }}
-                  >
-                    {tab.name}
-                  </div>
+                    } else {
+                      setStashViewSettings({
+                        ...stashViewSettings,
+                        checkedTabIds: [
+                          ...stashViewSettings.checkedTabIds,
+                          tab.id,
+                        ],
+                      });
+                    }
+                  }}
+                />
+                <div
+                  className={`${
+                    stashViewSettings.selectedTabId === tab.id
+                      ? "text-content-accent"
+                      : "text-white"
+                  } cursor-pointer`}
+                  onClick={() => {
+                    setStashViewSettings({
+                      ...stashViewSettings,
+                      selectedTabId: tab.id,
+                    });
+                  }}
+                >
+                  {tab.name}
                 </div>
-              </>
-            ))}
-          </div>
-        </StyledCard>
-        <StyledCard>
-          <TabSnapshotCard
-            tabs={tabs}
-            stashViewSettings={stashViewSettings}
-            setStashViewSettings={setStashViewSettings}
-          />
-        </StyledCard>
-      </div>
+              </div>
+            </>
+          ))}
+        </div>
+      </StyledCard>
     </>
   );
 }

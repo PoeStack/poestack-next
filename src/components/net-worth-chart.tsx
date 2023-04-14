@@ -1,8 +1,8 @@
 import "moment-timezone";
 import moment from "moment";
-import React, { useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import React, { useEffect } from "react";
 import { StashSnapshot } from "../__generated__/graphql";
 
 export default function NetWorthChart({

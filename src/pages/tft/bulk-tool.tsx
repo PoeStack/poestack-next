@@ -163,7 +163,7 @@ export default function BulkTool() {
           <StyledCard>
             <div>Settings</div>
             <div
-              className=""
+              className="cursor-pointer"
               onClick={() => {
                 localStorage.setItem("variable-redirect", router.asPath);
                 router.push(
@@ -171,7 +171,7 @@ export default function BulkTool() {
                 );
               }}
             >
-              Reconnect Discord
+              Reconnect Discord or Connect A Different Discord
             </div>
           </StyledCard>
         </div>
