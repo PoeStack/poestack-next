@@ -24,7 +24,7 @@ export default function SnapshotTable({
       variables: {
         stashSnapshotIds: selectedSnapshotIds,
       },
-      onCompleted(data, clientOptions) {
+      onCompleted() {
         router.reload();
       },
     }
