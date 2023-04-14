@@ -2490,7 +2490,6 @@ export function CrucibleMouseover({ item }) {
 
   const mappedNodes = {};
   Object.entries(item.crucible.nodes).forEach(([key, node]: any) => {
-    console.log("n", node);
     const currentCount = (counts[node.orbit] ?? 0) + 1;
     counts[node.orbit] = currentCount;
     mappedNodes[key] = { ...node, y: currentCount * 30, x: node.orbit * 30 };

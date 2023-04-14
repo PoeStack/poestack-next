@@ -3,6 +3,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import StyledLoading from "@components/styled-loading";
 import {
   CharacterSnapshotItem,
+  ItemGroupValueTimeseries,
   PoeStashTab,
   StashViewItemSummary,
   StashViewJob,
@@ -19,6 +20,19 @@ import StyledButton from "@components/styled-button";
 import moment from "moment";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import {
+  CheckCircleIcon,
+  CheckIcon,
+  PencilSquareIcon,
+  PlusCircleIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
+import { nanoid } from "nanoid";
+import { useLocalStorage } from "usehooks-ts";
+import HSparkline from "@components/hsparkline";
+import StyledPopover from "@components/styled-popover";
+import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
+import CurrencyValueDisplay from "@components/currency-value-display";
 
 export interface StashViewSettings {
   searchString: string;
@@ -27,6 +41,11 @@ export interface StashViewSettings {
   selectedTabId: string | null;
   checkedTabIds: string[];
   snapshotJobId: string | null;
+  lastSnapshotJobCompleteTimestamp: Date | null;
+
+  stashTabGroups: Record<string, { name: string; stashTabIds: string[] }>;
+
+  selectedGraph: string;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -36,14 +55,18 @@ const defaultStashViewSettings: StashViewSettings = {
   checkedTabIds: [],
   selectedTabId: null,
   snapshotJobId: null,
+  lastSnapshotJobCompleteTimestamp: null,
+
+  stashTabGroups: {},
+
+  selectedGraph: "net value",
 };
 
 export default function StashView() {
   const { league } = usePoeLeagueCtx();
 
-  const [stashViewSettings, setStashViewSettings] = useState<StashViewSettings>(
-    defaultStashViewSettings
-  );
+  const [stashViewSettings, setStashViewSettings] =
+    useState<StashViewSettings | null>(null);
 
   useEffect(() => {
     setStashViewSettings(
@@ -55,18 +78,19 @@ export default function StashView() {
   }, [league]);
 
   useEffect(() => {
-    console.log("settings update", stashViewSettings);
-    localStorage.setItem(
-      `${league}_stash_view_settings`,
-      JSON.stringify(stashViewSettings)
-    );
+    if (stashViewSettings) {
+      localStorage.setItem(
+        `${league}_stash_view_settings`,
+        JSON.stringify(stashViewSettings)
+      );
+    }
   }, [stashViewSettings]);
 
   const [tab, setTab] = useState<{ items: CharacterSnapshotItem[] } | null>(
     null
   );
   useEffect(() => {
-    if (stashViewSettings.selectedTabId) {
+    if (stashViewSettings?.selectedTabId) {
       fetch(
         `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/d3d595b6-6982-48f9-9358-048292beb8a7/Crucible/${stashViewSettings.selectedTabId}.json`
       )
@@ -79,7 +103,10 @@ export default function StashView() {
           setTab(v);
         });
     }
-  }, [stashViewSettings.selectedTabId]);
+  }, [
+    stashViewSettings?.selectedTabId,
+    stashViewSettings?.lastSnapshotJobCompleteTimestamp,
+  ]);
 
   const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
   const { refetch: refetchStashTabs } = useQuery<{
@@ -107,7 +134,7 @@ export default function StashView() {
       },
       onCompleted(data) {
         setStashTabs(data.stashTabs);
-        if (!stashViewSettings.selectedTabId) {
+        if (stashViewSettings && !stashViewSettings?.selectedTabId) {
           setStashViewSettings({
             ...stashViewSettings,
             selectedTabId: data.stashTabs?.[0]?.id,
@@ -123,7 +150,7 @@ export default function StashView() {
   const [tabSummaries, setTabSummaries] = useState<
     StashViewItemSummary[] | null
   >(null);
-  useQuery(
+  const { refetch: refetchSummaries } = useQuery(
     gql`
       query StashViewItemsSummary($league: String!) {
         stashViewSummary(league: $league) {
@@ -177,7 +204,7 @@ export default function StashView() {
     }
   );
 
-  if (!stashTabs) {
+  if (!stashTabs || !stashViewSettings) {
     return (
       <>
         <StyledLoading />
@@ -187,37 +214,50 @@ export default function StashView() {
 
   return (
     <>
-      <div className="flex space-x-4">
-        <div className="w-[200px] fixed flex flex-col space-y-2">
-          <TabSelectorCard
-            tabs={stashTabs!}
-            setStashViewSettings={setStashViewSettings}
-            stashViewSettings={stashViewSettings}
-          />
+      <div className="flex h-full space-x-4">
+        <div className="h-full">
+          <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
+            <TabSelectorCard
+              tabs={stashTabs!}
+              setStashViewSettings={setStashViewSettings}
+              stashViewSettings={stashViewSettings}
+            />
 
-          <StyledCard>
-            <TabSnapshotCard
-              tabs={stashTabs}
+            <StyledCard>
+              <TabSnapshotCard
+                tabs={stashTabs}
+                stashViewSettings={stashViewSettings}
+                setStashViewSettings={setStashViewSettings}
+                onJobComplete={() => {
+                  refetchValueSnapshots();
+                  refetchSummaries();
+                  setStashViewSettings({
+                    ...stashViewSettings,
+                    lastSnapshotJobCompleteTimestamp: new Date(),
+                    snapshotJobId: null,
+                  });
+                }}
+              />
+            </StyledCard>
+
+            <StashViewSearchPanel
               stashViewSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}
-              onJobComplete={() => {
-                refetchValueSnapshots()
-              }}
             />
-          </StyledCard>
 
-          <StashViewSearchPanel
-            stashViewSettings={stashViewSettings}
-            setStashViewSettings={setStashViewSettings}
-          />
+            <StashViewTabGroupsPanel
+              stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+          </div>
         </div>
 
-        <div className="grow flex flex-col space-y-4 pl-[200px]">
-          <StashViewGraph
-            tabs={stashTabs}
+        <div className="grow flex flex-col space-y-4">
+          <StashViewGraphCard
+            stashTabs={stashTabs}
             stashViewSettings={stashViewSettings}
             setStashViewSettings={setStashViewSettings}
-            series={valueSnapshots}
+            valueSnapshots={valueSnapshots}
           />
 
           <StashViewItemTable
@@ -226,7 +266,19 @@ export default function StashView() {
             stashSettings={stashViewSettings}
             setStashViewSettings={setStashViewSettings}
           />
-          <TabViewerCard items={tab?.items ?? []} search={stashViewSettings} />
+
+          <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
+            <TabViewerCard
+              items={tab?.items ?? []}
+              search={stashViewSettings}
+            />
+            <StashViewTabBreakdownTable
+              items={tabSummaries ?? []}
+              tabs={stashTabs}
+              stashSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+          </div>
         </div>
       </div>
     </>
@@ -290,6 +342,126 @@ export function TabViewerCard({
   );
 }
 
+export function StashViewTabGroupsPanel({
+  stashViewSettings,
+  setStashViewSettings,
+}: {
+  stashViewSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
+}) {
+  const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
+
+  return (
+    <>
+      <StyledCard>
+        <div className="flex flex-col space-y-2">
+          <div className="flex">
+            Tab Groups
+            <PlusCircleIcon
+              className="w-6 h-6 absolute right-2"
+              onClick={() => {
+                const newGroupId = nanoid();
+                setStashViewSettings({
+                  ...stashViewSettings,
+                  stashTabGroups: {
+                    ...stashViewSettings.stashTabGroups,
+                    [newGroupId]: {
+                      name: `New Group ${
+                        Object.values(stashViewSettings.stashTabGroups).length +
+                        1
+                      }`,
+                      stashTabIds: [...stashViewSettings.checkedTabIds],
+                    },
+                  },
+                });
+                setEditingGroupId(newGroupId);
+              }}
+            />
+          </div>
+
+          {Object.entries(stashViewSettings.stashTabGroups).map(
+            ([id, group]) => (
+              <>
+                <div className="flex">
+                  {editingGroupId === id ? (
+                    <>
+                      <div>
+                        <input
+                          className="h-[24px] w-full bg-transparent border-l-2 border-0 p-1 focus:ring-0 ring-0"
+                          type="text"
+                          value={group.name}
+                          onBlur={() => {
+                            setEditingGroupId(null);
+                          }}
+                          onChange={(e) => {
+                            setStashViewSettings({
+                              ...stashViewSettings,
+                              stashTabGroups: {
+                                ...stashViewSettings.stashTabGroups,
+                                [id]: { ...group, name: e.target.value },
+                              },
+                            });
+                          }}
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div
+                        className="cursor-pointer"
+                        onClick={() => {
+                          setStashViewSettings({
+                            ...stashViewSettings,
+                            checkedTabIds: group.stashTabIds,
+                          });
+                        }}
+                      >
+                        {group.name}
+                      </div>
+                    </>
+                  )}
+                  {editingGroupId === id ? (
+                    <>
+                      <CheckCircleIcon
+                        className="w-6 h-6 absolute right-8"
+                        onClick={() => {
+                          setEditingGroupId(null);
+                        }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <PencilSquareIcon
+                        className="w-6 h-6 absolute right-8"
+                        onClick={() => {
+                          setEditingGroupId(id);
+                        }}
+                      />
+                    </>
+                  )}
+
+                  <TrashIcon
+                    className="w-6 h-6 absolute right-2"
+                    onClick={() => {
+                      const cpy = { ...stashViewSettings.stashTabGroups };
+                      delete cpy[id];
+
+                      setStashViewSettings({
+                        ...stashViewSettings,
+                        stashTabGroups: cpy,
+                      });
+                    }}
+                  />
+                </div>
+              </>
+            )
+          )}
+        </div>
+      </StyledCard>
+    </>
+  );
+}
+
 export function StashViewSearchPanel({
   stashViewSettings,
   setStashViewSettings,
@@ -330,6 +502,72 @@ export function StashViewSearchPanel({
   );
 }
 
+export function StashViewTabBreakdownTable({
+  items,
+  tabs,
+  stashSettings,
+  setStashViewSettings,
+}: {
+  items: StashViewItemSummary[];
+  tabs: PoeStashTab[];
+  stashSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
+}) {
+  const { league } = usePoeLeagueCtx();
+  
+
+  const tabValueCache: Record<string, number> = {};
+  const tagValueCache: Record<string, number> = {};
+  items.forEach((e) => {
+    tabValueCache[e.stashId] =
+      (tabValueCache[e.stashId] ?? 0) + (e.totalValueChaos ?? 0);
+    tagValueCache[e.itemGroupTag ?? "na"] =
+      (tagValueCache[e.itemGroupTag ?? "na"] ?? 0) + (e.totalValueChaos ?? 0);
+  });
+
+  return (
+    <>
+      <StyledCard>
+        <div className="flex flex-col space-y-2">
+          <div>Value Breakdown</div>
+          <div className="flex">
+            <div className="grow">
+              {Object.entries(tabValueCache)
+                .sort((a, b) => b[1] - a[1])
+                .map(([stashId, value]) => {
+                  const stash = tabs.find((e) => e.id === stashId);
+                  return (
+                    <>
+                      <div className="grid grid-cols-2">
+                        <div>{stash?.name}</div>
+                        <CurrencyValueDisplay pValue={value} league={league} />
+                      </div>
+                    </>
+                  );
+                })}
+            </div>
+            <div className="grow">
+              {Object.entries(tagValueCache)
+                .sort((a, b) => b[1] - a[1])
+                .filter((e) => e[0] !== "na")
+                .map(([tag, value]) => {
+                  return (
+                    <>
+                      <div className="grid grid-cols-2">
+                        <div>{tag}</div>
+                        <CurrencyValueDisplay pValue={value} league={league} />
+                      </div>
+                    </>
+                  );
+                })}
+            </div>
+          </div>
+        </div>
+      </StyledCard>
+    </>
+  );
+}
+
 export function StashViewItemTable({
   items,
   tabs,
@@ -341,6 +579,8 @@ export function StashViewItemTable({
   stashSettings: StashViewSettings;
   setStashViewSettings: (e: StashViewSettings) => void;
 }) {
+  const { league } = usePoeLeagueCtx();
+
   const pageSize = 25;
 
   const [page, setPage] = useState(0);
@@ -360,6 +600,59 @@ export function StashViewItemTable({
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
 
+  const [itemValueTimeseries, setItemValueTimeseries] = useState<
+    ItemGroupValueTimeseries[]
+  >([]);
+  useQuery(
+    gql`
+      query FilterableTimeTableTimeseriesSearch(
+        $search: ItemGroupValueTimeseriesSearchInput!
+      ) {
+        itemGroupValueTimeseriesSearch(search: $search) {
+          results {
+            series {
+              entries {
+                timestamp
+                value
+              }
+              type
+            }
+            itemGroup {
+              hashString
+            }
+          }
+        }
+      }
+    `,
+    {
+      skip: !league || !sortedItems?.length,
+      variables: {
+        search: {
+          seriesTypes: ["p5", "p10", "p20", "p50"],
+          stockStartingRanges: [0],
+          itemGroupSearch: {
+            itemGroupHashStrings: sortedItems
+              .slice(page * pageSize, page * pageSize + pageSize)
+              .map((e) => e.itemGroupHashString)
+              .filter((e) => !!e),
+            itemGroupHashKeys: [],
+            league: league,
+            skip: null,
+            limit: null,
+            searchString: null,
+            sortDirection: null,
+            itemGroupHashTags: [],
+          },
+        },
+      },
+      onCompleted(data) {
+        setItemValueTimeseries(
+          data?.itemGroupValueTimeseriesSearch?.results ?? []
+        );
+      },
+    }
+  );
+
   if (page !== 0 && page >= maxPage) {
     setPage(Math.max(0, maxPage - 1));
   }
@@ -368,12 +661,13 @@ export function StashViewItemTable({
     <>
       <StyledCard>
         <div className="flex flex-col space-y-2">
-          <table className="w-full table-auto text-left">
+          <table className="w-full table-auto text-left min-h-[826px]">
             <thead>
               <tr>
                 <th></th>
                 <th>Name</th>
                 <th>Stash</th>
+                <th></th>
                 <th>Quantity</th>
                 <th>Value</th>
                 <th>Total Value</th>
@@ -408,16 +702,44 @@ export function StashViewItemTable({
                         >
                           {tab?.name}
                         </td>
-                        <td>{item.quantity}</td>
                         <td>
-                          {GeneralUtils.roundToFirstNoneZeroN(
-                            item.valueChaos ?? 0
+                          {!!item.itemGroupHashString && (
+                            <div className="flex">
+                              <HSparkline
+                                series={itemValueTimeseries
+                                  ?.find(
+                                    (h) =>
+                                      h?.itemGroup.hashString ===
+                                      item.itemGroupHashString
+                                  )
+                                  ?.series?.find((e) => e.type === "p10")}
+                              />
+                              <StyledPopover>
+                                <ItemGroupTimeseriesChart
+                                  timeseries={
+                                    itemValueTimeseries?.find(
+                                      (h) =>
+                                        h?.itemGroup.hashString ===
+                                        item.itemGroupHashString
+                                    )?.series
+                                  }
+                                />
+                              </StyledPopover>
+                            </div>
                           )}
                         </td>
+                        <td>{item.quantity}</td>
                         <td>
-                          {GeneralUtils.roundToFirstNoneZeroN(
-                            item.totalValueChaos ?? 0
-                          )}
+                          <CurrencyValueDisplay
+                            pValue={item.valueChaos ?? 0}
+                            league={league}
+                          />
+                        </td>
+                        <td>
+                          <CurrencyValueDisplay
+                            pValue={item.totalValueChaos ?? 0}
+                            league={league}
+                          />
                         </td>
                       </tr>
                     </>
@@ -485,31 +807,19 @@ export function TabSnapshotCard({
       onCompleted(data) {
         setJobStatus(data.stashViewJobStat);
 
-        console.log("got", data.stashViewJobStat?.status);
         if (data.stashViewJobStat?.status === "Complete.") {
-          setStashViewSettings({ ...stashViewSettings, snapshotJobId: null });
           setTimeout(() => {
             setJobStatus(null);
           }, 5000);
           onJobComplete();
+        } else {
+          setTimeout(() => {
+            refetch();
+          }, 1000);
         }
       },
     }
   );
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (
-        !!stashViewSettings?.snapshotJobId &&
-        jobStatus?.status !== "Complete."
-      ) {
-        refetch();
-      }
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [stashViewSettings?.snapshotJobId, jobStatus?.status]);
 
   return (
     <>
@@ -540,7 +850,151 @@ export function TabSnapshotCard({
   );
 }
 
-export function StashViewGraph({
+export function StashViewGraphCard({
+  stashTabs,
+  stashViewSettings,
+  setStashViewSettings,
+  valueSnapshots,
+}: {
+  stashTabs: PoeStashTab[];
+  stashViewSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
+  valueSnapshots: StashViewValueSnapshotSeries[];
+}) {
+  return (
+    <>
+      <StyledCard>
+        <div className="flex flex-col">
+          {stashViewSettings.selectedGraph === "tab value" ? (
+            <StashViewTabValueGraph
+              tabs={stashTabs}
+              stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+              series={valueSnapshots}
+            />
+          ) : (
+            <StashViewNetValueGraph
+              tabs={stashTabs}
+              stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+              series={valueSnapshots}
+            />
+          )}
+          <StyledButton
+            text={
+              GeneralUtils.capitalize(stashViewSettings.selectedGraph) ?? "NA"
+            }
+            onClick={() => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                selectedGraph:
+                  stashViewSettings.selectedGraph === "tab value"
+                    ? "net value"
+                    : "tab value",
+              });
+            }}
+          />
+        </div>
+      </StyledCard>
+    </>
+  );
+}
+
+export function StashViewNetValueGraph({
+  tabs,
+  stashViewSettings,
+  setStashViewSettings,
+  series,
+}: {
+  tabs: PoeStashTab[];
+  stashViewSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
+  series: StashViewValueSnapshotSeries[];
+}) {
+  const [netValueSeries, setNetValueSeries] = useState<any[]>([]);
+
+  useEffect(() => {
+    const filteredSeries = series
+      .filter(
+        (e) =>
+          !stashViewSettings.filterCheckedTabs ||
+          stashViewSettings.checkedTabIds.includes(e.stashId)
+      )
+      .filter((e) => e.values.some((v) => v > 0));
+
+    const flatSeries = filteredSeries
+      .flatMap((s) =>
+        s.timestamps.map((t, i) => ({
+          stashId: s.stashId,
+          value: s.values[i],
+          timestamp: new Date(t).valueOf(),
+        }))
+      )
+      .sort((a, b) => a.timestamp - b.timestamp);
+
+    const stashValueCache = {};
+
+    const finalSeries = flatSeries.map((e) => {
+      stashValueCache[e.stashId] = e.value;
+      const netValue = Object.values(stashValueCache).reduce(
+        (p: number, c) => p + (c as number),
+        0
+      );
+      return [e.timestamp, netValue];
+    });
+    setNetValueSeries(finalSeries);
+  }, [series, stashViewSettings]);
+
+  const options = {
+    chart: {
+      type: "spline",
+    },
+    title: {
+      text: "",
+    },
+    time: {
+      moment: moment,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    yAxis: {
+      title: {
+        enabled: false,
+      },
+    },
+    xAxis: {
+      type: "datetime",
+      dateTimeLabelFormats: {
+        minute: "%l:%M %P",
+        hour: "%l:%M %P",
+        day: "%e. %b",
+        week: "%e. %b",
+        month: "%b '%y",
+        year: "%Y",
+      },
+    },
+    legend: {
+      enabled: false,
+      itemStyle: {
+        color: "white",
+      },
+    },
+    series: {
+      name: "Value",
+      tooltip: {
+        valueDecimals: 0,
+      },
+      data: netValueSeries,
+    },
+  };
+
+  return (
+    <>
+      <HighchartsReact highcharts={Highcharts} options={options} />
+    </>
+  );
+}
+
+export function StashViewTabValueGraph({
   tabs,
   stashViewSettings,
   setStashViewSettings,
@@ -607,11 +1061,7 @@ export function StashViewGraph({
 
   return (
     <>
-      <div>
-        <StyledCard>
-          <HighchartsReact highcharts={Highcharts} options={options} />
-        </StyledCard>
-      </div>
+      <HighchartsReact highcharts={Highcharts} options={options} />
     </>
   );
 }
@@ -629,6 +1079,7 @@ export function TabSelectorCard({
     <>
       <StyledCard>
         <div className="flex flex-col space-y-1 max-h-[600px] overflow-y-auto">
+          Stash Tabs
           {tabs?.map((tab) => (
             <>
               <div className="flex items-center space-x-1">

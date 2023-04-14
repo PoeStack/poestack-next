@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Image from "next/image";
 import { usePoeLeagueCtx } from "../contexts/league-context";
 import { myLoader } from "@utils/general-util";
+import { StyledTooltip } from "./styled-tooltip";
 
 export const DIV_ICON =
   "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png";
@@ -79,17 +80,28 @@ export default function CurrencyValueDisplay({
 
   return (
     <>
-      <div
-        className="grid w-full grid-cols-2 text-center place-content-center place-items-center"
-        onClick={() => {
-          onClick?.(display);
-        }}
+      <StyledTooltip
+        texts={[`${pValue}c`, `${chaosRates?.div}c/div`]}
+        placement={"auto"}
       >
-        <div className="w-full mr-4 text-right ">{display}</div>
-        <div className="flex justify-start w-full text-left place-items-start place-content-start">
-          <Image loader={myLoader} src={icon} alt={""} width={30} height={30} />
+        <div
+          className="grid w-full grid-cols-2 text-center place-content-center place-items-center"
+          onClick={() => {
+            onClick?.(display);
+          }}
+        >
+          <div className="w-full mr-4 text-right ">{display}</div>
+          <div className="flex justify-start w-full text-left place-items-start place-content-start">
+            <Image
+              loader={myLoader}
+              src={icon}
+              alt={""}
+              width={30}
+              height={30}
+            />
+          </div>
         </div>
-      </div>
+      </StyledTooltip>
     </>
   );
 }

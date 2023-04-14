@@ -1,6 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
-import { QuantityChart } from "@components/filterable-item-table";
 import HSparkline from "@components/hsparkline";
 import StyledPopover from "@components/styled-popover";
 import {
@@ -14,6 +13,7 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, useState } from "react";
 import Image from "next/image";
 import { ItemSearchUserInput } from "./snapshot-item-table";
+import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
 
 export default function ItemTableBody({
   itemGroupSearch,
@@ -214,8 +214,8 @@ export default function ItemTableBody({
                         )
                         ?.series?.find((e) => e.type === "p10")}
                     />
-                    <StyledPopover text={"+"}>
-                      <QuantityChart
+                    <StyledPopover>
+                      <ItemGroupTimeseriesChart
                         timeseries={
                           itemValueTimeseries?.find(
                             (h) =>

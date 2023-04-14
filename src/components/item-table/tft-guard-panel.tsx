@@ -65,7 +65,7 @@ export default function TftGuardPanel({ children }) {
                     );
                   }}
                 >
-                  {discordAccountConnected ? 'Reconnect' : 'Connect'}
+                  {discordAccountConnected ? "Reconnect" : "Connect"}
                 </div>
               </>
             )}
@@ -75,7 +75,9 @@ export default function TftGuardPanel({ children }) {
               <div
                 className={
                   "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
-                  ((discordAccountConnected && tftMember) ? "bg-green-600" : "bg-red-600")
+                  (discordAccountConnected && tftMember
+                    ? "bg-green-600"
+                    : "bg-red-600")
                 }
               ></div>
               <div>TFT Member</div>
@@ -100,7 +102,7 @@ export default function TftGuardPanel({ children }) {
             <StyledButton
               text={"Refresh"}
               onClick={() => {
-                refetchMyProfile();
+                refetchMyProfile({ variables: { forcePull: true } });
               }}
             />
           </div>

@@ -57,7 +57,7 @@ export function PoeStackAuthProvider({ children }) {
 
   const { refetch: refetchMyProfile } = useQuery(
     gql`
-      query MyProfile {
+      query MyProfile($forcePull: Boolean) {
         myProfile {
           userId
           poeProfileName
@@ -66,10 +66,11 @@ export function PoeStackAuthProvider({ children }) {
           oAuthTokenUpdatedAtTimestamp
           discordUserId
         }
-        checkTftMembership
+        checkTftMembership(forcePull: $forcePull)
       }
     `,
     {
+      variables: { forcePull: false },
       onCompleted(data) {
         const p: UserProfile = data?.myProfile;
         if (

@@ -1,7 +1,8 @@
 import { Popover, Transition } from "@headlessui/react";
+import { PlusIcon } from "@heroicons/react/24/outline";
 import { Fragment, useRef } from "react";
 
-export default function StyledPopover({ text, children }) {
+export default function StyledPopover({ children }) {
   return (
     <div>
       <Popover className="relative">
@@ -9,8 +10,8 @@ export default function StyledPopover({ text, children }) {
           return (
             <>
               <div>
-                <Popover.Button className={``}>
-                  <span>{text}</span>
+                <Popover.Button>
+                  +
                 </Popover.Button>
                 <Transition
                   as={Fragment}
