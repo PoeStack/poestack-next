@@ -43,6 +43,7 @@
     "react-virtualized-auto-sizer": "1.0.7",
     "react-window": "1.8.8",
     "react-youtube": "^10.1.0",
+    "recharts": "^2.5.0",
     "sharp": "0.31.3",
     "tailwind-datepicker-react": "1.2.3",
     "typescript": "4.9.4",

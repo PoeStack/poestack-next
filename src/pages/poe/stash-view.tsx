@@ -33,6 +33,16 @@ import HSparkline from "@components/hsparkline";
 import StyledPopover from "@components/styled-popover";
 import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
 import CurrencyValueDisplay from "@components/currency-value-display";
+import {
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Scatter,
+  ScatterChart,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 export interface StashViewSettings {
   searchString: string;
@@ -514,7 +524,6 @@ export function StashViewTabBreakdownTable({
   setStashViewSettings: (e: StashViewSettings) => void;
 }) {
   const { league } = usePoeLeagueCtx();
-  
 
   const tabValueCache: Record<string, number> = {};
   const tagValueCache: Record<string, number> = {};
@@ -940,56 +949,32 @@ export function StashViewNetValueGraph({
         (p: number, c) => p + (c as number),
         0
       );
-      return [e.timestamp, netValue];
+      return { time: e.timestamp, value: netValue };
     });
     setNetValueSeries(finalSeries);
   }, [series, stashViewSettings]);
 
-  const options = {
-    chart: {
-      type: "spline",
-    },
-    title: {
-      text: "",
-    },
-    time: {
-      moment: moment,
-      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-    },
-    yAxis: {
-      title: {
-        enabled: false,
-      },
-    },
-    xAxis: {
-      type: "datetime",
-      dateTimeLabelFormats: {
-        minute: "%l:%M %P",
-        hour: "%l:%M %P",
-        day: "%e. %b",
-        week: "%e. %b",
-        month: "%b '%y",
-        year: "%Y",
-      },
-    },
-    legend: {
-      enabled: false,
-      itemStyle: {
-        color: "white",
-      },
-    },
-    series: {
-      name: "Value",
-      tooltip: {
-        valueDecimals: 0,
-      },
-      data: netValueSeries,
-    },
-  };
-
   return (
     <>
-      <HighchartsReact highcharts={Highcharts} options={options} />
+      <ResponsiveContainer width="100%" height={300}>
+        <LineChart data={netValueSeries}>
+          <XAxis
+            dataKey="time"
+            domain={["auto", "auto"]}
+            name="Time"
+            tickFormatter={(unixTime) => moment(unixTime).format("HH:mm Do")}
+            type="number"
+          />
+          <YAxis dataKey="value" name="Value" />
+          <Tooltip />
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#8884d8"  
+            activeDot={{ r: 8 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
     </>
   );
 }

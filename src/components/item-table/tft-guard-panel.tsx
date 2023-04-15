@@ -2,6 +2,7 @@ import { useState } from "react";
 import { usePoeStackAuth } from "../../contexts/user-context";
 import StyledButton from "../styled-button";
 import { useRouter } from "next/router";
+import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 
 export default function TftGuardPanel({ children }) {
   const router = useRouter();
@@ -106,6 +107,8 @@ export default function TftGuardPanel({ children }) {
               }}
             />
           </div>
+
+          <TftOneClickInstructions />
         </div>
       </>
     );

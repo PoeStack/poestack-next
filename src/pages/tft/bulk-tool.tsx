@@ -12,6 +12,8 @@ import { useEffect } from "react";
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 import { useRouter } from "next/router";
 import TftOneClickMessageHistoryCard from "@components/tft-oneclick-message-history-card";
+import YouTube from "react-youtube";
+import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 
 export default function BulkTool() {
   const router = useRouter();
@@ -160,18 +162,21 @@ export default function BulkTool() {
           <StyledCard>
             <TftOneClickMessageHistoryCard />
           </StyledCard>
+          <TftOneClickInstructions />
           <StyledCard>
-            <div>Settings</div>
-            <div
-              className="cursor-pointer"
-              onClick={() => {
-                localStorage.setItem("variable-redirect", router.asPath);
-                router.push(
-                  "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
-                );
-              }}
-            >
-              Reconnect Discord or Connect A Different Discord
+            <div className="flex flex-col space-y-2">
+              <div>Settings (Optional)</div>
+              <div
+                className="cursor-pointer"
+                onClick={() => {
+                  localStorage.setItem("variable-redirect", router.asPath);
+                  router.push(
+                    "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
+                  );
+                }}
+              >
+                Reconnect Discord or Connect A Different Discord
+              </div>
             </div>
           </StyledCard>
         </div>
