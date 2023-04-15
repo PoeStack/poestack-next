@@ -3,11 +3,7 @@ import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import client from "poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
-import {
-  PoeStackAuthProvider,
-  usePoeStackAuth,
-} from "../contexts/user-context";
-import GggAuthBtn from "@components/ggg-auth-btn";
+import { PoeStackAuthProvider } from "../contexts/user-context";
 
 import Script from "next/script";
 import StyledNavBar from "@components/styled-nav-bar";
