@@ -75,18 +75,19 @@ export default function App({ Component, pageProps }: AppProps) {
                 </Head>
                 {/* Layout */}
 
-                <div className="text-content-base bg-color-primary">
-                  <StyledNavBar />
-
-                  <div className="flex flex-col min-h-screen bg-color-primary ml-[160px]">
-                    <div className="flex-1 flex pt-4 pb-4">
+                <div className="text-content-base bg-color-primary min-h-screen min-w-fit">
+                  <div className="flex flex-col bg-color-primary">
+                    <div className="flex w-full">
+                      <StyledNavBar />
                       <div className="basis-1/12"></div>
-                      <div className="flex-1">
+                      <div className="flex-1 p-4">
                         <Component {...pageProps} />
                       </div>
                       <div className="basis-1/12"></div>
                     </div>
-                    <StyledFooter />
+                    <div className="w-full">
+                      <StyledFooter />
+                    </div>
                   </div>
                 </div>
               </PoeStackLeagueProvider>

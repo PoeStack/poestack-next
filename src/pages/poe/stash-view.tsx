@@ -18,7 +18,7 @@ import { usePoeLeagueCtx } from "@contexts/league-context";
 import StyledInput from "@components/styled-input";
 import StyledButton from "@components/styled-button";
 import moment from "moment";
-import Highcharts from "highcharts";
+import Highcharts, { Tooltip } from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import {
   CheckCircleIcon,
@@ -34,15 +34,11 @@ import StyledPopover from "@components/styled-popover";
 import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import {
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  Scatter,
-  ScatterChart,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from "recharts";
+  AnimatedAxis,
+  AnimatedGrid,
+  AnimatedLineSeries,
+  XYChart,
+} from "@visx/xychart";
 
 export interface StashViewSettings {
   searchString: string;
@@ -262,14 +258,14 @@ export default function StashView() {
           </div>
         </div>
 
-        <div className="grow flex flex-col space-y-4">
-          <StashViewGraphCard
+        <div className="flex flex-col space-y-4 w-full">
+      {/*     <StashViewGraphCard
             stashTabs={stashTabs}
             stashViewSettings={stashViewSettings}
             setStashViewSettings={setStashViewSettings}
             valueSnapshots={valueSnapshots}
           />
-
+ */}
           <StashViewItemTable
             items={tabSummaries ?? []}
             tabs={stashTabs}
@@ -540,7 +536,7 @@ export function StashViewTabBreakdownTable({
         <div className="flex flex-col space-y-2">
           <div>Value Breakdown</div>
           <div className="flex">
-            <div className="grow">
+            <div className="w-full">
               {Object.entries(tabValueCache)
                 .sort((a, b) => b[1] - a[1])
                 .map(([stashId, value]) => {
@@ -555,7 +551,7 @@ export function StashViewTabBreakdownTable({
                   );
                 })}
             </div>
-            <div className="grow">
+            <div className="w-full">
               {Object.entries(tagValueCache)
                 .sort((a, b) => b[1] - a[1])
                 .filter((e) => e[0] !== "na")
@@ -954,27 +950,56 @@ export function StashViewNetValueGraph({
     setNetValueSeries(finalSeries);
   }, [series, stashViewSettings]);
 
+  const data1 = [
+    { x: "2020-01-01", y: 50 },
+    { x: "2020-01-02", y: 10 },
+    { x: "2020-01-03", y: 20 },
+  ];
+
+  const accessors = {
+    xAccessor: (d) => d.x,
+    yAccessor: (d) => d.y,
+  };
+
+  const options = {
+    chart: {
+      type: "spline",
+    },
+    title: {
+      text: "",
+    },
+    time: {
+      moment: moment,
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    },
+    yAxis: {
+      title: {
+        enabled: false,
+      },
+    },
+    xAxis: {
+      type: "datetime",
+      dateTimeLabelFormats: {
+        minute: "%l:%M %P",
+        hour: "%l:%M %P",
+        day: "%e. %b",
+        week: "%e. %b",
+        month: "%b '%y",
+        year: "%Y",
+      },
+    },
+    legend: {
+      enabled: false,
+      itemStyle: {
+        color: "white",
+      },
+    },
+    series: netValueSeries,
+  };
+
   return (
     <>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={netValueSeries}>
-          <XAxis
-            dataKey="time"
-            domain={["auto", "auto"]}
-            name="Time"
-            tickFormatter={(unixTime) => moment(unixTime).format("HH:mm Do")}
-            type="number"
-          />
-          <YAxis dataKey="value" name="Value" />
-          <Tooltip />
-          <Line
-            type="monotone"
-            dataKey="value"
-            stroke="#8884d8"  
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <HighchartsReact highcharts={Highcharts} options={options} />
     </>
   );
 }

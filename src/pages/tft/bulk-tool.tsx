@@ -164,19 +164,28 @@ export default function BulkTool() {
           </StyledCard>
           <TftOneClickInstructions />
           <StyledCard>
-            <div className="flex flex-col space-y-2">
+            <div className="flex flex-col space-y-2 w-fit">
               <div>Settings (Optional)</div>
-              <div
-                className="cursor-pointer"
+              <StyledButton
+                text={"Refresh Stash Tabs"}
+                onClick={() => {
+                  refetchStashTabs({
+                    variables: {
+                      league: league,
+                      forcePull: true,
+                    },
+                  });
+                }}
+              />
+              <StyledButton
+                text={"Connect Discord"}
                 onClick={() => {
                   localStorage.setItem("variable-redirect", router.asPath);
                   router.push(
                     "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
                   );
                 }}
-              >
-                Reconnect Discord or Connect A Different Discord
-              </div>
+              />
             </div>
           </StyledCard>
         </div>

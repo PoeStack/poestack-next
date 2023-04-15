@@ -55,7 +55,7 @@ function DesktopNavBar() {
 
   return (
     <>
-      <div className="h-screen fixed flex flex-col bg-surface-primary gap-y-5 px-2">
+      <div className="h-screen sticky top-0 flex flex-col bg-surface-primary gap-y-5 px-2">
         <div className="flex items-center justify-center h-16 w-full">
           <Link href="/">
             <Image
