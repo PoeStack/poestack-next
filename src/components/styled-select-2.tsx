@@ -51,9 +51,9 @@ export default function StyledSelect2({
                 <Listbox.Option
                   key={itemIndex}
                   className={({ active }) =>
-                    `relative cursor-default select-none py-2 pl-2 pr-2  ${
+                    `relative cursor-default select-none py-2 pl-2 pr-2 ${
                       active
-                        ? "bg-surface-secondary-variant  text-content-base"
+                        ? "bg-surface-secondary-variant text-content-base"
                         : "text-white"
                     }`
                   }

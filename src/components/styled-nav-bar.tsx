@@ -1,29 +1,12 @@
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import React, { Fragment, useEffect, useState } from "react";
-import GggAuthBtn from "./ggg-auth-btn";
 import Image from "next/image";
-import { Disclosure, Popover, Transition } from "@headlessui/react";
-import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
-import {
-  BookmarkSquareIcon,
-  ComputerDesktopIcon,
-  GlobeAltIcon,
-} from "@heroicons/react/24/outline";
 
-import {
-  GiAtlas,
-  GiCharacter,
-  GiOpenChest,
-  GiReceiveMoney,
-} from "react-icons/gi";
-import { IoPeople } from "react-icons/io5";
-
-import { StyledTooltip } from "./styled-tooltip";
-import SearchBar from "./search-bar";
-import { usePoeStackAuth } from "../contexts/user-context";
-import { usePoeLeagueCtx } from "../contexts/league-context";
-import ThemeChanger from "./theme-changer";
+import { usePoeStackAuth } from "@contexts/user-context";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 import LeagueSelect from "@components/league-select";
+import ThemeChanger from "@components/theme-changer";
+import GggAuthBtn from "@components/ggg-auth-btn";
 
 export default function StyledNavBar() {
   const windowWidth = useWindowSize();
@@ -72,52 +55,45 @@ function DesktopNavBar() {
 
   return (
     <>
-      <div className="h-screen fixed flex flex-col bg-surface-primary gap-y-5">
-        <div className="flex justify-items-center h-16 w-full">
-          <Link href={"/"}>
+      <div className="h-screen fixed flex flex-col bg-surface-primary gap-y-5 px-2">
+        <div className="flex items-center justify-center h-16 w-full">
+          <Link href="/">
             <Image
               height={48}
               width={130}
-              src={"/logo_white_name.png"}
-              alt={"PoeStack"}
+              src="/logo_white_name.png"
+              alt="PoeStack"
             />
           </Link>
         </div>
         {/* Profile */}
-
         {/* Navgiation */}
-        <ul role="list" className="">
+        <ul role="list" className="space-y-2">
           {navigation.map((item) => (
             <li
               key={item.name}
-              className="block py-2 pr-2 text-sm font-semibold leading-6 text-gray-400 rounded-md hover:bg-color-primary "
+              className={`block text-sm font-semibold leading-6 rounded-md hover:bg-color-primary ${
+                item.current ? "bg-color-primary" : ""
+              }`}
             >
               <Link
                 href={item.href}
-                className={`
-                    ${item.current ? "bg-gray-50" : ""}
-                    block rounded-md py-2 pr-2 pl-10 text-sm font-semibold leading-6 text-gray-200`}
+                className="block py-3 px-2 text-sm font-semibold leading-6 "
               >
                 {item.name}
               </Link>
             </li>
           ))}
         </ul>
-        {/* Settings with no Options */}
-
+        {/* Spacer */}
         <div className="flex-1"></div>
-
         {/* Settings with Options */}
-        <div className="block w-40 py-2 pl-10 pr-2 space-y-4 text-sm font-semibold leading-6 rounded-md">
-          <Link
-            href={`http://discord.com/invite/zqeTWZvb76`}
-            className=""
-            legacyBehavior
-          >
+        <div className="mb-4 space-y-4">
+          <Link href={`http://discord.com/invite/zqeTWZvb76`} legacyBehavior>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-content-accent"
+              className="underline hover:text-content-accent text-center block font-semibold"
             >
               Join the Discord
             </a>
