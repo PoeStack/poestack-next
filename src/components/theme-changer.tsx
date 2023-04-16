@@ -1,33 +1,24 @@
-import { Fragment, useState, useEffect } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useTheme } from "next-themes";
-import StyledSelect2 from "./styled-select-2";
+import { useTheme } from 'next-themes';
+import Select from '@components/core/select';
 
 export default function ThemeChanger({
   onChange = () => {},
 }: {
   onChange?: (e: string) => void;
 }) {
-  //const [theme, setTheme] = useState("Dark");
-  const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 
-  const themes = ["Dark", "Original", "Vaal"];
-  // When mounted on client, now we can show the UI
-  useEffect(() => setMounted(true), []);
-
-  if (!mounted) return null;
+  const themes = ['Dark', 'Original', 'Vaal'];
 
   return (
     <>
-      <StyledSelect2
-        items={themes}
-        onSelectChange={(e) => {
+      <Select
+        options={themes}
+        onChange={(e) => {
           setTheme(e);
           onChange?.(e);
         }}
-        selected={theme}
+        selected={theme ?? themes[0]}
       />
     </>
   );
