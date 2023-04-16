@@ -2,7 +2,7 @@ import CurrencyValueDisplay from "@components/currency-value-display";
 import StyledCard from "@components/styled-card";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import { StashViewItemSummary, PoeStashTab } from "@generated/graphql";
-import { GeneralUtils } from "@utils/general-util";
+import { StashViewUtil } from "@utils/stash-view-util";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export function StashViewTabBreakdownTable({
@@ -20,8 +20,8 @@ export function StashViewTabBreakdownTable({
 
   const tabValueCache: Record<string, number> = {};
   const tagValueCache: Record<string, number> = {};
-  items.forEach((e) => {
-    const totalStackValue = GeneralUtils.itemStackTotalValue(stashSettings, e);
+  StashViewUtil.searchItems(stashSettings, items).forEach((e) => {
+    const totalStackValue = StashViewUtil.itemStackTotalValue(stashSettings, e);
 
     tabValueCache[e.stashId] =
       (tabValueCache[e.stashId] ?? 0) + totalStackValue;

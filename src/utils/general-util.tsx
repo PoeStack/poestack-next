@@ -1,6 +1,5 @@
 import { ImageLoaderProps } from "next/dist/client/image";
 import { ItemGroup, StashViewItemSummary } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 
 export class GeneralUtils {
   public static compactNumberFormat(number: number): string {
@@ -12,21 +11,6 @@ export class GeneralUtils {
     return +number.toFixed(
       Math.max(Math.min(1 - Math.floor(Math.log(number) / Math.log(10)), 99), 0)
     );
-  }
-
-  public static itemStackTotalValue(
-    settings: StashViewSettings,
-    item: StashViewItemSummary
-  ): number {
-    if (settings.valueOverridesEnabled) {
-      return (
-        (settings.itemGroupValueOverrides[item.itemGroupHashString ?? ""] ??
-          item.valueChaos ??
-          0) * item.quantity
-      );
-    } else {
-      return (item.valueChaos ?? 0) * item.quantity;
-    }
   }
 
   public static capitalize(

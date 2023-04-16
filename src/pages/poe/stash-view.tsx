@@ -17,6 +17,7 @@ import { StashViewTabBreakdownTable } from "@components/stash-view/stash-view-ta
 import { StashViewSearchCard } from "@components/stash-view/stash-view-search-card";
 import { StashViewTabViewerCard } from "@components/stash-view/stash-view-tab-viewer-card";
 import { StashViewTabGroupsPanel } from "@components/stash-view/stash-view-tab-groups-panel";
+import { StashViewExportCard } from "@components/stash-view/stash-view-export-card";
 
 export interface StashViewSettings {
   searchString: string;
@@ -237,6 +238,13 @@ export default function StashView() {
 
             <StashViewTabGroupsPanel
               stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+
+            <StashViewExportCard
+              items={tabSummaries ?? []}
+              tabs={stashTabs}
+              stashSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}
             />
           </div>

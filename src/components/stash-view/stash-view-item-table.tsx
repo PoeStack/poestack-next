@@ -13,6 +13,7 @@ import {
   ItemGroupValueTimeseries,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
+import { StashViewUtil } from "@utils/stash-view-util";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { useState } from "react";
 
@@ -33,18 +34,9 @@ export function StashViewItemTable({
 
   const [page, setPage] = useState(0);
 
-  const sortedItems = [...items]
-    .filter(
-      (e) =>
-        !stashSettings.filterCheckedTabs ||
-        stashSettings.checkedTabIds.includes(e.stashId)
-    )
-    .filter(
-      (e) =>
-        stashSettings.searchString.trim().length === 0 ||
-        e.searchableString.includes(stashSettings.searchString.toLowerCase())
-    )
-    .sort((a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0));
+  const sortedItems = StashViewUtil.searchItems(stashSettings, items).sort(
+    (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
+  );
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
 
@@ -226,7 +218,7 @@ export function StashViewItemTable({
                         )}
                         <td>
                           <CurrencyValueDisplay
-                            pValue={GeneralUtils.itemStackTotalValue(
+                            pValue={StashViewUtil.itemStackTotalValue(
                               stashSettings,
                               item
                             )}
