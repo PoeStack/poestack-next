@@ -8,7 +8,12 @@ module.exports = {
     "./public/**/*.html",
     "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
-  safelist: [{ pattern: /col-start-./ }, { pattern: /row-start-./ }, { pattern: /col-span-./ }, { pattern: /row-span-./ }],
+  safelist: [
+    { pattern: /col-start-./ },
+    { pattern: /row-start-./ },
+    { pattern: /col-span-./ },
+    { pattern: /row-span-./ },
+  ],
   plugins: [require("flowbite/plugin")],
   theme: {
     // Theme Design Principles and Distinctions:
@@ -19,6 +24,13 @@ module.exports = {
     extend: {
       colors: {
         primary: "var(--color-primary)",
+        accent: "var(--color-accent)",
+        red: "var(--color-red)",
+        normal: "var(--color-normal)",
+        magic: "var(--color-magic)",
+        rare: "var(--color-rare)",
+        unique: "var(--color-unique)",
+        gem: "var(--color-gem)",
       },
       textColor: {
         content: {
