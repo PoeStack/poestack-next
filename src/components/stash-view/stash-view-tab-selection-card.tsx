@@ -14,7 +14,7 @@ export function StashViewTabSelectionCard({
   return (
     <>
       <StyledCard>
-        <div className="flex flex-col space-y-1 max-h-[600px] overflow-y-auto">
+        <div className="flex flex-col space-y-1 max-h-[400px] overflow-y-auto">
           Stash Tabs
           {tabs?.map((tab) => (
             <>
