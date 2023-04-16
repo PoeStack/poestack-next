@@ -1,4 +1,4 @@
-import clsx from 'clsx';
+import clsx from "clsx";
 
 export interface OptionProps<T> {
   active?: boolean;
@@ -11,11 +11,11 @@ type DefaultOptionProps = OptionProps<string>;
 
 export function DefaultOption({ selected, data }: DefaultOptionProps) {
   return (
-    <div className='flex items-center'>
+    <div className="flex items-center">
       <span
         className={clsx(
-          selected ? 'font-semibold text-content-accent' : 'font-normal',
-          'ml-3 block text-base'
+          selected ? "font-semibold text-content-accent" : "font-normal",
+          "ml-3 block text-base"
         )}
       >
         {data}

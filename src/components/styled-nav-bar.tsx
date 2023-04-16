@@ -55,8 +55,8 @@ function DesktopNavBar() {
 
   return (
     <>
-      <div className="h-screen sticky top-0 flex flex-col bg-surface-primary gap-y-5 px-2">
-        <div className="flex items-center justify-center h-16 w-full">
+      <div className="sticky top-0 flex h-screen flex-col gap-y-5 bg-surface-primary px-2">
+        <div className="flex h-16 w-full items-center justify-center">
           <Link href="/">
             <Image
               height={48}
@@ -67,12 +67,12 @@ function DesktopNavBar() {
           </Link>
         </div>
         {/* Profile */}
-        {/* Navgiation */}
+        {/* Navigation */}
         <ul role="list" className="space-y-2">
           {navigation.map((item) => (
             <li
               key={item.name}
-              className={`block text-sm font-semibold leading-6 rounded-md hover:bg-color-primary ${
+              className={`block rounded-md text-sm font-semibold leading-6 hover:bg-color-primary ${
                 item.current ? "bg-color-primary" : ""
               }`}
             >
@@ -88,12 +88,12 @@ function DesktopNavBar() {
         {/* Spacer */}
         <div className="flex-1"></div>
         {/* Settings with Options */}
-        <div className="mb-4 space-y-4">
+        <div className="mb-16 space-y-4">
           <Link href={`http://discord.com/invite/zqeTWZvb76`} legacyBehavior>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-content-accent text-center block font-semibold"
+              className="block text-center font-semibold underline hover:text-content-accent"
             >
               Join the Discord
             </a>

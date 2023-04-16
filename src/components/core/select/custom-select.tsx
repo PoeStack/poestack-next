@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { Listbox } from '@headlessui/react';
-import { SelectLabel } from '@components/core/select/label';
+import { useState } from "react";
+import { Listbox } from "@headlessui/react";
+import { SelectLabel } from "@components/core/select/label";
 
-import { OptionProps } from '@components/core/select/default-option';
-import { usePopper } from 'react-popper';
-import { SelectOptions } from '@components/core/select/select-options';
-import { SelectButton } from '@components/core/select/select-button';
-import { Modifier, ModifierPhases } from '@popperjs/core';
+import { OptionProps } from "@components/core/select/default-option";
+import { usePopper } from "react-popper";
+import { SelectOptions } from "@components/core/select/select-options";
+import { SelectButton } from "@components/core/select/select-button";
+import { Modifier, ModifierPhases } from "@popperjs/core";
 
 export interface CustomSelectProps<T> {
   options: T[];
@@ -20,10 +20,10 @@ export interface CustomSelectProps<T> {
 type PopperModifier = Modifier<string, Record<string, unknown>>;
 
 const autoWidthModifier = {
-  name: 'sameWidth',
+  name: "sameWidth",
   enabled: true,
-  phase: 'beforeWrite' as ModifierPhases,
-  requires: ['computeStyles'],
+  phase: "beforeWrite" as ModifierPhases,
+  requires: ["computeStyles"],
   fn({ state }) {
     state.styles.popper.width = `${state.rects.reference.width}px`;
   },
@@ -56,7 +56,7 @@ export function CustomSelect<T>(props: CustomSelectProps<T>) {
       {({ open }) => (
         <>
           <SelectLabel>{props.label}</SelectLabel>
-          <div className='relative mt-2'>
+          <div className="relative mt-2">
             <SelectButton
               renderer={props.renderer}
               selected={props.selected}

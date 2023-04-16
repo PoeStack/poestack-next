@@ -1,5 +1,8 @@
-import { TextSelect } from '@components/core/select/text-select';
-export { CustomSelect } from '@components/core/select/custom-select';
-export { DefaultOption } from '@components/core/select/default-option';
+import { TextSelect } from "@components/core/select/text-select";
 
-export default TextSelect;
+const Select = TextSelect;
+
+export default Select;
+
+export { CustomSelect } from "@components/core/select/custom-select";
+export { DefaultOption } from "@components/core/select/default-option";
