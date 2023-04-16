@@ -88,7 +88,7 @@ function DesktopNavBar() {
         {/* Spacer */}
         <div className="flex-1"></div>
         {/* Settings with Options */}
-        <div className="mb-16 space-y-4">
+        <div className="mb-4 space-y-4">
           <Link href={`http://discord.com/invite/zqeTWZvb76`} legacyBehavior>
             <a
               target="_blank"
