@@ -34,6 +34,12 @@ export interface StashViewSettings {
   itemGroupValueOverrides: Record<string, number>;
 
   selectedGraph: string;
+
+  selectedExporter: string;
+  exporterListedValueMultipler: number;
+
+  forumShopMaxStackSizeSetting: string;
+  forumShopTabIndexOffset: number;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -51,6 +57,12 @@ const defaultStashViewSettings: StashViewSettings = {
   itemGroupValueOverrides: {},
 
   selectedGraph: "net value",
+
+  selectedExporter: "Forum Shop",
+  exporterListedValueMultipler: 1,
+
+  forumShopMaxStackSizeSetting: "max",
+  forumShopTabIndexOffset: 0,
 };
 
 export default function StashView() {
