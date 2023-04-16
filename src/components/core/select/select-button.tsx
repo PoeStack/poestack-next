@@ -3,8 +3,10 @@ import { Listbox } from "@headlessui/react";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 import { Dispatch, SetStateAction } from "react";
 
-type SelectButtonProps<T> = Pick<CustomSelectProps<T>, "renderer"> & {
-  selected: T;
+type SelectButtonProps<T> = Pick<
+  CustomSelectProps<T>,
+  "renderer" | "selected"
+> & {
   setRef: Dispatch<SetStateAction<HTMLButtonElement | null>>;
 };
 

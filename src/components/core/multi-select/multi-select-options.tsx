@@ -3,10 +3,10 @@ import clsx from "clsx";
 import { Listbox, Transition } from "@headlessui/react";
 
 import Portal from "@components/portal";
-import { CustomSelectProps } from "@components/core/select/custom-select";
+import { CustomMultiSelectProps } from "@components/core/multi-select/custom-multi-select";
 
-type SelectOptionsProps<T> = Pick<
-  CustomSelectProps<T>,
+type MultiSelectOptionsProps<T> = Pick<
+  CustomMultiSelectProps<T>,
   "options" | "renderer" | "keyGenerator"
 > & {
   open: boolean;
@@ -16,7 +16,7 @@ type SelectOptionsProps<T> = Pick<
   className?: string;
 };
 
-export function SelectOptions<T>({
+export function MultiSelectOptions<T>({
   options,
   renderer: Renderer,
   keyGenerator,
@@ -25,7 +25,7 @@ export function SelectOptions<T>({
   styles,
   attributes,
   className,
-}: SelectOptionsProps<T>) {
+}: MultiSelectOptionsProps<T>) {
   return (
     <Portal>
       <Transition
