@@ -1,12 +1,10 @@
-import { useState } from "react";
 import { Listbox } from "@headlessui/react";
 import { SelectLabel } from "@components/core/select/label";
 
 import { OptionProps } from "@components/core/select/default-option";
-import { usePopper } from "react-popper";
 import { SelectOptions } from "@components/core/select/select-options";
 import { SelectButton } from "@components/core/select/select-button";
-import { Modifier, ModifierPhases } from "@popperjs/core";
+import { usePopperDropdown } from "@components/core/select/use-popper-dropdown";
 
 export interface CustomSelectProps<T> {
   options: T[];
@@ -17,34 +15,10 @@ export interface CustomSelectProps<T> {
   label?: string;
   optionListClassname?: string;
 }
-type PopperModifier = Modifier<string, Record<string, unknown>>;
-
-const autoWidthModifier = {
-  name: "sameWidth",
-  enabled: true,
-  phase: "beforeWrite" as ModifierPhases,
-  requires: ["computeStyles"],
-  fn({ state }) {
-    state.styles.popper.width = `${state.rects.reference.width}px`;
-  },
-  effect({ state }) {
-    state.elements.popper.style.width = `${
-      (state.elements.reference as Element).clientWidth
-    }px`;
-  },
-} as PopperModifier;
 
 export function CustomSelect<T>(props: CustomSelectProps<T>) {
-  const [referenceElement, setReferenceElement] =
-    useState<HTMLButtonElement | null>(null);
-
-  const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(
-    null
-  );
-
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [autoWidthModifier],
-  });
+  const { attributes, setPopperElement, setReferenceElement, styles } =
+    usePopperDropdown();
 
   return (
     <Listbox
