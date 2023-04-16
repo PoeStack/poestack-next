@@ -1,26 +1,27 @@
-import React from "react";
-import { POE_LEAGUES, usePoeLeagueCtx } from "../contexts/league-context";
-import StyledSelect2 from "./styled-select-2";
+import React from 'react';
+import { POE_LEAGUES, usePoeLeagueCtx } from '@contexts/league-context';
+import Select from '@components/core/select';
+
+interface LeagueSelectProps {
+  onChange?: (e: string) => void;
+  leagueFilter?: (e: string) => boolean;
+}
 
 export default function LeagueSelect({
   onChange = () => {},
   leagueFilter = (e) => true,
-}: {
-  onChange?: (e: string) => void;
-  leagueFilter?: (e: string) => boolean;
-}) {
+}: LeagueSelectProps) {
   const { league, setLeague } = usePoeLeagueCtx();
+  const data = POE_LEAGUES.filter(leagueFilter);
 
   return (
-    <>
-      <StyledSelect2
-        items={POE_LEAGUES.filter(leagueFilter)}
-        onSelectChange={(e) => {
-          setLeague(e);
-          onChange?.(e);
-        }}
-        selected={league}
-      />
-    </>
+    <Select
+      options={data}
+      onChange={(newLeague) => {
+        setLeague(newLeague);
+        onChange?.(newLeague);
+      }}
+      selected={league}
+    />
   );
 }
