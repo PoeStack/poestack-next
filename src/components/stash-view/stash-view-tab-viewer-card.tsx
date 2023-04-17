@@ -1,8 +1,6 @@
 import ItemMouseOver from "@components/item-mouseover";
 import { CharacterSnapshotItem } from "@generated/graphql";
-import { myLoader } from "@utils/general-util";
 import { StashViewSettings } from "pages/poe/stash-view";
-import Image, { ImageLoaderProps } from "next/image";
 import StyledLoading from "@components/styled-loading";
 import {
   BLIGHT_LAYOUT,
@@ -20,8 +18,12 @@ export function StashViewTabViewerCard({
   search,
 }: {
   tab: {
-    items: (CharacterSnapshotItem & { x: number; y: number })[];
-    type: string;
+    items: (CharacterSnapshotItem & {
+      x?: number;
+      y?: number;
+      section?: string;
+    })[];
+    type?: string;
   } | null;
   search: StashViewSettings;
 }) {
@@ -52,11 +54,13 @@ export function StashViewTabViewerCard({
       "GemStash",
       "FlaskStash",
       "DivinationCardStash",
-    ].includes(tab.type)
+    ].includes(tab.type!)
   ) {
     return (
       <>
-        <div>Unsupported tab type.</div>
+        <div className={`w-full bg-surface-primary relative aspect-square`}>
+          Tab type not yet supported.
+        </div>
       </>
     );
   }
@@ -64,14 +68,14 @@ export function StashViewTabViewerCard({
   let scale = 12;
   if (tab.type === "QuadStash") {
     scale = 24;
-  } else if (!!tabLayoutMap[tab.type]) {
+  } else if (!!tabLayoutMap[tab.type!]) {
     return (
       <>
         <div className={`w-full bg-surface-primary relative aspect-square`}>
           <StashViewPoeLayoutTabViewer
             tab={tab}
             search={search}
-            layout={tabLayoutMap[tab.type]}
+            layout={tabLayoutMap[tab.type!]}
           />
         </div>
       </>
@@ -95,9 +99,9 @@ export function StashViewPoeLayoutTabViewer({
   layout: any;
   tab: {
     items: (CharacterSnapshotItem & {
-      x: number;
-      y: number;
-      section: string;
+      x?: number;
+      y?: number;
+      section?: string;
     })[];
   };
   search: StashViewSettings;
@@ -118,11 +122,10 @@ export function StashViewPoeLayoutTabViewer({
       e["pw"] = pos.w ?? 1;
       e["ph"] = pos.h ?? 1;
     }
-    console.log("i", e);
   });
 
   const allSections = [
-    ...new Set<string>(Object.values(layout).map((e) => e.section)),
+    ...new Set<string>(Object.values(layout).map((e: any) => e.section)),
   ];
 
   const [selectedSection, setSelectedSection] = useState<string | null>(
