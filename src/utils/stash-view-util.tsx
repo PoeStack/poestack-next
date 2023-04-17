@@ -2,6 +2,8 @@ import { StashViewItemSummary } from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export class StashViewUtil {
+
+  
   public static smartLimitOutput(
     limit: number,
     header: string | null,

@@ -171,8 +171,10 @@ export default function StashView() {
       }
     `,
     {
+      skip: !league,
       onCompleted(data) {
-        setTabSummaries(data.stashViewSummary);
+        const items: StashViewItemSummary[] = data.stashViewSummary;
+        setTabSummaries(items.map((e) => ({ ...e, league: league })));
       },
       variables: {
         league: league,
