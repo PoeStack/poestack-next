@@ -187,8 +187,6 @@ export function StashViewItemTable({
                                 }
                                 type="number"
                                 onChange={(e) => {
-                                  console.log(stashSettings);
-
                                   if (e?.length > 0) {
                                     setStashViewSettings({
                                       ...stashSettings,

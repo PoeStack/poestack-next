@@ -280,10 +280,7 @@ export default function StashView() {
           />
 
           <div className="flex flex-col space-y-4 lg:flex-row lg:space-x-4 lg:space-y-0">
-            <StashViewTabViewerCard
-              items={tab?.items ?? []}
-              search={stashViewSettings}
-            />
+            <StashViewTabViewerCard tab={tab} search={stashViewSettings} />
             <StashViewTabBreakdownTable
               items={tabSummaries ?? []}
               tabs={stashTabs}

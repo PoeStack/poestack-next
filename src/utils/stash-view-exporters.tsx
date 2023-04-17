@@ -12,11 +12,16 @@ export function exportToForumShop(
   const filteredItems = StashViewUtil.searchItems(
     stashSettings,
     items.filter((e) => e.valueChaos ?? 0 > 0)
+  ).sort(
+    (a, b) =>
+      StashViewUtil.itemValue(stashSettings, b) -
+      StashViewUtil.itemValue(stashSettings, a)
   );
   for (const item of filteredItems) {
     const tab = tabs.find((e) => e.id === item.stashId);
     if (tab) {
-      const index = tab.flatIndex! + 1;
+      const index =
+        tab.flatIndex! + 1 + (stashSettings.forumShopTabIndexOffset ?? 0);
 
       const itemValue = StashViewUtil.itemValue(stashSettings, item);
 

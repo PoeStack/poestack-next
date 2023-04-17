@@ -2,7 +2,7 @@ import StyledCard from "@components/styled-card";
 import StyledSelect2 from "@components/styled-select-2";
 import { StashViewItemSummary, PoeStashTab } from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
-import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter";
+import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter-card";
 
 export function StashViewExportCard({
   items,

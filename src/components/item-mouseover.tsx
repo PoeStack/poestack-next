@@ -105,7 +105,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
@@ -249,7 +248,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
