@@ -2,8 +2,6 @@ import { StashViewItemSummary } from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export class StashViewUtil {
-
-  
   public static smartLimitOutput(
     limit: number,
     header: string | null,
@@ -33,15 +31,21 @@ export class StashViewUtil {
     settings: StashViewSettings,
     item: StashViewItemSummary
   ): number {
+    let value = item.valueChaos ?? 0;
+
     if (settings.valueOverridesEnabled) {
-      return (
-        settings.itemGroupValueOverrides[item.itemGroupHashString ?? ""] ??
-        item.valueChaos ??
-        0
-      );
-    } else {
-      return item.valueChaos ?? 0;
+      const overrideValue =
+        settings.itemGroupValueOverrides[item.itemGroupHashString ?? ""];
+      if (overrideValue !== undefined && overrideValue !== null) {
+        value = overrideValue;
+      }
     }
+
+    if (settings.selectedExporter === "TFT-Bulk") {
+      value = value * ((settings.tftValueMultiplier ?? 100) / 100);
+    }
+
+    return value;
   }
 
   public static itemStackTotalValue(
@@ -55,13 +59,17 @@ export class StashViewUtil {
     settings: StashViewSettings,
     items: StashViewItemSummary[]
   ): StashViewItemSummary[] {
-    const filters: ((item) => boolean)[] = [
+    const filters: ((item: StashViewItemSummary) => boolean)[] = [
       (e) =>
         !settings.filterCheckedTabs ||
         settings.checkedTabIds.includes(e.stashId),
       (e) =>
         settings.searchString.trim().length === 0 ||
         e.searchableString.includes(settings.searchString.toLowerCase()),
+      (e) =>
+        settings.selectedExporter !== "TFT-Bulk" ||
+        !settings.checkedTags ||
+        settings.checkedTags.some((t) => t === e.itemGroupTag),
     ];
 
     const result = [...items].filter((e) => filters.every((f) => f(e)));

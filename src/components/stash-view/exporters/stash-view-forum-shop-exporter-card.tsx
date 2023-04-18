@@ -1,7 +1,7 @@
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
-import { exportToForumShop } from "@utils/stash-view-exporters";
+import { StashViewExporters } from "@utils/stash-view-exporters";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export function StashViewForumShopExporterCard({
@@ -33,7 +33,11 @@ export function StashViewForumShopExporterCard({
           text={"Copy"}
           onClick={() => {
             navigator.clipboard.writeText(
-              exportToForumShop(stashSummary.items, tabs, stashSettings)
+              StashViewExporters.exportToForumShop(
+                stashSummary.items,
+                tabs,
+                stashSettings
+              )
             );
           }}
         />

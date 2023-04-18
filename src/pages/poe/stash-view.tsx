@@ -22,6 +22,9 @@ import LeagueSelect from "@components/league-select";
 import { usePoeStackAuth } from "@contexts/user-context";
 
 export interface StashViewSettings {
+  league: string | undefined | null;
+  chaosToDivRate: number | null;
+
   searchString: string;
   filterCheckedTabs: boolean;
 
@@ -29,6 +32,8 @@ export interface StashViewSettings {
   checkedTabIds: string[];
   snapshotJobId: string | null;
   lastSnapshotJobCompleteTimestamp: Date | null;
+
+  checkedTags: string[] | null;
 
   stashTabGroups: Record<string, { name: string; stashTabIds: string[] }>;
 
@@ -42,9 +47,17 @@ export interface StashViewSettings {
 
   forumShopMaxStackSizeSetting: string;
   forumShopTabIndexOffset: number;
+
+  ign: string | null;
+  tftSelectedCategory: string | null;
+  tftSelectedSubCategory: string | null;
+  tftValueMultiplier: number;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
+  league: null,
+  chaosToDivRate: null,
+
   searchString: "",
   filterCheckedTabs: false,
 
@@ -52,6 +65,8 @@ const defaultStashViewSettings: StashViewSettings = {
   selectedTabId: null,
   snapshotJobId: null,
   lastSnapshotJobCompleteTimestamp: null,
+
+  checkedTags: null,
 
   stashTabGroups: {},
 
@@ -65,22 +80,33 @@ const defaultStashViewSettings: StashViewSettings = {
 
   forumShopMaxStackSizeSetting: "max",
   forumShopTabIndexOffset: 0,
+
+  ign: null,
+  tftSelectedCategory: null,
+  tftSelectedSubCategory: null,
+  tftValueMultiplier: 100,
 };
 
 export default function StashView() {
   const { profile } = usePoeStackAuth();
-  const { league } = usePoeLeagueCtx();
+  const { league, setLeague } = usePoeLeagueCtx();
 
   const [stashViewSettings, setStashViewSettings] =
     useState<StashViewSettings | null>(null);
 
   useEffect(() => {
-    setStashViewSettings(
-      JSON.parse(
-        localStorage.getItem(`${league}_stash_view_settings`) ??
-          JSON.stringify(defaultStashViewSettings)
-      )
+    const loadedStashSettings = JSON.parse(
+      localStorage.getItem(`${league}_stash_view_settings`) ??
+        JSON.stringify(defaultStashViewSettings)
     );
+
+    if (!loadedStashSettings.league) {
+      loadedStashSettings.league = league;
+    } else if (league !== loadedStashSettings.league) {
+      setLeague(loadedStashSettings.league);
+    }
+
+    setStashViewSettings(loadedStashSettings);
   }, [league]);
 
   useEffect(() => {
@@ -113,7 +139,7 @@ export default function StashView() {
     stashViewSettings?.selectedTabId,
     stashViewSettings?.lastSnapshotJobCompleteTimestamp,
     league,
-    profile?.userId
+    profile?.userId,
   ]);
 
   const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
@@ -226,6 +252,29 @@ export default function StashView() {
       },
       onError(error) {
         setValueSnapshots([]);
+      },
+    }
+  );
+
+  useQuery(
+    gql`
+      query CurrenyValuePullDivAndEx($key: String!, $league: String!) {
+        div: itemGroupValueChaos(key: $key, league: $league)
+      }
+    `,
+    {
+      skip: !league,
+      variables: {
+        league: league,
+        key: "divine orb",
+      },
+      fetchPolicy: "cache-first",
+      onCompleted(data) {
+        const div: number | null = data?.div ?? null;
+        setStashViewSettings({
+          ...(stashViewSettings as StashViewSettings),
+          chaosToDivRate: div,
+        });
       },
     }
   );

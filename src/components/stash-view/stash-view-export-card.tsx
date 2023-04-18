@@ -3,6 +3,7 @@ import StyledSelect2 from "@components/styled-select-2";
 import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter-card";
+import { StashViewGenericTftExporterCard } from "./exporters/stash-view-generic-tft-exporter-card";
 
 export function StashViewExportCard({
   stashSummary,
@@ -22,18 +23,31 @@ export function StashViewExportCard({
           <div>Export Items</div>
           <div>
             <StyledSelect2
-              selected={"Forum Shop"}
-              onSelectChange={(e) => {}}
-              items={["Forum Shop"]}
+              selected={stashSettings?.selectedExporter ?? "Forum Shop"}
+              onSelectChange={(e) => {
+                setStashViewSettings({ ...stashSettings, selectedExporter: e });
+              }}
+              items={["Forum Shop", "TFT-Bulk"]}
             />
           </div>
 
-          <StashViewForumShopExporterCard
-            stashSummary={stashSummary}
-            tabs={tabs}
-            stashSettings={stashSettings}
-            setStashViewSettings={setStashViewSettings}
-          />
+          {stashSettings?.selectedExporter === "Forum Shop" && (
+            <StashViewForumShopExporterCard
+              stashSummary={stashSummary}
+              tabs={tabs}
+              stashSettings={stashSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+          )}
+
+          {stashSettings?.selectedExporter === "TFT-Bulk" && (
+            <StashViewGenericTftExporterCard
+              stashSummary={stashSummary}
+              tabs={tabs}
+              stashSettings={stashSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+          )}
         </div>
       </StyledCard>
     </>

@@ -106,8 +106,8 @@ export function StashViewItemTable({
 
   return (
     <>
-      <div className="flex flex-col space-y-2">
-        <table className="w-full table-auto text-left min-h-[826px]">
+      <div className="flex flex-col space-y-2 min-h-[826px]">
+        <table className="w-full table-auto text-left">
           <thead>
             <tr>
               <th></th>
@@ -115,8 +115,8 @@ export function StashViewItemTable({
               <th>Stash</th>
               <th></th>
               <th>Quantity</th>
-              <th>Value</th>
               {stashSettings.valueOverridesEnabled && <th>Override</th>}
+              <th>Value</th>
               <th>Total Value</th>
             </tr>
           </thead>
@@ -174,12 +174,6 @@ export function StashViewItemTable({
                         )}
                       </td>
                       <td>{item.quantity}</td>
-                      <td>
-                        <CurrencyValueDisplay
-                          pValue={item.valueChaos ?? 0}
-                          league={league}
-                        />
-                      </td>
                       {stashSettings.valueOverridesEnabled && (
                         <td>
                           {!!item.itemGroupHashString && (
@@ -220,6 +214,12 @@ export function StashViewItemTable({
                       )}
                       <td>
                         <CurrencyValueDisplay
+                          pValue={StashViewUtil.itemValue(stashSettings, item)}
+                          league={league}
+                        />
+                      </td>
+                      <td>
+                        <CurrencyValueDisplay
                           pValue={StashViewUtil.itemStackTotalValue(
                             stashSettings,
                             item
@@ -233,6 +233,7 @@ export function StashViewItemTable({
               })}
           </tbody>
         </table>
+        <div className="flex-1"></div>
         <div className="flex space-x-4 items-center">
           <div className="flex space-x-2">
             <StyledButton
