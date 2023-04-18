@@ -1,18 +1,16 @@
 import StyledButton from "@components/styled-button";
-import StyledCard from "@components/styled-card";
 import StyledInput from "@components/styled-input";
-import StyledSelect2 from "@components/styled-select-2";
-import { StashViewItemSummary, PoeStashTab } from "@generated/graphql";
+import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
 import { exportToForumShop } from "@utils/stash-view-exporters";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export function StashViewForumShopExporterCard({
-  items,
+  stashSummary,
   tabs,
   stashSettings,
   setStashViewSettings,
 }: {
-  items: StashViewItemSummary[];
+  stashSummary: StashViewStashSummary;
   tabs: PoeStashTab[];
   stashSettings: StashViewSettings;
   setStashViewSettings: (e: StashViewSettings) => void;
@@ -35,7 +33,7 @@ export function StashViewForumShopExporterCard({
           text={"Copy"}
           onClick={() => {
             navigator.clipboard.writeText(
-              exportToForumShop(items, tabs, stashSettings)
+              exportToForumShop(stashSummary.items, tabs, stashSettings)
             );
           }}
         />

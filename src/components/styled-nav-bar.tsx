@@ -51,11 +51,16 @@ function DesktopNavBar() {
       href: `/tft/bulk-tool`,
       current: false,
     },
+    {
+      name: "Stash View (Beta)",
+      href: `/poe/stash-view`,
+      current: false,
+    },
   ];
 
   return (
     <>
-      <div className="h-screen sticky top-0 flex flex-col bg-surface-primary gap-y-5 px-2">
+      <div className="flex flex-col bg-surface-primary gap-y-5 px-2">
         <div className="flex items-center justify-center h-16 w-full">
           <Link href="/">
             <Image

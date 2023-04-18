@@ -79,7 +79,7 @@ export default function BulkTool() {
           userId: profile?.userId,
           league: league,
           poeStashTabIds: selectedStashTabs.map((e) => e.id),
-          valuationTargetPValue: "p10",
+          valuationTargetPValue: "p20",
           valuationStockInfluence: "none",
         },
       },

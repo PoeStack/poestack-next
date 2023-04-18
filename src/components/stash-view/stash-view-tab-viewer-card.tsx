@@ -58,7 +58,7 @@ export function StashViewTabViewerCard({
   ) {
     return (
       <>
-        <div className={`w-full bg-surface-primary relative aspect-square`}>
+        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
           Tab type not yet supported.
         </div>
       </>
@@ -71,7 +71,7 @@ export function StashViewTabViewerCard({
   } else if (!!tabLayoutMap[tab.type!]) {
     return (
       <>
-        <div className={`w-full bg-surface-primary relative aspect-square`}>
+        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
           <StashViewPoeLayoutTabViewer
             tab={tab}
             search={search}
@@ -84,7 +84,7 @@ export function StashViewTabViewerCard({
 
   return (
     <>
-      <div className={`w-full bg-surface-primary relative aspect-square`}>
+      <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
         <StashViewBasicTabViewer tab={tab} search={search} scale={scale} />
       </div>
     </>

@@ -1,16 +1,16 @@
 import StyledCard from "@components/styled-card";
 import StyledSelect2 from "@components/styled-select-2";
-import { StashViewItemSummary, PoeStashTab } from "@generated/graphql";
+import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter-card";
 
 export function StashViewExportCard({
-  items,
+  stashSummary,
   tabs,
   stashSettings,
   setStashViewSettings,
 }: {
-  items: StashViewItemSummary[];
+  stashSummary: StashViewStashSummary;
   tabs: PoeStashTab[];
   stashSettings: StashViewSettings;
   setStashViewSettings: (e: StashViewSettings) => void;
@@ -29,7 +29,7 @@ export function StashViewExportCard({
           </div>
 
           <StashViewForumShopExporterCard
-            items={items ?? []}
+            stashSummary={stashSummary}
             tabs={tabs}
             stashSettings={stashSettings}
             setStashViewSettings={setStashViewSettings}

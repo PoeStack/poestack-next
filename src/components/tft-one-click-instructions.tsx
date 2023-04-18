@@ -89,6 +89,19 @@ export function TftOneClickInstructions() {
               className=""
             />
           </div>
+          <div className="flex space-x-2">
+            <YouTube
+              videoId={"7JYdgkIH8i4"}
+              opts={{
+                height: "360",
+                width: "680",
+                playerVars: {
+                  autoplay: 0,
+                },
+              }}
+              className=""
+            />
+          </div>
         </div>
       </StyledCard>
     </>

@@ -8,22 +8,23 @@ import StyledInput from "@components/styled-input";
 import StyledPopover from "@components/styled-popover";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import {
-  StashViewItemSummary,
   PoeStashTab,
   ItemGroupValueTimeseries,
+  StashViewStashSummary,
+  StashViewItemSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { StashViewSettings } from "pages/poe/stash-view";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function StashViewItemTable({
-  items,
+  stashSummary,
   tabs,
   stashSettings,
   setStashViewSettings,
 }: {
-  items: StashViewItemSummary[];
+  stashSummary: StashViewStashSummary;
   tabs: PoeStashTab[];
   stashSettings: StashViewSettings;
   setStashViewSettings: (e: StashViewSettings) => void;
@@ -34,9 +35,15 @@ export function StashViewItemTable({
 
   const [page, setPage] = useState(0);
 
-  const sortedItems = StashViewUtil.searchItems(stashSettings, items).sort(
-    (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
-  );
+  const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
+
+  useEffect(() => {
+    setSortedItems(
+      StashViewUtil.searchItems(stashSettings, stashSummary.items).sort(
+        (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
+      )
+    );
+  }, [stashSummary, stashSettings, tabs, page]);
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
 
@@ -99,171 +106,167 @@ export function StashViewItemTable({
 
   return (
     <>
-      <StyledCard>
-        <div className="flex flex-col space-y-2">
-          <table className="w-full table-auto text-left min-h-[826px]">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Stash</th>
-                <th></th>
-                <th>Quantity</th>
-                <th>Value</th>
-                {stashSettings.valueOverridesEnabled && <th>Override</th>}
-                <th>Total Value</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedItems
-                .slice(page * pageSize, page * pageSize + pageSize)
-                .map((item) => {
-                  const tab = tabs.find((e) => e.id === item.stashId);
-                  return (
-                    <>
-                      <tr className="h-[36px]">
-                        <td>
-                          <img style={{ height: 30 }} src={item.icon!} />
-                        </td>
-                        <td>
-                          {GeneralUtils.capitalize(item.searchableString)}
-                        </td>
-                        <td
-                          className={`${
-                            tab?.id == stashSettings.selectedTabId
-                              ? "text-content-accent"
-                              : ""
-                          } cursor-pointer`}
-                          onClick={() => {
-                            setStashViewSettings({
-                              ...stashSettings,
-                              selectedTabId: tab!.id,
-                            });
-                          }}
-                        >
-                          {tab?.name}
-                        </td>
-                        <td>
-                          {!!item.itemGroupHashString && (
-                            <div className="flex">
-                              <HSparkline
-                                series={itemValueTimeseries
-                                  ?.find(
+      <div className="flex flex-col space-y-2">
+        <table className="w-full table-auto text-left min-h-[826px]">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Stash</th>
+              <th></th>
+              <th>Quantity</th>
+              <th>Value</th>
+              {stashSettings.valueOverridesEnabled && <th>Override</th>}
+              <th>Total Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedItems
+              .slice(page * pageSize, page * pageSize + pageSize)
+              .map((item) => {
+                const tab = tabs.find((e) => e.id === item.stashId);
+                return (
+                  <>
+                    <tr className="h-[36px]">
+                      <td>
+                        <img style={{ height: 30 }} src={item.icon!} />
+                      </td>
+                      <td>{GeneralUtils.capitalize(item.searchableString)}</td>
+                      <td
+                        className={`${
+                          tab?.id == stashSettings.selectedTabId
+                            ? "text-content-accent"
+                            : ""
+                        } cursor-pointer`}
+                        onClick={() => {
+                          setStashViewSettings({
+                            ...stashSettings,
+                            selectedTabId: tab!.id,
+                          });
+                        }}
+                      >
+                        {tab?.name}
+                      </td>
+                      <td>
+                        {!!item.itemGroupHashString && (
+                          <div className="flex">
+                            <HSparkline
+                              series={itemValueTimeseries
+                                ?.find(
+                                  (h) =>
+                                    h?.itemGroup.hashString ===
+                                    item.itemGroupHashString
+                                )
+                                ?.series?.find((e) => e.type === "p10")}
+                            />
+                            <StyledPopover>
+                              <ItemGroupTimeseriesChart
+                                timeseries={
+                                  itemValueTimeseries?.find(
                                     (h) =>
                                       h?.itemGroup.hashString ===
                                       item.itemGroupHashString
-                                  )
-                                  ?.series?.find((e) => e.type === "p10")}
+                                  )?.series
+                                }
                               />
-                              <StyledPopover>
-                                <ItemGroupTimeseriesChart
-                                  timeseries={
-                                    itemValueTimeseries?.find(
-                                      (h) =>
-                                        h?.itemGroup.hashString ===
-                                        item.itemGroupHashString
-                                    )?.series
-                                  }
-                                />
-                              </StyledPopover>
-                            </div>
+                            </StyledPopover>
+                          </div>
+                        )}
+                      </td>
+                      <td>{item.quantity}</td>
+                      <td>
+                        <CurrencyValueDisplay
+                          pValue={item.valueChaos ?? 0}
+                          league={league}
+                        />
+                      </td>
+                      {stashSettings.valueOverridesEnabled && (
+                        <td>
+                          {!!item.itemGroupHashString && (
+                            <StyledInput
+                              value={
+                                stashSettings.itemGroupValueOverrides[
+                                  item.itemGroupHashString!
+                                ]
+                              }
+                              type="number"
+                              onChange={(e) => {
+                                if (e?.length > 0) {
+                                  setStashViewSettings({
+                                    ...stashSettings,
+                                    itemGroupValueOverrides: {
+                                      ...stashSettings.itemGroupValueOverrides,
+                                      [item.itemGroupHashString!]:
+                                        parseFloat(e),
+                                    },
+                                  });
+                                } else {
+                                  const temp = {
+                                    ...stashSettings.itemGroupValueOverrides,
+                                  };
+                                  delete temp[item.itemGroupHashString!];
+                                  setStashViewSettings({
+                                    ...stashSettings,
+                                    itemGroupValueOverrides: temp,
+                                  });
+                                }
+                              }}
+                              placeholder={`${GeneralUtils.roundToFirstNoneZeroN(
+                                item.valueChaos ?? 0
+                              )}c`}
+                            />
                           )}
                         </td>
-                        <td>{item.quantity}</td>
-                        <td>
-                          <CurrencyValueDisplay
-                            pValue={item.valueChaos ?? 0}
-                            league={league}
-                          />
-                        </td>
-                        {stashSettings.valueOverridesEnabled && (
-                          <td>
-                            {!!item.itemGroupHashString && (
-                              <StyledInput
-                                value={
-                                  stashSettings.itemGroupValueOverrides[
-                                    item.itemGroupHashString!
-                                  ]
-                                }
-                                type="number"
-                                onChange={(e) => {
-                                  if (e?.length > 0) {
-                                    setStashViewSettings({
-                                      ...stashSettings,
-                                      itemGroupValueOverrides: {
-                                        ...stashSettings.itemGroupValueOverrides,
-                                        [item.itemGroupHashString!]:
-                                          parseFloat(e),
-                                      },
-                                    });
-                                  } else {
-                                    const temp = {
-                                      ...stashSettings.itemGroupValueOverrides,
-                                    };
-                                    delete temp[item.itemGroupHashString!];
-                                    setStashViewSettings({
-                                      ...stashSettings,
-                                      itemGroupValueOverrides: temp,
-                                    });
-                                  }
-                                }}
-                                placeholder={`${GeneralUtils.roundToFirstNoneZeroN(
-                                  item.valueChaos ?? 0
-                                )}c`}
-                              />
-                            )}
-                          </td>
-                        )}
-                        <td>
-                          <CurrencyValueDisplay
-                            pValue={StashViewUtil.itemStackTotalValue(
-                              stashSettings,
-                              item
-                            )}
-                            league={league}
-                          />
-                        </td>
-                      </tr>
-                    </>
-                  );
-                })}
-            </tbody>
-          </table>
-          <div className="flex space-x-4 items-center">
-            <div className="flex space-x-2">
-              <StyledButton
-                text={"Previous"}
-                onClick={() => {
-                  setPage(Math.max(0, page - 1));
-                }}
-              />
-              <div>
-                {maxPage === 0 ? 0 : page + 1}/{maxPage} Page
-              </div>
-              <StyledButton
-                text={"Next"}
-                onClick={() => {
-                  setPage(Math.min(maxPage - 1, page + 1));
-                }}
-              />
+                      )}
+                      <td>
+                        <CurrencyValueDisplay
+                          pValue={StashViewUtil.itemStackTotalValue(
+                            stashSettings,
+                            item
+                          )}
+                          league={league}
+                        />
+                      </td>
+                    </tr>
+                  </>
+                );
+              })}
+          </tbody>
+        </table>
+        <div className="flex space-x-4 items-center">
+          <div className="flex space-x-2">
+            <StyledButton
+              text={"Previous"}
+              onClick={() => {
+                setPage(Math.max(0, page - 1));
+              }}
+            />
+            <div>
+              {maxPage === 0 ? 0 : page + 1}/{maxPage} Page
             </div>
-            <div className="flex space-x-1 items-center">
-              <input
-                type="checkbox"
-                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
-                checked={stashSettings.valueOverridesEnabled}
-                onChange={(e) => {
-                  setStashViewSettings({
-                    ...stashSettings,
-                    valueOverridesEnabled: !stashSettings.valueOverridesEnabled,
-                  });
-                }}
-              />
-              <div>Enabled Overrides</div>
-            </div>
+            <StyledButton
+              text={"Next"}
+              onClick={() => {
+                setPage(Math.min(maxPage - 1, page + 1));
+              }}
+            />
+          </div>
+          <div className="flex space-x-1 items-center">
+            <input
+              type="checkbox"
+              className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+              checked={stashSettings.valueOverridesEnabled}
+              onChange={(e) => {
+                setStashViewSettings({
+                  ...stashSettings,
+                  valueOverridesEnabled: !stashSettings.valueOverridesEnabled,
+                });
+              }}
+            />
+            <div>Enabled Overrides</div>
           </div>
         </div>
-      </StyledCard>
+      </div>
     </>
   );
 }
