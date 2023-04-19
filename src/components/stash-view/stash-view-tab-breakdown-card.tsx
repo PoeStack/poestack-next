@@ -30,7 +30,7 @@ export function StashViewTabBreakdownTable({
 
   useEffect(() => {
     const nextCache = { tabValueCache: {}, tagValueCache: {} };
-    StashViewUtil.searchItems(stashSettings, stashSummary.items).forEach(
+    StashViewUtil.searchItems(stashSettings, stashSummary).forEach(
       (e) => {
         const totalStackValue = StashViewUtil.itemStackTotalValue(
           stashSettings,
@@ -61,7 +61,21 @@ export function StashViewTabBreakdownTable({
                 return (
                   <>
                     <div className="grid grid-cols-2">
-                      <div>{stash?.name}</div>
+                      <div
+                        className={`cursor-pointer ${
+                          stashSettings.selectedTabId === stashId
+                            ? "text-content-accent"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setStashViewSettings({
+                            ...stashSettings,
+                            selectedTabId: stashId,
+                          });
+                        }}  
+                      >
+                        {stash?.name}
+                      </div>
                       <CurrencyValueDisplay pValue={value} league={league} />
                     </div>
                   </>

@@ -38,11 +38,15 @@ export function StashViewItemTable({
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
   useEffect(() => {
-    setSortedItems(
-      StashViewUtil.searchItems(stashSettings, stashSummary.items).sort(
-        (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
-      )
+    let res = StashViewUtil.searchItems(stashSettings, stashSummary).sort(
+      (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
     );
+
+    if (stashSettings.selectedExporter === "TFT-Bulk") {
+      res = StashViewUtil.reduceItemStacks(res);
+    }
+    
+    setSortedItems(res);
   }, [stashSummary, stashSettings, tabs, page]);
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
@@ -112,7 +116,7 @@ export function StashViewItemTable({
             <tr>
               <th></th>
               <th>Name</th>
-              <th>Stash</th>
+              {stashSettings.selectedExporter !== "TFT-Bulk" && <th>Stash</th>}
               <th></th>
               <th>Quantity</th>
               {stashSettings.valueOverridesEnabled && <th>Override</th>}
@@ -132,21 +136,23 @@ export function StashViewItemTable({
                         <img style={{ height: 30 }} src={item.icon!} />
                       </td>
                       <td>{GeneralUtils.capitalize(item.searchableString)}</td>
-                      <td
-                        className={`${
-                          tab?.id == stashSettings.selectedTabId
-                            ? "text-content-accent"
-                            : ""
-                        } cursor-pointer`}
-                        onClick={() => {
-                          setStashViewSettings({
-                            ...stashSettings,
-                            selectedTabId: tab!.id,
-                          });
-                        }}
-                      >
-                        {tab?.name}
-                      </td>
+                      {stashSettings.selectedExporter !== "TFT-Bulk" && (
+                        <td
+                          className={`${
+                            tab?.id == stashSettings.selectedTabId
+                              ? "text-content-accent"
+                              : ""
+                          } cursor-pointer`}
+                          onClick={() => {
+                            setStashViewSettings({
+                              ...stashSettings,
+                              selectedTabId: tab!.id,
+                            });
+                          }}
+                        >
+                          {tab?.name}
+                        </td>
+                      )}
                       <td>
                         {!!item.itemGroupHashString && (
                           <div className="flex">

@@ -78,6 +78,17 @@ export default function StyledFooter() {
                   </a>
                 </Link>
               </li>
+              <li>
+                <Link href="https://www.patreon.com/PoeStack/about" legacyBehavior>
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline hover:text-content-accent"
+                  >
+                    Patreon
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

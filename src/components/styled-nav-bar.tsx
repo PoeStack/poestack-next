@@ -53,14 +53,14 @@ function DesktopNavBar() {
     },
     {
       name: "Stash View (Beta)",
-      href: `/poe/stash-view`,
+      href: `/poe/stash-view?league=${league}`,
       current: false,
     },
   ];
 
   return (
     <>
-      <div className="flex flex-col bg-surface-primary gap-y-5 px-2">
+      <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
         <div className="flex items-center justify-center h-16 w-full">
           <Link href="/">
             <Image

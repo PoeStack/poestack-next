@@ -1,4 +1,7 @@
-import { StashViewItemSummary } from "@generated/graphql";
+import {
+  StashViewItemSummary,
+  StashViewStashSummary,
+} from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export class StashViewUtil {
@@ -57,7 +60,7 @@ export class StashViewUtil {
 
   public static searchItems(
     settings: StashViewSettings,
-    items: StashViewItemSummary[]
+    summary: StashViewStashSummary
   ): StashViewItemSummary[] {
     const filters: ((item: StashViewItemSummary) => boolean)[] = [
       (e) =>
@@ -72,7 +75,25 @@ export class StashViewUtil {
         settings.checkedTags.some((t) => t === e.itemGroupTag),
     ];
 
-    const result = [...items].filter((e) => filters.every((f) => f(e)));
+    const result = [...summary.items].filter((e) => filters.every((f) => f(e)));
     return result;
+  }
+
+  public static reduceItemStacks(
+    items: StashViewItemSummary[]
+  ): StashViewItemSummary[] {
+    const groups: Record<string, StashViewItemSummary> = {};
+    for (const item of items) {
+      if (item.itemGroupHashString) {
+        let group = groups[item.itemGroupHashString];
+        if (!group) {
+          group = { ...item };
+          groups[item.itemGroupHashString] = group;
+        } else {
+          group.quantity += item.quantity;
+        }
+      }
+    }
+    return Object.values(groups);
   }
 }

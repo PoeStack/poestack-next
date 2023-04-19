@@ -62,10 +62,20 @@ export function StashViewGenericTftExporterCard({
           onClick={() => {
             navigator.clipboard.writeText(
               TFT_CATEGORIES[stashSettings.tftSelectedCategory!].export(
-                stashSummary.items,
+                stashSummary,
                 tabs,
                 stashSettings
               )
+            );
+          }}
+        />
+        <StyledButton
+          text={"Post (Coming Soon)"}
+          onClick={() => {
+            navigator.clipboard.writeText(
+              `http://localhost:3000/api/stash-view/tft-export-image?input=${encodeURIComponent(
+                JSON.stringify(stashSettings)
+              )}`
             );
           }}
         />
