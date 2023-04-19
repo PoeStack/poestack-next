@@ -25,6 +25,8 @@ export default function SnapshotItemTable({
 }: {
   snapshot: StashSnapshot;
 }) {
+  const [hasMore, setHasMore] = useState(true);
+
   const [searchUserInput, setSearchUserInput] = useState<ItemSearchUserInput>({
     excludedItemGroupHashStrings: [],
     itemValueOverrides: {},
@@ -76,6 +78,7 @@ export default function SnapshotItemTable({
         searchUserInput={searchUserInput}
         setSearchUserInput={setSearchUserInput}
         disableTotalValueRow={true}
+        setHasMore={setHasMore}
       />
       <StyledPaginate
         currentSkip={searchUserInput.skip}
@@ -83,7 +86,7 @@ export default function SnapshotItemTable({
           setSearchUserInput({ ...searchUserInput, skip: skip, limit: limit });
         }}
         limit={searchUserInput.limit}
-        hasMore={true}
+        hasMore={hasMore}
       />
     </>
   );

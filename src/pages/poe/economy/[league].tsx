@@ -48,6 +48,8 @@ const columns: SortableTableColumns = [
   },
 ];
 
+let hasMore = true;
+
 export default function Economy() {
   const router = useRouter();
   const { tag } = router.query;
@@ -99,6 +101,9 @@ export default function Economy() {
         search: timeseriesSearch,
       },
       onCompleted(data) {
+        hasMore = data.itemGroupValueTimeseriesSearch.results.length == timeseriesSearch.itemGroupSearch.limit;
+        
+        console.log("onCompleted", data);
         setItemValueTimeseries(
           data?.itemGroupValueTimeseriesSearch?.results ?? []
         );
@@ -108,6 +113,7 @@ export default function Economy() {
 
   useEffect(() => {
     setTimeseriesSearch((p) => {
+      console.log("useEffect setTimeseriesSearch", league);
       return {
         ...p,
         ...{
@@ -251,7 +257,7 @@ export default function Economy() {
                 },
               });
             }}
-            hasMore={true}
+            hasMore={hasMore}
           />
         </StyledCard>
       </div>

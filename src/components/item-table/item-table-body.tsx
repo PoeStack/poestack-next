@@ -21,12 +21,14 @@ export default function ItemTableBody({
   searchUserInput,
   setSearchUserInput,
   disableTotalValueRow,
+  setHasMore,
 }: {
   itemGroupSearch: StashSnapshotItemGroupSummarySearch;
   league: string;
   searchUserInput: ItemSearchUserInput;
   setSearchUserInput: Dispatch<SetStateAction<ItemSearchUserInput>>;
   disableTotalValueRow?: boolean;
+  setHasMore: Function;
 }) {
   const [itemGroupSearchResult, setItemGroupSearchResult] =
     useState<StashSnapshotItemGroupSummarySearchResponse | null>(null);
@@ -63,6 +65,10 @@ export default function ItemTableBody({
       variables: { search: itemGroupSearch },
       skip: !itemGroupSearch,
       onCompleted(data) {
+        try {
+          setHasMore(data.stashSnapshotItemGroupSummaries.hasMore);
+        } catch { }
+
         setItemGroupSearchResult(data.stashSnapshotItemGroupSummaries);
       },
     }
