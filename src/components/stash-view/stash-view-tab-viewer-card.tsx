@@ -45,8 +45,6 @@ export function StashViewTabViewerCard({
     CurrencyStash: CURRENCY_LAYOUT,
   };
 
-  console.log("tab", tab);
-
   if (
     [
       "UniqueStash",

@@ -48,11 +48,11 @@ const columns: SortableTableColumns = [
   },
 ];
 
-let hasMore = true;
-
 export default function Economy() {
   const router = useRouter();
   const { tag } = router.query;
+
+  const [hasMore, setHasMore] = useState(true);
 
   const { league, setLeague } = usePoeLeagueCtx();
 
@@ -101,9 +101,9 @@ export default function Economy() {
         search: timeseriesSearch,
       },
       onCompleted(data) {
-        hasMore = data.itemGroupValueTimeseriesSearch.results.length == timeseriesSearch.itemGroupSearch.limit;
-        
-        console.log("onCompleted", data);
+        let isMore = data.itemGroupValueTimeseriesSearch.results.length == timeseriesSearch.itemGroupSearch.limit;
+        setHasMore(isMore);
+
         setItemValueTimeseries(
           data?.itemGroupValueTimeseriesSearch?.results ?? []
         );
@@ -113,7 +113,6 @@ export default function Economy() {
 
   useEffect(() => {
     setTimeseriesSearch((p) => {
-      console.log("useEffect setTimeseriesSearch", league);
       return {
         ...p,
         ...{
