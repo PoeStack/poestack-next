@@ -7,6 +7,7 @@ import { gql } from "@apollo/client";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { StashViewStashSummary } from "@generated/graphql";
 import { StashViewUtil } from "@utils/stash-view-util";
+import { GeneralUtils } from "@utils/general-util";
 
 export const config = {
   runtime: "experimental-edge",
@@ -21,8 +22,8 @@ export default async function TftExportImage(req: NextRequest) {
 
   const d: any = await client.query({
     query: gql`
-      query StashViewStashSummary($league: String!) {
-        stashViewStashSummary(league: $league) {
+      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {
+        stashViewStashSummary(search: $search) {
           itemGroups {
             hashString
             key
@@ -35,13 +36,16 @@ export default async function TftExportImage(req: NextRequest) {
             createdAtTimestamp
           }
           items {
+            itemId
+            userId
+            league
             stashId
             x
             y
-            itemGroupHashString
-            itemGroupTag
             quantity
             searchableString
+            itemGroupHashString
+            itemGroupTag
             valueChaos
             totalValueChaos
             icon
@@ -50,10 +54,16 @@ export default async function TftExportImage(req: NextRequest) {
       }
     `,
     variables: {
-      league: stashViewSettings.league!,
+      search: {
+        league: stashViewSettings.league!,
+        opaqueKey: "lLixYQlZ6JUSqHrlZI3_P",
+        execludeNonItemGroups: false,
+      },
     },
   });
-  const stashSummary: StashViewStashSummary = d.stashViewStashSummary;
+
+  const stashSummary: StashViewStashSummary = d.data.stashViewStashSummary;
+  console.log("summary", Object.keys(d.data));
   const items = StashViewUtil.searchItems(stashViewSettings, stashSummary);
 
   return new ImageResponse(
@@ -77,8 +87,12 @@ export default async function TftExportImage(req: NextRequest) {
                 <div tw="flex flex-row">
                   <img width="25" height="25" src={igs.icon!} alt="x" />
                   <div tw="flex flex-row">
-                    {igs.quantity}x {igs.searchableString} @{" "}
-                    {StashViewUtil.itemValue(stashViewSettings, igs)}c
+                    {igs.quantity}x{" "}
+                    {GeneralUtils.capitalize(igs.searchableString)} @{" "}
+                    {GeneralUtils.roundToFirstNoneZeroN(
+                      StashViewUtil.itemValue(stashViewSettings, igs)
+                    )}
+                    c
                   </div>
                 </div>
               </>

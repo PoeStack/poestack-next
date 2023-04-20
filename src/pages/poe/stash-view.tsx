@@ -56,7 +56,6 @@ export interface StashViewSettings {
   ign: string | null;
   tftSelectedCategory: string | null;
   tftSelectedSubCategory: string | null;
-  tftValueMultiplier: number;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -81,7 +80,7 @@ const defaultStashViewSettings: StashViewSettings = {
   selectedGraph: "net value",
 
   selectedExporter: "Forum Shop",
-  exporterListedValueMultipler: 1,
+  exporterListedValueMultipler: 100,
 
   forumShopMaxStackSizeSetting: "max",
   forumShopTabIndexOffset: 0,
@@ -89,7 +88,6 @@ const defaultStashViewSettings: StashViewSettings = {
   ign: null,
   tftSelectedCategory: null,
   tftSelectedSubCategory: null,
-  tftValueMultiplier: 100,
 };
 
 export default function StashView() {
@@ -194,8 +192,8 @@ export default function StashView() {
   );
   const { refetch: refetchSummaries } = useQuery(
     gql`
-      query StashViewStashSummary($league: String!) {
-        stashViewStashSummary(league: $league) {
+      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {
+        stashViewStashSummary(search: $search) {
           itemGroups {
             hashString
             key
@@ -208,13 +206,16 @@ export default function StashView() {
             createdAtTimestamp
           }
           items {
+            itemId
+            userId
+            league
             stashId
             x
             y
-            itemGroupHashString
-            itemGroupTag
             quantity
             searchableString
+            itemGroupHashString
+            itemGroupTag
             valueChaos
             totalValueChaos
             icon
@@ -235,7 +236,11 @@ export default function StashView() {
         });
       },
       variables: {
-        league: league,
+        search: {
+          league: league!,
+          opaqueKey: null,
+          execludeNonItemGroups: false,
+        },
       },
     }
   );
@@ -269,7 +274,7 @@ export default function StashView() {
 
   useQuery(
     gql`
-      query CurrenyValuePullDivAndEx($key: String!, $league: String!) {
+      query CurrenyValuePullDiv($key: String!, $league: String!) {
         div: itemGroupValueChaos(key: $key, league: $league)
       }
     `,
