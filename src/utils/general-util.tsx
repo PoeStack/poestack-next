@@ -1,5 +1,5 @@
 import { ImageLoaderProps } from "next/dist/client/image";
-import { ItemGroup } from "@generated/graphql";
+import { ItemGroup, StashViewItemSummary } from "@generated/graphql";
 
 export class GeneralUtils {
   public static compactNumberFormat(number: number): string {

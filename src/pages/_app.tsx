@@ -73,12 +73,13 @@ export default function App({ Component, pageProps }: AppProps) {
                 <Head>
                   <title>PoeStack</title>
                 </Head>
-                {/* Layout */}
 
                 <div className="text-content-base bg-color-primary min-h-screen min-w-fit">
                   <div className="flex flex-col bg-color-primary">
                     <div className="flex w-full">
-                      <StyledNavBar />
+                      <div className="min-h-full">
+                        <StyledNavBar />
+                      </div>
                       <div className="basis-1/12"></div>
                       <div className="flex-1 p-4">
                         <Component {...pageProps} />

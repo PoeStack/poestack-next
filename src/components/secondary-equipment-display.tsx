@@ -49,28 +49,23 @@ export default function SecondaryEquipmentDisplay({
       i.typeLine !== "Medium Cluster Jewel" &&
       i.typeLine !== "Large Cluster Jewel"
   );
-  //console.log("uniqueJewels: ", uniqueJewels);
 
   //Normal Jewels
   const prismaticJewels = nonUniqueJewels.filter(
     (i) => i.typeLine === "Prismatic Jewel"
   );
-  //console.log("prismaticJewels: ", prismaticJewels);
 
   const cobaltJewels = nonUniqueJewels.filter(
     (i) => i.typeLine === "Cobalt Jewel"
   );
-  //console.log("cobaltJewels: ", cobaltJewels);
 
   const crimsonJewels = nonUniqueJewels.filter(
     (i) => i.typeLine === "Crimson Jewel"
   );
-  //console.log("crimsonJewels: ", crimsonJewels);
 
   const viridianJewels = nonUniqueJewels.filter(
     (i) => i.typeLine === "Viridian Jewel"
   );
-  //console.log("viridianJewels: ", viridianJewels);
 
   return (
     <>

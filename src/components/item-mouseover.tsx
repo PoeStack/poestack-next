@@ -84,7 +84,7 @@ export default function ItemMouseOver({
           }}
         >
           <div
-            className={`absolute top-10 left-16 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
+            className={`absolute top-10 left-24 scale-0 rounded z-50 text-xs text-white group-hover:scale-100`}
           >
             <div className="flex flex-col pl-10 lg:flex-row z-100">
               <div className="p-1">
@@ -105,7 +105,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (
@@ -249,7 +248,6 @@ export default function ItemMouseOver({
               {item?.sockets?.map((s, i) => {
                 const gem = socketedGems?.find((e) => e.socket === i);
                 const currentSocketGroup = item?.sockets[i - 1]?.group;
-                //console.log("currentSocketGroup", currentSocketGroup);
 
                 if (i === 0) {
                   return (

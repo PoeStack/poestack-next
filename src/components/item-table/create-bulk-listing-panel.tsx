@@ -74,6 +74,8 @@ export default function CreateBulkListingPanel({
     };
   }
 
+  const [postingError, setPostingError] = useState<string | null>(null);
+
   const [bulkListing, setBulkListing] = useState<StashSnapshotExport | null>(
     null
   );
@@ -95,7 +97,11 @@ export default function CreateBulkListingPanel({
         input: buildInput(),
       },
       onCompleted(data) {
+        setPostingError(null);
         setBulkListing(data?.exportStashSnapshot);
+      },
+      onError(error) {
+        setPostingError(error.message);
       },
     }
   );
@@ -195,16 +201,23 @@ export default function CreateBulkListingPanel({
             </div>
 
             {!selectedExporter?.disableTftButtons && (
-              <StyledButton
-                text={generatingListingLoading ? "Loading..." : `Post to TFT`}
-                onClick={() => {
-                  generateListing({
-                    variables: {
-                      input: { ...buildInput(), oneClickPost: true },
-                    },
-                  });
-                }}
-              />
+              <div className="flex flex-col space-y-4 mt-4">
+                {!!postingError && (
+                  <>
+                    <div className="text-red-700">{postingError}</div>
+                  </>
+                )}
+                <StyledButton
+                  text={generatingListingLoading ? "Loading..." : `Post to TFT`}
+                  onClick={() => {
+                    generateListing({
+                      variables: {
+                        input: { ...buildInput(), oneClickPost: true },
+                      },
+                    });
+                  }}
+                />
+              </div>
             )}
             {/* 
             <StyledButton
