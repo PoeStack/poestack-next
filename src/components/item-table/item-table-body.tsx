@@ -28,7 +28,7 @@ export default function ItemTableBody({
   searchUserInput: ItemSearchUserInput;
   setSearchUserInput: Dispatch<SetStateAction<ItemSearchUserInput>>;
   disableTotalValueRow?: boolean;
-  setHasMore: Function;
+  setHasMore: Dispatch<SetStateAction<boolean>>;
 }) {
   const [itemGroupSearchResult, setItemGroupSearchResult] =
     useState<StashSnapshotItemGroupSummarySearchResponse | null>(null);
