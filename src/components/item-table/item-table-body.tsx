@@ -65,9 +65,7 @@ export default function ItemTableBody({
       variables: { search: itemGroupSearch },
       skip: !itemGroupSearch,
       onCompleted(data) {
-        try {
-          setHasMore(data.stashSnapshotItemGroupSummaries.hasMore);
-        } catch { }
+        setHasMore(data.stashSnapshotItemGroupSummaries.hasMore);
 
         setItemGroupSearchResult(data.stashSnapshotItemGroupSummaries);
       },
