@@ -45,7 +45,7 @@ export class StashViewUtil {
     }
 
     if (settings.selectedExporter === "TFT-Bulk") {
-      value = value * ((settings.tftValueMultiplier ?? 100) / 100);
+      value = value * ((settings.exporterListedValueMultipler ?? 100) / 100);
     }
 
     return value;
