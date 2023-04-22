@@ -22,6 +22,7 @@ const documents = {
     "\n      query GlobalSearch($search: GlobalSearch!) {\n        globalSearch(search: $search) {\n          results {\n            group\n            display\n            target\n            icon\n          }\n        }\n      }\n    ": types.GlobalSearchDocument,
     "\n      mutation DeleteSnapshots($stashSnapshotIds: [String!]!) {\n        deleteSnapshots(stashSnapshotIds: $stashSnapshotIds)\n      }\n    ": types.DeleteSnapshotsDocument,
     "\n      mutation StashViewOneClickPost($input: StashViewSettings!) {\n        stashViewOneClickPost(input: $input)\n      }\n    ": types.StashViewOneClickPostDocument,
+    "\n      query ItemGroupListings($hashString: String!, $league: String!) {\n        itemGroupListings(hashString: $hashString, league: $league) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    ": types.ItemGroupListingsDocument,
     "\n    mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {\n      stashViewSnapshot(input: $input)\n    }\n  ": types.TakeStashViewSanpshotDocument,
     "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          totalStahes\n          timestamp\n        }\n      }\n    ": types.StashViewJobStatDocument,
     "\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    ": types.TftOneClickMessageHistoryDocument,
@@ -115,6 +116,10 @@ export function gql(source: "\n      mutation DeleteSnapshots($stashSnapshotIds:
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      mutation StashViewOneClickPost($input: StashViewSettings!) {\n        stashViewOneClickPost(input: $input)\n      }\n    "): (typeof documents)["\n      mutation StashViewOneClickPost($input: StashViewSettings!) {\n        stashViewOneClickPost(input: $input)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      query ItemGroupListings($hashString: String!, $league: String!) {\n        itemGroupListings(hashString: $hashString, league: $league) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    "): (typeof documents)["\n      query ItemGroupListings($hashString: String!, $league: String!) {\n        itemGroupListings(hashString: $hashString, league: $league) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

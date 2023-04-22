@@ -1,4 +1,5 @@
 import { gql, useQuery, useMutation } from "@apollo/client";
+import TftGuardPanel from "@components/item-table/tft-guard-panel";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import StyledSelect2 from "@components/styled-select-2";
@@ -50,49 +51,58 @@ export function StashViewGenericTftExporterCard({
   return (
     <>
       <div className="flex flex-col space-y-2">
-        <StyledSelect2
-          selected={stashSettings.tftSelectedCategory}
-          mapToIcon={(e) => TFT_CATEGORIES[e]?.icon}
-          onSelectChange={(e) => {
-            setStashViewSettings({
-              ...stashSettings,
-              tftSelectedCategory: e,
-              checkedTags: TFT_CATEGORIES[e]?.tags ?? null,
-            });
-          }}
-          items={[null, ...Object.keys(TFT_CATEGORIES)]}
-        />
-        <input
-          id="minmax-range"
-          type="range"
-          min={0}
-          max={200}
-          step={5}
-          value={stashSettings.exporterListedValueMultipler ?? 100}
-          onChange={(e) => {
-            setStashViewSettings({
-              ...stashSettings,
-              exporterListedValueMultipler: parseInt(e.target.value),
-            });
-          }}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-        />
-        <StyledInput
-          value={stashSettings.ign}
-          onChange={(e) => {
-            setStashViewSettings({ ...stashSettings, ign: e });
-          }}
-        />
-        <div className="grid grid-cols-2">
-          <div>Multiplier</div>
-          <div>{stashSettings.exporterListedValueMultipler ?? 100}%</div>
-        </div>
-        <StyledButton
-          text={"Post to TFT (Coming Soon)"}
-          onClick={() => {
-            postOneClick();
-          }}
-        />
+        <TftGuardPanel disableInstructions={true}>
+          <StyledSelect2
+            selected={stashSettings.tftSelectedCategory}
+            mapToIcon={(e) => TFT_CATEGORIES[e]?.icon}
+            onSelectChange={(e) => {
+              setStashViewSettings({
+                ...stashSettings,
+                tftSelectedCategory: e,
+                checkedTags: TFT_CATEGORIES[e]?.tags ?? null,
+              });
+            }}
+            items={[null, ...Object.keys(TFT_CATEGORIES)]}
+          />
+          <input
+            id="minmax-range"
+            type="range"
+            min={0}
+            max={200}
+            step={5}
+            value={stashSettings.exporterListedValueMultipler ?? 100}
+            onChange={(e) => {
+              setStashViewSettings({
+                ...stashSettings,
+                exporterListedValueMultipler: parseInt(e.target.value),
+              });
+            }}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          />
+          <StyledInput
+            className={
+              (stashSettings?.ign?.length ?? 0) < 3
+                ? "border-red-600 border-2"
+                : ""
+            }
+            value={stashSettings.ign}
+            placeholder="IGN"
+            onChange={(e) => {
+              setStashViewSettings({ ...stashSettings, ign: e });
+            }}
+          />
+          <div className="grid grid-cols-2">
+            <div>Multiplier</div>
+            <div>{stashSettings.exporterListedValueMultipler ?? 100}%</div>
+          </div>
+          <StyledButton
+            disabled={(stashSettings?.ign?.length ?? 0) < 3}
+            text={"Post to TFT"}
+            onClick={() => {
+              postOneClick();
+            }}
+          />
+        </TftGuardPanel>
       </div>
     </>
   );

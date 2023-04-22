@@ -30,20 +30,18 @@ export function StashViewTabBreakdownTable({
 
   useEffect(() => {
     const nextCache = { tabValueCache: {}, tagValueCache: {} };
-    StashViewUtil.searchItems(stashSettings, stashSummary).forEach(
-      (e) => {
-        const totalStackValue = StashViewUtil.itemStackTotalValue(
-          stashSettings,
-          e
-        );
+    StashViewUtil.searchItems(stashSettings, stashSummary).forEach((e) => {
+      const totalStackValue = StashViewUtil.itemStackTotalValue(
+        stashSettings,
+        e
+      );
 
-        nextCache.tabValueCache[e.stashId] =
-          (nextCache.tabValueCache[e.stashId] ?? 0) + totalStackValue;
-        nextCache.tagValueCache[e.itemGroupTag ?? "na"] =
-          (nextCache.tagValueCache[e.itemGroupTag ?? "na"] ?? 0) +
-          totalStackValue;
-      }
-    );
+      nextCache.tabValueCache[e.stashId] =
+        (nextCache.tabValueCache[e.stashId] ?? 0) + totalStackValue;
+      nextCache.tagValueCache[e.itemGroupTag ?? "na"] =
+        (nextCache.tagValueCache[e.itemGroupTag ?? "na"] ?? 0) +
+        totalStackValue;
+    });
 
     setCache(nextCache);
   }, [stashSummary, stashSettings]);
@@ -60,23 +58,25 @@ export function StashViewTabBreakdownTable({
                 const stash = tabs.find((e) => e.id === stashId);
                 return (
                   <>
-                    <div className="grid grid-cols-2">
+                    <div className="grid grid-cols-2 group">
                       <div
                         className={`cursor-pointer ${
                           stashSettings.selectedTabId === stashId
                             ? "text-content-accent"
                             : ""
-                        }`}
+                        } group-hover:text-content-accent`}
                         onClick={() => {
                           setStashViewSettings({
                             ...stashSettings,
                             selectedTabId: stashId,
                           });
-                        }}  
+                        }}
                       >
                         {stash?.name}
                       </div>
-                      <CurrencyValueDisplay pValue={value} league={league} />
+                      <div className="group-hover:text-content-accent">
+                        <CurrencyValueDisplay pValue={value} league={league} />
+                      </div>
                     </div>
                   </>
                 );
@@ -89,9 +89,13 @@ export function StashViewTabBreakdownTable({
               .map(([tag, value]) => {
                 return (
                   <>
-                    <div className="grid grid-cols-2">
-                      <div>{tag}</div>
-                      <CurrencyValueDisplay pValue={value} league={league} />
+                    <div className="grid grid-cols-2 group">
+                      <div className="group-hover:text-content-accent">
+                        {tag}
+                      </div>
+                      <div className="group-hover:text-content-accent">
+                        <CurrencyValueDisplay pValue={value} league={league} />
+                      </div>
                     </div>
                   </>
                 );

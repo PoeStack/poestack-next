@@ -253,7 +253,6 @@ export type ItemGroup = {
 export type ItemGroupListing = {
   __typename?: 'ItemGroupListing';
   accountName: Scalars['String'];
-  itemGroupHashString: Scalars['String'];
   listedAtTimestamp: Scalars['DateTime'];
   listedValueChaos: Scalars['Float'];
   stackSize: Scalars['Float'];
@@ -600,6 +599,7 @@ export type QueryGlobalSearchArgs = {
 export type QueryItemGroupListingsArgs = {
   hashString: Scalars['String'];
   league: Scalars['String'];
+  minStock?: InputMaybe<Scalars['Float']>;
 };
 
 
@@ -862,6 +862,7 @@ export type StashSnapshotProfileInput = {
 export type StashViewItemSummary = {
   __typename?: 'StashViewItemSummary';
   icon?: Maybe<Scalars['String']>;
+  itemGroup?: Maybe<ItemGroup>;
   itemGroupHashString?: Maybe<Scalars['String']>;
   itemGroupTag?: Maybe<Scalars['String']>;
   itemId: Scalars['String'];
@@ -893,12 +894,10 @@ export type StashViewSettings = {
   filterCheckedTabs: Scalars['Boolean'];
   ign?: InputMaybe<Scalars['String']>;
   itemGroupValueOverrides: Scalars['JSONObject'];
-  lastSnapshotJobCompleteTimestamp?: InputMaybe<Scalars['DateTime']>;
   league: Scalars['String'];
-  searchString: Scalars['String'];
+  searchString?: InputMaybe<Scalars['String']>;
   selectedExporter: Scalars['String'];
   selectedTabId?: InputMaybe<Scalars['String']>;
-  snapshotJobId?: InputMaybe<Scalars['String']>;
   tftSelectedCategory?: InputMaybe<Scalars['String']>;
   tftSelectedSubCategory?: InputMaybe<Scalars['String']>;
   valueOverridesEnabled: Scalars['Boolean'];
@@ -1002,6 +1001,14 @@ export type StashViewOneClickPostMutationVariables = Exact<{
 
 
 export type StashViewOneClickPostMutation = { __typename?: 'Mutation', stashViewOneClickPost: boolean };
+
+export type ItemGroupListingsQueryVariables = Exact<{
+  hashString: Scalars['String'];
+  league: Scalars['String'];
+}>;
+
+
+export type ItemGroupListingsQuery = { __typename?: 'Query', itemGroupListings: Array<{ __typename?: 'ItemGroupListing', accountName: string, listedAtTimestamp: any, stackSize: number, listedValueChaos: number }> };
 
 export type TakeStashViewSanpshotMutationVariables = Exact<{
   input: StashViewSnapshotInput;
@@ -1293,6 +1300,7 @@ export const GetAllItemGroupTagsDocument = {"kind":"Document","definitions":[{"k
 export const GlobalSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GlobalSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"GlobalSearch"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"globalSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"group"}},{"kind":"Field","name":{"kind":"Name","value":"display"}},{"kind":"Field","name":{"kind":"Name","value":"target"}},{"kind":"Field","name":{"kind":"Name","value":"icon"}}]}}]}}]}}]} as unknown as DocumentNode<GlobalSearchQuery, GlobalSearchQueryVariables>;
 export const DeleteSnapshotsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteSnapshots"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"stashSnapshotIds"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteSnapshots"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"stashSnapshotIds"},"value":{"kind":"Variable","name":{"kind":"Name","value":"stashSnapshotIds"}}}]}]}}]} as unknown as DocumentNode<DeleteSnapshotsMutation, DeleteSnapshotsMutationVariables>;
 export const StashViewOneClickPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewOneClickPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSettings"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewOneClickPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewOneClickPostMutation, StashViewOneClickPostMutationVariables>;
+export const ItemGroupListingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"ItemGroupListings"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"hashString"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemGroupListings"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"hashString"},"value":{"kind":"Variable","name":{"kind":"Name","value":"hashString"}}},{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"accountName"}},{"kind":"Field","name":{"kind":"Name","value":"listedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"stackSize"}},{"kind":"Field","name":{"kind":"Name","value":"listedValueChaos"}}]}}]}}]} as unknown as DocumentNode<ItemGroupListingsQuery, ItemGroupListingsQueryVariables>;
 export const TakeStashViewSanpshotDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TakeStashViewSanpshot"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewSnapshot"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<TakeStashViewSanpshotMutation, TakeStashViewSanpshotMutationVariables>;
 export const StashViewJobStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewJobStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewJobStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"jobId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"totalStahes"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<StashViewJobStatQuery, StashViewJobStatQueryVariables>;
 export const TftOneClickMessageHistoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"exportType"}},{"kind":"Field","name":{"kind":"Name","value":"exportSubType"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitExpires"}}]}}]}}]} as unknown as DocumentNode<TftOneClickMessageHistoryQuery, TftOneClickMessageHistoryQueryVariables>;

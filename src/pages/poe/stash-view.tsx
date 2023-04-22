@@ -232,6 +232,11 @@ export default function StashView() {
           items: tabSummary.items.map((e) => ({
             ...e,
             league: league as string,
+            itemGroup: e.itemGroupHashString
+              ? tabSummary.itemGroups.find(
+                  (ig) => ig.hashString === e.itemGroupHashString
+                )
+              : null,
           })),
         });
       },
@@ -305,7 +310,7 @@ export default function StashView() {
 
   return (
     <>
-      <div className="flex space-x-4">
+      <div className="flex space-x-4 pb-[200px]">
         <div className="min-h-full">
           <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
             <StyledCard>
@@ -386,6 +391,7 @@ export default function StashView() {
               tabs={stashTabs}
               stashSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}
+              series={valueSnapshots}
             />
           </StyledCard>
 
@@ -398,7 +404,13 @@ export default function StashView() {
             />
           </StyledCard>
 
-          <StashViewTabViewerCard tab={tab} search={stashViewSettings} />
+          <StashViewTabViewerCard
+            tab={tab}
+            search={stashViewSettings}
+            stashSettings={stashViewSettings}
+            setStashViewSettings={setStashViewSettings!}
+            stashSummary={stashSummary}
+          />
 
           <StyledCard className="max-h-[800px]">
             <StashViewTabBreakdownTable

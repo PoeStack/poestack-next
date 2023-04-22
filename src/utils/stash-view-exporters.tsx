@@ -51,7 +51,7 @@ export class StashViewExporters {
     return StashViewUtil.smartLimitOutput(50000, null, output, null, 100);
   }
 
-  private static closestFraction(x: number, y: number): string {
+  public static closestFraction(x: number, y: number): string {
     let numerator = Math.round(x * y);
     let denominator = y;
     let diff = Math.abs(x - numerator / denominator);
