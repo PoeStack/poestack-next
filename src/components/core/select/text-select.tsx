@@ -8,11 +8,15 @@ import {
 
 export type TextSelectProps = SetOptional<
   CustomSelectProps<string>,
-  "renderer" | "keyGenerator"
+  "optionRenderer" | "inputRenderer" | "keyGenerator"
 >;
 
 export function TextSelect(props: TextSelectProps) {
   return (
-    <CustomSelect {...props} renderer={DefaultOption} keyGenerator={(x) => x} />
+    <CustomSelect
+      {...props}
+      optionRenderer={DefaultOption}
+      keyGenerator={(x) => x}
+    />
   );
 }

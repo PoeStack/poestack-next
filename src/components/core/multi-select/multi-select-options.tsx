@@ -7,7 +7,7 @@ import { CustomMultiSelectProps } from "@components/core/multi-select/custom-mul
 
 type MultiSelectOptionsProps<T> = Pick<
   CustomMultiSelectProps<T>,
-  "options" | "renderer" | "keyGenerator"
+  "options" | "optionRenderer" | "keyGenerator"
 > & {
   open: boolean;
   setRef: Dispatch<SetStateAction<HTMLUListElement | null>>;
@@ -18,7 +18,7 @@ type MultiSelectOptionsProps<T> = Pick<
 
 export function MultiSelectOptions<T>({
   options,
-  renderer: Renderer,
+  optionRenderer: Renderer,
   keyGenerator,
   open,
   setRef,

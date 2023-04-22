@@ -7,7 +7,7 @@ import { CustomSelectProps } from "@components/core/select/custom-select";
 
 type SelectOptionsProps<T> = Pick<
   CustomSelectProps<T>,
-  "options" | "renderer" | "keyGenerator"
+  "options" | "optionRenderer" | "keyGenerator"
 > & {
   open: boolean;
   setRef: Dispatch<SetStateAction<HTMLUListElement | null>>;
@@ -18,7 +18,7 @@ type SelectOptionsProps<T> = Pick<
 
 export function SelectOptions<T>({
   options,
-  renderer: Renderer,
+  optionRenderer: Renderer,
   keyGenerator,
   open,
   setRef,

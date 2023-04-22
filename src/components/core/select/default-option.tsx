@@ -4,7 +4,7 @@ export interface OptionProps<T> {
   active?: boolean;
   selected?: boolean;
   disabled?: boolean;
-  data: T;
+  data: T | undefined;
 }
 
 type DefaultOptionProps = OptionProps<string>;

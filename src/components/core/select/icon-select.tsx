@@ -15,14 +15,14 @@ interface IconItem {
 
 export type IconSelectProps<T extends IconItem> = SetOptional<
   CustomSelectProps<T>,
-  "renderer" | "keyGenerator"
+  "optionRenderer" | "keyGenerator"
 >;
 
 export function IconSelect<T extends IconItem>(props: IconSelectProps<T>) {
   return (
     <CustomSelect<T>
       {...props}
-      renderer={({ data, selected }) => (
+      optionRenderer={({ data, selected }) => (
         <div className="flex items-center">
           <span
             className={clsx(

@@ -18,7 +18,7 @@ export const autoWidthModifier = {
       (state.elements.reference as Element).clientWidth
     }px`;
   },
-} as PopperModifier;
+} satisfies PopperModifier;
 
 export function usePopperDropdown() {
   const [referenceElement, setReferenceElement] =

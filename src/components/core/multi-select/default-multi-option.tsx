@@ -12,7 +12,7 @@ export function DefaultMultiOption({
   ...props
 }: DefaultMultiOptionProps) {
   const content = useMemo<string>(() => {
-    if (data.length === 0) return SELECT_PLACEHOLDER;
+    if (!data || data.length === 0) return SELECT_PLACEHOLDER;
 
     if (Array.isArray(data)) return data.join(", ");
 
