@@ -20,6 +20,11 @@ import { StashViewTabGroupsPanel } from "@components/stash-view/stash-view-tab-g
 import { StashViewExportCard } from "@components/stash-view/stash-view-export-card";
 import LeagueSelect from "@components/league-select";
 import { usePoeStackAuth } from "@contexts/user-context";
+import { StashViewGraphCard } from "@components/stash-view/stash-view-graph-card";
+import { useRouter } from "next/router";
+import { StashViewChartJsTest } from "@components/stash-view/stash-view-chart-js-test";
+import { StashViewInfoCard } from "@components/stash-view/stash-view-info-card";
+import { StashViewValueChangeCard } from "@components/stash-view/stash-view-value-change-card";
 
 export interface StashViewSettings {
   league: string | undefined | null;
@@ -51,7 +56,6 @@ export interface StashViewSettings {
   ign: string | null;
   tftSelectedCategory: string | null;
   tftSelectedSubCategory: string | null;
-  tftValueMultiplier: number;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -76,7 +80,7 @@ const defaultStashViewSettings: StashViewSettings = {
   selectedGraph: "net value",
 
   selectedExporter: "Forum Shop",
-  exporterListedValueMultipler: 1,
+  exporterListedValueMultipler: 100,
 
   forumShopMaxStackSizeSetting: "max",
   forumShopTabIndexOffset: 0,
@@ -84,29 +88,29 @@ const defaultStashViewSettings: StashViewSettings = {
   ign: null,
   tftSelectedCategory: null,
   tftSelectedSubCategory: null,
-  tftValueMultiplier: 100,
 };
 
 export default function StashView() {
   const { profile } = usePoeStackAuth();
-  const { league, setLeague } = usePoeLeagueCtx();
+
+  const router = useRouter();
+  const { league } = router.query;
 
   const [stashViewSettings, setStashViewSettings] =
     useState<StashViewSettings | null>(null);
 
   useEffect(() => {
     const loadedStashSettings = JSON.parse(
-      localStorage.getItem(`${league}_stash_view_settings`) ??
-        JSON.stringify(defaultStashViewSettings)
+      localStorage.getItem(`${league}_stash_view_settings`) ?? "{}"
     );
 
-    if (!loadedStashSettings.league) {
-      loadedStashSettings.league = league;
-    } else if (league !== loadedStashSettings.league) {
-      setLeague(loadedStashSettings.league);
-    }
+    console.log("loaded stash settings", loadedStashSettings);
 
-    setStashViewSettings(loadedStashSettings);
+    setStashViewSettings({
+      ...defaultStashViewSettings,
+      ...loadedStashSettings,
+      league: league,
+    });
   }, [league]);
 
   useEffect(() => {
@@ -129,6 +133,8 @@ export default function StashView() {
         .then((v) => {
           if (v.ok) {
             return v.json();
+          } else {
+            setTab(null);
           }
         })
         .then((v) => {
@@ -181,13 +187,13 @@ export default function StashView() {
     }
   );
 
-  const [tabSummary, setTabSummary] = useState<StashViewStashSummary | null>(
+  const [stashSummary, setTabSummary] = useState<StashViewStashSummary | null>(
     null
   );
   const { refetch: refetchSummaries } = useQuery(
     gql`
-      query StashViewStashSummary($league: String!) {
-        stashViewStashSummary(league: $league) {
+      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {
+        stashViewStashSummary(search: $search) {
           itemGroups {
             hashString
             key
@@ -200,13 +206,16 @@ export default function StashView() {
             createdAtTimestamp
           }
           items {
+            itemId
+            userId
+            league
             stashId
             x
             y
-            itemGroupHashString
-            itemGroupTag
             quantity
             searchableString
+            itemGroupHashString
+            itemGroupTag
             valueChaos
             totalValueChaos
             icon
@@ -220,11 +229,23 @@ export default function StashView() {
         const tabSummary: StashViewStashSummary = data.stashViewStashSummary;
         setTabSummary({
           ...tabSummary,
-          items: tabSummary.items.map((e) => ({ ...e, league: league })),
+          items: tabSummary.items.map((e) => ({
+            ...e,
+            league: league as string,
+            itemGroup: e.itemGroupHashString
+              ? tabSummary.itemGroups.find(
+                  (ig) => ig.hashString === e.itemGroupHashString
+                )
+              : null,
+          })),
         });
       },
       variables: {
-        league: league,
+        search: {
+          league: league!,
+          opaqueKey: null,
+          execludeNonItemGroups: false,
+        },
       },
     }
   );
@@ -258,7 +279,7 @@ export default function StashView() {
 
   useQuery(
     gql`
-      query CurrenyValuePullDivAndEx($key: String!, $league: String!) {
+      query CurrenyValuePullDiv($key: String!, $league: String!) {
         div: itemGroupValueChaos(key: $key, league: $league)
       }
     `,
@@ -279,7 +300,7 @@ export default function StashView() {
     }
   );
 
-  if (!stashTabs || !stashViewSettings || !tabSummary) {
+  if (!stashTabs || !stashViewSettings || !stashSummary) {
     return (
       <>
         <StyledLoading />
@@ -289,8 +310,8 @@ export default function StashView() {
 
   return (
     <>
-      <div className="flex space-x-4">
-        <div className="h-full">
+      <div className="flex space-x-4 pb-[200px]">
+        <div className="min-h-full">
           <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
             <StyledCard>
               <LeagueSelect />
@@ -300,6 +321,14 @@ export default function StashView() {
               tabs={stashTabs!}
               setStashViewSettings={setStashViewSettings}
               stashViewSettings={stashViewSettings}
+              refreshStashTabs={() => {
+                refetchStashTabs({
+                  variables: {
+                    league: league,
+                    forcePull: true,
+                  },
+                });
+              }}
             />
 
             <StyledCard>
@@ -330,7 +359,7 @@ export default function StashView() {
             />
 
             <StashViewExportCard
-              stashSummary={tabSummary}
+              stashSummary={stashSummary}
               tabs={stashTabs}
               stashSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}
@@ -339,28 +368,53 @@ export default function StashView() {
         </div>
 
         <div className="w-full grid grid-cols-1 2xl:grid-cols-2 gap-4">
-          {/*     <StashViewGraphCard
-            stashTabs={stashTabs}
-            stashViewSettings={stashViewSettings}
-            setStashViewSettings={setStashViewSettings}
-            valueSnapshots={valueSnapshots}
-          />
- */}
+          <StyledCard className="col-span-1 2xl:col-span-2 max-h-[600px] pb-12 grow">
+            <StashViewChartJsTest
+              tabs={stashTabs}
+              stashViewSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+              series={valueSnapshots}
+            />
+          </StyledCard>
+
+          <StyledCard>
+            <StashViewInfoCard
+              stashSummary={stashSummary}
+              tabs={stashTabs}
+              stashSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+            />
+          </StyledCard>
+          <StyledCard>
+            <StashViewValueChangeCard
+              stashSummary={stashSummary}
+              tabs={stashTabs}
+              stashSettings={stashViewSettings}
+              setStashViewSettings={setStashViewSettings}
+              series={valueSnapshots}
+            />
+          </StyledCard>
 
           <StyledCard className="col-span-1 2xl:col-span-2">
             <StashViewItemTable
-              stashSummary={tabSummary}
+              stashSummary={stashSummary}
               tabs={stashTabs}
               stashSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}
             />
           </StyledCard>
 
-          <StashViewTabViewerCard tab={tab} search={stashViewSettings} />
+          <StashViewTabViewerCard
+            tab={tab}
+            search={stashViewSettings}
+            stashSettings={stashViewSettings}
+            setStashViewSettings={setStashViewSettings!}
+            stashSummary={stashSummary}
+          />
 
           <StyledCard className="max-h-[800px]">
             <StashViewTabBreakdownTable
-              stashSummary={tabSummary}
+              stashSummary={stashSummary}
               tabs={stashTabs}
               stashSettings={stashViewSettings}
               setStashViewSettings={setStashViewSettings}

@@ -1,5 +1,8 @@
 import ItemMouseOver from "@components/item-mouseover";
-import { CharacterSnapshotItem } from "@generated/graphql";
+import {
+  CharacterSnapshotItem,
+  StashViewStashSummary,
+} from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 import StyledLoading from "@components/styled-loading";
 import {
@@ -12,10 +15,14 @@ import {
   METAMORPH_LAYOUT,
 } from "./stash-layouts";
 import { useState } from "react";
+import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 
 export function StashViewTabViewerCard({
   tab,
   search,
+  stashSummary,
+  stashSettings,
+  setStashViewSettings,
 }: {
   tab: {
     items: (CharacterSnapshotItem & {
@@ -26,6 +33,9 @@ export function StashViewTabViewerCard({
     type?: string;
   } | null;
   search: StashViewSettings;
+  stashSummary: StashViewStashSummary;
+  stashSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
 }) {
   if (!tab) {
     return (
@@ -56,7 +66,9 @@ export function StashViewTabViewerCard({
   ) {
     return (
       <>
-        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
+        <div
+          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+        >
           Tab type not yet supported.
         </div>
       </>
@@ -69,11 +81,16 @@ export function StashViewTabViewerCard({
   } else if (!!tabLayoutMap[tab.type!]) {
     return (
       <>
-        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
+        <div
+          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+        >
           <StashViewPoeLayoutTabViewer
             tab={tab}
             search={search}
             layout={tabLayoutMap[tab.type!]}
+            stashSettings={stashSettings!}
+            setStashViewSettings={setStashViewSettings!}
+            stashSummary={stashSummary}
           />
         </div>
       </>
@@ -82,8 +99,15 @@ export function StashViewTabViewerCard({
 
   return (
     <>
-      <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
-        <StashViewBasicTabViewer tab={tab} search={search} scale={scale} />
+      <div
+        className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+      >
+        <StashViewBasicTabViewer
+          tab={tab}
+          search={search}
+          scale={scale}
+          stashSummary={stashSummary}
+        />
       </div>
     </>
   );
@@ -93,6 +117,9 @@ export function StashViewPoeLayoutTabViewer({
   layout,
   tab,
   search,
+  stashSettings,
+  setStashViewSettings,
+  stashSummary,
 }: {
   layout: any;
   tab: {
@@ -103,6 +130,9 @@ export function StashViewPoeLayoutTabViewer({
     })[];
   };
   search: StashViewSettings;
+  stashSummary: StashViewStashSummary;
+  stashSettings: StashViewSettings;
+  setStashViewSettings: (e: StashViewSettings) => void;
 }) {
   tab.items.forEach((e) => {
     let pos;
@@ -174,9 +204,16 @@ export function StashViewPoeLayoutTabViewer({
                         : ""
                     }`}
                   >
-                    <ItemMouseOver item={e}>
-                      <img src={e.icon} alt="" />
-                    </ItemMouseOver>
+                    <div className="absolute top-[-4px]">{e["stackSize"]}</div>
+                    <StashViewItemMouseOver
+                      item={e}
+                      stashSettings={stashSettings!}
+                      setStashViewSettings={setStashViewSettings!}
+                      itemSummary={null}
+                      stashSummary={stashSummary}
+                    >
+                      <img className="-z-10" src={e.icon} alt="" />
+                    </StashViewItemMouseOver>
                   </div>
                 </>
               );
@@ -191,10 +228,12 @@ export function StashViewBasicTabViewer({
   tab,
   search,
   scale,
+  stashSummary,
 }: {
   tab: { items: CharacterSnapshotItem[] };
   scale: number;
   search: StashViewSettings;
+  stashSummary: StashViewStashSummary;
 }) {
   const scaleP = 100 / scale;
   return (

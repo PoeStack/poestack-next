@@ -21,39 +21,37 @@ export function StashViewGraphCard({
 }) {
   return (
     <>
-      <StyledCard>
-        <div className="flex flex-col">
-          {stashViewSettings.selectedGraph === "tab value" ? (
-            <StashViewTabValueGraph
-              tabs={stashTabs}
-              stashViewSettings={stashViewSettings}
-              setStashViewSettings={setStashViewSettings}
-              series={valueSnapshots}
-            />
-          ) : (
-            <StashViewNetValueGraph
-              tabs={stashTabs}
-              stashViewSettings={stashViewSettings}
-              setStashViewSettings={setStashViewSettings}
-              series={valueSnapshots}
-            />
-          )}
-          <StyledButton
-            text={
-              GeneralUtils.capitalize(stashViewSettings.selectedGraph) ?? "NA"
-            }
-            onClick={() => {
-              setStashViewSettings({
-                ...stashViewSettings,
-                selectedGraph:
-                  stashViewSettings.selectedGraph === "tab value"
-                    ? "net value"
-                    : "tab value",
-              });
-            }}
+      <div className="flex flex-col">
+        {stashViewSettings.selectedGraph === "tab value" ? (
+          <StashViewTabValueGraph
+            tabs={stashTabs}
+            stashViewSettings={stashViewSettings}
+            setStashViewSettings={setStashViewSettings}
+            series={valueSnapshots}
           />
-        </div>
-      </StyledCard>
+        ) : (
+          <StashViewNetValueGraph
+            tabs={stashTabs}
+            stashViewSettings={stashViewSettings}
+            setStashViewSettings={setStashViewSettings}
+            series={valueSnapshots}
+          />
+        )}
+        <StyledButton
+          text={
+            GeneralUtils.capitalize(stashViewSettings.selectedGraph) ?? "NA"
+          }
+          onClick={() => {
+            setStashViewSettings({
+              ...stashViewSettings,
+              selectedGraph:
+                stashViewSettings.selectedGraph === "tab value"
+                  ? "net value"
+                  : "tab value",
+            });
+          }}
+        />
+      </div>
     </>
   );
 }
@@ -76,7 +74,7 @@ export function StashViewNetValueGraph({
       .filter(
         (e) =>
           !stashViewSettings.filterCheckedTabs ||
-          stashViewSettings.checkedTabIds.includes(e.stashId)
+          stashViewSettings.checkedTabIds?.includes(e.stashId)
       )
       .filter((e) => e.values.some((v) => v > 0));
 

@@ -17,6 +17,7 @@ import { GeneralUtils } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { useEffect, useState } from "react";
+import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 
 export function StashViewItemTable({
   stashSummary,
@@ -38,11 +39,15 @@ export function StashViewItemTable({
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
   useEffect(() => {
-    setSortedItems(
-      StashViewUtil.searchItems(stashSettings, stashSummary.items).sort(
-        (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
-      )
+    let res = StashViewUtil.searchItems(stashSettings, stashSummary).sort(
+      (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
     );
+
+    if (stashSettings.selectedExporter === "TFT-Bulk") {
+      res = StashViewUtil.reduceItemStacks(res);
+    }
+
+    setSortedItems(res);
   }, [stashSummary, stashSettings, tabs, page]);
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
@@ -112,7 +117,7 @@ export function StashViewItemTable({
             <tr>
               <th></th>
               <th>Name</th>
-              <th>Stash</th>
+              {stashSettings.selectedExporter !== "TFT-Bulk" && <th>Stash</th>}
               <th></th>
               <th>Quantity</th>
               {stashSettings.valueOverridesEnabled && <th>Override</th>}
@@ -127,26 +132,40 @@ export function StashViewItemTable({
                 const tab = tabs.find((e) => e.id === item.stashId);
                 return (
                   <>
-                    <tr className="h-[36px]">
+                    <tr className="h-[36px] group">
                       <td>
                         <img style={{ height: 30 }} src={item.icon!} />
                       </td>
-                      <td>{GeneralUtils.capitalize(item.searchableString)}</td>
-                      <td
-                        className={`${
-                          tab?.id == stashSettings.selectedTabId
-                            ? "text-content-accent"
-                            : ""
-                        } cursor-pointer`}
-                        onClick={() => {
-                          setStashViewSettings({
-                            ...stashSettings,
-                            selectedTabId: tab!.id,
-                          });
-                        }}
-                      >
-                        {tab?.name}
+                      <td>
+                        <StashViewItemMouseOver
+                          stashSettings={stashSettings}
+                          setStashViewSettings={setStashViewSettings}
+                          item={null}
+                          itemSummary={item}
+                          stashSummary={stashSummary}
+                        >
+                          <div className="group-hover:text-content-accent">
+                            {GeneralUtils.capitalize(item.searchableString)}
+                          </div>
+                        </StashViewItemMouseOver>
                       </td>
+                      {stashSettings.selectedExporter !== "TFT-Bulk" && (
+                        <td
+                          className={`${
+                            tab?.id == stashSettings.selectedTabId
+                              ? "text-content-accent"
+                              : ""
+                          } cursor-pointer group-hover:text-content-accent`}
+                          onClick={() => {
+                            setStashViewSettings({
+                              ...stashSettings,
+                              selectedTabId: tab!.id,
+                            });
+                          }}
+                        >
+                          {tab?.name}
+                        </td>
+                      )}
                       <td>
                         {!!item.itemGroupHashString && (
                           <div className="flex">
@@ -173,7 +192,9 @@ export function StashViewItemTable({
                           </div>
                         )}
                       </td>
-                      <td>{item.quantity}</td>
+                      <td className="group-hover:text-content-accent">
+                        {item.quantity}
+                      </td>
                       {stashSettings.valueOverridesEnabled && (
                         <td>
                           {!!item.itemGroupHashString && (
@@ -212,13 +233,13 @@ export function StashViewItemTable({
                           )}
                         </td>
                       )}
-                      <td>
+                      <td className="group-hover:text-content-accent">
                         <CurrencyValueDisplay
                           pValue={StashViewUtil.itemValue(stashSettings, item)}
                           league={league}
                         />
                       </td>
-                      <td>
+                      <td className="group-hover:text-content-accent">
                         <CurrencyValueDisplay
                           pValue={StashViewUtil.itemStackTotalValue(
                             stashSettings,

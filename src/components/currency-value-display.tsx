@@ -2,7 +2,6 @@ import { gql, useQuery } from "@apollo/client";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
-import { usePoeLeagueCtx } from "../contexts/league-context";
 import { myLoader } from "@utils/general-util";
 import { StyledTooltip } from "./styled-tooltip";
 
@@ -11,6 +10,9 @@ export const DIV_ICON =
 
 export const ALCH_ICON =
   "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lVcGdyYWRlVG9SYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/f0dc27cd7c/CurrencyUpgradeToRare.png";
+
+export const CHAOS_ICON =
+  "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png";
 
 export default function CurrencyValueDisplay({
   pValue,
@@ -22,9 +24,7 @@ export default function CurrencyValueDisplay({
   onClick?: null | ((n) => void);
 }) {
   const [display, setDisplay] = useState<string>("");
-  const [icon, setIcon] = useState<string>(
-    "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png"
-  );
+  const [icon, setIcon] = useState<string>(CHAOS_ICON);
 
   const [chaosRates, setChaosRates] = useState<{
     div: number;
@@ -66,9 +66,7 @@ export default function CurrencyValueDisplay({
       newDisplay = "" + round(absValue / chaosRates?.div);
       setIcon(DIV_ICON);
     } else {
-      setIcon(
-        "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lSZXJvbGxSYXJlIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/d119a0d734/CurrencyRerollRare.png"
-      );
+      setIcon(CHAOS_ICON);
     }
 
     if (pValue < 0) {

@@ -1,69 +1,25 @@
-import { PoeStashTab, StashViewItemSummary } from "@generated/graphql";
+import {
+  PoeStashTab,
+  StashViewStashSummary,
+} from "@generated/graphql";
 import { StashViewSettings } from "pages/poe/stash-view";
 import { StashViewUtil } from "./stash-view-util";
 
 export class StashViewExporters {
-  public static exportTftCompassesBulk(
-    items: StashViewItemSummary[],
-    tabs: PoeStashTab[],
-    stashSettings: StashViewSettings
-  ): string {
-    let output: string[] = [];
-
-    const filteredItems = StashViewUtil.searchItems(
-      stashSettings,
-      items.filter((e) => e.valueChaos ?? 0 > 0)
-    ).sort(
-      (a, b) =>
-        StashViewUtil.itemValue(stashSettings, b) -
-        StashViewUtil.itemValue(stashSettings, a)
-    );
-    for (const item of filteredItems) {
-      output.push(`wts compasses ${item.quantity} ${item.searchableString}`);
-    }
-
-    return StashViewUtil.smartLimitOutput(3000, null, output, null, 100);
-  }
-
-  public static exportTftGenericBulk(
-    items: StashViewItemSummary[],
-    tabs: PoeStashTab[],
-    stashSettings: StashViewSettings
-  ): string {
-    const filteredItems = StashViewUtil.searchItems(
-      stashSettings,
-      items.filter((e) => e.valueChaos ?? 0 > 0)
-    ).sort(
-      (a, b) =>
-        StashViewUtil.itemValue(stashSettings, b) -
-        StashViewUtil.itemValue(stashSettings, a)
-    );
-
-    let output: string[] = [];
-    for (const item of filteredItems) {
-      output.push(`wts ${item.quantity} ${item.searchableString}`);
-    }
-
-    const header = `WTS ${stashSettings.league}\nIGN ${stashSettings.ign} div ${stashSettings.chaosToDivRate}`;
-
-    return StashViewUtil.smartLimitOutput(3000, header, output, null, 100);
-  }
-
   public static exportToForumShop(
-    items: StashViewItemSummary[],
+    summary: StashViewStashSummary,
     tabs: PoeStashTab[],
     stashSettings: StashViewSettings
   ): string {
     let output: string[] = [];
 
-    const filteredItems = StashViewUtil.searchItems(
-      stashSettings,
-      items.filter((e) => e.valueChaos ?? 0 > 0)
-    ).sort(
-      (a, b) =>
-        StashViewUtil.itemValue(stashSettings, b) -
-        StashViewUtil.itemValue(stashSettings, a)
-    );
+    const filteredItems = StashViewUtil.searchItems(stashSettings, summary)
+      .filter((e) => !!e.valueChaos)
+      .sort(
+        (a, b) =>
+          StashViewUtil.itemValue(stashSettings, b) -
+          StashViewUtil.itemValue(stashSettings, a)
+      );
     for (const item of filteredItems) {
       const tab = tabs.find((e) => e.id === item.stashId);
       if (tab) {
@@ -95,7 +51,7 @@ export class StashViewExporters {
     return StashViewUtil.smartLimitOutput(50000, null, output, null, 100);
   }
 
-  private static closestFraction(x: number, y: number): string {
+  public static closestFraction(x: number, y: number): string {
     let numerator = Math.round(x * y);
     let denominator = y;
     let diff = Math.abs(x - numerator / denominator);

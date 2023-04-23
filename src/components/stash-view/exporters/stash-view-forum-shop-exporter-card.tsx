@@ -34,7 +34,7 @@ export function StashViewForumShopExporterCard({
           onClick={() => {
             navigator.clipboard.writeText(
               StashViewExporters.exportToForumShop(
-                stashSummary.items,
+                stashSummary,
                 tabs,
                 stashSettings
               )
