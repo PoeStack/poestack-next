@@ -1,8 +1,11 @@
+import CurrencyValueDisplay from "@components/currency-value-display";
 import {
   PoeStashTab,
   StashViewStashSummary,
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
+import moment from "moment";
 import { StashViewSettings } from "pages/poe/stash-view";
 
 export function StashViewValueChangeCard({
@@ -22,9 +25,12 @@ export function StashViewValueChangeCard({
   const tabStartingValuesTimeseries = {};
   const tabEndingValuesTimeseries = {};
 
-  const timeRangeMin = 0;
+  const timeRangeMin = !stashSettings.relativeTimerseriesFilterMins
+    ? 0
+    : Date.now() - stashSettings.relativeTimerseriesFilterMins * 1000 * 60;
   const timeRangeMax = Date.now();
 
+  let firstTimestamp: number | null = null;
   for (const stashSeries of series) {
     const stashId = stashSeries.stashId;
     stashSeries.values.forEach((value, index) => {
@@ -34,6 +40,10 @@ export function StashViewValueChangeCard({
 
       const timestamp = new Date(stashSeries.timestamps[index]).getTime();
       if (timestamp >= timeRangeMin && timestamp <= timeRangeMax) {
+        if (firstTimestamp === null || timestamp < firstTimestamp) {
+          firstTimestamp = timestamp;
+        }
+
         if (tabStartingValuesTimeseries[stashId] === undefined) {
           tabStartingValuesTimeseries[stashId] = value;
         }
@@ -61,23 +71,36 @@ export function StashViewValueChangeCard({
     tabValueCahngeInRange
   ).reduce((p, c) => p + c, 0);
 
+  const duration =
+    (timeRangeMax - (firstTimestamp ?? timeRangeMax)) / (1000 * 60 * 60);
+
+  const perHourValue =
+    totalChangeInRange === 0
+      ? 0
+      : (totalChangeInRange * (1000 * 60 * 60)) / (timeRangeMax - timeRangeMin);
+
   return (
     <>
-      <div>
-        <div>Value Change</div>
-        {totalChangeInRange} C
-        {/* <div>
-          {Object.entries(changes).map(([tabId, value]) => {
-            const tab = tabs.find((e) => e.id === tabId);
-            return (
-              <>
-                <div>
-                  {tab?.name} : {value}
-                </div>
-              </>
-            );
-          })}
-        </div> */}
+      <div className="grid grid-cols-2">
+        <div className="col-span-2">Value Change</div>
+        <div>Total Value Change</div>
+        <div>
+          <CurrencyValueDisplay
+            pValue={totalChangeInRange}
+            league={stashSettings.league}
+          />
+        </div>
+        <div>Duration</div>
+        <div className="text-center">
+          {GeneralUtils.roundToFirstNoneZeroN(duration)} Hours
+        </div>
+        <div>Change Per Hour</div>
+        <div className="text-center">
+          <CurrencyValueDisplay
+            pValue={perHourValue}
+            league={stashSettings.league}
+          />
+        </div>
       </div>
     </>
   );

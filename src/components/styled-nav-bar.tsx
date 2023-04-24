@@ -27,8 +27,8 @@ function DesktopNavBar() {
       current: false,
     },
     {
-      name: "Stash",
-      href: "/poe/stash/snapshot/profiles",
+      name: "Stash View",
+      href: `/poe/stash-view?league=${league}`,
       current: false,
     },
     {
@@ -52,8 +52,8 @@ function DesktopNavBar() {
       current: false,
     },
     {
-      name: "Stash View (Beta)",
-      href: `/poe/stash-view?league=${league}`,
+      name: "Stash Profiles (Old)",
+      href: "/poe/stash/snapshot/profiles",
       current: false,
     },
   ];

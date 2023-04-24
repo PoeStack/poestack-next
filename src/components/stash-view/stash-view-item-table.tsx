@@ -39,9 +39,10 @@ export function StashViewItemTable({
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
   useEffect(() => {
-    let res = StashViewUtil.searchItems(stashSettings, stashSummary).sort(
-      (a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0)
-    );
+    let res = StashViewUtil.searchItems(
+      { ...stashSettings, excludedItemGroupIds: [] },
+      stashSummary
+    ).sort((a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0));
 
     if (stashSettings.selectedExporter === "TFT-Bulk") {
       res = StashViewUtil.reduceItemStacks(res);
@@ -115,6 +116,28 @@ export function StashViewItemTable({
         <table className="w-full table-auto text-left">
           <thead>
             <tr>
+              <th>
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
+                  checked={stashSettings.excludedItemGroupIds.length === 0}
+                  onChange={(e) => {
+                    if (stashSettings.excludedItemGroupIds.length === 0) {
+                      setStashViewSettings({
+                        ...stashSettings,
+                        excludedItemGroupIds: sortedItems
+                          .map((e) => e.itemGroupHashString)
+                          .filter((e) => !!e) as string[],
+                      });
+                    } else {
+                      setStashViewSettings({
+                        ...stashSettings,
+                        excludedItemGroupIds: [],
+                      });
+                    }
+                  }}
+                />
+              </th>
               <th></th>
               <th>Name</th>
               {stashSettings.selectedExporter !== "TFT-Bulk" && <th>Stash</th>}
@@ -133,6 +156,44 @@ export function StashViewItemTable({
                 return (
                   <>
                     <tr className="h-[36px] group">
+                      <td>
+                        <input
+                          type="checkbox"
+                          className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
+                          checked={
+                            !item.itemGroupHashString ||
+                            !stashSettings.excludedItemGroupIds?.includes(
+                              item.itemGroupHashString
+                            )
+                          }
+                          onChange={(e) => {
+                            if (item.itemGroupHashString) {
+                              if (
+                                !stashSettings.excludedItemGroupIds?.includes(
+                                  item.itemGroupHashString
+                                )
+                              ) {
+                                setStashViewSettings({
+                                  ...stashSettings,
+                                  excludedItemGroupIds: [
+                                    ...(stashSettings.excludedItemGroupIds ??
+                                      []),
+                                    item.itemGroupHashString!,
+                                  ],
+                                });
+                              } else {
+                                setStashViewSettings({
+                                  ...stashSettings,
+                                  excludedItemGroupIds:
+                                    stashSettings.excludedItemGroupIds.filter(
+                                      (id) => id !== item.itemGroupHashString
+                                    ),
+                                });
+                              }
+                            }
+                          }}
+                        />
+                      </td>
                       <td>
                         <img style={{ height: 30 }} src={item.icon!} />
                       </td>

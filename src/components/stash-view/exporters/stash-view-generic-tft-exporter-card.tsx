@@ -43,6 +43,7 @@ export function StashViewGenericTftExporterCard({
           ign: stashSettings.ign,
           tftSelectedCategory: stashSettings.tftSelectedCategory,
           tftSelectedSubCategory: stashSettings.tftSelectedSubCategory,
+          excludedItemGroupIds: stashSettings.excludedItemGroupIds
         },
       },
     }

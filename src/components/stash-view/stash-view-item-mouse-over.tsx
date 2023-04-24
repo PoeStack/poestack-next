@@ -1,5 +1,6 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
+import StyledLoading from "@components/styled-loading";
 
 import {
   CharacterSnapshotItem,
@@ -89,6 +90,10 @@ export function StashViewItemMouseOver({
   const displayName =
     itemSummary?.itemGroup?.displayName ?? itemSummary?.searchableString;
 
+  if (!itemSummary) {
+    return <>{children}</>;
+  }
+
   return (
     <>
       <div
@@ -135,7 +140,6 @@ export function StashViewItemMouseOver({
                   </div>
                 </div>
                 <div className="flex space-x-1">
- 
                   <div>
                     {StashViewExporters.closestFraction(
                       StashViewUtil.itemValue(stashSettings, itemSummary!),
@@ -172,19 +176,27 @@ export function StashViewItemMouseOver({
                   </Link>
                 </div>
                 <div className="grid grid-cols-4 gap-1">
-                  {listings?.slice(0, 20).map((listing) => (
+                  {loading ? (
+                    <div className="max-h-[100px] col-span-4">Loading...</div>
+                  ) : (
                     <>
-                      <div>x{listing.stackSize}</div>
-                      <div>{listing.accountName}</div>
-                      <div>
-                        <CurrencyValueDisplay
-                          pValue={listing.listedValueChaos}
-                          league={itemSummary?.league}
-                        />
-                      </div>
-                      <div>{moment(listing.listedAtTimestamp).fromNow()}</div>
+                      {listings?.slice(0, 20).map((listing) => (
+                        <>
+                          <div>x{listing.stackSize}</div>
+                          <div>{listing.accountName}</div>
+                          <div>
+                            <CurrencyValueDisplay
+                              pValue={listing.listedValueChaos}
+                              league={itemSummary?.league}
+                            />
+                          </div>
+                          <div>
+                            {moment(listing.listedAtTimestamp).fromNow()}
+                          </div>
+                        </>
+                      ))}
                     </>
-                  ))}
+                  )}
                 </div>
               </div>
             </div>

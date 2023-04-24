@@ -49,7 +49,31 @@ export function StashViewTabSelectionCard({
     <>
       <StyledCard>
         <div className="flex flex-col space-y-1 max-h-[400px]">
-          <div className="flex">
+          <div className="flex space-x-1">
+            <div>
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                checked={
+                  stashViewSettings.checkedTabIds?.length === tabs?.length
+                }
+                onChange={(e) => {
+                  if (
+                    stashViewSettings.checkedTabIds?.length === tabs?.length
+                  ) {
+                    setStashViewSettings({
+                      ...stashViewSettings,
+                      checkedTabIds: [],
+                    });
+                  } else {
+                    setStashViewSettings({
+                      ...stashViewSettings,
+                      checkedTabIds: tabs.map((t) => t.id),
+                    });
+                  }
+                }}
+              />
+            </div>
             <div>Stash Tabs</div>
             <div
               className="absolute right-2 w-6 h-6"

@@ -21,17 +21,11 @@ export function StashViewInfoCard({
 
   useEffect(() => {
     let totalValue = 0;
-    for (const item of stashSummary.items) {
+    for (const item of StashViewUtil.searchItems(stashSettings, stashSummary)) {
       totalValue += StashViewUtil.itemStackTotalValue(stashSettings, item);
     }
     setInfo({ totalValue: totalValue });
-  }, [
-    stashSummary,
-    stashSettings.searchString,
-    stashSettings.checkedTags,
-    stashSettings.checkedTabIds,
-    stashSettings.valueOverridesEnabled,
-  ]);
+  }, [stashSummary, stashSettings]);
 
   return (
     <>
@@ -54,7 +48,9 @@ export function StashViewInfoCard({
           <div>Current Div Value</div>
           <div className="flex space-x-2">
             <div>
-              {GeneralUtils.roundToFirstNoneZeroN(stashSettings.chaosToDivRate ?? 0)}
+              {GeneralUtils.roundToFirstNoneZeroN(
+                stashSettings.chaosToDivRate ?? 0
+              )}
             </div>
             <div>
               <Image
@@ -69,7 +65,11 @@ export function StashViewInfoCard({
           <div>Total Div Value</div>
           <div className="flex space-x-2">
             <div>
-              {stashSettings.chaosToDivRate ? GeneralUtils.roundToFirstNoneZeroN(info.totalValue / stashSettings.chaosToDivRate) : "NA"}
+              {stashSettings.chaosToDivRate
+                ? GeneralUtils.roundToFirstNoneZeroN(
+                    info.totalValue / stashSettings.chaosToDivRate
+                  )
+                : "NA"}
             </div>
             <div>
               <Image

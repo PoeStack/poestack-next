@@ -53,6 +53,10 @@ export interface StashViewSettings {
   forumShopMaxStackSizeSetting: string;
   forumShopTabIndexOffset: number;
 
+  relativeTimerseriesFilterMins: number | null;
+
+  excludedItemGroupIds: string[];
+
   ign: string | null;
   tftSelectedCategory: string | null;
   tftSelectedSubCategory: string | null;
@@ -85,6 +89,10 @@ const defaultStashViewSettings: StashViewSettings = {
   forumShopMaxStackSizeSetting: "max",
   forumShopTabIndexOffset: 0,
 
+  relativeTimerseriesFilterMins: null,
+
+  excludedItemGroupIds: [],
+
   ign: null,
   tftSelectedCategory: null,
   tftSelectedSubCategory: null,
@@ -100,21 +108,26 @@ export default function StashView() {
     useState<StashViewSettings | null>(null);
 
   useEffect(() => {
-    const loadedStashSettings = JSON.parse(
-      localStorage.getItem(`${league}_stash_view_settings`) ?? "{}"
-    );
+    if (league) {
+      const loadedStashSettings = JSON.parse(
+        localStorage.getItem(`${league}_stash_view_settings`) ?? "{}"
+      );
 
-    console.log("loaded stash settings", loadedStashSettings);
+      console.log("loaded stash settings", league, loadedStashSettings);
+      const combinedSettings = {
+        ...defaultStashViewSettings,
+        ...loadedStashSettings,
+        league: league,
+      };
+      setStashViewSettings(combinedSettings);
 
-    setStashViewSettings({
-      ...defaultStashViewSettings,
-      ...loadedStashSettings,
-      league: league,
-    });
+      console.log("set stash settings", league, combinedSettings);
+    }
   }, [league]);
 
   useEffect(() => {
-    if (stashViewSettings) {
+    if (stashViewSettings && league) {
+      console.log("storing settings", league, stashViewSettings);
       localStorage.setItem(
         `${league}_stash_view_settings`,
         JSON.stringify(stashViewSettings)
@@ -174,12 +187,6 @@ export default function StashView() {
       },
       onCompleted(data) {
         setStashTabs(data.stashTabs);
-        if (stashViewSettings && !stashViewSettings?.selectedTabId) {
-          setStashViewSettings({
-            ...stashViewSettings,
-            selectedTabId: data.stashTabs?.[0]?.id,
-          });
-        }
       },
       onError(error) {
         setStashTabs([]);
@@ -284,7 +291,7 @@ export default function StashView() {
       }
     `,
     {
-      skip: !league,
+      skip: !league || !stashViewSettings,
       variables: {
         league: league,
         key: "divine orb",
@@ -300,7 +307,7 @@ export default function StashView() {
     }
   );
 
-  if (!stashTabs || !stashViewSettings || !stashSummary) {
+  if (!stashTabs || !stashViewSettings || !stashSummary || !league) {
     return (
       <>
         <StyledLoading />

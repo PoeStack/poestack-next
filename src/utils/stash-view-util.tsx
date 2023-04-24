@@ -70,6 +70,10 @@ export class StashViewUtil {
       (e) =>
         settings.searchString.trim().length === 0 ||
         e.searchableString.includes(settings.searchString.toLowerCase()),
+      (e) =>
+        !settings.excludedItemGroupIds ||
+        !e.itemGroupHashString ||
+        !settings.excludedItemGroupIds.includes(e.itemGroupHashString),
       (e) => {
         if (
           settings.selectedExporter === "TFT-Bulk" &&
