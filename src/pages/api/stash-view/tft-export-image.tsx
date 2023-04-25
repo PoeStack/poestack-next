@@ -4,10 +4,10 @@ import { ImageResponse } from "@vercel/og";
 import { NextRequest } from "next/server";
 import client from "poe-stack-apollo-client";
 import { gql } from "@apollo/client";
-import { StashViewSettings } from "pages/poe/stash-view";
 import { StashViewStashSummary } from "@generated/graphql";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { GeneralUtils } from "@utils/general-util";
+import { StashViewSettings } from "@contexts/stash-view-context";
 
 export const config = {
   runtime: "experimental-edge",

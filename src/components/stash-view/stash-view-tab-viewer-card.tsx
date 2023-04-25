@@ -3,7 +3,6 @@ import {
   CharacterSnapshotItem,
   StashViewStashSummary,
 } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 import StyledLoading from "@components/styled-loading";
 import {
   BLIGHT_LAYOUT,
@@ -16,27 +15,12 @@ import {
 } from "./stash-layouts";
 import { useState } from "react";
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
-export function StashViewTabViewerCard({
-  tab,
-  search,
-  stashSummary,
-  stashSettings,
-  setStashViewSettings,
-}: {
-  tab: {
-    items: (CharacterSnapshotItem & {
-      x?: number;
-      y?: number;
-      section?: string;
-    })[];
-    type?: string;
-  } | null;
-  search: StashViewSettings;
-  stashSummary: StashViewStashSummary;
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
+export function StashViewTabViewerCard() {
+  const { tab } =
+    useStashViewContext();
+
   if (!tab) {
     return (
       <>
@@ -54,8 +38,6 @@ export function StashViewTabViewerCard({
     MetamorphStash: METAMORPH_LAYOUT,
     CurrencyStash: CURRENCY_LAYOUT,
   };
-
-  console.log("tab", tab);
 
   if (
     [
@@ -86,14 +68,7 @@ export function StashViewTabViewerCard({
         <div
           className={`bg-surface-primary relative aspect-square max-h-[800px]`}
         >
-          <StashViewPoeLayoutTabViewer
-            tab={tab}
-            search={search}
-            layout={tabLayoutMap[tab.type!]}
-            stashSettings={stashSettings!}
-            setStashViewSettings={setStashViewSettings!}
-            stashSummary={stashSummary}
-          />
+          <StashViewPoeLayoutTabViewer layout={tabLayoutMap[tab.type!]} />
         </div>
       </>
     );
@@ -104,49 +79,27 @@ export function StashViewTabViewerCard({
       <div
         className={`bg-surface-primary relative aspect-square max-h-[800px]`}
       >
-        <StashViewBasicTabViewer
-          tab={tab}
-          search={search}
-          scale={scale}
-          stashSummary={stashSummary}
-        />
+        <StashViewBasicTabViewer scale={scale} />
       </div>
     </>
   );
 }
 
-export function StashViewPoeLayoutTabViewer({
-  layout,
-  tab,
-  search,
-  stashSettings,
-  setStashViewSettings,
-  stashSummary,
-}: {
-  layout: any;
-  tab: {
-    items: (CharacterSnapshotItem & {
-      x?: number;
-      y?: number;
-      section?: string;
-    })[];
-  };
-  search: StashViewSettings;
-  stashSummary: StashViewStashSummary;
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
-  tab.items.forEach((e) => {
+export function StashViewPoeLayoutTabViewer({ layout }: { layout: any }) {
+  const { tab, stashViewSettings } =
+    useStashViewContext();
+
+  tab!.items.forEach((e) => {
     let pos;
-    if (tab["type"] === "MetamorphStash") {
-      pos = layout[`${e.x}`] ?? layout[`${e.x},${e.y}`];
-    } else if (tab["type"] === "FragmentStash") {
-      pos = layout[e.y ? `${e.x},${e.y}` : `${e.x}`];
+    if (tab!["type"] === "MetamorphStash") {
+      pos = layout[`${e["x"]}`] ?? layout[`${e["x"]},${e["y"]}`];
+    } else if (tab!["type"] === "FragmentStash") {
+      pos = layout[e["y"] ? `${e["x"]},${e["y"]}` : `${e["x"]}`];
     } else {
-      pos = layout[`${e.x}`];
+      pos = layout[`${e["x"]}`];
     }
     if (pos) {
-      e.section = pos.section;
+      e["section"] = pos.section;
       e["px"] = (pos.x / 570) * 100;
       e["py"] = (pos.y / 570) * 100;
       e["pw"] = pos.w ?? 1;
@@ -180,16 +133,16 @@ export function StashViewPoeLayoutTabViewer({
           ))}
         </div>
         <div>
-          {tab.items
-            ?.filter((e) => !e.section || e.section === selectedSection)
+          {tab!.items
+            ?.filter((e) => !e["section"] || e["section"] === selectedSection)
             ?.map((e) => {
               const matchesSearch =
-                search.searchString.trim().length > 0 &&
+                stashViewSettings.searchString.trim().length > 0 &&
                 [e.baseType, e.typeLine, e.name]
                   .filter((e) => !!e)
                   .join(" ")
                   ?.toLowerCase()
-                  ?.includes(search?.searchString);
+                  ?.includes(stashViewSettings?.searchString);
 
               return (
                 <>
@@ -207,13 +160,7 @@ export function StashViewPoeLayoutTabViewer({
                     }`}
                   >
                     <div className="absolute top-[-4px]">{e["stackSize"]}</div>
-                    <StashViewItemMouseOver
-                      item={e}
-                      stashSettings={stashSettings!}
-                      setStashViewSettings={setStashViewSettings!}
-                      itemSummary={null}
-                      stashSummary={stashSummary}
-                    >
+                    <StashViewItemMouseOver item={e} itemSummary={null}>
                       <img className="-z-10" src={e.icon} alt="" />
                     </StashViewItemMouseOver>
                   </div>
@@ -226,28 +173,21 @@ export function StashViewPoeLayoutTabViewer({
   );
 }
 
-export function StashViewBasicTabViewer({
-  tab,
-  search,
-  scale,
-  stashSummary,
-}: {
-  tab: { items: CharacterSnapshotItem[] };
-  scale: number;
-  search: StashViewSettings;
-  stashSummary: StashViewStashSummary;
-}) {
+export function StashViewBasicTabViewer({ scale }: { scale: number }) {
+  const { tab, stashViewSettings } =
+    useStashViewContext();
+
   const scaleP = 100 / scale;
   return (
     <>
-      {tab.items?.map((e) => {
+      {tab!.items?.map((e) => {
         const matchesSearch =
-          search.searchString.trim().length > 0 &&
+          stashViewSettings.searchString.trim().length > 0 &&
           [e.baseType, e.typeLine, e.name]
             .filter((e) => !!e)
             .join(" ")
             ?.toLowerCase()
-            ?.includes(search?.searchString);
+            ?.includes(stashViewSettings?.searchString);
 
         return (
           <>

@@ -1,19 +1,16 @@
 import StyledCard from "@components/styled-card";
+import { useStashViewContext } from "@contexts/stash-view-context";
 import { PoeStashTab } from "@generated/graphql";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
-import { StashViewSettings } from "pages/poe/stash-view";
 
-export function StashViewTabSelectionCard({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  refreshStashTabs,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  refreshStashTabs: () => void;
-}) {
+export function StashViewTabSelectionCard() {
+  const {
+    stashTabs,
+    stashViewSettings,
+    setStashViewSettings,
+    refetchStashTabs,
+  } = useStashViewContext();
+
   const typeToIconMap = {
     CurrencyStash:
       "https://web.poecdn.com/protected/image/layout/stash/currency-tab-icon.png?v=1680235310710&key=c4JmwvlEdlm1iitgRJ-LtQ",
@@ -55,11 +52,12 @@ export function StashViewTabSelectionCard({
                 type="checkbox"
                 className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
                 checked={
-                  stashViewSettings.checkedTabIds?.length === tabs?.length
+                  stashViewSettings.checkedTabIds?.length === stashTabs?.length
                 }
                 onChange={(e) => {
                   if (
-                    stashViewSettings.checkedTabIds?.length === tabs?.length
+                    stashViewSettings.checkedTabIds?.length ===
+                    stashTabs?.length
                   ) {
                     setStashViewSettings({
                       ...stashViewSettings,
@@ -68,7 +66,7 @@ export function StashViewTabSelectionCard({
                   } else {
                     setStashViewSettings({
                       ...stashViewSettings,
-                      checkedTabIds: tabs.map((t) => t.id),
+                      checkedTabIds: stashTabs?.map((t) => t.id),
                     });
                   }
                 }}
@@ -78,14 +76,14 @@ export function StashViewTabSelectionCard({
             <div
               className="absolute right-2 w-6 h-6"
               onClick={() => {
-                refreshStashTabs?.();
+                refetchStashTabs?.();
               }}
             >
               <ArrowPathIcon />
             </div>
           </div>
           <div className="flex flex-col space-y-1  overflow-y-auto">
-            {tabs?.map((tab) => (
+            {stashTabs?.map((tab) => (
               <>
                 <div className="flex items-center space-x-1">
                   <input

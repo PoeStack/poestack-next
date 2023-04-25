@@ -1,6 +1,7 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import StyledLoading from "@components/styled-loading";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
 import {
   CharacterSnapshotItem,
@@ -13,31 +14,27 @@ import { StashViewExporters } from "@utils/stash-view-exporters";
 import { StashViewUtil } from "@utils/stash-view-util";
 import moment from "moment";
 import Link from "next/link";
-import { StashViewSettings } from "pages/poe/stash-view";
 import { useEffect, useState } from "react";
 
 export function StashViewItemMouseOver({
   item,
   itemSummary,
-  stashSummary,
-  stashSettings,
-  setStashViewSettings,
   children,
 }: {
   item: CharacterSnapshotItem | null;
   itemSummary: StashViewItemSummary | null | undefined;
-  stashSummary: StashViewStashSummary;
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
   children: any;
 }) {
+  const { tab, stashViewSettings, stashSummary, setStashViewSettings } =
+    useStashViewContext();
+
   if (item?.itemGroupHashString && !itemSummary) {
-    itemSummary = stashSummary.items.find(
+    itemSummary = stashSummary!.items.find(
       (e) => e.itemGroupHashString === item.itemGroupHashString
     );
   }
 
-  const stock = stashSummary.items.reduce(
+  const stock = stashSummary!.items.reduce(
     (p, c) =>
       p +
       (c.itemGroupHashString === itemSummary?.itemGroupHashString
@@ -118,7 +115,7 @@ export function StashViewItemMouseOver({
                     <div>Value</div>
                     <CurrencyValueDisplay
                       pValue={StashViewUtil.itemValue(
-                        stashSettings,
+                        stashViewSettings,
                         itemSummary!
                       )}
                       league={itemSummary?.league}
@@ -133,7 +130,7 @@ export function StashViewItemMouseOver({
                     <CurrencyValueDisplay
                       pValue={
                         stock *
-                        StashViewUtil.itemValue(stashSettings, itemSummary!)
+                        StashViewUtil.itemValue(stashViewSettings, itemSummary!)
                       }
                       league={itemSummary?.league}
                     />
@@ -142,7 +139,7 @@ export function StashViewItemMouseOver({
                 <div className="flex space-x-1">
                   <div>
                     {StashViewExporters.closestFraction(
-                      StashViewUtil.itemValue(stashSettings, itemSummary!),
+                      StashViewUtil.itemValue(stashViewSettings, itemSummary!),
                       itemSummary?.quantity!
                     )}
                   </div>

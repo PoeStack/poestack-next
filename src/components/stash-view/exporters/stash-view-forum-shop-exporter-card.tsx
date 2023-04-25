@@ -1,30 +1,27 @@
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
-import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
+import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewExporters } from "@utils/stash-view-exporters";
-import { StashViewSettings } from "pages/poe/stash-view";
 
-export function StashViewForumShopExporterCard({
-  stashSummary,
-  tabs,
-  stashSettings,
-  setStashViewSettings,
-}: {
-  stashSummary: StashViewStashSummary;
-  tabs: PoeStashTab[];
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
+export function StashViewForumShopExporterCard() {
+  const {
+    stashTabs,
+    valueSnapshots,
+    stashViewSettings,
+    stashSummary,
+    setStashViewSettings,
+  } = useStashViewContext();
+
   return (
     <>
       <div className="flex flex-col space-y-2">
         <StyledInput
           type="number"
           placeholder="Shop Index Offset"
-          value={stashSettings.forumShopTabIndexOffset}
+          value={stashViewSettings.forumShopTabIndexOffset}
           onChange={(e) => {
             setStashViewSettings({
-              ...stashSettings,
+              ...stashViewSettings,
               forumShopTabIndexOffset: parseInt(e),
             });
           }}
@@ -34,9 +31,9 @@ export function StashViewForumShopExporterCard({
           onClick={() => {
             navigator.clipboard.writeText(
               StashViewExporters.exportToForumShop(
-                stashSummary,
-                tabs,
-                stashSettings
+                stashSummary!,
+                stashTabs,
+                stashViewSettings
               )
             );
           }}

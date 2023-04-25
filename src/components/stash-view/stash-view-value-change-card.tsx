@@ -1,4 +1,5 @@
 import CurrencyValueDisplay from "@components/currency-value-display";
+import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   PoeStashTab,
   StashViewStashSummary,
@@ -6,32 +7,21 @@ import {
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 import moment from "moment";
-import { StashViewSettings } from "pages/poe/stash-view";
 
-export function StashViewValueChangeCard({
-  stashSummary,
-  tabs,
-  stashSettings,
-  setStashViewSettings,
-  series,
-}: {
-  stashSummary: StashViewStashSummary;
-  tabs: PoeStashTab[];
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
+export function StashViewValueChangeCard() {
+  const { stashViewSettings, valueSnapshots } = useStashViewContext();
+
   const tabStartingValuesAll = {};
   const tabStartingValuesTimeseries = {};
   const tabEndingValuesTimeseries = {};
 
-  const timeRangeMin = !stashSettings.relativeTimerseriesFilterMins
+  const timeRangeMin = !stashViewSettings.relativeTimerseriesFilterMins
     ? 0
-    : Date.now() - stashSettings.relativeTimerseriesFilterMins * 1000 * 60;
+    : Date.now() - stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
   const timeRangeMax = Date.now();
 
   let firstTimestamp: number | null = null;
-  for (const stashSeries of series) {
+  for (const stashSeries of valueSnapshots) {
     const stashId = stashSeries.stashId;
     stashSeries.values.forEach((value, index) => {
       if (tabStartingValuesAll[stashId] === undefined) {
@@ -87,7 +77,7 @@ export function StashViewValueChangeCard({
         <div>
           <CurrencyValueDisplay
             pValue={totalChangeInRange}
-            league={stashSettings.league}
+            league={stashViewSettings.league}
           />
         </div>
         <div>Duration</div>
@@ -98,7 +88,7 @@ export function StashViewValueChangeCard({
         <div className="text-center">
           <CurrencyValueDisplay
             pValue={perHourValue}
-            league={stashSettings.league}
+            league={stashViewSettings.league}
           />
         </div>
       </div>

@@ -10,14 +10,13 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 import StyledButton from "@components/styled-button";
 import { GeneralUtils } from "@utils/general-util";
 import StyledSelect2 from "@components/styled-select-2";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
 ChartJS.register(
   TimeScale,
@@ -81,33 +80,18 @@ const options: any = {
   },
 };
 
-export function StashViewChartJsTest({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
+export function StashViewChartJsTest() {
+  const {
+    stashViewSettings,
+    setStashViewSettings,
+  } = useStashViewContext();
+
   return (
     <>
       {stashViewSettings.selectedGraph === "net value" ? (
-        <StashViewNetValueChart
-          tabs={tabs}
-          stashViewSettings={stashViewSettings}
-          setStashViewSettings={setStashViewSettings}
-          series={series}
-        />
+        <StashViewNetValueChart />
       ) : (
-        <StashViewTabValueChart
-          tabs={tabs}
-          stashViewSettings={stashViewSettings}
-          setStashViewSettings={setStashViewSettings}
-          series={series}
-        />
+        <StashViewTabValueChart />
       )}
       <div className="flex space-x-2">
         <StyledButton
@@ -140,18 +124,14 @@ export function StashViewChartJsTest({
   );
 }
 
-export function StashViewTabValueChart({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
-  const filteredSeries = series
+export function StashViewTabValueChart() {
+  const {
+    stashTabs,
+    valueSnapshots,
+    stashViewSettings,
+  } = useStashViewContext();
+
+  const filteredSeries = valueSnapshots
     .filter(
       (e) =>
         !stashViewSettings.filterCheckedTabs ||
@@ -164,7 +144,7 @@ export function StashViewTabValueChart({
     : Date.now() - stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
   const datasets = filteredSeries.map((s) => {
     return {
-      label: tabs.find((e) => e.id === s.stashId)?.name,
+      label: stashTabs.find((e) => e.id === s.stashId)?.name,
       data: s.values
         .map((v, i) => ({ x: new Date(s.timestamps[i]), y: v }))
         .filter((e) => e.x.getTime() > minTimestamp)
@@ -179,21 +159,16 @@ export function StashViewTabValueChart({
   return <Line options={options} data={data} />;
 }
 
-export function StashViewNetValueChart({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
+export function StashViewNetValueChart() {
+  const {
+    valueSnapshots,
+    stashViewSettings,
+  } = useStashViewContext();
+
   const [netValueSeries, setNetValueSeries] = useState<any[]>([]);
 
   useEffect(() => {
-    const filteredSeries = series
+    const filteredSeries = valueSnapshots
       .filter(
         (e) =>
           !stashViewSettings.filterCheckedTabs ||
@@ -229,7 +204,7 @@ export function StashViewNetValueChart({
       .filter((e) => e.x.getTime() > minTimestamp);
 
     setNetValueSeries(finalSeries);
-  }, [series, stashViewSettings]);
+  }, [valueSnapshots, stashViewSettings]);
 
   const data = {
     datasets: [{ label: "Net Value", data: netValueSeries }],

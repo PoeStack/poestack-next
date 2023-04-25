@@ -1,14 +1,10 @@
 import StyledCard from "@components/styled-card";
 import StyledInput from "@components/styled-input";
-import { StashViewSettings } from "pages/poe/stash-view";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
-export function StashViewSearchCard({
-  stashViewSettings,
-  setStashViewSettings,
-}: {
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
+export function StashViewSearchCard() {
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+
   return (
     <>
       <StyledCard>

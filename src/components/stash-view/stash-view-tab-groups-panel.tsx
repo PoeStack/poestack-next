@@ -1,16 +1,17 @@
 import StyledCard from "@components/styled-card";
-import { CheckCircleIcon, PencilSquareIcon, PlusCircleIcon, TrashIcon } from "@heroicons/react/24/outline";
+import { useStashViewContext } from "@contexts/stash-view-context";
+import {
+  CheckCircleIcon,
+  PencilSquareIcon,
+  PlusCircleIcon,
+  TrashIcon,
+} from "@heroicons/react/24/outline";
 import { nanoid } from "nanoid";
-import { StashViewSettings } from "pages/poe/stash-view";
 import { useState } from "react";
 
-export function StashViewTabGroupsPanel({
-  stashViewSettings,
-  setStashViewSettings,
-}: {
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
+export function StashViewTabGroupsPanel() {
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
 
   return (

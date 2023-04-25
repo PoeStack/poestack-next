@@ -2,8 +2,8 @@ import {
   StashViewItemSummary,
   StashViewStashSummary,
 } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 import { TFT_CATEGORIES } from "./tft-categories";
+import { StashViewSettings } from "@contexts/stash-view-context";
 
 export class StashViewUtil {
   public static smartLimitOutput(
