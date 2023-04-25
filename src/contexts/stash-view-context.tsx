@@ -78,7 +78,7 @@ const defaultStashViewSettings: StashViewSettings = {
   excludedItemGroupIds: [],
 
   ign: null,
-  tftSelectedCategory: null,
+  tftSelectedCategory: "compasses",
   tftSelectedSubCategory: null,
 };
 
@@ -111,7 +111,13 @@ const initalContext: StashViewContext = {
 
 export const StashViewContext = createContext(initalContext);
 
-export function StashViewContextProvider({ children }) {
+export function StashViewContextProvider({
+  cacheId,
+  children,
+}: {
+  cacheId: string;
+  children: any;
+}) {
   const { profile } = usePoeStackAuth();
 
   const router = useRouter();
@@ -123,7 +129,7 @@ export function StashViewContextProvider({ children }) {
   useEffect(() => {
     if (league) {
       const loadedStashSettings = JSON.parse(
-        localStorage.getItem(`${league}_stash_view_settings`) ?? "{}"
+        localStorage.getItem(`${cacheId}_${league}_stash_view_settings`) ?? "{}"
       );
 
       console.log("loaded stash settings", league, loadedStashSettings);
@@ -135,6 +141,8 @@ export function StashViewContextProvider({ children }) {
       setStashViewSettings(combinedSettings);
 
       console.log("set stash settings", league, combinedSettings);
+    } else {
+      router.push({ query: { league: "Crucible" } });
     }
   }, [league]);
 
@@ -142,7 +150,7 @@ export function StashViewContextProvider({ children }) {
     if (stashViewSettings && league) {
       console.log("storing settings", league, stashViewSettings);
       localStorage.setItem(
-        `${league}_stash_view_settings`,
+        `${cacheId}_${league}_stash_view_settings`,
         JSON.stringify(stashViewSettings)
       );
     }
@@ -265,7 +273,7 @@ export function StashViewContextProvider({ children }) {
         search: {
           league: league!,
           opaqueKey: null,
-          execludeNonItemGroups: false,
+          execludeNonItemGroups: true,
         },
       },
     }
@@ -340,10 +348,21 @@ export function StashViewContextProvider({ children }) {
     refetchValueSnapshots: refetchValueSnapshots,
   };
 
-  if (!stashTabs || !stashViewSettings || !stashSummary || !league) {
+  let loading: string | null = null;
+  if (!stashTabs) {
+    loading = "Loading stash tabs";
+  }
+  if (!stashSummary) {
+    loading = "Loading summary";
+  }
+  if (!league) {
+    loading = "Loading league";
+  }
+
+  if (loading) {
     return (
       <>
-        <StyledLoading />
+        <StyledLoading message={loading} />
       </>
     );
   }

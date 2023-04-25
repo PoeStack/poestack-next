@@ -72,14 +72,13 @@ export function StashViewTabSelectionCard() {
                 }}
               />
             </div>
-            <div>Stash Tabs</div>
+            <div className="flex-1">Stash Tabs</div>
             <div
-              className="absolute right-2 w-6 h-6"
               onClick={() => {
                 refetchStashTabs?.();
               }}
             >
-              <ArrowPathIcon />
+              <ArrowPathIcon className="w-6 h-6" />
             </div>
           </div>
           <div className="flex flex-col space-y-1  overflow-y-auto">

@@ -17,7 +17,7 @@ import { StashViewContextProvider } from "@contexts/stash-view-context";
 export default function StashView() {
   return (
     <>
-      <StashViewContextProvider>
+      <StashViewContextProvider cacheId={"stash-view-page"}>
         <div className="flex space-x-4 pb-[200px]">
           <div className="min-h-full">
             <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">

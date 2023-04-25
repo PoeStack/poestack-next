@@ -27,7 +27,7 @@ export function StashViewInfoCard() {
     <>
       <div className="space-y-1">
         <div>Info</div>
-        <div className="grid grid-cols-2">
+        <div className="grid gap-2 grid-cols-2">
           <div>Total Chaos Value</div>
           <div className="flex space-x-2">
             <div>{GeneralUtils.roundToFirstNoneZeroN(info.totalValue)}</div>

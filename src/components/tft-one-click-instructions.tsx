@@ -23,30 +23,24 @@ export function TftOneClickInstructions() {
                 completed all items press the refresh button.
               </li>
               <li>
-                Once on the page you should see two drop downs. The first is to
-                select the league you would like to sell items in and the second
-                is to select what stash tabs you would like to pull items from.
-                There will be further filtering options once stash tabs are
-                selected so feel free to select many stash tabs containing
-                different types of items.
+                Once on the page you should see a page that has a table on the
+                right and a list of stash tabs on the left along with some other
+                options. Select stash tabs that you would like to pull items
+                from.
               </li>
               <li>
                 Once you are happy with your stash tab selections or if you are
-                returning to the page press &quot;Grab Items&quot; to process
+                returning to the page press &quot;Snapshot Tabs&quot; to process
                 your selections.
               </li>
               <li>
-                You should now be able to see the items from the tabs
-                you&apos;ve select and a final drop down should now be below
-                &quot;Grab Items&quot; this dropdown is for selecting the bulk
-                category you would like to post. IE if you want to sell
-                compasses select compasses.
+                Once this is complete turn your attention to the dropdown below
+                &quot;Snapshot Tabs&quot;, here select which TFT category you
+                would like to post.
               </li>
               <li>
                 Once you&apos;ve made a selection the list of items should be
-                filtered to only items matching your category and a &quot;Post
-                to TFT&quot; button should appear a long with a total value,
-                multiplier, and listed value.
+                filtered to only items matching your category.
               </li>
               <li>
                 Make any further changes to the price of items and when you are

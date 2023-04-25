@@ -5,12 +5,12 @@ import StyledInput from "@components/styled-input";
 import StyledSelect2 from "@components/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
+import { useState } from "react";
 
 export function StashViewGenericTftExporterCard() {
-  const {
-    stashViewSettings,
-    setStashViewSettings,
-  } = useStashViewContext();
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+
+  const [error, setError] = useState<string | null>(null);
 
   const [postOneClick, { loading }] = useMutation(
     gql`
@@ -38,6 +38,13 @@ export function StashViewGenericTftExporterCard() {
           tftSelectedSubCategory: stashViewSettings.tftSelectedSubCategory,
           excludedItemGroupIds: stashViewSettings.excludedItemGroupIds,
         },
+      },
+      onCompleted() {
+        setError(null);
+      },
+      onError(error) {
+        console.log("error", error);
+        setError(error.message);
       },
     }
   );
@@ -89,6 +96,11 @@ export function StashViewGenericTftExporterCard() {
             <div>Multiplier</div>
             <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
           </div>
+          {error && (
+            <>
+              <div className="text-red-600">Error: {error}</div>
+            </>
+          )}
           <StyledButton
             disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
             text={loading ? "Waiting for Bot" : "Post to TFT"}

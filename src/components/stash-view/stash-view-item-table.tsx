@@ -195,7 +195,10 @@ export function StashViewItemTable() {
                       <td>
                         <StashViewItemMouseOver item={null} itemSummary={item}>
                           <div className="group-hover:text-content-accent">
-                            {GeneralUtils.capitalize(item.searchableString)}
+                            {GeneralUtils.capitalize(
+                              item.itemGroup?.displayName ??
+                                item.searchableString
+                            )}
                           </div>
                         </StashViewItemMouseOver>
                       </td>

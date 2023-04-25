@@ -48,7 +48,7 @@ function DesktopNavBar() {
     },
     {
       name: "TFT Bulk Tool",
-      href: `/tft/bulk-tool`,
+      href: `/tft/bulk-tool?league=Crucible`,
       current: false,
     },
     {

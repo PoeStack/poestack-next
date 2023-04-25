@@ -108,7 +108,7 @@ export function StashViewItemMouseOver({
               }}
               onMouseLeave={() => setIsExtraHovering(false)}
             >
-              <div className="p-4 bg-color-primary opacity-100 flex flex-col space-y-2 min-w-[600px]">
+              <div className="p-4 bg-color-primary border-2 border-color-secondary rounded-lg flex flex-col space-y-2 min-w-[600px]">
                 <div>{GeneralUtils.capitalize(displayName)}</div>
                 <div className="flex space-x-4">
                   <div className="flex space-x-1 items-center">

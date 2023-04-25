@@ -53,18 +53,24 @@ export default async function TftExportImage(req: NextRequest) {
         }
       }
     `,
+    fetchPolicy: "no-cache",
     variables: {
       search: {
         league: stashViewSettings.league!,
-        opaqueKey: "lLixYQlZ6JUSqHrlZI3_P",
-        execludeNonItemGroups: false,
+        opaqueKey: searchParams.get("opaqueKey"),
+        execludeNonItemGroups: true,
       },
     },
   });
 
   const stashSummary: StashViewStashSummary = d.data.stashViewStashSummary;
-  console.log("summary", Object.keys(d.data));
-  const items = StashViewUtil.searchItems(stashViewSettings, stashSummary);
+  const items = StashViewUtil.searchItems(stashViewSettings, stashSummary)
+    .filter((e) => !!e.itemGroupHashString)
+    .sort(
+      (a, b) =>
+        StashViewUtil.itemStackTotalValue(stashViewSettings, b) -
+        StashViewUtil.itemStackTotalValue(stashViewSettings, a)
+    );
 
   return new ImageResponse(
     (
