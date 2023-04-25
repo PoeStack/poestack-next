@@ -112,7 +112,7 @@ export default function TftGuardPanel({
             <StyledButton
               text={"Refresh"}
               onClick={() => {
-                refetchMyProfile({ variables: { forcePull: true } });
+                refetchMyProfile({ forcePull: true });
               }}
             />
           </div>

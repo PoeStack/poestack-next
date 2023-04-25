@@ -74,6 +74,7 @@ export function StashViewTabSelectionCard() {
             </div>
             <div className="flex-1">Stash Tabs</div>
             <div
+              className="cursor-pointer"
               onClick={() => {
                 refetchStashTabs?.();
               }}

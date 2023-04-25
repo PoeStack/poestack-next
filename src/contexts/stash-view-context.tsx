@@ -338,10 +338,8 @@ export function StashViewContextProvider({
     valueSnapshots: valueSnapshots,
     refetchStashTabs: () => {
       refetchStashTabs({
-        variables: {
-          league: league,
-          forcePull: true,
-        },
+        league: league,
+        forcePull: true,
       });
     },
     refetchSummaries: refetchSummaries,

@@ -4,6 +4,7 @@ import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import StyledSelect2 from "@components/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
+import { GeneralUtils } from "@utils/general-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
 import { useState } from "react";
 
@@ -56,6 +57,7 @@ export function StashViewGenericTftExporterCard() {
           <StyledSelect2
             selected={stashViewSettings.tftSelectedCategory}
             mapToIcon={(e) => TFT_CATEGORIES[e]?.icon}
+            mapToText={(e) => (e ? GeneralUtils.capitalize(e)! : "...")}
             onSelectChange={(e) => {
               setStashViewSettings({
                 ...stashViewSettings,
