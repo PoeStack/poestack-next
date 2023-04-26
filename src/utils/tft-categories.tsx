@@ -19,8 +19,14 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
     tags: ["essence"],
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9Ib3Jyb3IxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/748d594bde/Horror1.png",
     filter: (item) =>
-      item.searchableString.includes("shrieking") ||
-      item.searchableString.includes("deafening"),
+      [
+        "shrieking",
+        "deafening",
+        "hysteria",
+        "insanity",
+        "horror",
+        "delirium",
+      ].some((s) => item.searchableString.includes(s)),
   },
   essence: {
     tags: ["essence"],

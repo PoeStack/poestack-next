@@ -38,7 +38,7 @@ export default function TftGuardPanel({
             {!poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
@@ -67,7 +67,7 @@ export default function TftGuardPanel({
             {poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
@@ -95,7 +95,7 @@ export default function TftGuardPanel({
             {!tftMember && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     window.open(
                       "https://discord.com/invite/tftrove",

@@ -13,56 +13,71 @@ import { StashViewChartJsTest } from "@components/stash-view/stash-view-chart-js
 import { StashViewInfoCard } from "@components/stash-view/stash-view-info-card";
 import { StashViewValueChangeCard } from "@components/stash-view/stash-view-value-change-card";
 import { StashViewContextProvider } from "@contexts/stash-view-context";
+import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
+import StashViewAdvancedSettingPanel from "@components/stash-view/stash-view-advanced-settings-panel";
+import StyledButton from "@components/styled-button";
+import { useState } from "react";
 
 export default function StashView() {
+  const [advancedSettingsOpen, setAdvancedSettingsOpen] = useState(false);
+
   return (
     <>
-      <StashViewContextProvider cacheId={"stash-view-page"}>
-        <div className="flex space-x-4 pb-[200px]">
-          <div className="min-h-full">
-            <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
-              <StyledCard>
-                <LeagueSelect />
+      <PoeAccountConnectedGaurdPanel>
+        <StashViewContextProvider cacheId={"stash-view-page"}>
+          <StashViewAdvancedSettingPanel
+            open={advancedSettingsOpen}
+            setOpen={setAdvancedSettingsOpen}
+          />
+
+          <div className="flex space-x-4 pb-[200px]">
+            <div className="min-h-full">
+              <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
+                <StyledCard className="flex flex-col space-y-2">
+                  <LeagueSelect />
+                  <StashViewTabSelectionCard />
+                  <StashViewSnapshotJobCard />
+                  <StyledButton
+                    text="Settings"
+                    onClick={() => {
+                      setAdvancedSettingsOpen(true);
+                    }}
+                  />
+                </StyledCard>
+
+                <StashViewSearchCard />
+
+                <StashViewTabGroupsPanel />
+
+                <StashViewExportCard />
+              </div>
+            </div>
+
+            <div className="w-full grid grid-cols-1 2xl:grid-cols-2 gap-4">
+              <StyledCard className="col-span-1 2xl:col-span-2 max-h-[600px] pb-12 grow">
+                <StashViewChartJsTest />
               </StyledCard>
 
-              <StashViewTabSelectionCard />
-
               <StyledCard>
-                <StashViewSnapshotJobCard />
+                <StashViewInfoCard />
+              </StyledCard>
+              <StyledCard>
+                <StashViewValueChangeCard />
               </StyledCard>
 
-              <StashViewSearchCard />
+              <StyledCard className="col-span-1 2xl:col-span-2">
+                <StashViewItemTable />
+              </StyledCard>
 
-              <StashViewTabGroupsPanel />
+              <StashViewTabViewerCard />
 
-              <StashViewExportCard />
+              <StyledCard className="max-h-[800px]">
+                <StashViewTabBreakdownTable />
+              </StyledCard>
             </div>
           </div>
-
-          <div className="w-full grid grid-cols-1 2xl:grid-cols-2 gap-4">
-            <StyledCard className="col-span-1 2xl:col-span-2 max-h-[600px] pb-12 grow">
-              <StashViewChartJsTest />
-            </StyledCard>
-
-            <StyledCard>
-              <StashViewInfoCard />
-            </StyledCard>
-            <StyledCard>
-              <StashViewValueChangeCard />
-            </StyledCard>
-
-            <StyledCard className="col-span-1 2xl:col-span-2">
-              <StashViewItemTable />
-            </StyledCard>
-
-            <StashViewTabViewerCard />
-
-            <StyledCard className="max-h-[800px]">
-              <StashViewTabBreakdownTable />
-            </StyledCard>
-          </div>
-        </div>
-      </StashViewContextProvider>
+        </StashViewContextProvider>
+      </PoeAccountConnectedGaurdPanel>
     </>
   );
 }
