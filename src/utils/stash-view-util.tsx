@@ -2,7 +2,8 @@ import {
   StashViewItemSummary,
   StashViewStashSummary,
 } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
+import { TFT_CATEGORIES } from "./tft-categories";
+import { StashViewSettings } from "@contexts/stash-view-context";
 
 export class StashViewUtil {
   public static smartLimitOutput(
@@ -44,7 +45,7 @@ export class StashViewUtil {
       }
     }
 
-    if (settings.selectedExporter === "TFT-Bulk") {
+    if (["TFT-Bulk", "Forum Shop"].includes(settings.selectedExporter ?? '')) {
       value = value * ((settings.exporterListedValueMultipler ?? 100) / 100);
     }
 
@@ -70,9 +71,33 @@ export class StashViewUtil {
         settings.searchString.trim().length === 0 ||
         e.searchableString.includes(settings.searchString.toLowerCase()),
       (e) =>
-        settings.selectedExporter !== "TFT-Bulk" ||
-        !settings.checkedTags ||
-        settings.checkedTags.some((t) => t === e.itemGroupTag),
+        !settings.excludedItemGroupIds ||
+        !e.itemGroupHashString ||
+        !settings.excludedItemGroupIds.includes(e.itemGroupHashString),
+      (e) =>
+        (!settings.minItemQuantity || settings.minItemQuantity <= e.quantity) &&
+        (!settings.minItemStackValue ||
+          settings.minItemStackValue <
+            StashViewUtil.itemStackTotalValue(settings, e)) &&
+        (!settings.minItemValue ||
+          settings.minItemValue < StashViewUtil.itemValue(settings, e)),
+      (e) => {
+        if (
+          settings.selectedExporter === "TFT-Bulk" &&
+          settings.tftSelectedCategory
+        ) {
+          const category = TFT_CATEGORIES[settings.tftSelectedCategory!]!;
+          if (category && category.filter && !category.filter(e)) {
+            return false;
+          }
+
+          return (
+            !settings.checkedTags ||
+            settings.checkedTags.some((t) => t === e.itemGroupTag)
+          );
+        }
+        return true;
+      },
     ];
 
     const result = [...summary.items].filter((e) => filters.every((f) => f(e)));

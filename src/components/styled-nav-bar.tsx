@@ -27,8 +27,8 @@ function DesktopNavBar() {
       current: false,
     },
     {
-      name: "Stash",
-      href: "/poe/stash/snapshot/profiles",
+      name: "Stash View",
+      href: `/poe/stash-view?league=${league}`,
       current: false,
     },
     {
@@ -48,12 +48,12 @@ function DesktopNavBar() {
     },
     {
       name: "TFT Bulk Tool",
-      href: `/tft/bulk-tool`,
+      href: `/tft/bulk-tool?league=Crucible`,
       current: false,
     },
     {
-      name: "Stash View (Beta)",
-      href: `/poe/stash-view?league=${league}`,
+      name: "Stash Profiles (Old)",
+      href: "/poe/stash/snapshot/profiles",
       current: false,
     },
   ];
@@ -61,14 +61,19 @@ function DesktopNavBar() {
   return (
     <>
       <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
-        <div className="flex items-center justify-center h-16 w-full">
+        <div className="flex items-center text-center justify-center h-16 w-full">
           <Link href="/">
             <Image
-              height={48}
-              width={130}
-              src="/logo_white_name.png"
+              width={48}
+              height={130}
+              src={"/logo_noname.png"}
               alt="PoeStack"
             />
+          </Link>
+          <Link href="/">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
+              PoeStack
+            </span>
           </Link>
         </div>
         {/* Profile */}
@@ -94,18 +99,28 @@ function DesktopNavBar() {
         <div className="flex-1"></div>
         {/* Settings with Options */}
         <div className="mb-4 space-y-4">
+          <Link
+            href={`https://www.patreon.com/PoeStack/membership`}
+            legacyBehavior
+          >
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-content-accent  block font-semibold"
+            >
+              Patreon
+            </a>
+          </Link>
           <Link href={`http://discord.com/invite/zqeTWZvb76`} legacyBehavior>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="block text-center font-semibold underline hover:text-content-accent"
+              className="block text-center font-semibold hover:text-content-accent"
             >
               Join the Discord
             </a>
           </Link>
-          <ThemeChanger />
-          <LeagueSelect />
-          <GggAuthBtn />
+          {/* <LeagueSelect /> */}
         </div>
       </div>
     </>

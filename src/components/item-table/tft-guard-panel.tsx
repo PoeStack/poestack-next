@@ -4,15 +4,21 @@ import StyledButton from "../styled-button";
 import { useRouter } from "next/router";
 import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 
-export default function TftGuardPanel({ children }) {
+export default function TftGuardPanel({
+  disableInstructions = false,
+  children,
+}: {
+  disableInstructions?: boolean;
+  children: any;
+}) {
   const router = useRouter();
 
   const { profile, tftMember, refetchMyProfile } = usePoeStackAuth();
 
   const poeAccountConnected = !!profile?.poeProfileName;
-  const discordAccountConnected = !!profile?.discordUserId;
+  const discordAccountId = profile?.discordUserId;
 
-  if (!poeAccountConnected || !discordAccountConnected || !tftMember) {
+  if (!poeAccountConnected || !discordAccountId || !tftMember) {
     return (
       <>
         <div className="flex flex-col place-items-center">
@@ -32,7 +38,7 @@ export default function TftGuardPanel({ children }) {
             {!poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
@@ -50,15 +56,18 @@ export default function TftGuardPanel({ children }) {
               <div
                 className={
                   "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
-                  (discordAccountConnected ? "bg-green-600" : "bg-red-600")
+                  (discordAccountId ? "bg-green-600" : "bg-red-600")
                 }
               ></div>
-              <div>Discord Account Connected</div>
+              <div>
+                Discord Account Connected
+                {!!discordAccountId && ` (${discordAccountId})`}
+              </div>
             </div>
             {poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
@@ -66,7 +75,7 @@ export default function TftGuardPanel({ children }) {
                     );
                   }}
                 >
-                  {discordAccountConnected ? "Reconnect" : "Connect"}
+                  {discordAccountId ? "Reconnect" : "Connect"}
                 </div>
               </>
             )}
@@ -76,7 +85,7 @@ export default function TftGuardPanel({ children }) {
               <div
                 className={
                   "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
-                  (discordAccountConnected && tftMember
+                  (discordAccountId && tftMember
                     ? "bg-green-600"
                     : "bg-red-600")
                 }
@@ -86,7 +95,7 @@ export default function TftGuardPanel({ children }) {
             {!tftMember && (
               <>
                 <div
-                  className="text-content-accent"
+                  className="text-content-accent cursor-pointer"
                   onClick={() => {
                     window.open(
                       "https://discord.com/invite/tftrove",
@@ -103,12 +112,12 @@ export default function TftGuardPanel({ children }) {
             <StyledButton
               text={"Refresh"}
               onClick={() => {
-                refetchMyProfile({ variables: { forcePull: true } });
+                refetchMyProfile({ forcePull: true });
               }}
             />
           </div>
 
-          <TftOneClickInstructions />
+          {!disableInstructions && <TftOneClickInstructions />}
         </div>
       </>
     );

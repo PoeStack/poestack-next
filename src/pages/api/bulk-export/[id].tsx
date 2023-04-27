@@ -65,7 +65,7 @@ export default async function BulkExportImage(req: NextRequest) {
           <div tw="flex flex-col flex-wrap h-[95%] pt-3">
             {d?.data?.exportStashSnapshot?.itemGroupSummaries?.map((igs, i) => (
               <>
-                <div tw="flex flex-row">
+                <div tw="flex flex-row mr-2">
                   <img
                     width="25"
                     height="25"

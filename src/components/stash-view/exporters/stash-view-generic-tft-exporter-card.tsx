@@ -1,24 +1,19 @@
-import { gql, useQuery, useMutation } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
+import TftGuardPanel from "@components/item-table/tft-guard-panel";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import StyledSelect2 from "@components/styled-select-2";
-import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
-import { StashViewExporters } from "@utils/stash-view-exporters";
+import { useStashViewContext } from "@contexts/stash-view-context";
+import { GeneralUtils } from "@utils/general-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
-import { StashViewSettings } from "pages/poe/stash-view";
+import { useState } from "react";
 
-export function StashViewGenericTftExporterCard({
-  stashSummary,
-  tabs,
-  stashSettings,
-  setStashViewSettings,
-}: {
-  stashSummary: StashViewStashSummary;
-  tabs: PoeStashTab[];
-  stashSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-}) {
-  const [postOneClick] = useMutation(
+export function StashViewGenericTftExporterCard() {
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+
+  const [error, setError] = useState<string | null>(null);
+
+  const [postOneClick, { loading }] = useMutation(
     gql`
       mutation StashViewOneClickPost($input: StashViewSettings!) {
         stashViewOneClickPost(input: $input)
@@ -27,22 +22,33 @@ export function StashViewGenericTftExporterCard({
     {
       variables: {
         input: {
-          league: stashSettings.league,
-          chaosToDivRate: stashSettings.chaosToDivRate,
-          searchString: stashSettings.searchString,
-          filterCheckedTabs: stashSettings.filterCheckedTabs,
-          selectedTabId: stashSettings.selectedTabId,
-          checkedTabIds: stashSettings.checkedTabIds,
-          checkedTags: stashSettings.checkedTags,
-          valueOverridesEnabled: stashSettings.valueOverridesEnabled,
-          itemGroupValueOverrides: stashSettings.itemGroupValueOverrides,
-          selectedExporter: stashSettings.selectedExporter,
+          league: stashViewSettings.league,
+          chaosToDivRate: stashViewSettings.chaosToDivRate,
+          searchString: stashViewSettings.searchString,
+          filterCheckedTabs: stashViewSettings.filterCheckedTabs,
+          selectedTabId: stashViewSettings.selectedTabId,
+          checkedTabIds: stashViewSettings.checkedTabIds,
+          checkedTags: stashViewSettings.checkedTags,
+          valueOverridesEnabled: stashViewSettings.valueOverridesEnabled,
+          itemGroupValueOverrides: stashViewSettings.itemGroupValueOverrides,
+          selectedExporter: stashViewSettings.selectedExporter,
           exporterListedValueMultipler:
-            stashSettings.exporterListedValueMultipler,
-          ign: stashSettings.ign,
-          tftSelectedCategory: stashSettings.tftSelectedCategory,
-          tftSelectedSubCategory: stashSettings.tftSelectedSubCategory,
+            stashViewSettings.exporterListedValueMultipler,
+          ign: stashViewSettings.ign,
+          tftSelectedCategory: stashViewSettings.tftSelectedCategory,
+          tftSelectedSubCategory: stashViewSettings.tftSelectedSubCategory,
+          excludedItemGroupIds: stashViewSettings.excludedItemGroupIds,
+          minItemQuantity: stashViewSettings.minItemQuantity,
+          minItemValue: stashViewSettings.minItemValue,
+          minItemStackValue: stashViewSettings.minItemStackValue,
         },
+      },
+      onCompleted() {
+        setError(null);
+      },
+      onError(error) {
+        console.log("error", error);
+        setError(error.message);
       },
     }
   );
@@ -50,49 +56,66 @@ export function StashViewGenericTftExporterCard({
   return (
     <>
       <div className="flex flex-col space-y-2">
-        <StyledSelect2
-          selected={stashSettings.tftSelectedCategory}
-          mapToIcon={(e) => TFT_CATEGORIES[e]?.icon}
-          onSelectChange={(e) => {
-            setStashViewSettings({
-              ...stashSettings,
-              tftSelectedCategory: e,
-              checkedTags: TFT_CATEGORIES[e]?.tags ?? null,
-            });
-          }}
-          items={[null, ...Object.keys(TFT_CATEGORIES)]}
-        />
-        <input
-          id="minmax-range"
-          type="range"
-          min={0}
-          max={200}
-          step={5}
-          value={stashSettings.exporterListedValueMultipler ?? 100}
-          onChange={(e) => {
-            setStashViewSettings({
-              ...stashSettings,
-              exporterListedValueMultipler: parseInt(e.target.value),
-            });
-          }}
-          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
-        />
-        <StyledInput
-          value={stashSettings.ign}
-          onChange={(e) => {
-            setStashViewSettings({ ...stashSettings, ign: e });
-          }}
-        />
-        <div className="grid grid-cols-2">
-          <div>Multiplier</div>
-          <div>{stashSettings.exporterListedValueMultipler ?? 100}%</div>
-        </div>
-        <StyledButton
-          text={"Post to TFT (Coming Soon)"}
-          onClick={() => {
-            postOneClick();
-          }}
-        />
+        <TftGuardPanel disableInstructions={true}>
+          <StyledSelect2
+            selected={stashViewSettings.tftSelectedCategory}
+            mapToIcon={(e) => TFT_CATEGORIES[e]?.icon}
+            mapToText={(e) => (e ? GeneralUtils.capitalize(e)! : "...")}
+            onSelectChange={(e) => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                tftSelectedCategory: e,
+                checkedTags: TFT_CATEGORIES[e]?.tags ?? null,
+              });
+            }}
+            items={[null, ...Object.keys(TFT_CATEGORIES)]}
+          />
+          <input
+            id="minmax-range"
+            type="range"
+            min={0}
+            max={200}
+            step={5}
+            value={stashViewSettings.exporterListedValueMultipler ?? 100}
+            onChange={(e) => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                exporterListedValueMultipler: parseInt(e.target.value),
+              });
+            }}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+          />
+          <StyledInput
+            className={
+              (stashViewSettings?.ign?.length ?? 0) < 3
+                ? "border-red-600 border-2"
+                : ""
+            }
+            value={stashViewSettings.ign}
+            placeholder="IGN"
+            onChange={(e) => {
+              setStashViewSettings({ ...stashViewSettings, ign: e });
+            }}
+          />
+          <div className="grid grid-cols-2">
+            <div>Multiplier</div>
+            <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
+          </div>
+          {error && (
+            <>
+              <div className="text-red-600">Error: {error}</div>
+            </>
+          )}
+          <StyledButton
+            disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
+            text={loading ? "Waiting for Bot" : "Post to TFT"}
+            onClick={() => {
+              if ((stashViewSettings?.ign?.length ?? 0) >= 3 && !loading) {
+                postOneClick();
+              }
+            }}
+          />
+        </TftGuardPanel>
       </div>
     </>
   );

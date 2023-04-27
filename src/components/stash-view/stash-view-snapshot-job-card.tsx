@@ -1,21 +1,17 @@
 import { useMutation, gql, useQuery } from "@apollo/client";
 import StyledButton from "@components/styled-button";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import { useStashViewContext } from "@contexts/stash-view-context";
 import { PoeStashTab, StashViewJob } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 import { useState } from "react";
 
-export function StashViewSnapshotJobCard({
-  stashViewSettings,
-  setStashViewSettings,
-  onJobComplete,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  onJobComplete: () => void;
-}) {
-  const { league } = usePoeLeagueCtx();
+export function StashViewSnapshotJobCard() {
+  const {
+    stashViewSettings,
+    setStashViewSettings,
+    refetchValueSnapshots,
+    refetchSummaries,
+  } = useStashViewContext();
 
   const [takeSnapshot] = useMutation(gql`
     mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {
@@ -24,7 +20,7 @@ export function StashViewSnapshotJobCard({
   `);
 
   const [jobStatus, setJobStatus] = useState<StashViewJob | null>(null);
-  const { refetch } = useQuery(
+  useQuery(
     gql`
       query StashViewJobStat($jobId: String!) {
         stashViewJobStat(jobId: $jobId) {
@@ -49,7 +45,14 @@ export function StashViewSnapshotJobCard({
           setTimeout(() => {
             setJobStatus(null);
           }, 5000);
-          onJobComplete();
+
+          refetchValueSnapshots();
+          refetchSummaries();
+          setStashViewSettings({
+            ...stashViewSettings,
+            lastSnapshotJobCompleteTimestamp: new Date(),
+            snapshotJobId: null,
+          });
         }
       },
     }
@@ -59,12 +62,12 @@ export function StashViewSnapshotJobCard({
     <>
       <div className="flex flex-col space-y-1">
         <StyledButton
-          text={`Snapshot ${stashViewSettings.checkedTabIds.length} Tabs`}
+          text={`Load ${stashViewSettings.checkedTabIds.length} Tabs`}
           onClick={() => {
             takeSnapshot({
               variables: {
                 input: {
-                  league: league,
+                  league: stashViewSettings.league,
                   stashIds: stashViewSettings.checkedTabIds,
                 },
               },

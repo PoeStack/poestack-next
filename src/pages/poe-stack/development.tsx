@@ -3,6 +3,7 @@ import { localStorageJwtName } from "@contexts/user-context";
 import StyledCard from "@components/styled-card";
 import StyledInput from "@components/styled-input";
 import { useState } from "react";
+import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
 export default function Development() {
   const [key, setKey] = useState(
     typeof window === "undefined"
@@ -12,39 +13,41 @@ export default function Development() {
 
   return (
     <>
-      <div>
-        <StyledCard title={"Auth Key"}>
-          <div className=" font-bold">
-            This key is for local development only, if anyone including people
-            assocatied with PoeStack are asking for this key do not give it to
-            them and report them in the Discord.
-          </div>
-          <StyledButton
-            text={"Copy Key"}
-            onClick={() => {
-              const key =
-                localStorage.getItem(localStorageJwtName) ?? "not found";
-              navigator.clipboard.writeText(key);
-            }}
-          />
-
-          <div className="w-full">
-            <StyledInput
-              type="password"
-              value={key}
-              onChange={(e) => {
-                setKey(e);
-              }}
-            />
+      <PoeAccountConnectedGaurdPanel>
+        <div>
+          <StyledCard title={"Auth Key"}>
+            <div className=" font-bold">
+              This key is for local development only, if anyone including people
+              assocatied with PoeStack are asking for this key do not give it to
+              them and report them in the Discord.
+            </div>
             <StyledButton
-              text={"Update Key"}
+              text={"Copy Key"}
               onClick={() => {
-                localStorage.setItem(localStorageJwtName, key ?? "");
+                const key =
+                  localStorage.getItem(localStorageJwtName) ?? "not found";
+                navigator.clipboard.writeText(key);
               }}
             />
-          </div>
-        </StyledCard>
-      </div>
+
+            <div className="w-full">
+              <StyledInput
+                type="password"
+                value={key}
+                onChange={(e) => {
+                  setKey(e);
+                }}
+              />
+              <StyledButton
+                text={"Update Key"}
+                onClick={() => {
+                  localStorage.setItem(localStorageJwtName, key ?? "");
+                }}
+              />
+            </div>
+          </StyledCard>
+        </div>
+      </PoeAccountConnectedGaurdPanel>
     </>
   );
 }

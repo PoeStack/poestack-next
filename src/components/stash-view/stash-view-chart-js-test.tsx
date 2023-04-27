@@ -10,13 +10,13 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
 import StyledButton from "@components/styled-button";
 import { GeneralUtils } from "@utils/general-util";
+import StyledSelect2 from "@components/styled-select-2";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
 ChartJS.register(
   TimeScale,
@@ -80,62 +80,58 @@ const options: any = {
   },
 };
 
-export function StashViewChartJsTest({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
+export function StashViewChartJsTest() {
+  const {
+    stashViewSettings,
+    setStashViewSettings,
+  } = useStashViewContext();
+
   return (
     <>
       {stashViewSettings.selectedGraph === "net value" ? (
-        <StashViewNetValueChart
-          tabs={tabs}
-          stashViewSettings={stashViewSettings}
-          setStashViewSettings={setStashViewSettings}
-          series={series}
-        />
+        <StashViewNetValueChart />
       ) : (
-        <StashViewTabValueChart
-          tabs={tabs}
-          stashViewSettings={stashViewSettings}
-          setStashViewSettings={setStashViewSettings}
-          series={series}
-        />
+        <StashViewTabValueChart />
       )}
-      <StyledButton
-        text={GeneralUtils.capitalize(stashViewSettings.selectedGraph)!}
-        onClick={() => {
-          setStashViewSettings({
-            ...stashViewSettings,
-            selectedGraph:
-              stashViewSettings.selectedGraph === "net value"
-                ? "tab value"
-                : "net value",
-          });
-        }}
-      />
+      <div className="flex space-x-2">
+        <StyledButton
+          className="flex-1"
+          text={GeneralUtils.capitalize(stashViewSettings.selectedGraph)!}
+          onClick={() => {
+            setStashViewSettings({
+              ...stashViewSettings,
+              selectedGraph:
+                stashViewSettings.selectedGraph === "net value"
+                  ? "tab value"
+                  : "net value",
+            });
+          }}
+        />
+        <StyledSelect2
+          className="flex-1"
+          selected={stashViewSettings.relativeTimerseriesFilterMins}
+          onSelectChange={(e) =>
+            setStashViewSettings({
+              ...stashViewSettings,
+              relativeTimerseriesFilterMins: e,
+            })
+          }
+          mapToText={(e) => (!!e ? `Last ${e} Mins` : "All")}
+          items={[null, 10, 20, 30, 60]}
+        />
+      </div>
     </>
   );
 }
 
-export function StashViewTabValueChart({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
-  const filteredSeries = series
+export function StashViewTabValueChart() {
+  const {
+    stashTabs,
+    valueSnapshots,
+    stashViewSettings,
+  } = useStashViewContext();
+
+  const filteredSeries = valueSnapshots
     .filter(
       (e) =>
         !stashViewSettings.filterCheckedTabs ||
@@ -143,11 +139,15 @@ export function StashViewTabValueChart({
     )
     .filter((e) => e.values.some((v) => v > 0));
 
+  const minTimestamp = !stashViewSettings.relativeTimerseriesFilterMins
+    ? 0
+    : Date.now() - stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
   const datasets = filteredSeries.map((s) => {
     return {
-      label: tabs.find((e) => e.id === s.stashId)?.name,
+      label: stashTabs.find((e) => e.id === s.stashId)?.name,
       data: s.values
         .map((v, i) => ({ x: new Date(s.timestamps[i]), y: v }))
+        .filter((e) => e.x.getTime() > minTimestamp)
         .sort((a, b) => a.x.getTime() - b.x.getTime()),
     };
   });
@@ -159,21 +159,16 @@ export function StashViewTabValueChart({
   return <Line options={options} data={data} />;
 }
 
-export function StashViewNetValueChart({
-  tabs,
-  stashViewSettings,
-  setStashViewSettings,
-  series,
-}: {
-  tabs: PoeStashTab[];
-  stashViewSettings: StashViewSettings;
-  setStashViewSettings: (e: StashViewSettings) => void;
-  series: StashViewValueSnapshotSeries[];
-}) {
+export function StashViewNetValueChart() {
+  const {
+    valueSnapshots,
+    stashViewSettings,
+  } = useStashViewContext();
+
   const [netValueSeries, setNetValueSeries] = useState<any[]>([]);
 
   useEffect(() => {
-    const filteredSeries = series
+    const filteredSeries = valueSnapshots
       .filter(
         (e) =>
           !stashViewSettings.filterCheckedTabs ||
@@ -193,16 +188,23 @@ export function StashViewNetValueChart({
 
     const stashValueCache = {};
 
-    const finalSeries = flatSeries.map((e) => {
-      stashValueCache[e.stashId] = e.value;
-      const netValue = Object.values(stashValueCache).reduce(
-        (p: number, c) => p + (c as number),
-        0
-      );
-      return { x: new Date(e.timestamp), y: netValue };
-    });
+    const minTimestamp = !stashViewSettings.relativeTimerseriesFilterMins
+      ? 0
+      : Date.now() -
+        stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
+    const finalSeries = flatSeries
+      .map((e) => {
+        stashValueCache[e.stashId] = e.value;
+        const netValue = Object.values(stashValueCache).reduce(
+          (p: number, c) => p + (c as number),
+          0
+        );
+        return { x: new Date(e.timestamp), y: netValue };
+      })
+      .filter((e) => e.x.getTime() > minTimestamp);
+
     setNetValueSeries(finalSeries);
-  }, [series, stashViewSettings]);
+  }, [valueSnapshots, stashViewSettings]);
 
   const data = {
     datasets: [{ label: "Net Value", data: netValueSeries }],

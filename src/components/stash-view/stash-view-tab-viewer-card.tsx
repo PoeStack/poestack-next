@@ -1,6 +1,8 @@
 import ItemMouseOver from "@components/item-mouseover";
-import { CharacterSnapshotItem } from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
+import {
+  CharacterSnapshotItem,
+  StashViewStashSummary,
+} from "@generated/graphql";
 import StyledLoading from "@components/styled-loading";
 import {
   BLIGHT_LAYOUT,
@@ -12,21 +14,13 @@ import {
   METAMORPH_LAYOUT,
 } from "./stash-layouts";
 import { useState } from "react";
+import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
+import { useStashViewContext } from "@contexts/stash-view-context";
 
-export function StashViewTabViewerCard({
-  tab,
-  search,
-}: {
-  tab: {
-    items: (CharacterSnapshotItem & {
-      x?: number;
-      y?: number;
-      section?: string;
-    })[];
-    type?: string;
-  } | null;
-  search: StashViewSettings;
-}) {
+export function StashViewTabViewerCard() {
+  const { tab } =
+    useStashViewContext();
+
   if (!tab) {
     return (
       <>
@@ -45,8 +39,6 @@ export function StashViewTabViewerCard({
     CurrencyStash: CURRENCY_LAYOUT,
   };
 
-  console.log("tab", tab);
-
   if (
     [
       "UniqueStash",
@@ -58,7 +50,9 @@ export function StashViewTabViewerCard({
   ) {
     return (
       <>
-        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
+        <div
+          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+        >
           Tab type not yet supported.
         </div>
       </>
@@ -71,12 +65,10 @@ export function StashViewTabViewerCard({
   } else if (!!tabLayoutMap[tab.type!]) {
     return (
       <>
-        <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
-          <StashViewPoeLayoutTabViewer
-            tab={tab}
-            search={search}
-            layout={tabLayoutMap[tab.type!]}
-          />
+        <div
+          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+        >
+          <StashViewPoeLayoutTabViewer layout={tabLayoutMap[tab.type!]} />
         </div>
       </>
     );
@@ -84,39 +76,30 @@ export function StashViewTabViewerCard({
 
   return (
     <>
-      <div className={`bg-surface-primary relative aspect-square max-h-[800px]`}>
-        <StashViewBasicTabViewer tab={tab} search={search} scale={scale} />
+      <div
+        className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+      >
+        <StashViewBasicTabViewer scale={scale} />
       </div>
     </>
   );
 }
 
-export function StashViewPoeLayoutTabViewer({
-  layout,
-  tab,
-  search,
-}: {
-  layout: any;
-  tab: {
-    items: (CharacterSnapshotItem & {
-      x?: number;
-      y?: number;
-      section?: string;
-    })[];
-  };
-  search: StashViewSettings;
-}) {
-  tab.items.forEach((e) => {
+export function StashViewPoeLayoutTabViewer({ layout }: { layout: any }) {
+  const { tab, stashViewSettings } =
+    useStashViewContext();
+
+  tab!.items.forEach((e) => {
     let pos;
-    if (tab["type"] === "MetamorphStash") {
-      pos = layout[`${e.x}`] ?? layout[`${e.x},${e.y}`];
-    } else if (tab["type"] === "FragmentStash") {
-      pos = layout[e.y ? `${e.x},${e.y}` : `${e.x}`];
+    if (tab!["type"] === "MetamorphStash") {
+      pos = layout[`${e["x"]}`] ?? layout[`${e["x"]},${e["y"]}`];
+    } else if (tab!["type"] === "FragmentStash") {
+      pos = layout[e["y"] ? `${e["x"]},${e["y"]}` : `${e["x"]}`];
     } else {
-      pos = layout[`${e.x}`];
+      pos = layout[`${e["x"]}`];
     }
     if (pos) {
-      e.section = pos.section;
+      e["section"] = pos.section;
       e["px"] = (pos.x / 570) * 100;
       e["py"] = (pos.y / 570) * 100;
       e["pw"] = pos.w ?? 1;
@@ -150,16 +133,16 @@ export function StashViewPoeLayoutTabViewer({
           ))}
         </div>
         <div>
-          {tab.items
-            ?.filter((e) => !e.section || e.section === selectedSection)
+          {tab!.items
+            ?.filter((e) => !e["section"] || e["section"] === selectedSection)
             ?.map((e) => {
               const matchesSearch =
-                search.searchString.trim().length > 0 &&
+                stashViewSettings.searchString.trim().length > 0 &&
                 [e.baseType, e.typeLine, e.name]
                   .filter((e) => !!e)
                   .join(" ")
                   ?.toLowerCase()
-                  ?.includes(search?.searchString);
+                  ?.includes(stashViewSettings?.searchString);
 
               return (
                 <>
@@ -176,9 +159,10 @@ export function StashViewPoeLayoutTabViewer({
                         : ""
                     }`}
                   >
-                    <ItemMouseOver item={e}>
-                      <img src={e.icon} alt="" />
-                    </ItemMouseOver>
+                    <div className="absolute top-[-4px]">{e["stackSize"]}</div>
+                    <StashViewItemMouseOver item={e} itemSummary={null}>
+                      <img className="-z-10" src={e.icon} alt="" />
+                    </StashViewItemMouseOver>
                   </div>
                 </>
               );
@@ -189,26 +173,21 @@ export function StashViewPoeLayoutTabViewer({
   );
 }
 
-export function StashViewBasicTabViewer({
-  tab,
-  search,
-  scale,
-}: {
-  tab: { items: CharacterSnapshotItem[] };
-  scale: number;
-  search: StashViewSettings;
-}) {
+export function StashViewBasicTabViewer({ scale }: { scale: number }) {
+  const { tab, stashViewSettings } =
+    useStashViewContext();
+
   const scaleP = 100 / scale;
   return (
     <>
-      {tab.items?.map((e) => {
+      {tab!.items?.map((e) => {
         const matchesSearch =
-          search.searchString.trim().length > 0 &&
+          stashViewSettings.searchString.trim().length > 0 &&
           [e.baseType, e.typeLine, e.name]
             .filter((e) => !!e)
             .join(" ")
             ?.toLowerCase()
-            ?.includes(search?.searchString);
+            ?.includes(stashViewSettings?.searchString);
 
         return (
           <>

@@ -6,6 +6,7 @@ import { useState } from "react";
 import StyledButton from "@components/styled-button";
 import StyledInput from "@components/styled-input";
 import { usePoeStackAuth } from "@contexts/user-context";
+import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
 
 export default function EditCustomLadder() {
   const { profile } = usePoeStackAuth();
@@ -96,59 +97,61 @@ export default function EditCustomLadder() {
 
   return (
     <>
-      <StyledCard title={`${ladderGroup?.name} - Members`}>
-        <div className="flex flex-col space-y-4">
-          <div className="flex flex-row space-x-4 w-1/2">
-            <StyledInput
-              value={ladderGroup.name}
-              placeholder="Name"
-              onChange={(e) => setLadderGroup({ ...ladderGroup, name: e })}
-            />
-            <div className="flex flex-row space-x-2 w-2/3">
+      <PoeAccountConnectedGaurdPanel>
+        <StyledCard title={`${ladderGroup?.name} - Members`}>
+          <div className="flex flex-col space-y-4">
+            <div className="flex flex-row space-x-4 w-1/2">
               <StyledInput
-                value={newMemberPoeProfileName}
-                placeholder="POE Profile Name"
-                onChange={(e) => setNewMemberPoeProfileName(e)}
+                value={ladderGroup.name}
+                placeholder="Name"
+                onChange={(e) => setLadderGroup({ ...ladderGroup, name: e })}
               />
+              <div className="flex flex-row space-x-2 w-2/3">
+                <StyledInput
+                  value={newMemberPoeProfileName}
+                  placeholder="POE Profile Name"
+                  onChange={(e) => setNewMemberPoeProfileName(e)}
+                />
+                <StyledButton
+                  text={"Add"}
+                  onClick={() => {
+                    addMember();
+                  }}
+                />
+              </div>
+            </div>
+            <div>
+              {ladderGroup?.members.map((member) => (
+                <>
+                  <div className="flex flex-row space-x-2">
+                    <div>{member.poeProfileName}</div>
+                    <div
+                      onClick={() => {
+                        setLadderGroup({
+                          ...ladderGroup,
+                          members: ladderGroup.members.filter(
+                            (e) => e.userId !== member.userId
+                          ),
+                        });
+                      }}
+                    >
+                      Remove
+                    </div>
+                  </div>
+                </>
+              ))}
+            </div>
+            <div className="flex flex-row space-x-2">
               <StyledButton
-                text={"Add"}
+                text={"Save"}
                 onClick={() => {
-                  addMember();
+                  saveProfile();
                 }}
               />
             </div>
           </div>
-          <div>
-            {ladderGroup?.members.map((member) => (
-              <>
-                <div className="flex flex-row space-x-2">
-                  <div>{member.poeProfileName}</div>
-                  <div
-                    onClick={() => {
-                      setLadderGroup({
-                        ...ladderGroup,
-                        members: ladderGroup.members.filter(
-                          (e) => e.userId !== member.userId
-                        ),
-                      });
-                    }}
-                  >
-                    Remove
-                  </div>
-                </div>
-              </>
-            ))}
-          </div>
-          <div className="flex flex-row space-x-2">
-            <StyledButton
-              text={"Save"}
-              onClick={() => {
-                saveProfile();
-              }}
-            />
-          </div>
-        </div>
-      </StyledCard>
+        </StyledCard>
+      </PoeAccountConnectedGaurdPanel>
     </>
   );
 }

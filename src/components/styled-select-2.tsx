@@ -1,15 +1,18 @@
 import { Fragment } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import Image from "next/image";
+import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
 
 export default function StyledSelect2({
   items,
   selected,
   onSelectChange,
+  className = "",
   mapToText = (e) => e?.toString(),
   mapToIcon = (e) => null,
 }: {
   selected: any;
+  className?: string;
   onSelectChange: (e: any) => void;
   mapToText?: (e: any) => string;
   mapToIcon?: (e: any) => string | null;
@@ -17,7 +20,7 @@ export default function StyledSelect2({
 }) {
   const selectedIconUrl = mapToIcon(selected);
   return (
-    <div className="">
+    <div className={className}>
       <Listbox
         value={selected}
         onChange={(s) => {
@@ -37,7 +40,13 @@ export default function StyledSelect2({
                   />
                 )}
               </div>
-              <div> {!!selected ? mapToText(selected) : "..."}</div>
+              <div className="flex-1">
+                {" "}
+                {!!mapToText(selected) ? mapToText(selected) : "..."}
+              </div>
+              <div className="pt-1">
+                <ChevronUpDownIcon className="w-4 h-4" />
+              </div>
             </div>
           </Listbox.Button>
           <Transition
@@ -77,7 +86,7 @@ export default function StyledSelect2({
                                 alt={""}
                               />
                             )}
-                            <p>{mapToText(item)}</p>
+                            <p>{!!item ? mapToText(item) : "..."}</p>
                           </div>
                         </span>
                       </>

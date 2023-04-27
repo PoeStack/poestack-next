@@ -1,9 +1,6 @@
-import {
-  PoeStashTab,
-  StashViewStashSummary,
-} from "@generated/graphql";
-import { StashViewSettings } from "pages/poe/stash-view";
+import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
 import { StashViewUtil } from "./stash-view-util";
+import { StashViewSettings } from "@contexts/stash-view-context";
 
 export class StashViewExporters {
   public static exportToForumShop(
@@ -51,7 +48,7 @@ export class StashViewExporters {
     return StashViewUtil.smartLimitOutput(50000, null, output, null, 100);
   }
 
-  private static closestFraction(x: number, y: number): string {
+  public static closestFraction(x: number, y: number): string {
     let numerator = Math.round(x * y);
     let denominator = y;
     let diff = Math.abs(x - numerator / denominator);

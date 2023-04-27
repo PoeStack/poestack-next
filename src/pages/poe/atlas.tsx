@@ -97,7 +97,7 @@ export default function Atlas() {
   if (!passiveTreeData || !aggregateData) {
     return (
       <>
-        <StyledLoading />
+        <StyledLoading message={"Loading atlas tree"} />
       </>
     );
   }

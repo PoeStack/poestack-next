@@ -2469,7 +2469,7 @@ export function ItemStatDisplay({ item }) {
           </>
         )}
 
-        {!item?.identified && (
+        {item?.identified === false && (
           <>
             <div className="flex w-full p-1 text-center place-content-center place-items-center text-red-600">
               Unidentified
