@@ -45,7 +45,7 @@ export function StashViewTabSelectionCard() {
   return (
     <>
       <StyledCard>
-        <div className="flex flex-col space-y-1 max-h-[400px]">
+        <div className="flex flex-col space-y-1 max-h-[300px]">
           <div className="flex space-x-1">
             <div>
               <input

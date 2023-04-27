@@ -26,6 +26,12 @@ export default function GggAuthBtn() {
     <StyledDropdown
       items={[
         {
+          text: "Settings",
+          onClick: () => {
+            router.push("/poe-stack/settings");
+          },
+        },
+        {
           text: "Logout",
           onClick: logout,
         },

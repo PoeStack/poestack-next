@@ -62,7 +62,7 @@ export function StashViewSnapshotJobCard() {
     <>
       <div className="flex flex-col space-y-1">
         <StyledButton
-          text={`Snapshot ${stashViewSettings.checkedTabIds.length} Tabs`}
+          text={`Load ${stashViewSettings.checkedTabIds.length} Tabs`}
           onClick={() => {
             takeSnapshot({
               variables: {

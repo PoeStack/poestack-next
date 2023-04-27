@@ -64,13 +64,21 @@ export default async function TftExportImage(req: NextRequest) {
   });
 
   const stashSummary: StashViewStashSummary = d.data.stashViewStashSummary;
-  const items = StashViewUtil.searchItems(stashViewSettings, stashSummary)
+  const items = StashViewUtil.reduceItemStacks(
+    StashViewUtil.searchItems(stashViewSettings, stashSummary)
+  )
     .filter((e) => !!e.itemGroupHashString)
     .sort(
       (a, b) =>
         StashViewUtil.itemStackTotalValue(stashViewSettings, b) -
         StashViewUtil.itemStackTotalValue(stashViewSettings, a)
     );
+
+  const cols = Math.ceil(items.length / 15);
+
+  function cleanText(e: string): string {
+    return e.replaceAll(" Scarab", "").replaceAll("Essence of ", "");
+  }
 
   return new ImageResponse(
     (
@@ -85,20 +93,20 @@ export default async function TftExportImage(req: NextRequest) {
           backgroundColor: "black",
         }}
       >
-        <div tw="flex flex-col text-white">
-          <div tw="min-h-5 pl-2 flex flex-row pt-3">PoeStack Bulk Export</div>
-          <div tw="flex flex-col flex-wrap h-[95%] pt-3">
+        <div tw="flex flex-col h-full text-white">
+          <div tw="flex flex-row">PoeStack Bulk Export</div>
+          <div tw="flex flex-1 flex-col flex-wrap">
             {items?.map((igs, i) => (
               <>
-                <div tw="flex flex-row">
+                <div key={i} tw="flex flex-row pr-2">
                   <img width="25" height="25" src={igs.icon!} alt="x" />
                   <div tw="flex flex-row">
-                    {igs.quantity}x{" "}
-                    {GeneralUtils.capitalize(igs.searchableString)} @{" "}
+                    x{igs.quantity}{" "}
+                    {cleanText(GeneralUtils.capitalize(igs.searchableString)!)} {" "}
                     {GeneralUtils.roundToFirstNoneZeroN(
                       StashViewUtil.itemValue(stashViewSettings, igs)
                     )}
-                    c
+                    c each
                   </div>
                 </div>
               </>
@@ -108,10 +116,8 @@ export default async function TftExportImage(req: NextRequest) {
       </div>
     ),
     {
-      width: 900,
-      height:
-        100 +
-        (d?.data?.exportStashSnapshot?.itemGroupSummaries?.length / 2) * 25,
+      width: cols * 320,
+      height: 500,
     }
   );
 }

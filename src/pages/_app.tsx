@@ -12,6 +12,7 @@ import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
 import StyledFooter from "@components/styled-footer";
 import { PoeStackOptionsProvider } from "@contexts/options-context";
+import StyledNavTop from "@components/nav/styled-nav-top";
 
 declare global {
   interface Array<T> {
@@ -80,11 +81,18 @@ export default function App({ Component, pageProps }: AppProps) {
                       <div className="min-h-full">
                         <StyledNavBar />
                       </div>
-                      <div className="basis-1/12"></div>
-                      <div className="flex-1 p-4">
-                        <Component {...pageProps} />
+                      <div className="flex flex-col w-full">
+            
+                          <StyledNavTop />
+                   
+                        <div className="flex w-full">
+                          <div className="basis-1/12"></div>
+                          <div className="p-4 flex-1 flex flex-col">
+                            <Component {...pageProps} />
+                          </div>
+                          <div className="basis-1/12"></div>
+                        </div>
                       </div>
-                      <div className="basis-1/12"></div>
                     </div>
                     <div className="w-full">
                       <StyledFooter />

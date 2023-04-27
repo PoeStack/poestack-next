@@ -38,6 +38,9 @@ export function StashViewGenericTftExporterCard() {
           tftSelectedCategory: stashViewSettings.tftSelectedCategory,
           tftSelectedSubCategory: stashViewSettings.tftSelectedSubCategory,
           excludedItemGroupIds: stashViewSettings.excludedItemGroupIds,
+          minItemQuantity: stashViewSettings.minItemQuantity,
+          minItemValue: stashViewSettings.minItemValue,
+          minItemStackValue: stashViewSettings.minItemStackValue,
         },
       },
       onCompleted() {

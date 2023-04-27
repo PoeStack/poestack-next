@@ -35,11 +35,45 @@ export function StashViewItemTable() {
     let res = StashViewUtil.searchItems(
       { ...stashViewSettings, excludedItemGroupIds: [] },
       stashSummary!
-    ).sort((a, b) => (b.totalValueChaos ?? 0) - (a.totalValueChaos ?? 0));
+    );
 
     if (stashViewSettings.selectedExporter === "TFT-Bulk") {
       res = StashViewUtil.reduceItemStacks(res);
     }
+
+    function sortValueOfKey(
+      key: string | null,
+      item: StashViewItemSummary
+    ): number | string {
+      key = key ?? "stackValue";
+      let sortValue: number | string = 0;
+      if (key === "stackValue") {
+        sortValue = (item.valueChaos ?? 0) * item.quantity;
+      } else if (key === "value") {
+        sortValue = item.valueChaos ?? 0;
+      } else if (key === "name") {
+        sortValue = item.itemGroup?.displayName ?? item.searchableString;
+      } else {
+        sortValue = item[key];
+      }
+      return sortValue;
+    }
+
+    res.sort((a, b) => {
+      const aV = sortValueOfKey(stashViewSettings.sortKey, a);
+      const bV = sortValueOfKey(stashViewSettings.sortKey, b);
+
+      let sortValue = 0;
+      if (typeof aV === "string") {
+        sortValue = (aV as string).localeCompare(bV as string);
+      } else {
+        sortValue = aV - (bV as number);
+      }
+
+      return stashViewSettings.sortDirection === "desc"
+        ? -sortValue
+        : sortValue;
+    });
 
     setSortedItems(res);
   }, [stashSummary, stashViewSettings, stashTabs, page]);
@@ -103,6 +137,22 @@ export function StashViewItemTable() {
     setPage(Math.max(0, maxPage - 1));
   }
 
+  function toggleSort(key: string) {
+    if (stashViewSettings.sortKey === key) {
+      setStashViewSettings({
+        ...stashViewSettings,
+        sortDirection:
+          stashViewSettings.sortDirection === "asc" ? "desc" : "asc",
+      });
+    } else {
+      setStashViewSettings({
+        ...stashViewSettings,
+        sortKey: key,
+        sortDirection: "desc",
+      });
+    }
+  }
+
   return (
     <>
       <div className="flex flex-col space-y-2 min-h-[826px]">
@@ -132,15 +182,59 @@ export function StashViewItemTable() {
                 />
               </th>
               <th></th>
-              <th>Name</th>
+              <th
+                className="cursor-pointer"
+                onClick={() => {
+                  toggleSort("name");
+                }}
+              >
+                Name
+              </th>
               {stashViewSettings.selectedExporter !== "TFT-Bulk" && (
-                <th>Stash</th>
+                <th
+                  className="cursor-pointer"
+                  onClick={() => {
+                    toggleSort("stashId");
+                  }}
+                >
+                  Stash
+                </th>
               )}
               <th></th>
-              <th>Quantity</th>
-              {stashViewSettings.valueOverridesEnabled && <th>Override</th>}
-              <th>Value</th>
-              <th>Total Value</th>
+              <th
+                className="cursor-pointer"
+                onClick={() => {
+                  toggleSort("quantity");
+                }}
+              >
+                Quantity
+              </th>
+              {stashViewSettings.valueOverridesEnabled && (
+                <th
+                  className="cursor-pointer"
+                  onClick={() => {
+                    toggleSort("override");
+                  }}
+                >
+                  Override
+                </th>
+              )}
+              <th
+                className="cursor-pointer"
+                onClick={() => {
+                  toggleSort("value");
+                }}
+              >
+                Value
+              </th>
+              <th
+                className="cursor-pointer"
+                onClick={() => {
+                  toggleSort("stackValue");
+                }}
+              >
+                Total Value
+              </th>
             </tr>
           </thead>
           <tbody>

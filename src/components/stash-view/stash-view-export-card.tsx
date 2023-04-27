@@ -12,17 +12,18 @@ export function StashViewExportCard() {
     <>
       <StyledCard>
         <div className="flex flex-col space-y-2">
-          <div>Export Items</div>
+          <div>Post Items</div>
           <div>
             <StyledSelect2
-              selected={stashViewSettings?.selectedExporter ?? "Forum Shop"}
+              selected={stashViewSettings?.selectedExporter}
               onSelectChange={(e) => {
                 setStashViewSettings({
                   ...stashViewSettings,
                   selectedExporter: e,
                 });
               }}
-              items={["Forum Shop", "TFT-Bulk"]}
+              mapToText={(e) => (e ? e : "Select Here")}
+              items={[null, "TFT-Bulk", "Forum Shop"]}
             />
           </div>
 

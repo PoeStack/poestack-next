@@ -32,6 +32,39 @@ export function StashViewSearchCard() {
               Filter ({stashViewSettings.checkedTabIds.length}) Selected Tabs
             </div>
           </div>
+          <div>Min Quantity</div>
+          <StyledInput
+            type="number"
+            value={stashViewSettings.minItemQuantity}
+            onChange={(e) => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                minItemQuantity: e !== null ? parseInt(e) : null,
+              });
+            }}
+          />
+          <div>Min Value</div>
+          <StyledInput
+            type="number"
+            value={stashViewSettings.minItemValue}
+            onChange={(e) => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                minItemValue: e !== null ? parseInt(e) : null,
+              });
+            }}
+          />
+          <div>Min Total Value</div>
+          <StyledInput
+            type="number"
+            value={stashViewSettings.minItemStackValue}
+            onChange={(e) => {
+              setStashViewSettings({
+                ...stashViewSettings,
+                minItemStackValue: e !== null ? parseInt(e) : null,
+              });
+            }}
+          />
         </div>
       </StyledCard>
     </>

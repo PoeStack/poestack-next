@@ -26,6 +26,25 @@ export function StashViewForumShopExporterCard() {
             });
           }}
         />
+        <input
+          id="minmax-range"
+          type="range"
+          min={0}
+          max={200}
+          step={5}
+          value={stashViewSettings.exporterListedValueMultipler ?? 100}
+          onChange={(e) => {
+            setStashViewSettings({
+              ...stashViewSettings,
+              exporterListedValueMultipler: parseInt(e.target.value),
+            });
+          }}
+          className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
+        />
+        <div className="grid grid-cols-2">
+          <div>Multiplier</div>
+          <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
+        </div>
         <StyledButton
           text={"Copy"}
           onClick={() => {

@@ -31,7 +31,7 @@ export interface StashViewSettings {
 
   selectedGraph: string;
 
-  selectedExporter: string;
+  selectedExporter: string | null;
   exporterListedValueMultipler: number;
 
   forumShopMaxStackSizeSetting: string;
@@ -40,6 +40,13 @@ export interface StashViewSettings {
   relativeTimerseriesFilterMins: number | null;
 
   excludedItemGroupIds: string[];
+
+  minItemValue: number | null;
+  minItemStackValue: number | null;
+  minItemQuantity: number | null;
+
+  sortKey: string | null;
+  sortDirection: string | null;
 
   ign: string | null;
   tftSelectedCategory: string | null;
@@ -67,7 +74,7 @@ const defaultStashViewSettings: StashViewSettings = {
 
   selectedGraph: "net value",
 
-  selectedExporter: "Forum Shop",
+  selectedExporter: null,
   exporterListedValueMultipler: 100,
 
   forumShopMaxStackSizeSetting: "max",
@@ -77,9 +84,16 @@ const defaultStashViewSettings: StashViewSettings = {
 
   excludedItemGroupIds: [],
 
+  minItemQuantity: null,
+  minItemStackValue: null,
+  minItemValue: null,
+
   ign: null,
   tftSelectedCategory: "compasses",
   tftSelectedSubCategory: null,
+
+  sortKey: "stackValue",
+  sortDirection: "desc",
 };
 
 export interface StashViewContext {
@@ -254,6 +268,7 @@ export function StashViewContextProvider({
     `,
     {
       skip: !league,
+      pollInterval: 1000 * 60 * 2,
       onCompleted(data) {
         const tabSummary: StashViewStashSummary = data.stashViewStashSummary;
         setTabSummary({

@@ -61,14 +61,19 @@ function DesktopNavBar() {
   return (
     <>
       <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
-        <div className="flex items-center justify-center h-16 w-full">
+        <div className="flex items-center text-center justify-center h-16 w-full">
           <Link href="/">
             <Image
-              height={48}
-              width={130}
-              src="/logo_white_name.png"
+              width={48}
+              height={130}
+              src={"/logo_noname.png"}
               alt="PoeStack"
             />
+          </Link>
+          <Link href="/">
+            <span className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
+              PoeStack
+            </span>
           </Link>
         </div>
         {/* Profile */}
@@ -94,18 +99,28 @@ function DesktopNavBar() {
         <div className="flex-1"></div>
         {/* Settings with Options */}
         <div className="mb-4 space-y-4">
+          <Link
+            href={`https://www.patreon.com/PoeStack/membership`}
+            legacyBehavior
+          >
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-content-accent  block font-semibold"
+            >
+              Patreon
+            </a>
+          </Link>
           <Link href={`http://discord.com/invite/zqeTWZvb76`} legacyBehavior>
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="underline hover:text-content-accent text-center block font-semibold"
+              className="hover:text-content-accent  block font-semibold"
             >
               Join the Discord
             </a>
           </Link>
-          <ThemeChanger />
-          <LeagueSelect />
-          <GggAuthBtn />
+          {/* <LeagueSelect /> */}
         </div>
       </div>
     </>
