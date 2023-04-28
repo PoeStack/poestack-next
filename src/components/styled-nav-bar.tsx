@@ -22,7 +22,7 @@ function DesktopNavBar() {
 
   const navigation = [
     {
-      name: "Ladder",
+      name: "Builds",
       href: `/poe/characters?league=${league}`,
       current: false,
     },
@@ -50,12 +50,7 @@ function DesktopNavBar() {
       name: "TFT Bulk Tool",
       href: `/tft/bulk-tool?league=Crucible`,
       current: false,
-    },
-    {
-      name: "Stash Profiles (Old)",
-      href: "/poe/stash/snapshot/profiles",
-      current: false,
-    },
+    }
   ];
 
   return (

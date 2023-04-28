@@ -17,6 +17,7 @@ import StyledButton from "@components/styled-button";
 import { GeneralUtils } from "@utils/general-util";
 import StyledSelect2 from "@components/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
+import moment from "moment";
 
 ChartJS.register(
   TimeScale,
@@ -81,10 +82,19 @@ const options: any = {
 };
 
 export function StashViewChartJsTest() {
-  const {
-    stashViewSettings,
-    setStashViewSettings,
-  } = useStashViewContext();
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+
+  function timeConvert(time) {
+    const d = moment.duration(time, "minutes");
+
+    let out: string[] = [];
+
+    if (d.days() > 0) out.push(`${d.days()} days`);
+    if (d.hours() > 0) out.push(`${d.hours()} hours`);
+    if (d.minutes() > 0) out.push(`${d.minutes()} mins`);
+
+    return out.join(" ");
+  }
 
   return (
     <>
@@ -116,8 +126,20 @@ export function StashViewChartJsTest() {
               relativeTimerseriesFilterMins: e,
             })
           }
-          mapToText={(e) => (!!e ? `Last ${e} Mins` : "All")}
-          items={[null, 10, 20, 30, 60]}
+          mapToText={(e) => (!!e ? `Last ${timeConvert(e)}` : "All")}
+          items={[
+            null,
+            10,
+            20,
+            30,
+            60,
+            60 * 3,
+            60 * 6,
+            60 * 12,
+            60 * 24,
+            60 * 24 * 3,
+            60 * 24 * 7,
+          ]}
         />
       </div>
     </>
@@ -125,11 +147,8 @@ export function StashViewChartJsTest() {
 }
 
 export function StashViewTabValueChart() {
-  const {
-    stashTabs,
-    valueSnapshots,
-    stashViewSettings,
-  } = useStashViewContext();
+  const { stashTabs, valueSnapshots, stashViewSettings } =
+    useStashViewContext();
 
   const filteredSeries = valueSnapshots
     .filter(
@@ -160,10 +179,7 @@ export function StashViewTabValueChart() {
 }
 
 export function StashViewNetValueChart() {
-  const {
-    valueSnapshots,
-    stashViewSettings,
-  } = useStashViewContext();
+  const { valueSnapshots, stashViewSettings } = useStashViewContext();
 
   const [netValueSeries, setNetValueSeries] = useState<any[]>([]);
 

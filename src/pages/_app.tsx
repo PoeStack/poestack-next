@@ -71,6 +71,11 @@ export default function App({ Component, pageProps }: AppProps) {
               });`,
                   }}
                 />
+                <Script
+                  strategy="afterInteractive"
+                  crossOrigin="anonymous"
+                  src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1917075558725173"
+                />
                 <Head>
                   <title>PoeStack</title>
                 </Head>
@@ -82,9 +87,8 @@ export default function App({ Component, pageProps }: AppProps) {
                         <StyledNavBar />
                       </div>
                       <div className="flex flex-col w-full">
-            
-                          <StyledNavTop />
-                   
+                        <StyledNavTop />
+
                         <div className="flex w-full">
                           <div className="basis-1/12"></div>
                           <div className="p-4 flex-1 flex flex-col">

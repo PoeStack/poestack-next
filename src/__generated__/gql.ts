@@ -22,7 +22,7 @@ const documents = {
     "\n      query GlobalSearch($search: GlobalSearch!) {\n        globalSearch(search: $search) {\n          results {\n            group\n            display\n            target\n            icon\n          }\n        }\n      }\n    ": types.GlobalSearchDocument,
     "\n      mutation DeleteSnapshots($stashSnapshotIds: [String!]!) {\n        deleteSnapshots(stashSnapshotIds: $stashSnapshotIds)\n      }\n    ": types.DeleteSnapshotsDocument,
     "\n      mutation StashViewOneClickPost($input: StashViewSettings!) {\n        stashViewOneClickPost(input: $input)\n      }\n    ": types.StashViewOneClickPostDocument,
-    "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    ": types.ItemGroupListingsDocument,
+    "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    ": types.ItemGroupListingsDocument,
     "\n    mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {\n      stashViewSnapshot(input: $input)\n    }\n  ": types.TakeStashViewSanpshotDocument,
     "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          totalStahes\n          timestamp\n        }\n      }\n    ": types.StashViewJobStatDocument,
     "\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    ": types.TftOneClickMessageHistoryDocument,
@@ -38,6 +38,7 @@ const documents = {
     "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          createdAtTimestamp\n          lastConnectedTimestamp\n          oAuthTokenUpdatedAtTimestamp\n          discordUserId\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
     "\n      mutation ExportStashSnapshot($input: StashSnapshotExportInput!) {\n        exportStashSnapshot(input: $input) {\n          itemGroupSummaries {\n            quantity\n            valueChaos\n            itemGroup {\n              displayName\n              key\n              icon\n            }\n          }\n          totalValueChaos\n          divineChaosValue\n        }\n      }\n    ": types.ExportStashSnapshotDocument,
     "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    ": types.UpdateDiscordCodeDocument,
+    "\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    ": types.UpdatePatreonCodeDocument,
     "\n      query AtlasPassiveTreeSnapshotPopularityAggregation(\n        $search: AtlasPassiveSnapshotSearch!\n      ) {\n        atlasPassiveTreeSnapshotPopularityAggregation(search: $search) {\n          values {\n            key\n            value\n          }\n        }\n      }\n    ": types.AtlasPassiveTreeSnapshotPopularityAggregationDocument,
     "\n      query AtlasTree($passiveTreeVersion: String!) {\n        atlasTree(passiveTreeVersion: $passiveTreeVersion) {\n          nodeMap\n        }\n      }\n    ": types.AtlasTreeDocument,
     "\n  query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {\n    characterSnapshot(snapshotId: $snapshotId) {\n      id\n      characterId\n      timestamp\n      characterClass\n      league\n      experience\n      level\n      mainSkillKey\n      current\n      poeCharacter {\n        id\n        userId\n        name\n        createdAtTimestamp\n        lastSnapshotTimestamp\n      }\n      characterPassivesSnapshot {\n        banditChoice\n        pantheonMajor\n        pantheonMinor\n        hashes\n        hashesEx\n        jewelData\n        masteryEffects\n      }\n      characterSnapshotItems {\n        itemId\n        inventoryId\n        socketedInId\n        baseType\n        typeLine\n        name\n        ilvl\n        explicitMods\n        utilityMods\n        properties\n        requirements\n        sockets\n        frameType\n        description\n        icon\n        w\n        h\n        crucible\n        corrupted\n        support\n        socket\n        gemColor\n        mainSkill\n        itemGroupHashString\n        craftedMods\n        implicitMods\n        fracturedMods\n        enchantMods\n        valueChaos\n      }\n      characterSnapshotPobStats {\n        accuracy\n        armour\n        blockChance\n        spellBlockChance\n        chaosResist\n        coldResist\n        dex\n        energyShield\n        fireResist\n        int\n        life\n        lightningResist\n        mana\n        str\n        evasion\n        supression\n        totalDpsWithIgnite\n        pobCode\n      }\n    }\n  }\n": types.SingleCharacterCharacterSnapshotsSearchDocument,
@@ -63,6 +64,7 @@ const documents = {
     "\n      mutation TakeSnapshot($stashSnapshotProfileId: String!) {\n        takeSnapshot(stashSnapshotProfileId: $stashSnapshotProfileId) {\n          id\n        }\n      }\n    ": types.TakeSnapshotDocument,
     "\n      query StashSnapshotProfilesViewProfile {\n        stashSnapshotProfiles {\n          id\n          league\n          name\n          public\n          poeStashTabIds\n          valuationTargetPValue\n          valuationStockInfluence\n          automaticSnapshotIntervalSeconds\n        }\n      }\n    ": types.StashSnapshotProfilesViewProfileDocument,
     "\n      mutation UpdateStashsnapshotProfile($update: StashSnapshotProfileInput!) {\n        updateStashsnapshotProfile(update: $update)\n      }\n    ": types.UpdateStashsnapshotProfileDocument,
+    "\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    ": types.TftLiveListingsDocument,
 };
 
 /**
@@ -118,7 +120,7 @@ export function gql(source: "\n      mutation StashViewOneClickPost($input: Stas
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    "): (typeof documents)["\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          accountName\n          listedAtTimestamp\n          stackSize\n          listedValueChaos\n        }\n      }\n    "];
+export function gql(source: "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "): (typeof documents)["\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -179,6 +181,10 @@ export function gql(source: "\n      mutation ExportStashSnapshot($input: StashS
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    "): (typeof documents)["\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    "): (typeof documents)["\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -279,6 +285,10 @@ export function gql(source: "\n      query StashSnapshotProfilesViewProfile {\n 
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      mutation UpdateStashsnapshotProfile($update: StashSnapshotProfileInput!) {\n        updateStashsnapshotProfile(update: $update)\n      }\n    "): (typeof documents)["\n      mutation UpdateStashsnapshotProfile($update: StashSnapshotProfileInput!) {\n        updateStashsnapshotProfile(update: $update)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "): (typeof documents)["\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

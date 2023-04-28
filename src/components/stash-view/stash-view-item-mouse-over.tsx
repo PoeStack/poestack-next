@@ -59,10 +59,10 @@ export function StashViewItemMouseOver({
           league: $league
           minStock: $minStock
         ) {
-          accountName
+          poeProfileName
           listedAtTimestamp
-          stackSize
-          listedValueChaos
+          quantity
+          listedValue
         }
       }
     `,
@@ -179,11 +179,11 @@ export function StashViewItemMouseOver({
                     <>
                       {listings?.slice(0, 20).map((listing) => (
                         <>
-                          <div>x{listing.stackSize}</div>
-                          <div>{listing.accountName}</div>
+                          <div>x{listing.quantity}</div>
+                          <div>{listing.poeProfileName}</div>
                           <div>
                             <CurrencyValueDisplay
-                              pValue={listing.listedValueChaos}
+                              pValue={listing.listedValue}
                               league={itemSummary?.league}
                             />
                           </div>

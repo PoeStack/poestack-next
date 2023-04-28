@@ -36,11 +36,15 @@ export default function StashViewAdvancedSettingPanel({ open, setOpen }) {
                   onSelectChange={(e) => {
                     setSelectedSetting(e);
                   }}
-                  items={["Automatic Snapshots"]}
+                  items={["Automatic Snapshots", "Value Series"]}
                 />
 
                 {selectedSetting === "Automatic Snapshots" && (
                   <StashViewAutomaticSnapshotSettings />
+                )}
+
+                {selectedSetting === "Value Series" && (
+                  <StashViewValueSeriesSettings />
                 )}
               </div>
             </div>
@@ -48,6 +52,34 @@ export default function StashViewAdvancedSettingPanel({ open, setOpen }) {
         </div>
       </div>
       <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+    </>
+  );
+}
+
+export function StashViewValueSeriesSettings() {
+  const { refetchValueSnapshots } = useStashViewContext();
+
+  const [deleteAllValueSnapshots, { loading: deletingSnapshots }] = useMutation(
+    gql`
+      mutation Mutation {
+        deleteStashViewValueSnapshotSeries
+      }
+    `,
+    {
+      onCompleted() {
+        refetchValueSnapshots();
+      },
+    }
+  );
+
+  return (
+    <>
+      <StyledButton
+        text={deletingSnapshots ? "Waiting" : "Delete All Value Snapshots"}
+        onClick={() => {
+          deleteAllValueSnapshots();
+        }}
+      />
     </>
   );
 }
@@ -108,7 +140,7 @@ export function StashViewAutomaticSnapshotSettings() {
 
   return (
     <>
-      <div>Current Automatic Snpashot Tabs:</div>
+      <div>Current Automatic Snapshot Tabs:</div>
       {!!automaticSnapshotSettings?.stashIds?.length ? (
         <div>
           {(automaticSnapshotSettings?.stashIds ?? []).map((e, i) => (
