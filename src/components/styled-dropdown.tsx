@@ -5,18 +5,25 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 export default function StyledDropdown({
   text,
   items,
+  className,
 }: {
-  text: string;
+  text: string | null;
   items: { text: string; onClick: () => void }[];
+  className?: string | null;
 }) {
   return (
     <div>
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-color-primary text-content-base hover:bg-color-secondary-variant focus:outline-none ">
-            {text}
+          <Menu.Button
+            className={
+              "inline-flex justify-center px-4 py-2 text-sm font-medium rounded-md shadow-sm bg-color-secondary text-content-base hover:bg-color-secondary-variant focus:outline-none " +
+              (className ? className : "")
+            }
+          >
+            {!!text && text}
             <ChevronDownIcon
-              className="w-5 h-5 ml-2 -mr-1 text-violet-200 hover:text-violet-100"
+              className="w-5 h-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
             />
           </Menu.Button>

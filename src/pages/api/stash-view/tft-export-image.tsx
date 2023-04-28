@@ -8,12 +8,13 @@ import { StashViewStashSummary } from "@generated/graphql";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { GeneralUtils } from "@utils/general-util";
 import { StashViewSettings } from "@contexts/stash-view-context";
-
+import Cors from "cors";
+import NextCors from "nextjs-cors";
 export const config = {
   runtime: "experimental-edge",
 };
 
-export default async function TftExportImage(req: NextRequest) {
+export default async function TftExportImage(req) {
   const { searchParams } = new URL(req.url);
 
   const stashViewSettings: StashViewSettings = JSON.parse(
@@ -102,7 +103,7 @@ export default async function TftExportImage(req: NextRequest) {
                   <img width="25" height="25" src={igs.icon!} alt="x" />
                   <div tw="flex flex-row">
                     x{igs.quantity}{" "}
-                    {cleanText(GeneralUtils.capitalize(igs.searchableString)!)} {" "}
+                    {cleanText(GeneralUtils.capitalize(igs.searchableString)!)}{" "}
                     {GeneralUtils.roundToFirstNoneZeroN(
                       StashViewUtil.itemValue(stashViewSettings, igs)
                     )}

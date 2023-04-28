@@ -13,6 +13,8 @@ import { ThemeProvider } from "next-themes";
 import StyledFooter from "@components/styled-footer";
 import { PoeStackOptionsProvider } from "@contexts/options-context";
 import StyledNavTop from "@components/nav/styled-nav-top";
+import StyledVerticalBannerAd from "@components/ads/styled-vertical-banner-ad";
+import StyledHorizontalBannerAd from "@components/ads/styled-horizontal-banner-ad";
 
 declare global {
   interface Array<T> {
@@ -88,13 +90,19 @@ export default function App({ Component, pageProps }: AppProps) {
                       </div>
                       <div className="flex flex-col w-full">
                         <StyledNavTop />
-
                         <div className="flex w-full">
-                          <div className="basis-1/12"></div>
-                          <div className="p-4 flex-1 flex flex-col">
+                          <div className="basis-1/12 justify-center">
+                            <StyledVerticalBannerAd />
+                          </div>
+                          <div className="flex-1 flex flex-col">
+                            <div className="flex w-full pb-4 pt-4 justify-center">
+                              <StyledHorizontalBannerAd />
+                            </div>
                             <Component {...pageProps} />
                           </div>
-                          <div className="basis-1/12"></div>
+                          <div className="basis-1/12">
+                            <StyledVerticalBannerAd />
+                          </div>
                         </div>
                       </div>
                     </div>

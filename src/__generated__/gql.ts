@@ -35,7 +35,7 @@ const documents = {
     "\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    ": types.StashViewValueSnapshotSeriesDocument,
     "\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    ": types.CurrenyValuePullDivDocument,
     "\n      mutation ExchangeAuthCode($authCode: String!) {\n        exchangeAuthCode(authCode: $authCode)\n      }\n    ": types.ExchangeAuthCodeDocument,
-    "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          createdAtTimestamp\n          lastConnectedTimestamp\n          oAuthTokenUpdatedAtTimestamp\n          discordUserId\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
+    "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
     "\n      mutation ExportStashSnapshot($input: StashSnapshotExportInput!) {\n        exportStashSnapshot(input: $input) {\n          itemGroupSummaries {\n            quantity\n            valueChaos\n            itemGroup {\n              displayName\n              key\n              icon\n            }\n          }\n          totalValueChaos\n          divineChaosValue\n        }\n      }\n    ": types.ExportStashSnapshotDocument,
     "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    ": types.UpdateDiscordCodeDocument,
     "\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    ": types.UpdatePatreonCodeDocument,
@@ -64,7 +64,7 @@ const documents = {
     "\n      mutation TakeSnapshot($stashSnapshotProfileId: String!) {\n        takeSnapshot(stashSnapshotProfileId: $stashSnapshotProfileId) {\n          id\n        }\n      }\n    ": types.TakeSnapshotDocument,
     "\n      query StashSnapshotProfilesViewProfile {\n        stashSnapshotProfiles {\n          id\n          league\n          name\n          public\n          poeStashTabIds\n          valuationTargetPValue\n          valuationStockInfluence\n          automaticSnapshotIntervalSeconds\n        }\n      }\n    ": types.StashSnapshotProfilesViewProfileDocument,
     "\n      mutation UpdateStashsnapshotProfile($update: StashSnapshotProfileInput!) {\n        updateStashsnapshotProfile(update: $update)\n      }\n    ": types.UpdateStashsnapshotProfileDocument,
-    "\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    ": types.TftLiveListingsDocument,
+    "\n      query TftLiveListings {\n        tftLiveListings {\n          messageId\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    ": types.TftLiveListingsDocument,
 };
 
 /**
@@ -172,7 +172,7 @@ export function gql(source: "\n      mutation ExchangeAuthCode($authCode: String
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          createdAtTimestamp\n          lastConnectedTimestamp\n          oAuthTokenUpdatedAtTimestamp\n          discordUserId\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "): (typeof documents)["\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          createdAtTimestamp\n          lastConnectedTimestamp\n          oAuthTokenUpdatedAtTimestamp\n          discordUserId\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "];
+export function gql(source: "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "): (typeof documents)["\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -288,7 +288,7 @@ export function gql(source: "\n      mutation UpdateStashsnapshotProfile($update
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "): (typeof documents)["\n      query TftLiveListings {\n        tftLiveListings {\n          id\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "];
+export function gql(source: "\n      query TftLiveListings {\n        tftLiveListings {\n          messageId\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "): (typeof documents)["\n      query TftLiveListings {\n        tftLiveListings {\n          messageId\n          listedAtTimestamp\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    "];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

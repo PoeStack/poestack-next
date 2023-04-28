@@ -1,17 +1,44 @@
 import { gql, useMutation } from "@apollo/client";
 import TftGuardPanel from "@components/item-table/tft-guard-panel";
 import StyledButton from "@components/styled-button";
+import StyledDropdown from "@components/styled-dropdown";
 import StyledInput from "@components/styled-input";
 import StyledSelect2 from "@components/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
+import { usePoeStackAuth } from "@contexts/user-context";
 import { GeneralUtils } from "@utils/general-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
 import { useState } from "react";
 
 export function StashViewGenericTftExporterCard() {
+  const { profile } = usePoeStackAuth();
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();
 
   const [error, setError] = useState<string | null>(null);
+
+  function generateInput() {
+    return {
+      league: stashViewSettings.league,
+      chaosToDivRate: stashViewSettings.chaosToDivRate,
+      searchString: stashViewSettings.searchString,
+      filterCheckedTabs: stashViewSettings.filterCheckedTabs,
+      selectedTabId: stashViewSettings.selectedTabId,
+      checkedTabIds: stashViewSettings.checkedTabIds,
+      checkedTags: stashViewSettings.checkedTags,
+      valueOverridesEnabled: stashViewSettings.valueOverridesEnabled,
+      itemGroupValueOverrides: stashViewSettings.itemGroupValueOverrides,
+      selectedExporter: stashViewSettings.selectedExporter,
+      exporterListedValueMultipler:
+        stashViewSettings.exporterListedValueMultipler,
+      ign: stashViewSettings.ign,
+      tftSelectedCategory: stashViewSettings.tftSelectedCategory,
+      tftSelectedSubCategory: stashViewSettings.tftSelectedSubCategory,
+      excludedItemGroupIds: stashViewSettings.excludedItemGroupIds,
+      minItemQuantity: stashViewSettings.minItemQuantity,
+      minItemValue: stashViewSettings.minItemValue,
+      minItemStackValue: stashViewSettings.minItemStackValue,
+    };
+  }
 
   const [postOneClick, { loading }] = useMutation(
     gql`
@@ -21,27 +48,7 @@ export function StashViewGenericTftExporterCard() {
     `,
     {
       variables: {
-        input: {
-          league: stashViewSettings.league,
-          chaosToDivRate: stashViewSettings.chaosToDivRate,
-          searchString: stashViewSettings.searchString,
-          filterCheckedTabs: stashViewSettings.filterCheckedTabs,
-          selectedTabId: stashViewSettings.selectedTabId,
-          checkedTabIds: stashViewSettings.checkedTabIds,
-          checkedTags: stashViewSettings.checkedTags,
-          valueOverridesEnabled: stashViewSettings.valueOverridesEnabled,
-          itemGroupValueOverrides: stashViewSettings.itemGroupValueOverrides,
-          selectedExporter: stashViewSettings.selectedExporter,
-          exporterListedValueMultipler:
-            stashViewSettings.exporterListedValueMultipler,
-          ign: stashViewSettings.ign,
-          tftSelectedCategory: stashViewSettings.tftSelectedCategory,
-          tftSelectedSubCategory: stashViewSettings.tftSelectedSubCategory,
-          excludedItemGroupIds: stashViewSettings.excludedItemGroupIds,
-          minItemQuantity: stashViewSettings.minItemQuantity,
-          minItemValue: stashViewSettings.minItemValue,
-          minItemStackValue: stashViewSettings.minItemStackValue,
-        },
+        input: generateInput(),
       },
       onCompleted() {
         setError(null);
@@ -106,15 +113,46 @@ export function StashViewGenericTftExporterCard() {
               <div className="text-red-600">Error: {error}</div>
             </>
           )}
-          <StyledButton
-            disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
-            text={loading ? "Waiting for Bot" : "Post to TFT"}
-            onClick={() => {
-              if ((stashViewSettings?.ign?.length ?? 0) >= 3 && !loading) {
-                postOneClick();
-              }
-            }}
-          />
+          <div className="flex">
+            <StyledButton
+              className="flex-1 rounded-r-none"
+              disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
+              text={loading ? "Waiting for Bot" : "Post to TFT"}
+              onClick={() => {
+                if ((stashViewSettings?.ign?.length ?? 0) >= 3 && !loading) {
+                  postOneClick();
+                }
+              }}
+            />
+            <StyledDropdown
+              className={"rounded-l-none"}
+              text={null}
+              items={[
+                { text: "Copy Text", onClick: () => {} },
+                {
+                  text: "Copy Image",
+                  onClick: () => {
+                    const cpy = async () => {
+                      const response = await fetch(
+                        `/api/stash-view/tft-export-image?input=${encodeURIComponent(
+                          JSON.stringify(generateInput())
+                        )}&opaqueKey=${profile?.opaqueKey}`
+                      );
+                      const blob = await response.blob();
+                      await navigator.clipboard.write([
+                        new ClipboardItem({
+                          [blob.type]: blob,
+                        }),
+                      ]);
+                    };
+                    cpy().finally(() => {
+                      console.log("Image copied");
+                    });
+                  },
+                },
+              ]}
+            />
+          </div>
         </TftGuardPanel>
       </div>
     </>

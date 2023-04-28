@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function StyledFooter() {
   return (
-    <footer className="text-sm bg-surface-primary sm:p-4 ">
+    <footer className="z-50 text-sm bg-surface-primary sm:p-4 ">
       <div className="grid justify-center grid-cols-2 md:grid-cols-3">
         <div className="relative mb-2 md:mb-0">
           <Link href="/" className="flex flex-row justify-start w-ful">

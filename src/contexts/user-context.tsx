@@ -61,10 +61,14 @@ export function PoeStackAuthProvider({ children }) {
         myProfile {
           userId
           poeProfileName
-          createdAtTimestamp
-          lastConnectedTimestamp
+          patreonUserId
+          patreonTier
           oAuthTokenUpdatedAtTimestamp
+          lastConnectedTimestamp
+          discordUsername
           discordUserId
+          createdAtTimestamp
+          opaqueKey
         }
         checkTftMembership(forcePull: $forcePull)
       }
