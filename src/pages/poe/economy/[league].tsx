@@ -3,8 +3,8 @@ import { gql, useQuery } from "@apollo/client";
 import HSparkline from "@components/hsparkline";
 import Link from "next/link";
 import Image from "next/image";
-import StyledCard from "@components/styled-card";
-import StyledPaginate from "@components/styled-paginate";
+import StyledCard from "@components/library/styled-card";
+import StyledPaginate from "@components/library/styled-paginate";
 import { useRouter } from "next/router";
 import { GeneralUtils, myLoader } from "@utils/general-util";
 import _ from "lodash";
@@ -21,7 +21,8 @@ import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
 import LeagueSelect from "@components/league-select";
-import StyledLoading from "@components/styled-loading";
+import StyledLoading from "@components/library/styled-loading";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const columns: SortableTableColumns = [
   {
@@ -145,6 +146,7 @@ export default function Economy() {
   return (
     <>
       <div>
+        <StyledSquareResponsiveAd />
         <StyledCard>
           <div className="grid grid-cols-8">
             <div className="col-span-6 col-start-2 mb-4 space-y-2 lg:col-span-2 lg:col-start-4">

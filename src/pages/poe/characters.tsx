@@ -3,14 +3,14 @@ import { Maybe } from "graphql/jsutils/Maybe";
 import Link from "next/link";
 import Image from "next/image";
 import CharacterAggregationDisplay from "@components/character-aggregation-display";
-import StyledCard from "@components/styled-card";
-import StyledDatepicker from "@components/styled-datepicker";
-import StyledInput from "@components/styled-input";
-import StyledLoading from "@components/styled-loading";
+import StyledCard from "@components/library/styled-card";
+import StyledDatepicker from "@components/library/styled-datepicker";
+import StyledInput from "@components/library/styled-input";
+import StyledLoading from "@components/library/styled-loading";
 import {
   StyledTooltip,
   StyledSkillImageTooltip,
-} from "@components/styled-tooltip";
+} from "@components/library/styled-tooltip";
 import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
@@ -20,7 +20,7 @@ import { useRouter } from "next/router";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { DIV_ICON } from "@components/currency-value-display";
 import LeagueSelect from "@components/league-select";
-import StyledButton from "../../components/styled-button";
+import StyledButton from "../../components/library/styled-button";
 import { myLoader } from "../../utils/general-util";
 import {
   LadderVector,
@@ -30,7 +30,8 @@ import {
 } from "@utils/ladder-vector";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
 import { gql, useQuery } from "@apollo/client";
-import StyledPaginate from "@components/styled-paginate";
+import StyledPaginate from "@components/library/styled-paginate";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 /**
  * Columns used by the characters table.
@@ -167,6 +168,7 @@ export default function Characters() {
 
   return (
     <div className="flex flex-col sm:space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4">
+      <StyledSquareResponsiveAd />
       {/* Column 1 on Desktop */}
       <div className="flex flex-col basis-1/5 space-y-2 flex-wrap">
         <StyledMultiSearch

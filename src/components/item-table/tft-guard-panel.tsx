@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { usePoeStackAuth } from "../../contexts/user-context";
-import StyledButton from "../styled-button";
+import StyledButton from "../library/styled-button";
 import { useRouter } from "next/router";
 import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 

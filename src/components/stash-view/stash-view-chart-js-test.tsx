@@ -13,11 +13,11 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
-import StyledButton from "@components/styled-button";
 import { GeneralUtils } from "@utils/general-util";
-import StyledSelect2 from "@components/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import moment from "moment";
+import StyledButton from "@components/library/styled-button";
+import StyledSelect2 from "@components/library/styled-select-2";
 
 ChartJS.register(
   TimeScale,

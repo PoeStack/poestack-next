@@ -1,12 +1,10 @@
 import React from "react";
-import { usePoeStackAuth } from "../contexts/user-context";
-import Link from "next/link";
-import StyledDropdown from "./styled-dropdown";
+
 import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image from "next/image";
 import ItemMouseOver from "./item-mouseover";
 import { myLoader } from "../utils/general-util";
-import StyledLoading from "./styled-loading";
+import StyledLoading from "./library/styled-loading";
 
 export default function SecondaryEquipmentDisplay({
   items,

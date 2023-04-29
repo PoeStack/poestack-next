@@ -1,9 +1,10 @@
-import StyledButton from "@components/styled-button";
+import StyledButton from "@components/library/styled-button";
 import { localStorageJwtName } from "@contexts/user-context";
-import StyledCard from "@components/styled-card";
-import StyledInput from "@components/styled-input";
+import StyledCard from "@components/library/styled-card";
+
 import { useState } from "react";
 import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
+import StyledInput from "@components/library/styled-input";
 export default function Development() {
   const [key, setKey] = useState(
     typeof window === "undefined"

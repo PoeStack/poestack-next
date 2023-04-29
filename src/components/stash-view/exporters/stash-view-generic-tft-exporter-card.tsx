@@ -1,9 +1,9 @@
 import { gql, useMutation } from "@apollo/client";
 import TftGuardPanel from "@components/item-table/tft-guard-panel";
-import StyledButton from "@components/styled-button";
-import StyledDropdown from "@components/styled-dropdown";
-import StyledInput from "@components/styled-input";
-import StyledSelect2 from "@components/styled-select-2";
+import StyledButton from "@components/library/styled-button";
+import StyledDropdown from "@components/library/styled-dropdown";
+import StyledInput from "@components/library/styled-input";
+import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { GeneralUtils } from "@utils/general-util";
@@ -15,6 +15,7 @@ export function StashViewGenericTftExporterCard() {
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();
 
   const [error, setError] = useState<string | null>(null);
+  const [statusText, setStatusText] = useState<string | null>(null);
 
   function generateInput() {
     return {
@@ -52,10 +53,33 @@ export function StashViewGenericTftExporterCard() {
       },
       onCompleted() {
         setError(null);
+        setStatusText(null);
       },
       onError(error) {
-        console.log("error", error);
         setError(error.message);
+        setStatusText(null);
+      },
+    }
+  );
+
+  const [generateMessageToClipboard] = useMutation(
+    gql`
+      mutation StashViewOneClickMessage($input: StashViewSettings!) {
+        stashViewOneClickMessage(input: $input)
+      }
+    `,
+    {
+      variables: {
+        input: generateInput(),
+      },
+      onCompleted(data) {
+        setError(null);
+        setStatusText(null);
+        navigator.clipboard.writeText(data.stashViewOneClickMessage);
+      },
+      onError(error) {
+        setError(error.message);
+        setStatusText(null);
       },
     }
   );
@@ -117,9 +141,10 @@ export function StashViewGenericTftExporterCard() {
             <StyledButton
               className="flex-1 rounded-r-none"
               disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
-              text={loading ? "Waiting for Bot" : "Post to TFT"}
+              text={statusText ? statusText : "Post to TFT"}
               onClick={() => {
                 if ((stashViewSettings?.ign?.length ?? 0) >= 3 && !loading) {
+                  setStatusText("Waiting for Bot");
                   postOneClick();
                 }
               }}
@@ -128,7 +153,16 @@ export function StashViewGenericTftExporterCard() {
               className={"rounded-l-none"}
               text={null}
               items={[
-                { text: "Copy Text", onClick: () => {} },
+                {
+                  text: "Copy Text",
+                  onClick: () => {
+                    if ((stashViewSettings?.ign?.length ?? 0) >= 3) {
+                      generateMessageToClipboard();
+                    } else {
+                      navigator.clipboard.writeText("Please set an IGN.");
+                    }
+                  },
+                },
                 {
                   text: "Copy Image",
                   onClick: () => {
@@ -145,8 +179,9 @@ export function StashViewGenericTftExporterCard() {
                         }),
                       ]);
                     };
+                    setStatusText("Loading Image");
                     cpy().finally(() => {
-                      console.log("Image copied");
+                      setStatusText(null);
                     });
                   },
                 },

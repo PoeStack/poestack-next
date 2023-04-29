@@ -1,5 +1,5 @@
 import YouTube from "react-youtube";
-import StyledCard from "./styled-card";
+import StyledCard from "./library/styled-card";
 
 export function TftOneClickInstructions() {
   return (

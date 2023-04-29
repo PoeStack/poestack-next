@@ -2,15 +2,10 @@ import { useQuery, gql } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import HSparkline from "@components/hsparkline";
 import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
-import StyledButton from "@components/styled-button";
-import StyledCard from "@components/styled-card";
-import StyledInput from "@components/styled-input";
-import StyledPopover from "@components/styled-popover";
+
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import {
-  PoeStashTab,
   ItemGroupValueTimeseries,
-  StashViewStashSummary,
   StashViewItemSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
@@ -18,6 +13,9 @@ import { StashViewUtil } from "@utils/stash-view-util";
 import { useEffect, useState } from "react";
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 import { useStashViewContext } from "@contexts/stash-view-context";
+import StyledButton from "@components/library/styled-button";
+import StyledInput from "@components/library/styled-input";
+import StyledPopover from "@components/library/styled-popover";
 
 export function StashViewItemTable() {
   const { stashTabs, stashViewSettings, stashSummary, setStashViewSettings } =
@@ -37,7 +35,7 @@ export function StashViewItemTable() {
       stashSummary!
     );
 
-    if (stashViewSettings.selectedExporter === "TFT-Bulk") {
+    if (!!stashViewSettings.stackReducerEnabled) {
       res = StashViewUtil.reduceItemStacks(res);
     }
 
@@ -190,7 +188,7 @@ export function StashViewItemTable() {
               >
                 Name
               </th>
-              {stashViewSettings.selectedExporter !== "TFT-Bulk" && (
+              {!!stashViewSettings.stackReducerEnabled && (
                 <th
                   className="cursor-pointer"
                   onClick={() => {
@@ -296,7 +294,7 @@ export function StashViewItemTable() {
                           </div>
                         </StashViewItemMouseOver>
                       </td>
-                      {stashViewSettings.selectedExporter !== "TFT-Bulk" && (
+                      {!stashViewSettings.stackReducerEnabled && (
                         <td
                           className={`${
                             tab?.id == stashViewSettings.selectedTabId
@@ -423,20 +421,36 @@ export function StashViewItemTable() {
               }}
             />
           </div>
-          <div className="flex space-x-1 items-center">
-            <input
-              type="checkbox"
-              className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
-              checked={stashViewSettings.valueOverridesEnabled}
-              onChange={(e) => {
-                setStashViewSettings({
-                  ...stashViewSettings,
-                  valueOverridesEnabled:
-                    !stashViewSettings.valueOverridesEnabled,
-                });
-              }}
-            />
-            <div>Enabled Overrides</div>
+          <div className="flex space-x-4 items-center">
+            <div className="flex space-x-1 items-center">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                checked={stashViewSettings.valueOverridesEnabled}
+                onChange={(e) => {
+                  setStashViewSettings({
+                    ...stashViewSettings,
+                    valueOverridesEnabled:
+                      !stashViewSettings.valueOverridesEnabled,
+                  });
+                }}
+              />
+              <div>Enabled Overrides</div>
+            </div>
+            <div className="flex space-x-1 items-center">
+              <input
+                type="checkbox"
+                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                checked={!!stashViewSettings.stackReducerEnabled}
+                onChange={(e) => {
+                  setStashViewSettings({
+                    ...stashViewSettings,
+                    stackReducerEnabled: !stashViewSettings.stackReducerEnabled,
+                  });
+                }}
+              />
+              <div>Reduce Stacks</div>
+            </div>
           </div>
         </div>
       </div>

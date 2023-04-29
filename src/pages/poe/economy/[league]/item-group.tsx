@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { gql, useQuery } from "@apollo/client";
 import Link from "next/link";
 import { GeneralUtils } from "@utils/general-util";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import { POE_LEAGUES, usePoeLeagueCtx } from "@contexts/league-context";
 
 export default function EconomyKeyGroup() {

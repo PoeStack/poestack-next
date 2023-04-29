@@ -8,10 +8,9 @@ import {
   PoeCharacter,
 } from "@generated/graphql";
 import { useRouter } from "next/router";
-import StyledCard from "@components/styled-card";
-import StyledButton from "@components/styled-button";
+import StyledCard from "@components/library/styled-card";
+import StyledButton from "@components/library/styled-button";
 import _ from "lodash";
-import LoadingIndicator from "@components/loading-indicator";
 import SortableTableHeader, {
   SortableTableColumns,
   SortableTableHeaderProps,
@@ -19,7 +18,7 @@ import SortableTableHeader, {
 import {
   StyledTooltip,
   StyledSkillImageTooltip,
-} from "@components/styled-tooltip";
+} from "@components/library/styled-tooltip";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { usePoeStackAuth } from "@contexts/user-context";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
@@ -28,7 +27,8 @@ import LeagueSelect from "../../../components/league-select";
 import { chart } from "highcharts";
 import { DIV_ICON } from "@components/currency-value-display";
 import { myLoader } from "@utils/general-util";
-import StyledLoading from "@components/styled-loading";
+import StyledLoading from "@components/library/styled-loading";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
@@ -275,6 +275,7 @@ export default function CharactersByUser() {
         <StyledLoading />
       ) : (
         <div className="flex flex-col space-y-2">
+          <StyledSquareResponsiveAd />
           <StyledCard title="Characters" className="flex-1 ">
             <div className="flex flex-col space-y-10 ">
               <CharactersByUserTable

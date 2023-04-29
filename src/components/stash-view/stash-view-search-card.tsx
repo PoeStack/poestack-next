@@ -1,5 +1,5 @@
-import StyledCard from "@components/styled-card";
-import StyledInput from "@components/styled-input";
+import StyledCard from "@components/library/styled-card";
+import StyledInput from "@components/library/styled-input";
 import { useStashViewContext } from "@contexts/stash-view-context";
 
 export function StashViewSearchCard() {

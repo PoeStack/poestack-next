@@ -1,5 +1,5 @@
-import StyledButton from "@components/styled-button";
-import StyledInput from "@components/styled-input";
+import StyledButton from "@components/library/styled-button";
+import StyledInput from "@components/library/styled-input";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewExporters } from "@utils/stash-view-exporters";
 

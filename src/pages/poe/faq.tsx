@@ -1,4 +1,4 @@
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import Image from "next/image";
 import Link from "next/link";
 import { Disclosure } from "@headlessui/react";

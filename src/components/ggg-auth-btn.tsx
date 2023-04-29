@@ -1,8 +1,8 @@
 import React from "react";
 import { usePoeStackAuth } from "../contexts/user-context";
-import StyledDropdown from "./styled-dropdown";
-import StyledButton from "./styled-button";
+import StyledButton from "./library/styled-button";
 import { useRouter } from "next/router";
+import StyledDropdown from "./library/styled-dropdown";
 
 export default function GggAuthBtn() {
   const router = useRouter();

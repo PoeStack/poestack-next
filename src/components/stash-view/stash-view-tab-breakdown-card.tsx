@@ -1,12 +1,5 @@
 import CurrencyValueDisplay from "@components/currency-value-display";
-import StyledCard from "@components/styled-card";
-import { usePoeLeagueCtx } from "@contexts/league-context";
 import { useStashViewContext } from "@contexts/stash-view-context";
-import {
-  StashViewItemSummary,
-  PoeStashTab,
-  StashViewStashSummary,
-} from "@generated/graphql";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { useEffect, useState } from "react";
 

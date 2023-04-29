@@ -1,6 +1,6 @@
 import React from "react";
 import { CharacterSnapshotPobStats } from "../__generated__/graphql";
-import StyledLoading from "./styled-loading";
+import StyledLoading from "./library/styled-loading";
 
 export default function CharacterStatsDisplay({
   pobStats,

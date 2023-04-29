@@ -5,13 +5,14 @@ import "moment-timezone";
 import { useEffect, useState } from "react";
 import { ItemGroupValueTimeseries } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import HighchartsReact from "highcharts-react-official";
 import Highcharts from "highcharts";
-import StyledMultiSelect2 from "@components/styled-multi-select-2";
+import StyledMultiSelect2 from "@components/library/styled-multi-select-2";
 import moment from "moment";
 import { usePoeLeagueCtx } from "@contexts/league-context";
-import StyledSelect2 from "../../../../../components/styled-select-2";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import StyledSelect2 from "@components/library/styled-select-2";
 
 export default function EconomyOne() {
   const router = useRouter();
@@ -94,6 +95,7 @@ export default function EconomyOne() {
   return (
     <>
       <div className="flex flex-col m-2 my-4 space-y-2 md:mx-4 lg:mx-20">
+        <StyledSquareResponsiveAd />
         <div className="flex flex-row space-x-2">
           <StyledCard title={"Info"} className="flex-1">
             <h3>

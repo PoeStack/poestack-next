@@ -1,7 +1,6 @@
 import { gql, useMutation, useQuery } from "@apollo/client";
-import StyledButton from "@components/styled-button";
-import StyledMultiSelect2 from "@components/styled-multi-select-2";
-import StyledSelect2 from "@components/styled-select-2";
+import StyledButton from "@components/library/styled-button";
+import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewAutomaticSnapshotSettings } from "@generated/graphql";
 import { XMarkIcon } from "@heroicons/react/24/outline";

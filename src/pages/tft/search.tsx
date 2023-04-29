@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
-import StyledButton from "@components/styled-button";
-import StyledCard from "@components/styled-card";
-import StyledMultiSelect2 from "@components/styled-multi-select-2";
+import StyledButton from "@components/library/styled-button";
+import StyledCard from "@components/library/styled-card";
+import StyledMultiSelect2 from "@components/library/styled-multi-select-2";
 import { TftLiveListing } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 import moment from "moment";

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import Image from "next/image";
 import { myLoader } from "@utils/general-util";
-import { StyledTooltip } from "./styled-tooltip";
+import { StyledTooltip } from "./library/styled-tooltip";
 
 export const DIV_ICON =
   "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ3VycmVuY3lNb2RWYWx1ZXMiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/e1a54ff97d/CurrencyModValues.png";

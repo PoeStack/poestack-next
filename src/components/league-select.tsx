@@ -1,6 +1,6 @@
 import React from "react";
 import { POE_LEAGUES, usePoeLeagueCtx } from "../contexts/league-context";
-import StyledSelect2 from "./styled-select-2";
+import StyledSelect2 from "./library/styled-select-2";
 
 export default function LeagueSelect({
   onChange = () => {},

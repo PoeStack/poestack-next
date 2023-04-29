@@ -6,15 +6,17 @@ import { CookiesProvider } from "react-cookie";
 import { PoeStackAuthProvider } from "../contexts/user-context";
 
 import Script from "next/script";
-import StyledNavBar from "@components/styled-nav-bar";
+import StyledNavBar from "@components/library/styled-nav-bar";
 import Head from "next/head";
 import { PoeStackLeagueProvider } from "../contexts/league-context";
 import { ThemeProvider } from "next-themes";
-import StyledFooter from "@components/styled-footer";
+import StyledFooter from "@components/library/styled-footer";
 import { PoeStackOptionsProvider } from "@contexts/options-context";
 import StyledNavTop from "@components/nav/styled-nav-top";
 import StyledVerticalBannerAd from "@components/ads/styled-vertical-banner-ad";
 import StyledHorizontalBannerAd from "@components/ads/styled-horizontal-banner-ad";
+import StyledHorizontalResponsiveAd from "@components/ads/styled-horizontal-responsive-ad";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 declare global {
   interface Array<T> {
@@ -91,17 +93,15 @@ export default function App({ Component, pageProps }: AppProps) {
                       <div className="flex flex-col w-full">
                         <StyledNavTop />
                         <div className="flex w-full">
-                          <div className="basis-1/12 justify-center">
-                            <StyledVerticalBannerAd />
+                          <div className="basis-[15%] justify-center">
+                            {/* <StyledVerticalBannerAd /> */}
                           </div>
-                          <div className="flex-1 flex flex-col">
-                            <div className="flex w-full pb-4 pt-4 justify-center">
-                              <StyledHorizontalBannerAd />
-                            </div>
+                          <div className="flex-1 flex flex-col pb-[150px]">
+                            <div className="flex w-full pt-4 justify-center"></div>
                             <Component {...pageProps} />
                           </div>
-                          <div className="basis-1/12">
-                            <StyledVerticalBannerAd />
+                          <div className="basis-[15%]">
+                            {/* <StyledVerticalBannerAd /> */}
                           </div>
                         </div>
                       </div>

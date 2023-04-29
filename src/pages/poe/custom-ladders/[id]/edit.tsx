@@ -1,10 +1,10 @@
 import { useRouter } from "next/router";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import { CustomLadderGroup } from "../../../../__generated__/graphql";
 import { useState } from "react";
-import StyledButton from "@components/styled-button";
-import StyledInput from "@components/styled-input";
+import StyledButton from "@components/library/styled-button";
+import StyledInput from "@components/library/styled-input";
 import { usePoeStackAuth } from "@contexts/user-context";
 import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
 

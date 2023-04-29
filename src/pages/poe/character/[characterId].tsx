@@ -7,18 +7,19 @@ import {
   CharacterSnapshotRecord,
   PassiveTreeResponse,
 } from "@generated/graphql";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import EquipmentDisplay from "@components/equipment-display";
 import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
-import StyledButton from "@components/styled-button";
+import StyledButton from "@components/library/styled-button";
 import CharacterStatsDisplay from "@components/character-stats-display";
 import SkillTree from "@components/trees/skill-tree";
-import StyledSelect2 from "@components/styled-select-2";
+import StyledSelect2 from "@components/library/styled-select-2";
 import CharacterLevelChart from "@components/character-level-chart";
 import Head from "next/head";
 import client from "poe-stack-apollo-client";
 import { GeneralUtils } from "@utils/general-util";
 import Image from "next/image";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const snapshotQuery = gql`
   query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {
@@ -174,6 +175,7 @@ export default function Character() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">
+        <StyledSquareResponsiveAd />
         <Head>
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="PoeStack" />

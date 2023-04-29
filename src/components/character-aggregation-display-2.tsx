@@ -2,9 +2,9 @@ import React from "react";
 import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { GeneralUtils } from "@utils/general-util";
-import { StyledTooltip } from "./styled-tooltip";
 import { GenericIntKeyValue } from "@generated/graphql";
 import { LadderVector, LadderVectorSearch } from "@utils/ladder-vector";
+import { StyledTooltip } from "./library/styled-tooltip";
 
 export default function CharacterAggregationDisplay2({
   onRowClicked,

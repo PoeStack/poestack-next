@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
-import StyledMultiSelect2 from "./styled-multi-select-2";
+import StyledMultiSelect2 from "./library/styled-multi-select-2";
 
 export default function ItemGroupTagSelect({
   selected,

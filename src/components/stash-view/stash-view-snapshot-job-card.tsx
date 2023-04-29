@@ -1,8 +1,7 @@
 import { useMutation, gql, useQuery } from "@apollo/client";
-import StyledButton from "@components/styled-button";
-import { usePoeLeagueCtx } from "@contexts/league-context";
+import StyledButton from "@components/library/styled-button";
 import { useStashViewContext } from "@contexts/stash-view-context";
-import { PoeStashTab, StashViewJob } from "@generated/graphql";
+import { StashViewJob } from "@generated/graphql";
 import { useState } from "react";
 
 export function StashViewSnapshotJobCard() {

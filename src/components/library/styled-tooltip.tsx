@@ -2,21 +2,16 @@ import {
   cloneElement,
   FC,
   isValidElement,
-  PropsWithChildren,
   ReactElement,
   ReactNode,
-  useRef,
   useState,
 } from "react";
 
-import ReactDOM from "react-dom";
 import { Placement } from "@popperjs/core";
 import { usePopper } from "react-popper";
 
-import { InformationCircleIcon } from "@heroicons/react/24/solid";
-import Portal from "./portal";
 import Image from "next/image";
-import { myLoader } from "@utils/general-util";
+import Portal from "@components/portal";
 
 interface Props {
   children?: ReactNode;

@@ -1,5 +1,5 @@
-import StyledCard from "@components/styled-card";
-import StyledButton from "../../components/styled-button";
+import StyledCard from "@components/library/styled-card";
+import StyledButton from "../../components/library/styled-button";
 import { useRouter } from "next/router";
 import { nanoid } from "nanoid";
 import { gql, useQuery, useMutation } from "@apollo/client";

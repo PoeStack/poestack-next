@@ -1,5 +1,5 @@
 import { usePoeLeagueCtx } from "@contexts/league-context";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import { useState } from "react";
 import {
   AtlasPassiveSnapshotSearch,
@@ -8,7 +8,7 @@ import {
 } from "@generated/graphql";
 import { gql, useQuery } from "@apollo/client";
 import _ from "lodash";
-import { StyledTooltip } from "@components/styled-tooltip";
+import { StyledTooltip } from "@components/library/styled-tooltip";
 import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
@@ -16,7 +16,8 @@ import useSortableTable from "@hooks/use-sort-th-hook";
 import LeagueSelect from "@components/league-select";
 import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
 import CharacterAggregationDisplay from "../../components/character-aggregation-display";
-import StyledLoading from "@components/styled-loading";
+import StyledLoading from "@components/library/styled-loading";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const columns: SortableTableColumns = [
   {
@@ -154,6 +155,7 @@ export default function Atlas() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
+        <StyledSquareResponsiveAd />
         <div className="flex flex-row space-x-2">
           <div className="flex flex-col space-y-2 min-w-[260px]">
             <StyledCard title={"Search"}>

@@ -1,13 +1,11 @@
 import { gql, useLazyQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
-import StyledLoading from "@components/styled-loading";
 import { useStashViewContext } from "@contexts/stash-view-context";
 
 import {
   CharacterSnapshotItem,
   ItemGroupListing,
   StashViewItemSummary,
-  StashViewStashSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 import { StashViewExporters } from "@utils/stash-view-exporters";
@@ -25,8 +23,7 @@ export function StashViewItemMouseOver({
   itemSummary: StashViewItemSummary | null | undefined;
   children: any;
 }) {
-  const { tab, stashViewSettings, stashSummary, setStashViewSettings } =
-    useStashViewContext();
+  const { stashViewSettings, stashSummary } = useStashViewContext();
 
   if (item?.itemGroupHashString && !itemSummary) {
     itemSummary = stashSummary!.items.find(

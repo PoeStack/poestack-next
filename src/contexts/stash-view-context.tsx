@@ -8,7 +8,7 @@ import {
 import { createContext, useContext, useEffect, useState } from "react";
 import { usePoeStackAuth } from "./user-context";
 import { useRouter } from "next/router";
-import StyledLoading from "@components/styled-loading";
+import StyledLoading from "@components/library/styled-loading";
 
 export interface StashViewSettings {
   league: string | undefined | null;
@@ -31,6 +31,7 @@ export interface StashViewSettings {
 
   selectedGraph: string;
 
+  stackReducerEnabled: boolean | null;
   selectedExporter: string | null;
   exporterListedValueMultipler: number;
 
@@ -65,6 +66,7 @@ const defaultStashViewSettings: StashViewSettings = {
   snapshotJobId: null,
   lastSnapshotJobCompleteTimestamp: null,
 
+  stackReducerEnabled: null,
   checkedTags: null,
 
   stashTabGroups: {},

@@ -1,5 +1,5 @@
 import "moment-timezone";
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import { StashViewSnapshotJobCard } from "@components/stash-view/stash-view-snapshot-job-card";
 import { StashViewTabSelectionCard } from "@components/stash-view/stash-view-tab-selection-card";
 import { StashViewItemTable } from "@components/stash-view/stash-view-item-table";
@@ -15,8 +15,9 @@ import { StashViewValueChangeCard } from "@components/stash-view/stash-view-valu
 import { StashViewContextProvider } from "@contexts/stash-view-context";
 import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
 import StashViewAdvancedSettingPanel from "@components/stash-view/stash-view-advanced-settings-panel";
-import StyledButton from "@components/styled-button";
+import StyledButton from "@components/library/styled-button";
 import { useState } from "react";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 export default function StashView() {
   const [advancedSettingsOpen, setAdvancedSettingsOpen] = useState(false);
@@ -24,13 +25,14 @@ export default function StashView() {
   return (
     <>
       <PoeAccountConnectedGaurdPanel>
+        <StyledSquareResponsiveAd />
         <StashViewContextProvider cacheId={"stash-view-page"}>
           <StashViewAdvancedSettingPanel
             open={advancedSettingsOpen}
             setOpen={setAdvancedSettingsOpen}
           />
 
-          <div className="flex space-x-4 pb-[200px]">
+          <div className="flex space-x-4 pb-[70px]">
             <div className="min-h-full">
               <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
                 <StyledCard className="flex flex-col space-y-2">

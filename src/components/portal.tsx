@@ -8,8 +8,6 @@ interface Props {
 export const Portal: React.FC<Props> = ({ children }) => {
   const [mounted, setMounted] = useState(false);
 
-  //
-
   useEffect(() => {
     setMounted(true);
 

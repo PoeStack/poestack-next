@@ -1,10 +1,5 @@
 import ItemMouseOver from "@components/item-mouseover";
 import {
-  CharacterSnapshotItem,
-  StashViewStashSummary,
-} from "@generated/graphql";
-import StyledLoading from "@components/styled-loading";
-import {
   BLIGHT_LAYOUT,
   CURRENCY_LAYOUT,
   DELI_LAYOUT,
@@ -16,10 +11,10 @@ import {
 import { useState } from "react";
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 import { useStashViewContext } from "@contexts/stash-view-context";
+import StyledLoading from "@components/library/styled-loading";
 
 export function StashViewTabViewerCard() {
-  const { tab } =
-    useStashViewContext();
+  const { tab } = useStashViewContext();
 
   if (!tab) {
     return (
@@ -86,8 +81,7 @@ export function StashViewTabViewerCard() {
 }
 
 export function StashViewPoeLayoutTabViewer({ layout }: { layout: any }) {
-  const { tab, stashViewSettings } =
-    useStashViewContext();
+  const { tab, stashViewSettings } = useStashViewContext();
 
   tab!.items.forEach((e) => {
     let pos;
@@ -174,8 +168,7 @@ export function StashViewPoeLayoutTabViewer({ layout }: { layout: any }) {
 }
 
 export function StashViewBasicTabViewer({ scale }: { scale: number }) {
-  const { tab, stashViewSettings } =
-    useStashViewContext();
+  const { tab, stashViewSettings } = useStashViewContext();
 
   const scaleP = 100 / scale;
   return (

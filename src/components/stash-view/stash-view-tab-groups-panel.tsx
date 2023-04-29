@@ -1,4 +1,4 @@
-import StyledCard from "@components/styled-card";
+import StyledCard from "@components/library/styled-card";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   CheckCircleIcon,
