@@ -1,37 +1,39 @@
-import { useState, useEffect } from "react";
 import { Maybe } from "graphql/jsutils/Maybe";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
+import { gql, useQuery } from "@apollo/client";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 import CharacterAggregationDisplay from "@components/character-aggregation-display";
+import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
+import { DIV_ICON } from "@components/currency-value-display";
+import LeagueSelect from "@components/league-select";
 import StyledCard from "@components/library/styled-card";
 import StyledDatepicker from "@components/library/styled-datepicker";
 import StyledInput from "@components/library/styled-input";
 import StyledLoading from "@components/library/styled-loading";
+import StyledPaginate from "@components/library/styled-paginate";
 import {
-  StyledTooltip,
   StyledSkillImageTooltip,
+  StyledTooltip,
 } from "@components/library/styled-tooltip";
 import SortableTableHeader, {
   SortableTableColumns,
 } from "@components/sortable-table-header";
-import { GeneralUtils } from "@utils/general-util";
-import { CustomLadderGroup, GenericAggregation } from "@generated/graphql";
-import { useRouter } from "next/router";
 import { usePoeStackAuth } from "@contexts/user-context";
-import { DIV_ICON } from "@components/currency-value-display";
-import LeagueSelect from "@components/league-select";
-import StyledButton from "../../components/library/styled-button";
-import { myLoader } from "../../utils/general-util";
+import { CustomLadderGroup, GenericAggregation } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
 import {
   LadderVector,
   LadderVectorEntry,
   LadderVectorSearch,
   LadderVectorUtil,
 } from "@utils/ladder-vector";
-import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
-import { gql, useQuery } from "@apollo/client";
-import StyledPaginate from "@components/library/styled-paginate";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+
+import StyledButton from "../../components/library/styled-button";
+import { myLoader } from "../../utils/general-util";
 
 /**
  * Columns used by the characters table.

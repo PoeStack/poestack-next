@@ -1,9 +1,10 @@
+import { StashViewSettings } from "@contexts/stash-view-context";
 import {
   StashViewItemSummary,
   StashViewStashSummary,
 } from "@generated/graphql";
+
 import { TFT_CATEGORIES } from "./tft-categories";
-import { StashViewSettings } from "@contexts/stash-view-context";
 
 export class StashViewUtil {
   public static smartLimitOutput(
@@ -45,7 +46,7 @@ export class StashViewUtil {
       }
     }
 
-    if (["TFT-Bulk", "Forum Shop"].includes(settings.selectedExporter ?? '')) {
+    if (["TFT-Bulk", "Forum Shop"].includes(settings.selectedExporter ?? "")) {
       value = value * ((settings.exporterListedValueMultipler ?? 100) / 100);
     }
 

@@ -1,6 +1,7 @@
+import { Fragment, useRef } from "react";
+
 import { Popover, Transition } from "@headlessui/react";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { Fragment, useRef } from "react";
 
 export default function StyledPopover({ children }) {
   return (
@@ -10,9 +11,7 @@ export default function StyledPopover({ children }) {
           return (
             <>
               <div>
-                <Popover.Button>
-                  +
-                </Popover.Button>
+                <Popover.Button>+</Popover.Button>
                 <Transition
                   as={Fragment}
                   enter="transition ease-out duration-200"

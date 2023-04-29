@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
+
 import { gql, useMutation, useQuery } from "@apollo/client";
 import { OneClickMessageHistory } from "@generated/graphql";
-import { useEffect, useState } from "react";
+
 import StyledButton from "./library/styled-button";
 
 export default function TftOneClickMessageHistoryCard() {

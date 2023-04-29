@@ -1,8 +1,10 @@
 import React from "react";
-import { FixedSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { GeneralUtils } from "@utils/general-util";
+import { FixedSizeList as List } from "react-window";
+
 import { GenericIntKeyValue } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
+
 import StyledLoading from "./library/styled-loading";
 import { StyledTooltip } from "./library/styled-tooltip";
 

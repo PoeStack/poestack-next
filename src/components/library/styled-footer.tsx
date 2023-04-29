@@ -79,7 +79,10 @@ export default function StyledFooter() {
                 </Link>
               </li>
               <li>
-                <Link href="https://www.patreon.com/PoeStack/membership" legacyBehavior>
+                <Link
+                  href="https://www.patreon.com/PoeStack/membership"
+                  legacyBehavior
+                >
                   <a
                     target="_blank"
                     rel="noopener noreferrer"

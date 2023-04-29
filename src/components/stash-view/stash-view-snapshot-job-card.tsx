@@ -1,8 +1,9 @@
-import { useMutation, gql, useQuery } from "@apollo/client";
+import { useState } from "react";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
 import StyledButton from "@components/library/styled-button";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewJob } from "@generated/graphql";
-import { useState } from "react";
 
 export function StashViewSnapshotJobCard() {
   const {

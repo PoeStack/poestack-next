@@ -1,14 +1,16 @@
+import { useRouter } from "next/router";
+import { createContext, useContext, useEffect, useState } from "react";
+
 import { gql, useQuery } from "@apollo/client";
+import StyledLoading from "@components/library/styled-loading";
 import {
   CharacterSnapshotItem,
   PoeStashTab,
   StashViewStashSummary,
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
-import { createContext, useContext, useEffect, useState } from "react";
+
 import { usePoeStackAuth } from "./user-context";
-import { useRouter } from "next/router";
-import StyledLoading from "@components/library/styled-loading";
 
 export interface StashViewSettings {
   league: string | undefined | null;

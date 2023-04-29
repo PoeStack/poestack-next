@@ -1,15 +1,13 @@
 /* eslint-disable @next/next/no-img-element */
+import client from "poe-stack-apollo-client";
+
+import { gql } from "@apollo/client";
+import { StashViewSettings } from "@contexts/stash-view-context";
+import { StashViewStashSummary } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
+import { StashViewUtil } from "@utils/stash-view-util";
 import { ImageResponse } from "@vercel/og";
 
-import { NextRequest } from "next/server";
-import client from "poe-stack-apollo-client";
-import { gql } from "@apollo/client";
-import { StashViewStashSummary } from "@generated/graphql";
-import { StashViewUtil } from "@utils/stash-view-util";
-import { GeneralUtils } from "@utils/general-util";
-import { StashViewSettings } from "@contexts/stash-view-context";
-import Cors from "cors";
-import NextCors from "nextjs-cors";
 export const config = {
   runtime: "experimental-edge",
 };

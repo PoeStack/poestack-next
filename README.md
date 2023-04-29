@@ -3,9 +3,11 @@
 The frontend app for PoeStack
 
 ### GraphQL Api
+
 - Ui for building/executing queries https://api.poestack.com/graphql
 
 ### Running Locally
+
 - Install node js and yarn
   - https://nodejs.org/en/download/
   - https://classic.yarnpkg.com/lang/en/docs/install
@@ -24,12 +26,11 @@ Can replace "poestack" with any name you want in the below and can change the fi
 
 - `$ docker run -p 3000:3000 -it poestack`
 
-
 ### Connecting your POE Account to a locally running site
+
 - Make sure your account is connected to the live site and then navigate to: https://poestack.com/poe-stack/development
 - READ THE WARNING do not give out this key
 - Press the copy key button
 - Start up your local site and navigate to: http://localhost:3000/poe-stack/development
 - Paste the key in and press the update button
 - Reload the page and you should be connected in your local environment
-

@@ -1,17 +1,16 @@
+import Image from "next/image";
 import {
-  cloneElement,
   FC,
-  isValidElement,
   ReactElement,
   ReactNode,
+  cloneElement,
+  isValidElement,
   useState,
 } from "react";
-
-import { Placement } from "@popperjs/core";
 import { usePopper } from "react-popper";
 
-import Image from "next/image";
 import Portal from "@components/portal";
+import { Placement } from "@popperjs/core";
 
 interface Props {
   children?: ReactNode;

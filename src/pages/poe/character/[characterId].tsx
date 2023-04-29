@@ -1,25 +1,25 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-
-import { useState, useEffect } from "react";
+import Head from "next/head";
+import Image from "next/image";
 import { useRouter } from "next/router";
+import client from "poe-stack-apollo-client";
+import { useEffect, useState } from "react";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import CharacterLevelChart from "@components/character-level-chart";
+import CharacterStatsDisplay from "@components/character-stats-display";
+import EquipmentDisplay from "@components/equipment-display";
+import StyledButton from "@components/library/styled-button";
+import StyledCard from "@components/library/styled-card";
+import StyledSelect2 from "@components/library/styled-select-2";
+import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
+import SkillTree from "@components/trees/skill-tree";
 import {
   CharacterSnapshot,
   CharacterSnapshotRecord,
   PassiveTreeResponse,
 } from "@generated/graphql";
-import StyledCard from "@components/library/styled-card";
-import EquipmentDisplay from "@components/equipment-display";
-import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
-import StyledButton from "@components/library/styled-button";
-import CharacterStatsDisplay from "@components/character-stats-display";
-import SkillTree from "@components/trees/skill-tree";
-import StyledSelect2 from "@components/library/styled-select-2";
-import CharacterLevelChart from "@components/character-level-chart";
-import Head from "next/head";
-import client from "poe-stack-apollo-client";
 import { GeneralUtils } from "@utils/general-util";
-import Image from "next/image";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const snapshotQuery = gql`
   query SingleCharacterCharacterSnapshotsSearch($snapshotId: String!) {

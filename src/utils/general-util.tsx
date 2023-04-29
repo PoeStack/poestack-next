@@ -1,4 +1,5 @@
 import { ImageLoaderProps } from "next/dist/client/image";
+
 import { ItemGroup, StashViewItemSummary } from "@generated/graphql";
 
 export class GeneralUtils {

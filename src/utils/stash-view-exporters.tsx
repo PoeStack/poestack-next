@@ -1,6 +1,7 @@
-import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
-import { StashViewUtil } from "./stash-view-util";
 import { StashViewSettings } from "@contexts/stash-view-context";
+import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
+
+import { StashViewUtil } from "./stash-view-util";
 
 export class StashViewExporters {
   public static exportToForumShop(

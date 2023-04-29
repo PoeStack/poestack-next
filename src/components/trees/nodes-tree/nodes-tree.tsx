@@ -1,13 +1,15 @@
 import React, { useMemo } from "react";
+
 import {
   PassiveTreeConnection,
   PassiveTreeNode,
   PassiveTreeResponse,
 } from "@generated/graphql";
-import { TreeNodeProps, MemoisedTreeNode } from "./tree-node";
-import { TreeConnectionProps, MemoisedTreeConnection } from "./tree-connection";
-import ZoomableSVG from "./zoomable-svg";
+
 import { ResetEventEmitter } from "./reset-zoom-event-emitter";
+import { MemoisedTreeConnection, TreeConnectionProps } from "./tree-connection";
+import { MemoisedTreeNode, TreeNodeProps } from "./tree-node";
+import ZoomableSVG from "./zoomable-svg";
 
 /**
  * Generate an array of props suitable for creating {@link MemoisedTreeNode MemoisedTreeNodes}

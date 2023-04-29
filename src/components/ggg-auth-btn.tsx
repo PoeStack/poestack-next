@@ -1,7 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
+
 import { usePoeStackAuth } from "../contexts/user-context";
 import StyledButton from "./library/styled-button";
-import { useRouter } from "next/router";
 import StyledDropdown from "./library/styled-dropdown";
 
 export default function GggAuthBtn() {

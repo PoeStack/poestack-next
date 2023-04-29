@@ -1,7 +1,8 @@
-import { gql, useMutation } from "@apollo/client";
-import { usePoeStackAuth } from "@contexts/user-context";
 import { useRouter } from "next/router";
 import { useEffect, useRef } from "react";
+
+import { gql, useMutation } from "@apollo/client";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 export default function Connected() {
   const router = useRouter();

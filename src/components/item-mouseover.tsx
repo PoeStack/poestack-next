@@ -1,7 +1,8 @@
-import React from "react";
-import { CharacterSnapshotItem } from "../__generated__/graphql";
 import Image from "next/image";
+import React from "react";
 import { useState } from "react";
+
+import { CharacterSnapshotItem } from "../__generated__/graphql";
 import { myLoader } from "../utils/general-util";
 import CurrencyValueDisplay from "./currency-value-display";
 import ZoomableSVG from "./trees/nodes-tree/zoomable-svg";

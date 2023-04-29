@@ -1,14 +1,14 @@
-import { useQuery, gql } from "@apollo/client";
-import "moment-timezone";
-import moment from "moment";
-import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import _ from "lodash";
-
+import moment from "moment";
+import "moment-timezone";
+import React from "react";
 import { useState } from "react";
-import { GenericAggregation } from "@generated/graphql";
+
+import { gql, useQuery } from "@apollo/client";
 import StyledLoading from "@components/library/styled-loading";
+import { GenericAggregation } from "@generated/graphql";
 
 export default function LeagueTradeActivity() {
   const [leagueActivityResp, setLeagueActivityResp] =

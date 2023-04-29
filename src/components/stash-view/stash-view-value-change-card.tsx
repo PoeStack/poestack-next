@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import CurrencyValueDisplay from "@components/currency-value-display";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
@@ -6,7 +8,6 @@ import {
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
-import moment from "moment";
 
 export function StashViewValueChangeCard() {
   const { stashViewSettings, valueSnapshots } = useStashViewContext();

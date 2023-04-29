@@ -1,7 +1,8 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
-import { createContext, useContext, useEffect, useState } from "react";
-import { UserProfile } from "@generated/graphql";
 import { useRouter } from "next/router";
+import { createContext, useContext, useEffect, useState } from "react";
+
+import { gql, useMutation, useQuery } from "@apollo/client";
+import { UserProfile } from "@generated/graphql";
 
 const initalContext: {
   jwt: string | null;

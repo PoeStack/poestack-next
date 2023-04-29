@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import { gql, useMutation } from "@apollo/client";
 import TftGuardPanel from "@components/item-table/tft-guard-panel";
 import StyledButton from "@components/library/styled-button";
@@ -8,7 +10,6 @@ import { useStashViewContext } from "@contexts/stash-view-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { GeneralUtils } from "@utils/general-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
-import { useState } from "react";
 
 export function StashViewGenericTftExporterCard() {
   const { profile } = usePoeStackAuth();

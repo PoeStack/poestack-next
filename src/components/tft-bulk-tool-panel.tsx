@@ -1,11 +1,13 @@
+import { useEffect } from "react";
+
 import { useStashViewContext } from "@contexts/stash-view-context";
+
 import LeagueSelect from "./league-select";
 import { StashViewGenericTftExporterCard } from "./stash-view/exporters/stash-view-generic-tft-exporter-card";
+import { StashViewInfoCard } from "./stash-view/stash-view-info-card";
 import { StashViewItemTable } from "./stash-view/stash-view-item-table";
 import { StashViewSnapshotJobCard } from "./stash-view/stash-view-snapshot-job-card";
 import { StashViewTabSelectionCard } from "./stash-view/stash-view-tab-selection-card";
-import { useEffect } from "react";
-import { StashViewInfoCard } from "./stash-view/stash-view-info-card";
 
 export default function TftBulkToolPanel() {
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();

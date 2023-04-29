@@ -1,8 +1,10 @@
+import { useRouter } from "next/router";
 import { useState } from "react";
+
+import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
+
 import { usePoeStackAuth } from "../../contexts/user-context";
 import StyledButton from "../library/styled-button";
-import { useRouter } from "next/router";
-import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 
 export default function TftGuardPanel({
   disableInstructions = false,

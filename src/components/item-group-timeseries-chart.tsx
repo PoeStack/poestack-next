@@ -1,6 +1,7 @@
-import moment from "moment";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import moment from "moment";
+
 import { ItemGroupValueTimeseriesGroupSeries } from "@generated/graphql";
 
 export function ItemGroupTimeseriesChart({

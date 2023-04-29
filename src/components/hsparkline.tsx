@@ -1,10 +1,12 @@
-import "moment-timezone";
-import moment from "moment";
-import React, { useEffect, useState } from "react";
-import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import moment from "moment";
+import "moment-timezone";
+import React, { useEffect, useState } from "react";
+import { render } from "react-dom";
+
 import { gql, useQuery } from "@apollo/client";
+
 import { ItemGroupValueTimeseriesGroupSeries } from "../__generated__/graphql";
 
 export default function HSparkline({

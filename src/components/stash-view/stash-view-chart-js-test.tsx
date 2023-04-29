@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-
-import "chartjs-adapter-moment";
 import {
   Chart as ChartJS,
-  TimeScale,
+  Legend,
+  LineElement,
   LinearScale,
   PointElement,
-  LineElement,
+  TimeScale,
   Title,
   Tooltip,
-  Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
-import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
-import { GeneralUtils } from "@utils/general-util";
-import { useStashViewContext } from "@contexts/stash-view-context";
+import "chartjs-adapter-moment";
 import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+
 import StyledButton from "@components/library/styled-button";
 import StyledSelect2 from "@components/library/styled-select-2";
+import { useStashViewContext } from "@contexts/stash-view-context";
+import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
+import { GeneralUtils } from "@utils/general-util";
 
 ChartJS.register(
   TimeScale,

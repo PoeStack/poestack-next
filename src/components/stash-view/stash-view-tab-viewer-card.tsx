@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 import ItemMouseOver from "@components/item-mouseover";
+import StyledLoading from "@components/library/styled-loading";
+import { useStashViewContext } from "@contexts/stash-view-context";
+
 import {
   BLIGHT_LAYOUT,
   CURRENCY_LAYOUT,
@@ -8,10 +13,7 @@ import {
   FRAGMENT_LAYOUT,
   METAMORPH_LAYOUT,
 } from "./stash-layouts";
-import { useState } from "react";
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
-import { useStashViewContext } from "@contexts/stash-view-context";
-import StyledLoading from "@components/library/styled-loading";
 
 export function StashViewTabViewerCard() {
   const { tab } = useStashViewContext();

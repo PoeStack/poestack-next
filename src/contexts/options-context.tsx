@@ -1,44 +1,58 @@
-import { useLocalStorage } from 'usehooks-ts'
-import { createContext, useContext, useState, useEffect, Dispatch, SetStateAction } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
+import { useLocalStorage } from "usehooks-ts";
 
 export const Profile_Themes = ["Dark", "Light", "Vaal"] as const;
 
 export interface Options {
   IGN: string;
-  theme: typeof Profile_Themes[number];
+  theme: (typeof Profile_Themes)[number];
 }
 
 export const defaultOptions: Options = {
   IGN: "Default",
   theme: "Dark",
-}
+};
 
 const initalContext = {
-  useOptions: function useOptions<T extends keyof Options>(optionsKey: T): [Options[T], Dispatch<SetStateAction<Options[T]>>] {
-    const [o, seto] = useState(defaultOptions[optionsKey])
-    return [o, seto]
+  useOptions: function useOptions<T extends keyof Options>(
+    optionsKey: T
+  ): [Options[T], Dispatch<SetStateAction<Options[T]>>] {
+    const [o, seto] = useState(defaultOptions[optionsKey]);
+    return [o, seto];
   },
-  restoreDefault: () => { },
+  restoreDefault: () => {},
 };
 
 export const localStorageOptionsName = "options";
 export const OptionsContext = createContext(initalContext);
 
 export function PoeStackOptionsProvider({ children }) {
-  const [options, setOptions] = useLocalStorage(localStorageOptionsName, defaultOptions);
+  const [options, setOptions] = useLocalStorage(
+    localStorageOptionsName,
+    defaultOptions
+  );
 
-  function useOptions<T extends keyof Options>(optionsKey: T): [Options[T], Dispatch<SetStateAction<Options[T]>>] {
+  function useOptions<T extends keyof Options>(
+    optionsKey: T
+  ): [Options[T], Dispatch<SetStateAction<Options[T]>>] {
     const [setting, setSetting] = useState(defaultOptions[optionsKey]);
 
     useEffect(() => {
-      setSetting(sanitizeOptions(options)[optionsKey])
-    }, [options])
+      setSetting(sanitizeOptions(options)[optionsKey]);
+    }, [options]);
 
     useEffect(() => {
       setOptions(sanitizeOptions({ ...options, [optionsKey]: setting }));
-    }, [setting])
+    }, [setting]);
 
-    return [setting, setSetting]
+    return [setting, setSetting];
   }
 
   function restoreDefaultOptions() {
@@ -53,7 +67,7 @@ export function PoeStackOptionsProvider({ children }) {
         }
         return returnedOptions;
       },
-      defaultOptions,
+      defaultOptions
     );
   }
 
@@ -63,9 +77,7 @@ export function PoeStackOptionsProvider({ children }) {
   };
 
   return (
-    <OptionsContext.Provider value={value}>
-      {children}
-    </OptionsContext.Provider>
+    <OptionsContext.Provider value={value}>{children}</OptionsContext.Provider>
   );
 }
 

@@ -1,10 +1,10 @@
-import { useState } from "react";
-import { Dialog } from "@headlessui/react";
-import Link from "next/link";
 import Image from "next/image";
-
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import Link from "next/link";
+import { useState } from "react";
 import Swipe from "react-easy-swipe";
+import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+
+import { Dialog } from "@headlessui/react";
 
 import { usePoeLeagueCtx } from "../contexts/league-context";
 import { usePoeStackAuth } from "../contexts/user-context";

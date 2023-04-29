@@ -1,5 +1,6 @@
-import { usePoeStackAuth } from "@contexts/user-context";
 import { useRouter } from "next/router";
+
+import { usePoeStackAuth } from "@contexts/user-context";
 
 export default function PoeAccountConnectedGaurdPanel({ children }) {
   const router = useRouter();

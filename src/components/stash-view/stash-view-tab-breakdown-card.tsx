@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
+
 import CurrencyValueDisplay from "@components/currency-value-display";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewUtil } from "@utils/stash-view-util";
-import { useEffect, useState } from "react";
 
 export function StashViewTabBreakdownTable() {
   const { stashSummary, stashTabs, stashViewSettings, setStashViewSettings } =

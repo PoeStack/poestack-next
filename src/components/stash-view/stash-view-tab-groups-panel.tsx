@@ -1,3 +1,6 @@
+import { nanoid } from "nanoid";
+import { useState } from "react";
+
 import StyledCard from "@components/library/styled-card";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
@@ -6,8 +9,6 @@ import {
   PlusCircleIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { nanoid } from "nanoid";
-import { useState } from "react";
 
 export function StashViewTabGroupsPanel() {
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();

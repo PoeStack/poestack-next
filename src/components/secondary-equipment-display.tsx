@@ -1,9 +1,9 @@
+import Image from "next/image";
 import React from "react";
 
 import { CharacterSnapshotItem } from "../__generated__/graphql";
-import Image from "next/image";
-import ItemMouseOver from "./item-mouseover";
 import { myLoader } from "../utils/general-util";
+import ItemMouseOver from "./item-mouseover";
 import StyledLoading from "./library/styled-loading";
 
 export default function SecondaryEquipmentDisplay({

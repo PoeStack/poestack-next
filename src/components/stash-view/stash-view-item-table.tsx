@@ -1,21 +1,22 @@
-import { useQuery, gql } from "@apollo/client";
+import { useEffect, useState } from "react";
+
+import { gql, useQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import HSparkline from "@components/hsparkline";
 import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
-
+import StyledButton from "@components/library/styled-button";
+import StyledInput from "@components/library/styled-input";
+import StyledPopover from "@components/library/styled-popover";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   ItemGroupValueTimeseries,
   StashViewItemSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
-import { useEffect, useState } from "react";
+
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
-import { useStashViewContext } from "@contexts/stash-view-context";
-import StyledButton from "@components/library/styled-button";
-import StyledInput from "@components/library/styled-input";
-import StyledPopover from "@components/library/styled-popover";
 
 export function StashViewItemTable() {
   const { stashTabs, stashViewSettings, stashSummary, setStashViewSettings } =

@@ -1,23 +1,25 @@
-import { usePoeLeagueCtx } from "@contexts/league-context";
-import StyledCard from "@components/library/styled-card";
+import _ from "lodash";
 import { useState } from "react";
+
+import { gql, useQuery } from "@apollo/client";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import LeagueSelect from "@components/league-select";
+import StyledCard from "@components/library/styled-card";
+import StyledLoading from "@components/library/styled-loading";
+import { StyledTooltip } from "@components/library/styled-tooltip";
+import SortableTableHeader, {
+  SortableTableColumns,
+} from "@components/sortable-table-header";
+import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 import {
   AtlasPassiveSnapshotSearch,
   GenericAggregation,
   PassiveTreeResponse,
 } from "@generated/graphql";
-import { gql, useQuery } from "@apollo/client";
-import _ from "lodash";
-import { StyledTooltip } from "@components/library/styled-tooltip";
-import SortableTableHeader, {
-  SortableTableColumns,
-} from "@components/sortable-table-header";
 import useSortableTable from "@hooks/use-sort-th-hook";
-import LeagueSelect from "@components/league-select";
-import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
+
 import CharacterAggregationDisplay from "../../components/character-aggregation-display";
-import StyledLoading from "@components/library/styled-loading";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
 
 const columns: SortableTableColumns = [
   {

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 
-import { usePoeStackAuth } from "@contexts/user-context";
-import { usePoeLeagueCtx } from "@contexts/league-context";
+import GggAuthBtn from "@components/ggg-auth-btn";
 import LeagueSelect from "@components/league-select";
 import ThemeChanger from "@components/theme-changer";
-import GggAuthBtn from "@components/ggg-auth-btn";
+import { usePoeLeagueCtx } from "@contexts/league-context";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 export default function StyledNavBar() {
   const windowWidth = useWindowSize();
@@ -50,7 +50,7 @@ function DesktopNavBar() {
       name: "TFT Bulk Tool",
       href: `/tft/bulk-tool?league=Crucible`,
       current: false,
-    }
+    },
   ];
 
   return (

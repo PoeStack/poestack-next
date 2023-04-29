@@ -1,10 +1,11 @@
-import React from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import moment from "moment";
 import "moment-timezone";
+import React from "react";
+import { useEffect, useRef } from "react";
+
 import { CharacterSnapshotRecord } from "../__generated__/graphql";
-import { useRef, useEffect } from "react";
 
 export default function CharacterLevelChart({
   snapshots,

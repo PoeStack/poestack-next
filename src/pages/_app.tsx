@@ -1,22 +1,23 @@
-import { ApolloProvider } from "@apollo/client";
-import "../styles/globals.css";
+import { ThemeProvider } from "next-themes";
 import type { AppProps } from "next/app";
+import Head from "next/head";
+import Script from "next/script";
 import client from "poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
-import { PoeStackAuthProvider } from "../contexts/user-context";
 
-import Script from "next/script";
-import StyledNavBar from "@components/library/styled-nav-bar";
-import Head from "next/head";
-import { PoeStackLeagueProvider } from "../contexts/league-context";
-import { ThemeProvider } from "next-themes";
-import StyledFooter from "@components/library/styled-footer";
-import { PoeStackOptionsProvider } from "@contexts/options-context";
-import StyledNavTop from "@components/nav/styled-nav-top";
-import StyledVerticalBannerAd from "@components/ads/styled-vertical-banner-ad";
+import { ApolloProvider } from "@apollo/client";
 import StyledHorizontalBannerAd from "@components/ads/styled-horizontal-banner-ad";
 import StyledHorizontalResponsiveAd from "@components/ads/styled-horizontal-responsive-ad";
 import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import StyledVerticalBannerAd from "@components/ads/styled-vertical-banner-ad";
+import StyledFooter from "@components/library/styled-footer";
+import StyledNavBar from "@components/library/styled-nav-bar";
+import StyledNavTop from "@components/nav/styled-nav-top";
+import { PoeStackOptionsProvider } from "@contexts/options-context";
+
+import { PoeStackLeagueProvider } from "../contexts/league-context";
+import { PoeStackAuthProvider } from "../contexts/user-context";
+import "../styles/globals.css";
 
 declare global {
   interface Array<T> {

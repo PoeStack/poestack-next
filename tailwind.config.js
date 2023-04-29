@@ -8,7 +8,12 @@ module.exports = {
     "./public/**/*.html",
     "./node_modules/tailwind-datepicker-react/dist/**/*.js",
   ],
-  safelist: [{ pattern: /col-start-./ }, { pattern: /row-start-./ }, { pattern: /col-span-./ }, { pattern: /row-span-./ }],
+  safelist: [
+    { pattern: /col-start-./ },
+    { pattern: /row-start-./ },
+    { pattern: /col-span-./ },
+    { pattern: /row-span-./ },
+  ],
   plugins: [require("flowbite/plugin")],
   theme: {
     // Theme Design Principles and Distinctions:

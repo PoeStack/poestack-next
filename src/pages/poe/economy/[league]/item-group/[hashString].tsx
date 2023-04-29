@@ -1,18 +1,18 @@
-import { gql, useQuery } from "@apollo/client";
-import { useRouter } from "next/router";
-
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
+import moment from "moment";
 import "moment-timezone";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+
+import { gql, useQuery } from "@apollo/client";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import StyledCard from "@components/library/styled-card";
+import StyledMultiSelect2 from "@components/library/styled-multi-select-2";
+import StyledSelect2 from "@components/library/styled-select-2";
+import { usePoeLeagueCtx } from "@contexts/league-context";
 import { ItemGroupValueTimeseries } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
-import StyledCard from "@components/library/styled-card";
-import HighchartsReact from "highcharts-react-official";
-import Highcharts from "highcharts";
-import StyledMultiSelect2 from "@components/library/styled-multi-select-2";
-import moment from "moment";
-import { usePoeLeagueCtx } from "@contexts/league-context";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
-import StyledSelect2 from "@components/library/styled-select-2";
 
 export default function EconomyOne() {
   const router = useRouter();

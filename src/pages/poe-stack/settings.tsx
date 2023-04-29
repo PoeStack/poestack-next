@@ -1,8 +1,9 @@
+import { useRouter } from "next/router";
+
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
 import ThemeChanger from "@components/theme-changer";
 import { usePoeStackAuth } from "@contexts/user-context";
-import { useRouter } from "next/router";
 
 export default function PoeStackSettings() {
   const router = useRouter();

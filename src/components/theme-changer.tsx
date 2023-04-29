@@ -1,7 +1,9 @@
-import { Fragment, useState, useEffect } from "react";
+import { useTheme } from "next-themes";
+import { Fragment, useEffect, useState } from "react";
+
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { useTheme } from "next-themes";
+
 import StyledSelect2 from "./library/styled-select-2";
 
 export default function ThemeChanger({

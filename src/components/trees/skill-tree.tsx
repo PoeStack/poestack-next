@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { gql, TypedDocumentNode, useQuery } from "@apollo/client";
-import { PassiveTreeResponse } from "@generated/graphql";
+
+import { TypedDocumentNode, gql, useQuery } from "@apollo/client";
+import StyledButton from "@components/library/styled-button";
+import StyledLoading from "@components/library/styled-loading";
 import { usePoeLeagueCtx } from "@contexts/league-context";
+import { PassiveTreeResponse } from "@generated/graphql";
 
 import NodesTree from "./nodes-tree/nodes-tree";
-import StyledButton from "@components/library/styled-button";
 import createResetZoomEventEmitter, {
   ResetEventEmitter,
 } from "./nodes-tree/reset-zoom-event-emitter";
-import StyledLoading from "@components/library/styled-loading";
 
 const passiveSkillsLayoutQuery: TypedDocumentNode<{
   passiveTree: PassiveTreeResponse;

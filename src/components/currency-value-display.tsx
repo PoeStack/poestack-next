@@ -1,8 +1,10 @@
-import { gql, useQuery } from "@apollo/client";
+import Image from "next/image";
 import React, { useState } from "react";
 import { useEffect } from "react";
-import Image from "next/image";
+
+import { gql, useQuery } from "@apollo/client";
 import { myLoader } from "@utils/general-util";
+
 import { StyledTooltip } from "./library/styled-tooltip";
 
 export const DIV_ICON =

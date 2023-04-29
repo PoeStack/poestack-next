@@ -1,34 +1,36 @@
-import React, { useReducer, useState } from "react";
-import { gql, TypedDocumentNode, useMutation, useQuery } from "@apollo/client";
-import Link from "next/link";
+import { chart } from "highcharts";
+import _ from "lodash";
 import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useReducer, useState } from "react";
+
+import { TypedDocumentNode, gql, useMutation, useQuery } from "@apollo/client";
+import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import { DIV_ICON } from "@components/currency-value-display";
+import StyledButton from "@components/library/styled-button";
+import StyledCard from "@components/library/styled-card";
+import StyledLoading from "@components/library/styled-loading";
+import {
+  StyledSkillImageTooltip,
+  StyledTooltip,
+} from "@components/library/styled-tooltip";
+import SortableTableHeader, {
+  SortableTableColumns,
+  SortableTableHeaderProps,
+} from "@components/sortable-table-header";
+import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
+import { usePoeLeagueCtx } from "@contexts/league-context";
+import { usePoeStackAuth } from "@contexts/user-context";
 import {
   AtlasPassiveSnapshotResponse,
   CharacterSnapshotSearchResponseEntry,
   PoeCharacter,
 } from "@generated/graphql";
-import { useRouter } from "next/router";
-import StyledCard from "@components/library/styled-card";
-import StyledButton from "@components/library/styled-button";
-import _ from "lodash";
-import SortableTableHeader, {
-  SortableTableColumns,
-  SortableTableHeaderProps,
-} from "@components/sortable-table-header";
-import {
-  StyledTooltip,
-  StyledSkillImageTooltip,
-} from "@components/library/styled-tooltip";
 import useSortableTable from "@hooks/use-sort-th-hook";
-import { usePoeStackAuth } from "@contexts/user-context";
-import AtlasPassivesTree from "@components/trees/atlas-passives-tree";
-import { usePoeLeagueCtx } from "@contexts/league-context";
-import LeagueSelect from "../../../components/league-select";
-import { chart } from "highcharts";
-import { DIV_ICON } from "@components/currency-value-display";
 import { myLoader } from "@utils/general-util";
-import StyledLoading from "@components/library/styled-loading";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+
+import LeagueSelect from "../../../components/league-select";
 
 const getCharactersForUser: TypedDocumentNode<{
   poeCharacters: CharactersFragment[];
