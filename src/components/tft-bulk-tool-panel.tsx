@@ -34,7 +34,7 @@ export default function TftBulkToolPanel() {
           <StashViewInfoCard />
         </div>
         <div className="flex-1">
-          <StashViewItemTable />
+          <StashViewItemTable forceReducer={true} />
         </div>
       </div>
     </>

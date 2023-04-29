@@ -18,10 +18,7 @@ import SortableTableHeader, {
 } from "@components/sortable-table-header";
 import { POE_LEAGUES, usePoeLeagueCtx } from "@contexts/league-context";
 import { ItemGroupValueTimeseriesSearchInput } from "@generated/graphql";
-import {
-  ItemGroupValueTimeseries,
-  StashSnapshotItemGroupSummarySearchInput,
-} from "@generated/graphql";
+import { ItemGroupValueTimeseries } from "@generated/graphql";
 import useSortableTable from "@hooks/use-sort-th-hook";
 import { GeneralUtils, myLoader } from "@utils/general-util";
 

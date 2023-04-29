@@ -18,7 +18,11 @@ import { StashViewUtil } from "@utils/stash-view-util";
 
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 
-export function StashViewItemTable() {
+export function StashViewItemTable({
+  forceReducer = false,
+}: {
+  forceReducer?: boolean;
+}) {
   const { stashTabs, stashViewSettings, stashSummary, setStashViewSettings } =
     useStashViewContext();
 
@@ -36,7 +40,7 @@ export function StashViewItemTable() {
       stashSummary!
     );
 
-    if (!!stashViewSettings.stackReducerEnabled) {
+    if (forceReducer || !!stashViewSettings.stackReducerEnabled) {
       res = StashViewUtil.reduceItemStacks(res);
     }
 
@@ -189,7 +193,7 @@ export function StashViewItemTable() {
               >
                 Name
               </th>
-              {!!stashViewSettings.stackReducerEnabled && (
+              {!forceReducer && !stashViewSettings.stackReducerEnabled && (
                 <th
                   className="cursor-pointer"
                   onClick={() => {
@@ -295,23 +299,24 @@ export function StashViewItemTable() {
                           </div>
                         </StashViewItemMouseOver>
                       </td>
-                      {!stashViewSettings.stackReducerEnabled && (
-                        <td
-                          className={`${
-                            tab?.id == stashViewSettings.selectedTabId
-                              ? "text-content-accent"
-                              : ""
-                          } cursor-pointer group-hover:text-content-accent`}
-                          onClick={() => {
-                            setStashViewSettings({
-                              ...stashViewSettings,
-                              selectedTabId: tab!.id,
-                            });
-                          }}
-                        >
-                          {tab?.name}
-                        </td>
-                      )}
+                      {!forceReducer &&
+                        !stashViewSettings.stackReducerEnabled && (
+                          <td
+                            className={`${
+                              tab?.id == stashViewSettings.selectedTabId
+                                ? "text-content-accent"
+                                : ""
+                            } cursor-pointer group-hover:text-content-accent`}
+                            onClick={() => {
+                              setStashViewSettings({
+                                ...stashViewSettings,
+                                selectedTabId: tab!.id,
+                              });
+                            }}
+                          >
+                            {tab?.name}
+                          </td>
+                        )}
                       <td>
                         {!!item.itemGroupHashString && (
                           <div className="flex">
@@ -438,20 +443,23 @@ export function StashViewItemTable() {
               />
               <div>Enabled Overrides</div>
             </div>
-            <div className="flex space-x-1 items-center">
-              <input
-                type="checkbox"
-                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
-                checked={!!stashViewSettings.stackReducerEnabled}
-                onChange={(e) => {
-                  setStashViewSettings({
-                    ...stashViewSettings,
-                    stackReducerEnabled: !stashViewSettings.stackReducerEnabled,
-                  });
-                }}
-              />
-              <div>Reduce Stacks</div>
-            </div>
+            {!forceReducer && (
+              <div className="flex space-x-1 items-center">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                  checked={!!stashViewSettings.stackReducerEnabled}
+                  onChange={(e) => {
+                    setStashViewSettings({
+                      ...stashViewSettings,
+                      stackReducerEnabled:
+                        !stashViewSettings.stackReducerEnabled,
+                    });
+                  }}
+                />
+                <div>Reduce Stacks</div>
+              </div>
+            )}
           </div>
         </div>
       </div>
