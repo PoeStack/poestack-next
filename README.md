@@ -2,6 +2,11 @@
 
 The frontend app for PoeStack
 
+
+### Contributing
+Any contributions of features that aren't against GGG TOS are welcome. Feel free to ask questions in the development Discord channel and I'll try to help you out. If you want to log an issue or are looking for feature ideas checkout: https://github.com/PoeStack/issues/issues
+
+
 ### GraphQL Api
 
 - Ui for building/executing queries https://api.poestack.com/graphql
