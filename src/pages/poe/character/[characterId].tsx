@@ -5,7 +5,7 @@ import client from "poe-stack-apollo-client";
 import { useEffect, useState } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import CharacterLevelChart from "@components/character-level-chart";
 import CharacterStatsDisplay from "@components/character-stats-display";
 import EquipmentDisplay from "@components/equipment-display";
@@ -175,7 +175,7 @@ export default function Character() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <Head>
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="PoeStack" />

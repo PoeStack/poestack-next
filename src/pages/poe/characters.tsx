@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import CharacterAggregationDisplay from "@components/character-aggregation-display";
 import CharacterAggregationDisplay2 from "@components/character-aggregation-display-2";
 import { DIV_ICON } from "@components/currency-value-display";
@@ -170,7 +170,7 @@ export default function Characters() {
 
   return (
     <div className="flex flex-col sm:space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4">
-      <StyledSquareResponsiveAd />
+      <FixedAds />
       {/* Column 1 on Desktop */}
       <div className="flex flex-col basis-1/5 space-y-2 flex-wrap">
         <StyledMultiSearch

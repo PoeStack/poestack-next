@@ -56,7 +56,7 @@ function DesktopNavBar() {
   return (
     <>
       <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
-        <div className="flex items-center text-center justify-center h-16 w-full">
+        <div className="flex items-center text-center justify-center min-h-[50px] w-full">
           <Link href="/">
             <Image
               width={48}
@@ -66,9 +66,9 @@ function DesktopNavBar() {
             />
           </Link>
           <Link href="/">
-            <span className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
+            <div className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
               PoeStack
-            </span>
+            </div>
           </Link>
         </div>
         {/* Profile */}

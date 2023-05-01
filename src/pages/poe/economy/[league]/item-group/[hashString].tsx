@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import StyledCard from "@components/library/styled-card";
 import StyledMultiSelect2 from "@components/library/styled-multi-select-2";
 import StyledSelect2 from "@components/library/styled-select-2";
@@ -95,7 +95,7 @@ export default function EconomyOne() {
   return (
     <>
       <div className="flex flex-col m-2 my-4 space-y-2 md:mx-4 lg:mx-20">
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <div className="flex flex-row space-x-2">
           <StyledCard title={"Info"} className="flex-1">
             <h3>

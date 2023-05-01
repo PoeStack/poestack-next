@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import React, { useReducer, useState } from "react";
 
 import { TypedDocumentNode, gql, useMutation, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import { DIV_ICON } from "@components/currency-value-display";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
@@ -277,7 +277,7 @@ export default function CharactersByUser() {
         <StyledLoading />
       ) : (
         <div className="flex flex-col space-y-2">
-          <StyledSquareResponsiveAd />
+          <FixedAds />
           <StyledCard title="Characters" className="flex-1 ">
             <div className="flex flex-col space-y-10 ">
               <CharactersByUserTable

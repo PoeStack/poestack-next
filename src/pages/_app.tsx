@@ -6,10 +6,6 @@ import client from "poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
 
 import { ApolloProvider } from "@apollo/client";
-import StyledHorizontalBannerAd from "@components/ads/styled-horizontal-banner-ad";
-import StyledHorizontalResponsiveAd from "@components/ads/styled-horizontal-responsive-ad";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
-import StyledVerticalBannerAd from "@components/ads/styled-vertical-banner-ad";
 import StyledFooter from "@components/library/styled-footer";
 import StyledNavBar from "@components/library/styled-nav-bar";
 import StyledNavTop from "@components/nav/styled-nav-top";

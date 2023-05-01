@@ -1,7 +1,7 @@
 import "moment-timezone";
 import { useState } from "react";
 
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
@@ -26,7 +26,7 @@ export default function StashView() {
   return (
     <>
       <PoeAccountConnectedGaurdPanel>
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <StashViewContextProvider cacheId={"stash-view-page"}>
           <StashViewAdvancedSettingPanel
             open={advancedSettingsOpen}

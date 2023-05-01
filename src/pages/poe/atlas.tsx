@@ -2,7 +2,7 @@ import _ from "lodash";
 import { useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import LeagueSelect from "@components/league-select";
 import StyledCard from "@components/library/styled-card";
 import StyledLoading from "@components/library/styled-loading";
@@ -157,7 +157,7 @@ export default function Atlas() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <div className="flex flex-row space-x-2">
           <div className="flex flex-col space-y-2 min-w-[260px]">
             <StyledCard title={"Search"}>

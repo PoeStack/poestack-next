@@ -76,7 +76,7 @@ export default async function TftExportImage(req) {
   const cols = Math.ceil(items.length / 15);
 
   function cleanText(e: string): string {
-    return e.replaceAll(" Scarab", "").replaceAll("Essence of ", "");
+    return e.replaceAll(" Scarab", "").replaceAll("Essence Of ", "");
   }
 
   return new ImageResponse(

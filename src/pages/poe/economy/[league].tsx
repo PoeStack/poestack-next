@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import HSparkline from "@components/hsparkline";
 import ItemGroupTagSelect from "@components/item-group-tag-select";
@@ -144,7 +144,7 @@ export default function Economy() {
   return (
     <>
       <div>
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <StyledCard>
           <div className="grid grid-cols-8">
             <div className="col-span-6 col-start-2 mb-4 space-y-2 lg:col-span-2 lg:col-start-4">

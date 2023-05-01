@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import StyledSquareResponsiveAd from "@components/ads/styled-square-responsive-ad";
+import FixedAds from "@components/ads/styled-square-responsive-ad";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
 import TftBulkToolPanel from "@components/tft-bulk-tool-panel";
@@ -16,7 +16,7 @@ export default function BulkTool() {
   return (
     <>
       <div>
-        <StyledSquareResponsiveAd />
+        <FixedAds />
         <TftGuardPanel>
           <div className="flex flex-col space-y-4">
             <StyledCard title="Tool">
