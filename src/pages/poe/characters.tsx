@@ -170,7 +170,6 @@ export default function Characters() {
 
   return (
     <div className="flex flex-col sm:space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4">
-      <FixedAds />
       {/* Column 1 on Desktop */}
       <div className="flex flex-col basis-1/5 space-y-2 flex-wrap">
         <StyledMultiSearch

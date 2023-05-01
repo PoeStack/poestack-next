@@ -144,7 +144,6 @@ export default function Economy() {
   return (
     <>
       <div>
-        <FixedAds />
         <StyledCard>
           <div className="grid grid-cols-8">
             <div className="col-span-6 col-start-2 mb-4 space-y-2 lg:col-span-2 lg:col-start-4">

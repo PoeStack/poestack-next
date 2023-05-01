@@ -11,7 +11,6 @@ export default function ThemeChanger({
 }: {
   onChange?: (e: string) => void;
 }) {
-  //const [theme, setTheme] = useState("Dark");
   const [mounted, setMounted] = useState(false);
   const { theme, setTheme } = useTheme();
 

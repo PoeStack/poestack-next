@@ -72,7 +72,7 @@ export default function TftLiveSearcgFiveWays() {
               </div>
 
               <StyledButton
-                text={"Adknowledge and Close"}
+                text={"Accept and Close"}
                 onClick={() => {
                   setTftLiveSearchSettings({
                     ...tftLiveSearchSettings,

@@ -16,7 +16,6 @@ export default function BulkTool() {
   return (
     <>
       <div>
-        <FixedAds />
         <TftGuardPanel>
           <div className="flex flex-col space-y-4">
             <StyledCard title="Tool">

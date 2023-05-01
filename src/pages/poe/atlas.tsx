@@ -157,7 +157,6 @@ export default function Atlas() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20 ">
-        <FixedAds />
         <div className="flex flex-row space-x-2">
           <div className="flex flex-col space-y-2 min-w-[260px]">
             <StyledCard title={"Search"}>

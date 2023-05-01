@@ -26,7 +26,6 @@ export default function StashView() {
   return (
     <>
       <PoeAccountConnectedGaurdPanel>
-        <FixedAds />
         <StashViewContextProvider cacheId={"stash-view-page"}>
           <StashViewAdvancedSettingPanel
             open={advancedSettingsOpen}

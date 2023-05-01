@@ -175,7 +175,6 @@ export default function Character() {
   return (
     <>
       <div className="flex flex-col my-4 space-y-2 md:mx-4 lg:mx-20">
-        <FixedAds />
         <Head>
           <meta property="og:type" content="website" />
           <meta property="og:site_name" content="PoeStack" />

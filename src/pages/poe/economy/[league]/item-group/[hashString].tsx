@@ -95,7 +95,6 @@ export default function EconomyOne() {
   return (
     <>
       <div className="flex flex-col m-2 my-4 space-y-2 md:mx-4 lg:mx-20">
-        <FixedAds />
         <div className="flex flex-row space-x-2">
           <StyledCard title={"Info"} className="flex-1">
             <h3>

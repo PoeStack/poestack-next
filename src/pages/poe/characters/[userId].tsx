@@ -277,7 +277,6 @@ export default function CharactersByUser() {
         <StyledLoading />
       ) : (
         <div className="flex flex-col space-y-2">
-          <FixedAds />
           <StyledCard title="Characters" className="flex-1 ">
             <div className="flex flex-col space-y-10 ">
               <CharactersByUserTable

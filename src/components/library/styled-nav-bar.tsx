@@ -56,40 +56,9 @@ function DesktopNavBar() {
   return (
     <>
       <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
-        <div className="flex items-center text-center justify-center min-h-[50px] w-full">
-          <Link href="/">
-            <Image
-              width={48}
-              height={130}
-              src={"/logo_noname.png"}
-              alt="PoeStack"
-            />
-          </Link>
-          <Link href="/">
-            <div className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
-              PoeStack
-            </div>
-          </Link>
-        </div>
         {/* Profile */}
         {/* Navgiation */}
-        <ul role="list" className="space-y-2">
-          {navigation.map((item) => (
-            <li
-              key={item.name}
-              className={`block text-sm font-semibold leading-6 rounded-md hover:bg-color-primary ${
-                item.current ? "bg-color-primary" : ""
-              }`}
-            >
-              <Link
-                href={item.href}
-                className="block py-3 px-2 text-sm font-semibold leading-6 "
-              >
-                {item.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <ul role="list" className="space-y-2"></ul>
         {/* Spacer */}
         <div className="flex-1"></div>
         {/* Settings with Options */}
