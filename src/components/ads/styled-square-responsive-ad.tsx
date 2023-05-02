@@ -1,16 +1,22 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
+import { usePoeStackAuth } from "@contexts/user-context";
 import { Adsense } from "@ctrl/react-adsense";
 
 export default function FixedAds() {
+  const { profile } = usePoeStackAuth();
   const router = useRouter();
 
-  const [key, setKey] = useState(Date.now());
+  const [key, setKey] = useState(router.pathname);
 
   useEffect(() => {
-    setKey(Date.now());
+    setKey(router.pathname);
   }, [setKey, router.pathname]);
+
+  if (profile?.patreonTier) {
+    return <></>;
+  }
 
   return (
     <>

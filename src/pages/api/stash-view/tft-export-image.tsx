@@ -63,9 +63,7 @@ export default async function TftExportImage(req) {
   });
 
   const stashSummary: StashViewStashSummary = d.data.stashViewStashSummary;
-  const items = StashViewUtil.reduceItemStacks(
-    StashViewUtil.searchItems(stashViewSettings, stashSummary)
-  )
+  const items = StashViewUtil.searchItems(stashViewSettings, stashSummary, true)
     .filter((e) => !!e.itemGroupHashString)
     .sort(
       (a, b) =>

@@ -135,7 +135,7 @@ export function StashViewItemMouseOver({
                 </div>
                 <div className="flex space-x-1">
                   <div>
-                    {StashViewExporters.closestFraction(
+                    {StashViewExporters.getWholeFractionString(
                       StashViewUtil.itemValue(stashViewSettings, itemSummary!),
                       itemSummary?.quantity!
                     )}

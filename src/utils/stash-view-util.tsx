@@ -53,6 +53,35 @@ export class StashViewUtil {
     return value;
   }
 
+  public static findItemsToSell(numItems: number, itemValue: number): string {
+    // Calculate the target value for each item
+    const targetValue = Math.round(itemValue);
+
+    // Sort the items by their fractional value
+    const sortedItems = Array.from({ length: numItems }, (_, i) => i).sort(
+      (i, j) => itemValue - targetValue
+    );
+
+    // Initialize the total value of the items to zero
+    let totalValue = 0;
+
+    // Initialize the list of items to sell to an empty list
+    const itemsToSell: number[] = [];
+
+    // Iterate over the sorted items
+    for (const itemIndex of sortedItems) {
+      // If the total value plus the value of the item is less than or equal to the target value,
+      // add the item to the list of items to sell and update the total value
+      if (totalValue + itemValue <= targetValue) {
+        itemsToSell.push(itemIndex);
+        totalValue += itemValue;
+      }
+    }
+
+    const dec = itemsToSell.length + 1;
+    return `${Math.floor(itemValue * dec)}/${dec}`;
+  }
+
   public static itemStackTotalValue(
     settings: StashViewSettings,
     item: StashViewItemSummary
@@ -62,7 +91,8 @@ export class StashViewUtil {
 
   public static searchItems(
     settings: StashViewSettings,
-    summary: StashViewStashSummary
+    summary: StashViewStashSummary,
+    reduceStack: boolean = false
   ): StashViewItemSummary[] {
     const filters: ((item: StashViewItemSummary) => boolean)[] = [
       (e) =>
@@ -101,11 +131,15 @@ export class StashViewUtil {
       },
     ];
 
-    const result = [...summary.items].filter((e) => filters.every((f) => f(e)));
+    const result = (
+      reduceStack
+        ? StashViewUtil.reduceItemStacks([...summary.items])
+        : [...summary.items]
+    ).filter((e) => filters.every((f) => f(e)));
     return result;
   }
 
-  public static reduceItemStacks(
+  private static reduceItemStacks(
     items: StashViewItemSummary[]
   ): StashViewItemSummary[] {
     const groups: Record<string, StashViewItemSummary> = {};

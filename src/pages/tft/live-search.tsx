@@ -17,10 +17,24 @@ export default function TftLiveSearch() {
   return (
     <>
       <TftGuardPanel>
-        <TftLiveSearchContextProvider tag={tag?.toString()!}>
-          <TftLiveSearchSwitchPanel />
+        <TftLiveSearchContextProvider tag={tag?.toString() ?? "compasses"}>
+          <TftLiveSearchSwitchPanelWrapper />
         </TftLiveSearchContextProvider>
       </TftGuardPanel>
+    </>
+  );
+}
+
+export function TftLiveSearchSwitchPanelWrapper() {
+  const { tftLiveSearchSettings } = useTftLiveSearchCtx();
+
+  return (
+    <>
+      {tftLiveSearchSettings.messageHistoryOpen ? (
+        <TftLiveSearchMessageHistory />
+      ) : (
+        <TftLiveSearchSwitchPanel />
+      )}
     </>
   );
 }
@@ -29,20 +43,9 @@ export function TftLiveSearchSwitchPanel() {
   const router = useRouter();
   const { tag } = router.query;
 
-  const { tftLiveSearchSettings } = useTftLiveSearchCtx();
+  if (tag === "five-ways") {
+    return <TftLiveSearcgFiveWays />;
+  }
 
-  const tags = {
-    "five-ways": TftLiveSearcgFiveWays,
-    compasses: TftLiveSearchCompasses,
-  };
-
-  return (
-    <>
-      {tftLiveSearchSettings.messageHistoryOpen ? (
-        <TftLiveSearchMessageHistory />
-      ) : (
-        <>{tags[tag?.toString()!]!()}</>
-      )}
-    </>
-  );
+  return <TftLiveSearchCompasses />;
 }

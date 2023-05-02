@@ -47,6 +47,10 @@ export class GeneralUtils {
     };
   }
 
+  public static random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   public static hashPropValue(prop): number | string | boolean | null {
     if (prop["nValue"] !== undefined) return prop["nValue"];
     if (prop["bValue"] !== undefined) return prop["bValue"];

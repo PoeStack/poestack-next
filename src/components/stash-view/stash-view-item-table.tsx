@@ -35,14 +35,11 @@ export function StashViewItemTable({
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
   useEffect(() => {
-    let res = StashViewUtil.searchItems(
+    const res = StashViewUtil.searchItems(
       { ...stashViewSettings, excludedItemGroupIds: [] },
-      stashSummary!
+      stashSummary!,
+      forceReducer || !!stashViewSettings.stackReducerEnabled
     );
-
-    if (forceReducer || !!stashViewSettings.stackReducerEnabled) {
-      res = StashViewUtil.reduceItemStacks(res);
-    }
 
     function sortValueOfKey(
       key: string | null,

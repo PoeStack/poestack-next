@@ -35,7 +35,11 @@ export default function StyledNavTop() {
       href: `/tft/bulk-tool?league=Crucible`,
     },
     {
-      name: "TFT Live Search",
+      name: "TFT Compasses",
+      href: `/tft/live-search?tag=compasses`,
+    },
+    {
+      name: "TFT Five Ways",
       href: `/tft/live-search?tag=five-ways`,
     },
   ];

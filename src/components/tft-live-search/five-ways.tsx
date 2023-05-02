@@ -12,6 +12,8 @@ import { useTftLiveSearchCtx } from "@contexts/tft-live-search-context";
 import { TftLiveListing } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 
+import { TftLiveSearchRoleHeader } from "./tft-live-search-role-header";
+
 export default function TftLiveSearcgFiveWays() {
   const { tftLiveSearchSettings, setTftLiveSearchSettings } =
     useTftLiveSearchCtx();
@@ -41,7 +43,7 @@ export default function TftLiveSearcgFiveWays() {
       }
     `,
     {
-      pollInterval: 1000,
+      pollInterval: 2000,
       onCompleted(data) {
         setListings(data.tftLiveListings);
       },
@@ -117,48 +119,9 @@ export default function TftLiveSearcgFiveWays() {
               <>
                 <>
                   <StyledCard className="w-full">
-                    <div className="flex flex-col space-y-2">
-                      <div className="flex space-x-1">
-                        <StyledTooltip
-                          texts={[
-                            listing.userDiscordDisplayRole ??
-                              listing.userDiscordHighestRole ??
-                              "None",
-                          ]}
-                          placement={"auto"}
-                        >
-                          <div className="flex space-x-1">
-                            {!!listing.userDiscordDisplayRole && (
-                              <Image
-                                height={25}
-                                width={25}
-                                src={`/assets/tft/roles/${listing.userDiscordDisplayRole}.png`}
-                                alt={""}
-                              />
-                            )}
-                            <div
-                              style={{
-                                color:
-                                  listing.userDiscordDisplayRoleColor ??
-                                  "#f1f1f1",
-                              }}
-                              className="text-lg"
-                            >
-                              {listing.userDiscordName?.replaceAll(
-                                /[^a-zA-Z0-9 ]/g,
-                                ""
-                              )}
-                            </div>
-                          </div>
-                        </StyledTooltip>
-                        <div className="flex-1"></div>
-                        <div className="text-sm">
-                          {moment(listing.updatedAtTimestamp)
-                            .subtract(10, "seconds")
-                            .fromNow()}
-                        </div>
-                      </div>
+                    <TftLiveSearchRoleHeader listing={listing} />
 
+                    <div className="flex flex-col space-y-2 pt-2">
                       <div className="flex items-baseline space-x-1 text-sm">
                         <div className="flex space-x-1">
                           {listing.properties.priceDiv}
