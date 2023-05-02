@@ -23,6 +23,12 @@ import { StashViewContextProvider } from "@contexts/stash-view-context";
 export default function StashView() {
   const [advancedSettingsOpen, setAdvancedSettingsOpen] = useState(false);
 
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
+  const handleToggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <>
       <PoeAccountConnectedGaurdPanel>
@@ -36,21 +42,27 @@ export default function StashView() {
             <div className="min-h-full">
               <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
                 <StyledCard className="flex flex-col space-y-2">
-                  <LeagueSelect />
-                  <StashViewTabSelectionCard />
-                  <StashViewSnapshotJobCard />
-                  <StyledButton
-                    text="Settings"
-                    onClick={() => {
-                      setAdvancedSettingsOpen(true);
-                    }}
-                  />
-                </StyledCard>
+                  <button onClick={handleToggleCollapse}>
+                    {isCollapsed ? "Expand" : "Hide"}
+                  </button>
+                  <div style={{ display: isCollapsed ? "none" : "block" }}>
+                    <LeagueSelect />
+                    <StashViewTabSelectionCard />
+                    <StashViewSnapshotJobCard />
 
+                    <div className="flex flex-col space-y-2 mt-2">
+                      <StyledButton
+                        text="Settings"
+                        onClick={() => {
+                          setAdvancedSettingsOpen(true);
+                        }}
+                      />
+                    </div>
+                  </div>
+                </StyledCard>
                 <StashViewSearchCard />
 
                 <StashViewTabGroupsPanel />
-
                 <StashViewExportCard />
               </div>
             </div>
