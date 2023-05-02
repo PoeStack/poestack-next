@@ -102,6 +102,23 @@ export function StashViewGenericTftExporterCard() {
             }}
             items={[null, ...Object.keys(TFT_CATEGORIES)]}
           />
+          <StyledInput
+            className={
+              (stashViewSettings?.ign?.length ?? 0) < 3
+                ? "border-red-600 border-2"
+                : ""
+            }
+            value={stashViewSettings.ign}
+            placeholder="IGN"
+            onChange={(e) => {
+              setStashViewSettings({ ...stashViewSettings, ign: e });
+            }}
+          />
+
+          <div className="grid grid-cols-2">
+            <div>Multiplier</div>
+            <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
+          </div>
           <input
             id="minmax-range"
             type="range"
@@ -117,22 +134,6 @@ export function StashViewGenericTftExporterCard() {
             }}
             className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700"
           />
-          <StyledInput
-            className={
-              (stashViewSettings?.ign?.length ?? 0) < 3
-                ? "border-red-600 border-2"
-                : ""
-            }
-            value={stashViewSettings.ign}
-            placeholder="IGN"
-            onChange={(e) => {
-              setStashViewSettings({ ...stashViewSettings, ign: e });
-            }}
-          />
-          <div className="grid grid-cols-2">
-            <div>Multiplier</div>
-            <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
-          </div>
           {error && (
             <>
               <div className="text-red-600">Error: {error}</div>
@@ -144,7 +145,11 @@ export function StashViewGenericTftExporterCard() {
               disabled={(stashViewSettings?.ign?.length ?? 0) < 3}
               text={statusText ? statusText : "Post to TFT"}
               onClick={() => {
-                if ((stashViewSettings?.ign?.length ?? 0) >= 3 && !loading) {
+                if (!stashViewSettings.tftSelectedCategory) {
+                  setError("You must select a TFT category.");
+                } else if ((stashViewSettings?.ign?.length ?? 0) < 3) {
+                  setError("You must set an IGN.");
+                } else {
                   setStatusText("Waiting for Bot");
                   postOneClick();
                 }
@@ -157,10 +162,12 @@ export function StashViewGenericTftExporterCard() {
                 {
                   text: "Copy Text",
                   onClick: () => {
-                    if ((stashViewSettings?.ign?.length ?? 0) >= 3) {
-                      generateMessageToClipboard();
+                    if (!stashViewSettings.tftSelectedCategory) {
+                      setError("You must select a TFT category.");
+                    } else if ((stashViewSettings?.ign?.length ?? 0) < 3) {
+                      setError("You must set an IGN.");
                     } else {
-                      navigator.clipboard.writeText("Please set an IGN.");
+                      generateMessageToClipboard();
                     }
                   },
                 },
@@ -168,22 +175,26 @@ export function StashViewGenericTftExporterCard() {
                   text: "Copy Image",
                   onClick: () => {
                     const cpy = async () => {
-                      const response = await fetch(
-                        `/api/stash-view/tft-export-image?input=${encodeURIComponent(
-                          JSON.stringify(generateInput())
-                        )}&opaqueKey=${profile?.opaqueKey}`
-                      );
-                      const blob = await response.blob();
-                      await navigator.clipboard.write([
-                        new ClipboardItem({
-                          [blob.type]: blob,
-                        }),
-                      ]);
+                      if (!stashViewSettings.tftSelectedCategory) {
+                        setError("You must select a TFT category.");
+                      } else {
+                        const response = await fetch(
+                          `/api/stash-view/tft-export-image?input=${encodeURIComponent(
+                            JSON.stringify(generateInput())
+                          )}&opaqueKey=${profile?.opaqueKey}`
+                        );
+                        const blob = await response.blob();
+                        await navigator.clipboard.write([
+                          new ClipboardItem({
+                            [blob.type]: blob,
+                          }),
+                        ]);
+                      }
+                      setStatusText("Loading Image");
+                      cpy().finally(() => {
+                        setStatusText(null);
+                      });
                     };
-                    setStatusText("Loading Image");
-                    cpy().finally(() => {
-                      setStatusText(null);
-                    });
                   },
                 },
               ]}

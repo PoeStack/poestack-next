@@ -73,20 +73,7 @@ export function TftOneClickInstructions() {
               className=""
             />
             <YouTube
-              videoId={"yYLf8tqVbxA"}
-              opts={{
-                height: "360",
-                width: "680",
-                playerVars: {
-                  autoplay: 0,
-                },
-              }}
-              className=""
-            />
-          </div>
-          <div className="flex space-x-2">
-            <YouTube
-              videoId={"7JYdgkIH8i4"}
+              videoId={"caQvSe4W3Ro"}
               opts={{
                 height: "360",
                 width: "680",

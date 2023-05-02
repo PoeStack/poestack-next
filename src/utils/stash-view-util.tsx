@@ -96,9 +96,6 @@ export class StashViewUtil {
   ): StashViewItemSummary[] {
     const filters: ((item: StashViewItemSummary) => boolean)[] = [
       (e) =>
-        !settings.filterCheckedTabs ||
-        settings.checkedTabIds.includes(e.stashId),
-      (e) =>
         settings.searchString.trim().length === 0 ||
         e.searchableString.includes(settings.searchString.toLowerCase()),
       (e) =>
@@ -131,10 +128,14 @@ export class StashViewUtil {
       },
     ];
 
+    const prefilter = [...summary.items].filter(
+      (e) =>
+        !settings.filterCheckedTabs ||
+        settings.checkedTabIds.includes(e.stashId)
+    );
+
     const result = (
-      reduceStack
-        ? StashViewUtil.reduceItemStacks([...summary.items])
-        : [...summary.items]
+      reduceStack ? StashViewUtil.reduceItemStacks(prefilter) : prefilter
     ).filter((e) => filters.every((f) => f(e)));
     return result;
   }
@@ -145,6 +146,7 @@ export class StashViewUtil {
     const groups: Record<string, StashViewItemSummary> = {};
     for (const item of items) {
       if (item.itemGroupHashString) {
+        console.log("reducing: " + item.itemGroupHashString);
         let group = groups[item.itemGroupHashString];
         if (!group) {
           group = { ...item };
@@ -154,6 +156,7 @@ export class StashViewUtil {
         }
       }
     }
+    console.log("legion", groups["490e1556daa83c3101eed22c68014b7b59b303be"]);
     return Object.values(groups);
   }
 }
