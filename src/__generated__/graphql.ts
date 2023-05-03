@@ -489,6 +489,7 @@ export type Query = {
   myProfile: UserProfile;
   passiveTree: PassiveTreeResponse;
   poeCharacters: Array<PoeCharacter>;
+  poestackStats: Scalars['JSON'];
   profileByPoeProfileName: UserProfile;
   stashTabs: Array<PoeStashTab>;
   stashViewAutomaticSnapshotSettings: StashViewAutomaticSnapshotSettings;

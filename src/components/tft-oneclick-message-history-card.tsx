@@ -24,6 +24,7 @@ export default function TftOneClickMessageHistoryCard() {
       }
     `,
     {
+      fetchPolicy: "no-cache",
       onCompleted(data) {
         setMessages(data.tftOneClickMessageHistory);
       },

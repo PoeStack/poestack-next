@@ -1,23 +1,15 @@
-import { useTheme } from "next-themes";
 import { AppProps } from "next/app";
-
-import { Adsense } from "@ctrl/react-adsense";
 
 import FixedAds from "./ads/styled-square-responsive-ad";
 import StyledFooter from "./library/styled-footer";
 import StyledNavTop from "./nav/styled-nav-top";
 
 export function PageLayout({ Component, pageProps }: AppProps) {
-  const { theme } = useTheme();
-
   return (
     <>
       <div
         className={
-          "text-content-base bg-center min-w-fit  " +
-          (theme === "Original"
-            ? "bg-[url('/assets/common/witch.jpg')]"
-            : "bg-[url('/assets/common/witch.jpg')]")
+          "text-content-base bg-contain min-w-fit bg-[url('/assets/common/witch.png')]"
         }
       >
         <FixedAds />
