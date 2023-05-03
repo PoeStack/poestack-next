@@ -22,6 +22,7 @@ const documents = {
     "\n    mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {\n      stashViewSnapshot(input: $input)\n    }\n  ": types.TakeStashViewSanpshotDocument,
     "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          totalStahes\n          timestamp\n        }\n      }\n    ": types.StashViewJobStatDocument,
     "\n      query TftLiveListings {\n        tftLiveListings {\n          channelId\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordDisplayRoleColor\n          userDiscordHighestRole\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          body\n          properties\n        }\n      }\n    ": types.TftLiveListingsDocument,
+    "\n      query TftLiveListingSearch($search: TftLiveListingSearch!) {\n        tftLiveListingSearch(search: $search) {\n          channelId\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordHighestRole\n          userDiscordDisplayRoleColor\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          properties\n        }\n      }\n    ": types.TftLiveListingSearchDocument,
     "\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    ": types.TftOneClickMessageHistoryDocument,
     "\n      mutation DeleteTftOneClickMessage($messageId: String!) {\n        deleteTftOneClickMessage(messageId: $messageId)\n      }\n    ": types.DeleteTftOneClickMessageDocument,
     "\n  query PassiveAtlasTree($passiveTreeVersion: String!) {\n    atlasTree(passiveTreeVersion: $passiveTreeVersion) {\n      constants {\n        minX\n        minY\n        maxX\n        maxY\n        skillsPerOrbit\n        orbitRadii\n      }\n      nodeMap\n      connectionMap\n    }\n  }\n": types.PassiveAtlasTreeDocument,
@@ -32,6 +33,7 @@ const documents = {
     "\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    ": types.CurrenyValuePullDivDocument,
     "\n      mutation ExchangeAuthCode($authCode: String!) {\n        exchangeAuthCode(authCode: $authCode)\n      }\n    ": types.ExchangeAuthCodeDocument,
     "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
+    "\n    mutation RouteChange($path: String!, $pathname: String!) {\n      routeChange(path: $path, pathname: $pathname)\n    }\n  ": types.RouteChangeDocument,
     "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    ": types.UpdateDiscordCodeDocument,
     "\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    ": types.UpdatePatreonCodeDocument,
     "\n      query AtlasPassiveTreeSnapshotPopularityAggregation(\n        $search: AtlasPassiveSnapshotSearch!\n      ) {\n        atlasPassiveTreeSnapshotPopularityAggregation(search: $search) {\n          values {\n            key\n            value\n          }\n        }\n      }\n    ": types.AtlasPassiveTreeSnapshotPopularityAggregationDocument,
@@ -106,6 +108,10 @@ export function gql(source: "\n      query TftLiveListings {\n        tftLiveLis
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n      query TftLiveListingSearch($search: TftLiveListingSearch!) {\n        tftLiveListingSearch(search: $search) {\n          channelId\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordHighestRole\n          userDiscordDisplayRoleColor\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          properties\n        }\n      }\n    "): (typeof documents)["\n      query TftLiveListingSearch($search: TftLiveListingSearch!) {\n        tftLiveListingSearch(search: $search) {\n          channelId\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordHighestRole\n          userDiscordDisplayRoleColor\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          properties\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    "): (typeof documents)["\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -143,6 +149,10 @@ export function gql(source: "\n      mutation ExchangeAuthCode($authCode: String
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "): (typeof documents)["\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation RouteChange($path: String!, $pathname: String!) {\n      routeChange(path: $path, pathname: $pathname)\n    }\n  "): (typeof documents)["\n    mutation RouteChange($path: String!, $pathname: String!) {\n      routeChange(path: $path, pathname: $pathname)\n    }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

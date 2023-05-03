@@ -1,5 +1,6 @@
 import StyledButton from "@components/library/styled-button";
 import StyledInput from "@components/library/styled-input";
+import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewExporters } from "@utils/stash-view-exporters";
 
@@ -45,6 +46,17 @@ export function StashViewForumShopExporterCard() {
           <div>Multiplier</div>
           <div>{stashViewSettings.exporterListedValueMultipler ?? 100}%</div>
         </div>
+
+        <StyledSelect2
+          selected={stashViewSettings.valueToFractionMode}
+          onSelectChange={(e) => {
+            setStashViewSettings({
+              ...stashViewSettings,
+              valueToFractionMode: e,
+            });
+          }}
+          items={["Max", "Closest"]}
+        />
         <StyledButton
           text={"Copy"}
           onClick={() => {

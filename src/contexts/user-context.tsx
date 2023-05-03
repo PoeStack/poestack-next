@@ -90,6 +90,17 @@ export function PoeStackAuthProvider({ children }) {
     }
   );
 
+  const [routeChange] = useMutation(gql`
+    mutation RouteChange($path: String!, $pathname: String!) {
+      routeChange(path: $path, pathname: $pathname)
+    }
+  `);
+  useEffect(() => {
+    routeChange({
+      variables: { pathname: router.pathname, path: router.asPath },
+    });
+  }, [router.pathname]);
+
   useEffect(() => {
     if (code?.length) {
       connectAccount();

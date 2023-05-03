@@ -54,6 +54,8 @@ export interface StashViewSettings {
   ign: string | null;
   tftSelectedCategory: string | null;
   tftSelectedSubCategory: string | null;
+
+  valueToFractionMode: string;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -98,6 +100,8 @@ const defaultStashViewSettings: StashViewSettings = {
 
   sortKey: "stackValue",
   sortDirection: "desc",
+
+  valueToFractionMode: "Max",
 };
 
 export interface StashViewContext {
@@ -272,7 +276,6 @@ export function StashViewContextProvider({
     `,
     {
       skip: !league,
-      pollInterval: 1000 * 60 * 2,
       onCompleted(data) {
         const tabSummary: StashViewStashSummary = data.stashViewStashSummary;
         setTabSummary({

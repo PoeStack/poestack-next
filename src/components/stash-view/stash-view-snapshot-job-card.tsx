@@ -37,7 +37,7 @@ export function StashViewSnapshotJobCard() {
       skip: !stashViewSettings?.snapshotJobId,
       fetchPolicy: "no-cache",
       nextFetchPolicy: "no-cache",
-      pollInterval: 1000,
+      pollInterval: 2000,
       onCompleted(data) {
         setJobStatus(data?.stashViewJobStat);
 

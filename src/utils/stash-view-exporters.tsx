@@ -26,10 +26,17 @@ export class StashViewExporters {
 
         const itemValue = StashViewUtil.itemValue(stashSettings, item);
 
-        let fract = StashViewExporters.getWholeFractionString(
-          itemValue,
-          item.quantity
-        );
+        let fract = "1";
+
+        if (stashSettings.valueToFractionMode === "Closest") {
+          fract = StashViewExporters.closestFraction(itemValue, item.quantity);
+        } else {
+          fract = StashViewExporters.getWholeFractionString(
+            itemValue,
+            item.quantity
+          );
+        }
+
         if (fract === "0") {
           fract = "1";
         }
@@ -56,5 +63,36 @@ export class StashViewExporters {
     const fracNumerator = Math.round(fraction * denominator);
 
     return `${fracNumerator}/${denominator}`;
+  }
+
+  public static closestFraction(x: number, y: number): string {
+    let numerator = Math.round(x * y);
+    let denominator = y;
+    let diff = Math.abs(x - numerator / denominator);
+
+    for (let d = y - 1; d >= 1; d--) {
+      const n = Math.round(x * d);
+      const newDiff = Math.abs(x - n / d);
+      if (newDiff < diff) {
+        numerator = n;
+        denominator = d;
+        diff = newDiff;
+      }
+    }
+
+    const gcd = StashViewExporters.findGcd(numerator, denominator);
+    numerator /= gcd;
+    denominator /= gcd;
+    if (denominator === 1) {
+      return `${numerator}`;
+    }
+    return `${numerator}/${denominator}`;
+  }
+
+  private static findGcd(a: number, b: number): number {
+    if (b === 0) {
+      return a;
+    }
+    return StashViewExporters.findGcd(b, a % b);
   }
 }
