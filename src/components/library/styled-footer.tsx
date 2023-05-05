@@ -105,13 +105,13 @@ export default function StyledFooter() {
           </div>
         </div>
 
-        <div className="relative ">
+        <div className="relative">
           <span className="absolute bottom-0 right-0 mr-4 text-sm text-content-base sm:text-center ">
             © 2023{" "}
             <Link href="/" className="hover:underline">
               PoeStack.com
             </Link>
-            . All Rights Reserved.
+            . All Rights Reserved. v1.0.0
           </span>
         </div>
       </div>

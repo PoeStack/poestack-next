@@ -31,6 +31,10 @@ export default function LandingPage() {
           <Hero />
           <StatsCard />
           <StashFeatures />
+          <OpenSource />
+          <Ladder />
+          <TftFeatures />
+          <GeneralFeatures />
           <Support />
         </div>
       </main>
@@ -176,7 +180,7 @@ export function StatsCard() {
           />
         </div>
 
-        <div className="bg-surface-primary p-6 rounded-lg -translate-x-[10%]">
+        <div className="bg-surface-primary p-6 rounded-lg ">
           <div className="mx-auto max-w-2xl lg:mx-0 lg:max-w-xl">
             <h2 className="text-base font-semibold leading-8 text-indigo-400">
               Our track record
@@ -260,7 +264,7 @@ const features = [
 ];
 export function StashFeatures() {
   return (
-    <div className="bg-surface-primary py-24 sm:py-32">
+    <div className="bg-surface-primary py-16 sm:py-32">
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-base font-semibold leading-7 text-indigo-400">
@@ -305,6 +309,223 @@ export function StashFeatures() {
             </div>
           ))}
         </dl>
+      </div>
+    </div>
+  );
+}
+
+const ladderFeatures = [
+  {
+    name: "Snapshots on Demand",
+    description:
+      "Get a big upgrade? Take a snapshot you can view snapshots of all the characters on the ladder to see how their gear progressed through a league.",
+    icon: CloudArrowUpIcon,
+  },
+  {
+    name: "Find Builds",
+    description:
+      "Search the ladder, filter by skills, infinite pages. See how the meta is evolving and find the perfect next build.",
+    icon: LockClosedIcon,
+  },
+  {
+    name: "Custom Ladders",
+    description:
+      "Want a ladder that is just you and your friends? Create a custom ladder, add any other PoeStack users and have some friendly competition.",
+    icon: ServerIcon,
+  },
+];
+
+export function Ladder() {
+  return (
+    <div className="overflow-hidden bg-surface-primary py-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+          <div className="lg:ml-auto lg:pl-4 lg:pt-4">
+            <div className="lg:max-w-lg">
+              <h2 className="text-base font-semibold leading-7 text-indigo-600">
+                Ladder & Snapshots
+              </h2>
+              <p className="mt-2 text-3xl font-bold tracking-tight sm:text-4xl">
+                A Ladder for Everyone
+              </p>
+              <p className="mt-6 text-lg leading-8 ">
+                When you connect your account our system will start tracking and
+                snapshoting all of your characters. They will appear on the
+                ladder no matter there level or when they were made.
+              </p>
+              <dl className="mt-10 max-w-xl space-y-8 text-base leading-7  lg:max-w-none">
+                {ladderFeatures.map((feature) => (
+                  <div key={feature.name} className="relative pl-9">
+                    <dt className="inline font-semibold">
+                      <feature.icon
+                        className="absolute left-1 top-1 h-5 w-5 text-indigo-600"
+                        aria-hidden="true"
+                      />
+                      {feature.name}
+                    </dt>{" "}
+                    <dd className="inline">{feature.description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+          <div className="flex items-start justify-end lg:order-first">
+            <img
+              src="/assets/landing/character.png"
+              alt="Product screenshot"
+              className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
+              width={2432}
+              height={1442}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const tftFeatures = [
+  {
+    name: "TFT One-Click",
+    description:
+      "Select items, pick a category, click Post to TFT. The server will generate a message and post it in the correct channel letting you get back to mapping faster.",
+    icon: CloudArrowUpIcon,
+  },
+  {
+    name: "TFT Live-Search",
+    description:
+      "TFT has over 300 channels, we index many of them and let you search them in once place. Buy bulk compasses, find five-way carries, and soon much more.",
+    icon: LockClosedIcon,
+  },
+  {
+    name: "Fight Scams and Price Fixers",
+    description:
+      "TFT has 50+ moderators who handle hundreds of scam/price fixing reports a week, combined with the rep system you can be confident when trust is needed.",
+    icon: ServerIcon,
+  },
+];
+
+export function TftFeatures() {
+  return (
+    <div className="overflow-hidden bg-surface-primary py-12">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2">
+          <div className="lg:pr-8 lg:pt-4">
+            <div className="lg:max-w-lg">
+              <h2 className="text-base font-semibold leading-7 text-indigo-400">
+                Reduce Friction, Increase Trust
+              </h2>
+              <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                TFT Integrations
+              </p>
+              <p className="mt-6 text-lg leading-8 text-gray-300">
+                The Forbidden Trove is the largest POE Discord with 400 thousand
+                members, offering many services from bulk selling to boss
+                carries. We integrate with TFT give you a smoother and safer
+                trade experince.
+              </p>
+              <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-300 lg:max-w-none">
+                {tftFeatures.map((feature) => (
+                  <div key={feature.name} className="relative pl-9">
+                    <dt className="inline font-semibold text-white">
+                      <feature.icon
+                        className="absolute left-1 top-1 h-5 w-5 text-indigo-500"
+                        aria-hidden="true"
+                      />
+                      {feature.name}
+                    </dt>{" "}
+                    <dd className="inline">{feature.description}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
+          </div>
+          <img
+            src="assets/landing/tft.png"
+            alt="Product screenshot"
+            className="w-[48rem] max-w-none rounded-xl shadow-xl ring-1 ring-white/10 sm:w-[57rem] md:-ml-4 lg:-ml-0"
+            width={2432}
+            height={1442}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function GeneralFeatures() {
+  return (
+    <div className="bg-surface-primary py-16">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mx-auto">
+          <h2 className="text-base font-semibold leading-7 text-indigo-400">
+            Consisten Updates
+          </h2>
+          <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Future Plans
+          </p>
+          <p className="mt-6 text-lg leading-8 text-gray-300">
+            As you explore the site you&apos;ll find a variety of features that
+            all with the aim of increasing information and making your POE
+            experience more enjoyable. We are commited to continuing to expand
+            the site and would love feedback. Feel free to log an issue or join
+            our Discord to let us know what you would like to see on the site
+            next.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function OpenSource() {
+  return (
+    <div className="bg-surface-primary">
+      <div className="mx-auto max-w-7xl lg:px-8">
+        <div className="relative isolate overflow-hidden bg-gray-900 px-6 py-24 text-center shadow-2xl sm:rounded-3xl sm:px-16">
+          <h2 className="mx-auto max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            Fully Open Source
+          </h2>
+          <p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-gray-300">
+            All PoeStack code is publicly available on Github. We believe people
+            should be able to see how their data is being used and verify how
+            market data is being calculated. Being open source also means anyone
+            is welcome to contribute code!
+          </p>
+          <div className="mt-10 flex items-center justify-center gap-x-6">
+            <a
+              href="https://github.com/PoeStack"
+              className="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Get started
+            </a>
+            <a
+              href="https://github.com/PoeStack/issues/issues"
+              className="text-sm font-semibold leading-6 text-white"
+            >
+              Have an idea? Log an issue <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <svg
+            viewBox="0 0 1024 1024"
+            className="absolute left-1/2 top-1/2 -z-10 h-[64rem] w-[64rem] -translate-x-1/2 [mask-image:radial-gradient(closest-side,white,transparent)]"
+            aria-hidden="true"
+          >
+            <circle
+              cx={512}
+              cy={512}
+              r={512}
+              fill="url(#827591b1-ce8c-4110-b064-7cb85a0b1217)"
+              fillOpacity="0.7"
+            />
+            <defs>
+              <radialGradient id="827591b1-ce8c-4110-b064-7cb85a0b1217">
+                <stop stopColor="#7775D6" />
+                <stop offset={1} stopColor="#E935C1" />
+              </radialGradient>
+            </defs>
+          </svg>
+        </div>
       </div>
     </div>
   );

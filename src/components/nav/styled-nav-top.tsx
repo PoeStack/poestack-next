@@ -26,10 +26,10 @@ export default function StyledNavTop() {
       name: "Economy",
       href: `/poe/economy/${league}?tag=currency`,
     },
-    {
+    /*     {
       name: "Atlas",
       href: `/poe/atlas?league=${league}`,
-    },
+    }, */
     {
       name: "TFT Bulk Tool",
       href: `/tft/bulk-tool?league=Crucible`,
@@ -83,7 +83,7 @@ export default function StyledNavTop() {
             href={"/poe-stack/support"}
             className="block py-3 px-2 leading-6"
           >
-            Support
+            Become a Supporter
           </Link>
         </li>
         <div className="pr-2">

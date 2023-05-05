@@ -6,9 +6,11 @@ import StyledLoading from "@components/library/styled-loading";
 import {
   CharacterSnapshotItem,
   PoeStashTab,
+  StashViewItemSummary,
   StashViewStashSummary,
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
+import { TFT_CATEGORIES } from "@utils/tft-categories";
 
 import { usePoeStackAuth } from "./user-context";
 
@@ -112,7 +114,9 @@ export interface StashViewContext {
     type: string | null;
   } | null;
   stashTabs: PoeStashTab[];
-  stashSummary: StashViewStashSummary | null;
+  stashSummary:
+    | (StashViewStashSummary & { updatedAtTimestamp?: string })
+    | null;
   valueSnapshots: StashViewValueSnapshotSeries[];
   refetchStashTabs: () => void;
   refetchSummaries: () => void;
@@ -151,7 +155,9 @@ export function StashViewContextProvider({
   useEffect(() => {
     if (league) {
       const loadedStashSettings = JSON.parse(
-        localStorage.getItem(`${cacheId}_${league}_stash_view_settings`) ?? "{}"
+        localStorage.getItem(
+          `${cacheId}_${profile?.userId}_${league}_stash_view_settings_3`
+        ) ?? "{}"
       );
 
       console.log("loaded stash settings", league, loadedStashSettings);
@@ -166,17 +172,17 @@ export function StashViewContextProvider({
     } else {
       router.push({ query: { league: "Crucible" } });
     }
-  }, [league]);
+  }, [league, profile?.userId, router.basePath, cacheId]);
 
   useEffect(() => {
     if (stashViewSettings && league) {
       console.log("storing settings", league, stashViewSettings);
       localStorage.setItem(
-        `${cacheId}_${league}_stash_view_settings`,
+        `${cacheId}_${profile?.userId}_${league}_stash_view_settings_3`,
         JSON.stringify(stashViewSettings)
       );
     }
-  }, [stashViewSettings]);
+  }, [stashViewSettings, league, cacheId]);
 
   const [tab, setTab] = useState<{
     items: CharacterSnapshotItem[] & { x: number; y: number };
@@ -238,68 +244,57 @@ export function StashViewContextProvider({
     }
   );
 
-  const [stashSummary, setTabSummary] = useState<StashViewStashSummary | null>(
-    null
-  );
-  const { refetch: refetchSummaries } = useQuery(
-    gql`
-      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {
-        stashViewStashSummary(search: $search) {
-          itemGroups {
-            hashString
-            key
-            tag
-            properties
-            baseType
-            icon
-            inventoryMaxStackSize
-            displayName
-            createdAtTimestamp
-          }
-          items {
-            itemId
-            userId
-            league
-            stashId
-            x
-            y
-            quantity
-            searchableString
-            itemGroupHashString
-            itemGroupTag
-            valueChaos
-            totalValueChaos
-            icon
-          }
-        }
-      }
-    `,
-    {
-      skip: !league,
-      onCompleted(data) {
-        const tabSummary: StashViewStashSummary = data.stashViewStashSummary;
+  const [stashSummary, setTabSummary] = useState<
+    (StashViewStashSummary & { updatedAtTimestamp?: string }) | null
+  >(null);
+  async function pullStashSummary() {
+    try {
+      const summaryResp = await fetch(
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/${profile?.userId}/${league}/summary.json`
+      );
+
+      const itemGroupsResp = await fetch(
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/${profile?.userId}/${league}/summary_item_groups.json`
+      );
+      if (summaryResp.status === 403 || itemGroupsResp.status === 403) {
         setTabSummary({
-          ...tabSummary,
-          items: tabSummary.items.map((e) => ({
+          itemGroups: [],
+          items: [],
+        });
+      } else {
+        const summaryJson = await summaryResp.json();
+        const itemGroupsJson = await itemGroupsResp.json();
+        console.log("summary", summaryJson);
+        console.log("groups", itemGroupsJson);
+
+        const items: any[] = Object.values(summaryJson.tabs).flatMap(
+          (e: any) => e.itemSummaries
+        );
+
+        setTabSummary({
+          itemGroups: Object.values(itemGroupsJson.itemGroups),
+          updatedAtTimestamp: itemGroupsJson.updatedAtTimestamp,
+          items: items.map((e) => ({
             ...e,
             league: league as string,
             itemGroup: e.itemGroupHashString
-              ? tabSummary.itemGroups.find(
-                  (ig) => ig.hashString === e.itemGroupHashString
-                )
+              ? itemGroupsJson.itemGroups[e.itemGroupHashString]
               : null,
           })),
         });
-      },
-      variables: {
-        search: {
-          league: league!,
-          opaqueKey: null,
-          execludeNonItemGroups: true,
-        },
-      },
+      }
+    } catch (error) {
+      console.log("Error loading summary", error);
     }
-  );
+  }
+  useEffect(() => {
+    pullStashSummary();
+  }, [
+    league,
+    profile?.userId,
+    router.basePath,
+    stashViewSettings?.lastSnapshotJobCompleteTimestamp,
+  ]);
 
   const [valueSnapshots, setValueSnapshots] = useState<
     StashViewValueSnapshotSeries[]
@@ -353,7 +348,15 @@ export function StashViewContextProvider({
 
   const value: StashViewContext = {
     stashViewSettings: stashViewSettings ?? defaultStashViewSettings,
-    setStashViewSettings: setStashViewSettings,
+    setStashViewSettings: (e) => {
+      if (
+        e.selectedExporter === "TFT-Bulk" &&
+        !TFT_CATEGORIES[e.tftSelectedCategory!]?.overrideEnabled
+      ) {
+        e.valueOverridesEnabled = false;
+      }
+      setStashViewSettings(e);
+    },
     tab: tab,
     stashTabs: stashTabs,
     stashSummary: stashSummary,
@@ -364,7 +367,7 @@ export function StashViewContextProvider({
         forcePull: true,
       });
     },
-    refetchSummaries: refetchSummaries,
+    refetchSummaries: pullStashSummary,
     refetchValueSnapshots: refetchValueSnapshots,
   };
 

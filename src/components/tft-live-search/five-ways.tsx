@@ -20,7 +20,7 @@ export default function TftLiveSearcgFiveWays() {
 
   const [searchSettings, setSearchSettings] = useState<{
     selectedRegion: string[];
-  }>({ selectedRegion: ["NA", "EU", "KR", "RU", "SG", "JP"] });
+  }>({ selectedRegion: ["NA", "EU", "KR", "RU", "SG", "JP", "BR"] });
 
   const [listings, setListings] = useState<TftLiveListing[] | null>(null);
   useQuery(

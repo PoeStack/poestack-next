@@ -76,7 +76,14 @@ export function StashViewItemTable({
     });
 
     setSortedItems(res);
-  }, [stashSummary, stashViewSettings, stashTabs, page]);
+  }, [
+    stashSummary,
+    stashViewSettings,
+    stashTabs,
+    page,
+    stashSummary?.updatedAtTimestamp,
+    stashViewSettings?.lastSnapshotJobCompleteTimestamp,
+  ]);
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
 
@@ -458,6 +465,7 @@ export function StashViewItemTable({
               </div>
             )}
           </div>
+          <div>{stashSummary?.updatedAtTimestamp}</div>
         </div>
       </div>
     </>

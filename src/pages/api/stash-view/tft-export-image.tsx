@@ -21,35 +21,8 @@ export default async function TftExportImage(req) {
 
   const d: any = await client.query({
     query: gql`
-      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {
-        stashViewStashSummary(search: $search) {
-          itemGroups {
-            hashString
-            key
-            tag
-            properties
-            baseType
-            icon
-            inventoryMaxStackSize
-            displayName
-            createdAtTimestamp
-          }
-          items {
-            itemId
-            userId
-            league
-            stashId
-            x
-            y
-            quantity
-            searchableString
-            itemGroupHashString
-            itemGroupTag
-            valueChaos
-            totalValueChaos
-            icon
-          }
-        }
+      query Query($search: StashViewStashSummarySearch!) {
+        stashViewStashSummary(search: $search)
       }
     `,
     fetchPolicy: "no-cache",

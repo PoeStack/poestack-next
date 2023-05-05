@@ -3,12 +3,14 @@ import { StashViewItemSummary } from "@generated/graphql";
 export interface TftCategory {
   tags: string[];
   icon: string;
+  overrideEnabled?: boolean;
   filter?: (item: StashViewItemSummary) => boolean;
 }
 
 export const TFT_CATEGORIES: Record<string, TftCategory> = {
   compasses: {
     tags: ["compass"],
+    overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
     filter: (item) =>
       [4, 16].includes(
@@ -38,10 +40,12 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
   },
   heist: {
     tags: ["contract", "blueprint"],
+    overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGVpc3QvQ29udHJhY3RJdGVtIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/8262f2ca0e/ContractItem.png",
   },
   beast: {
     tags: ["beast"],
+    overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQmVzdGlhcnlPcmJGdWxsIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/3214b44360/BestiaryOrbFull.png",
   },
   fossils: {
@@ -66,6 +70,7 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
   },
   logbooks: {
     tags: ["logbook"],
+    overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvTWFwcy9FeHBlZGl0aW9uQ2hyb25pY2xlMyIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/2802fe605e/ExpeditionChronicle3.png",
   },
   oils: {

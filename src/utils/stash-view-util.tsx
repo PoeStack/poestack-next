@@ -146,7 +146,6 @@ export class StashViewUtil {
     const groups: Record<string, StashViewItemSummary> = {};
     for (const item of items) {
       if (item.itemGroupHashString) {
-        console.log("reducing: " + item.itemGroupHashString);
         let group = groups[item.itemGroupHashString];
         if (!group) {
           group = { ...item };
@@ -156,7 +155,6 @@ export class StashViewUtil {
         }
       }
     }
-    console.log("legion", groups["490e1556daa83c3101eed22c68014b7b59b303be"]);
     return Object.values(groups);
   }
 }
