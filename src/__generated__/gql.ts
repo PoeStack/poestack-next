@@ -17,7 +17,7 @@ const documents = {
     "\n      query GetAllItemGroupTags($league: String!) {\n        itemGroupTags(league: $league)\n      }\n    ": types.GetAllItemGroupTagsDocument,
     "\n      mutation StashViewOneClickPost($input: StashViewSettings!) {\n        stashViewOneClickPost(input: $input)\n      }\n    ": types.StashViewOneClickPostDocument,
     "\n      mutation StashViewOneClickMessage($input: StashViewSettings!) {\n        stashViewOneClickMessage(input: $input)\n      }\n    ": types.StashViewOneClickMessageDocument,
-    "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    ": types.ItemGroupListingsDocument,
+    "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    ": types.ItemGroupListingsDocument,
     "\n      query FilterableTimeTableTimeseriesSearch(\n        $search: ItemGroupValueTimeseriesSearchInput!\n      ) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              type\n            }\n            itemGroup {\n              hashString\n            }\n          }\n        }\n      }\n    ": types.FilterableTimeTableTimeseriesSearchDocument,
     "\n    mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {\n      stashViewSnapshot(input: $input)\n    }\n  ": types.TakeStashViewSanpshotDocument,
     "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          totalStahes\n          timestamp\n        }\n      }\n    ": types.StashViewJobStatDocument,
@@ -28,13 +28,14 @@ const documents = {
     "\n  query PassiveAtlasTree($passiveTreeVersion: String!) {\n    atlasTree(passiveTreeVersion: $passiveTreeVersion) {\n      constants {\n        minX\n        minY\n        maxX\n        maxY\n        skillsPerOrbit\n        orbitRadii\n      }\n      nodeMap\n      connectionMap\n    }\n  }\n": types.PassiveAtlasTreeDocument,
     "\n  query PassiveTree($passiveTreeVersion: String!) {\n    passiveTree(passiveTreeVersion: $passiveTreeVersion) {\n      constants {\n        minX\n        minY\n        maxX\n        maxY\n        skillsPerOrbit\n        orbitRadii\n      }\n      nodeMap\n      connectionMap\n    }\n  }\n": types.PassiveTreeDocument,
     "\n      query StashTabs($league: String!, $forcePull: Boolean) {\n        stashTabs(league: $league, forcePull: $forcePull) {\n          id\n          userId\n          league\n          parent\n          name\n          type\n          index\n          flatIndex\n        }\n      }\n    ": types.StashTabsDocument,
-    "\n      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search) {\n          itemGroups {\n            hashString\n            key\n            tag\n            properties\n            baseType\n            icon\n            inventoryMaxStackSize\n            displayName\n            createdAtTimestamp\n          }\n          items {\n            itemId\n            userId\n            league\n            stashId\n            x\n            y\n            quantity\n            searchableString\n            itemGroupHashString\n            itemGroupTag\n            valueChaos\n            totalValueChaos\n            icon\n          }\n        }\n      }\n    ": types.StashExportSearchSummaryDocument,
     "\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    ": types.StashViewValueSnapshotSeriesDocument,
     "\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    ": types.CurrenyValuePullDivDocument,
     "\n      mutation ExchangeAuthCode($authCode: String!) {\n        exchangeAuthCode(authCode: $authCode)\n      }\n    ": types.ExchangeAuthCodeDocument,
     "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
     "\n    mutation RouteChange($path: String!, $pathname: String!) {\n      routeChange(path: $path, pathname: $pathname)\n    }\n  ": types.RouteChangeDocument,
+    "\n      query Query($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search)\n      }\n    ": types.QueryDocument,
     "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    ": types.UpdateDiscordCodeDocument,
+    "\n    query PoestackStats {\n      poestackStats\n    }\n  ": types.PoestackStatsDocument,
     "\n      mutation UpdatePatreonCode($code: String!) {\n        updatePatreonCode(code: $code)\n      }\n    ": types.UpdatePatreonCodeDocument,
     "\n      query AtlasPassiveTreeSnapshotPopularityAggregation(\n        $search: AtlasPassiveSnapshotSearch!\n      ) {\n        atlasPassiveTreeSnapshotPopularityAggregation(search: $search) {\n          values {\n            key\n            value\n          }\n        }\n      }\n    ": types.AtlasPassiveTreeSnapshotPopularityAggregationDocument,
     "\n      query AtlasTree($passiveTreeVersion: String!) {\n        atlasTree(passiveTreeVersion: $passiveTreeVersion) {\n          nodeMap\n        }\n      }\n    ": types.AtlasTreeDocument,
@@ -88,7 +89,7 @@ export function gql(source: "\n      mutation StashViewOneClickMessage($input: S
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "): (typeof documents)["\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          poeProfileName\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "];
+export function gql(source: "\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "): (typeof documents)["\n      query ItemGroupListings(\n        $hashString: String!\n        $league: String!\n        $minStock: Float\n      ) {\n        itemGroupListings(\n          hashString: $hashString\n          league: $league\n          minStock: $minStock\n        ) {\n          listedAtTimestamp\n          quantity\n          listedValue\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -132,10 +133,6 @@ export function gql(source: "\n      query StashTabs($league: String!, $forcePul
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search) {\n          itemGroups {\n            hashString\n            key\n            tag\n            properties\n            baseType\n            icon\n            inventoryMaxStackSize\n            displayName\n            createdAtTimestamp\n          }\n          items {\n            itemId\n            userId\n            league\n            stashId\n            x\n            y\n            quantity\n            searchableString\n            itemGroupHashString\n            itemGroupTag\n            valueChaos\n            totalValueChaos\n            icon\n          }\n        }\n      }\n    "): (typeof documents)["\n      query StashExportSearchSummary($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search) {\n          itemGroups {\n            hashString\n            key\n            tag\n            properties\n            baseType\n            icon\n            inventoryMaxStackSize\n            displayName\n            createdAtTimestamp\n          }\n          items {\n            itemId\n            userId\n            league\n            stashId\n            x\n            y\n            quantity\n            searchableString\n            itemGroupHashString\n            itemGroupTag\n            valueChaos\n            totalValueChaos\n            icon\n          }\n        }\n      }\n    "];
-/**
- * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
- */
 export function gql(source: "\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    "): (typeof documents)["\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
@@ -156,7 +153,15 @@ export function gql(source: "\n    mutation RouteChange($path: String!, $pathnam
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n      query Query($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search)\n      }\n    "): (typeof documents)["\n      query Query($search: StashViewStashSummarySearch!) {\n        stashViewStashSummary(search: $search)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    "): (typeof documents)["\n      mutation UpdateDiscordCode($code: String!) {\n        updateDiscordCode(code: $code)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    query PoestackStats {\n      poestackStats\n    }\n  "): (typeof documents)["\n    query PoestackStats {\n      poestackStats\n    }\n  "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

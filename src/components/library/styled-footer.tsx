@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { POE_STACK_VERSION } from "@utils/version";
+
 export default function StyledFooter() {
   return (
     <footer className="z-50 text-sm bg-surface-primary sm:p-4 ">
@@ -17,9 +19,12 @@ export default function StyledFooter() {
               PoeStack
             </span>
           </Link>
-          <span className="absolute left-0 text-xs bottom-10 md:bottom-0 text-slate-300">
+          <span className="absolute left-0 text-xs bottom-5  text-slate-300">
             This product is not affiliated with or endorsed by Grinding Gear
             Games in any way
+          </span>
+          <span className="absolute left-0 text-xs bottom-0 text-slate-300">
+            {POE_STACK_VERSION}
           </span>
         </div>
 
@@ -111,7 +116,7 @@ export default function StyledFooter() {
             <Link href="/" className="hover:underline">
               PoeStack.com
             </Link>
-            . All Rights Reserved. v1.0.0
+            . All Rights Reserved.
           </span>
         </div>
       </div>

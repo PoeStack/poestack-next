@@ -56,7 +56,6 @@ export function StashViewItemMouseOver({
           league: $league
           minStock: $minStock
         ) {
-          poeProfileName
           listedAtTimestamp
           quantity
           listedValue
@@ -169,7 +168,7 @@ export function StashViewItemMouseOver({
                     </div>
                   </Link>
                 </div>
-                <div className="grid grid-cols-4 gap-1">
+                <div className="grid grid-cols-3 gap-1">
                   {loading ? (
                     <div className="max-h-[100px] col-span-4">Loading...</div>
                   ) : (
@@ -177,7 +176,7 @@ export function StashViewItemMouseOver({
                       {listings?.slice(0, 20).map((listing) => (
                         <>
                           <div>x{listing.quantity}</div>
-                          <div>{listing.poeProfileName}</div>
+
                           <div>
                             <CurrencyValueDisplay
                               pValue={listing.listedValue}

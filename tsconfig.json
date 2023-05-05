@@ -24,6 +24,12 @@
       "@generated/*": ["__generated__/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/_document.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/pages/_document.js",
+    "bump-version.js"
+  ],
   "exclude": ["node_modules"]
 }

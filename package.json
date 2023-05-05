@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "bump_version": "yarn node bump-version.js",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -40,6 +41,7 @@
     "moment-timezone": "0.5.40",
     "nanoid": "4.0.0",
     "next": "^13.3.1-canary.16",
+    "next-build-id": "^3.0.0",
     "next-themes": "0.2.1",
     "react": "18.2.0",
     "react-chartjs-2": "^5.2.0",

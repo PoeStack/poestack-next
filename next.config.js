@@ -1,7 +1,13 @@
+const nextBuildId = require("next-build-id");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
   output: "standalone",
+  generateBuildId: async () => {
+    const githash = await nextBuildId({ dir: __dirname });
+    return `poestack_${Date.now()}_${githash}`;
+  },
   images: {
     remotePatterns: [
       {

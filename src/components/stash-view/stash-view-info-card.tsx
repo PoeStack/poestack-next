@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 
 import { CHAOS_ICON, DIV_ICON } from "@components/currency-value-display";
 import { useStashViewContext } from "@contexts/stash-view-context";
-import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
 import { GeneralUtils, myLoader } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
 

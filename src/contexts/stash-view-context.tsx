@@ -250,11 +250,15 @@ export function StashViewContextProvider({
   async function pullStashSummary() {
     try {
       const summaryResp = await fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/${profile?.userId}/${league}/summary.json`
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
+          profile?.opaqueKey
+        }/${league}/summary.json?ms=${Date.now()}`
       );
 
       const itemGroupsResp = await fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/${profile?.userId}/${league}/summary_item_groups.json`
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
+          profile?.opaqueKey
+        }/${league}/summary_item_groups.json?ms=${Date.now()}`
       );
       if (summaryResp.status === 403 || itemGroupsResp.status === 403) {
         setTabSummary({
