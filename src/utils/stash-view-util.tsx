@@ -157,4 +157,45 @@ export class StashViewUtil {
     }
     return Object.values(groups);
   }
+
+  public static async fetchStashSummary(
+    league: string,
+    opaqueKey: string
+  ): Promise<StashViewStashSummary & { updatedAtTimestamp?: string }> {
+    const summaryResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${opaqueKey}/${league}/summary.json?ms=${Date.now()}`
+    );
+
+    const itemGroupsResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${opaqueKey}/${league}/summary_item_groups.json?ms=${Date.now()}`
+    );
+
+    if (summaryResp.status === 403 || itemGroupsResp.status === 403) {
+      return {
+        itemGroups: [],
+        items: [],
+      };
+    } else {
+      const summaryJson = await summaryResp.json();
+      const itemGroupsJson = await itemGroupsResp.json();
+      console.log("summary", summaryJson);
+      console.log("groups", itemGroupsJson);
+
+      const items: any[] = Object.values(summaryJson.tabs).flatMap(
+        (e: any) => e.itemSummaries
+      );
+
+      return {
+        itemGroups: Object.values(itemGroupsJson.itemGroups),
+        updatedAtTimestamp: itemGroupsJson.updatedAtTimestamp,
+        items: items.map((e) => ({
+          ...e,
+          league: league as string,
+          itemGroup: e.itemGroupHashString
+            ? itemGroupsJson.itemGroups[e.itemGroupHashString]
+            : null,
+        })),
+      };
+    }
+  }
 }

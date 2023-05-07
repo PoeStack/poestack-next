@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
@@ -465,7 +466,10 @@ export function StashViewItemTable({
               </div>
             )}
           </div>
-          <div>{stashSummary?.updatedAtTimestamp}</div>
+          <div className="flex-1"></div>
+          <div>
+            Updated {moment(stashSummary?.updatedAtTimestamp).fromNow()}
+          </div>
         </div>
       </div>
     </>

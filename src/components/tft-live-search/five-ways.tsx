@@ -20,7 +20,9 @@ export default function TftLiveSearcgFiveWays() {
 
   const [searchSettings, setSearchSettings] = useState<{
     selectedRegion: string[];
-  }>({ selectedRegion: ["NA", "EU", "KR", "RU", "SG", "JP", "BR"] });
+  }>({
+    selectedRegion: ["NA", "EU", "KR", "RU", "SG", "JP", "BR", "AU", "NZ"],
+  });
 
   const [listings, setListings] = useState<TftLiveListing[] | null>(null);
   useQuery(
@@ -102,7 +104,7 @@ export default function TftLiveSearcgFiveWays() {
           />
           <StyledMultiSelect2
             selected={searchSettings.selectedRegion}
-            items={["NA", "EU", "KR", "RU", "SG", "JP"]}
+            items={["NA", "EU", "KR", "RU", "SG", "JP", "BR", "AU", "NZ"]}
             onSelectChange={(e) => {
               setSearchSettings({ ...searchSettings, selectedRegion: e });
             }}

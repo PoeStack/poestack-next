@@ -63,7 +63,8 @@ export default function TftGuardPanel({
               ></div>
               <div>
                 Discord Account Connected
-                {!!discordAccountId && ` (${discordAccountId})`}
+                {!!discordAccountId &&
+                  ` (${profile?.discordUsername} ${discordAccountId})`}
               </div>
             </div>
             {poeAccountConnected && (
@@ -82,34 +83,34 @@ export default function TftGuardPanel({
               </>
             )}
           </div>
-          <div className="flex flex-row place-items-center space-x-2">
-            <div className="flex flex-row place-items-center">
-              <div
-                className={
-                  "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
-                  (discordAccountId && tftMember
-                    ? "bg-green-600"
-                    : "bg-red-600")
-                }
-              ></div>
-              <div>TFT Member</div>
-            </div>
-            {!tftMember && (
-              <>
+          {!!discordAccountId && (
+            <div className="flex flex-row place-items-center space-x-2">
+              <div className="flex flex-row place-items-center">
                 <div
-                  className="text-content-accent cursor-pointer"
-                  onClick={() => {
-                    window.open(
-                      "https://discord.com/invite/tftrove",
-                      "_ blank"
-                    );
-                  }}
-                >
-                  Join Now
-                </div>
-              </>
-            )}
-          </div>
+                  className={
+                    "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
+                    (tftMember ? "bg-green-600" : "bg-red-600")
+                  }
+                ></div>
+                <div>TFT Member</div>
+              </div>
+              {!tftMember && (
+                <>
+                  <div
+                    className="text-content-accent cursor-pointer"
+                    onClick={() => {
+                      window.open(
+                        "https://discord.com/invite/tftrove",
+                        "_ blank"
+                      );
+                    }}
+                  >
+                    Join Now
+                  </div>
+                </>
+              )}
+            </div>
+          )}
           <div className="mt-2">
             <StyledButton
               text={"Refresh"}

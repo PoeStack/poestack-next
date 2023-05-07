@@ -7,11 +7,13 @@ import TftBulkToolPanel from "@components/tft-bulk-tool-panel";
 import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 import TftOneClickMessageHistoryCard from "@components/tft-oneclick-message-history-card";
 import { StashViewContextProvider } from "@contexts/stash-view-context";
+import { usePoeStackAuth } from "@contexts/user-context";
 
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 
 export default function BulkTool() {
   const router = useRouter();
+  const { profile } = usePoeStackAuth();
 
   return (
     <>
@@ -30,8 +32,12 @@ export default function BulkTool() {
             <StyledCard>
               <div className="flex flex-col space-y-2 w-fit">
                 <div>Settings (Optional)</div>
+                <div>
+                  Current Discord: {`${profile?.discordUsername}`} (
+                  {profile?.discordUserId})
+                </div>
                 <StyledButton
-                  text={"Connect Discord"}
+                  text={"Connect a Different Discord"}
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(

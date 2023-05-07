@@ -19,23 +19,13 @@ export default async function TftExportImage(req) {
     searchParams.get("input")!
   );
 
-  const d: any = await client.query({
-    query: gql`
-      query Query($search: StashViewStashSummarySearch!) {
-        stashViewStashSummary(search: $search)
-      }
-    `,
-    fetchPolicy: "no-cache",
-    variables: {
-      search: {
-        league: stashViewSettings.league!,
-        opaqueKey: searchParams.get("opaqueKey"),
-        execludeNonItemGroups: true,
-      },
-    },
-  });
+  const opaqueKey = searchParams.get("opaqueKey");
 
-  const stashSummary: StashViewStashSummary = d.data.stashViewStashSummary;
+  const stashSummary: StashViewStashSummary =
+    await StashViewUtil.fetchStashSummary(
+      stashViewSettings.league!,
+      opaqueKey!
+    );
   const items = StashViewUtil.searchItems(stashViewSettings, stashSummary, true)
     .filter((e) => !!e.itemGroupHashString)
     .sort(
@@ -47,7 +37,10 @@ export default async function TftExportImage(req) {
   const cols = Math.ceil(items.length / 15);
 
   function cleanText(e: string): string {
-    return e.replaceAll(" Scarab", "").replaceAll("Essence Of ", "");
+    return e
+      .replaceAll(" Scarab", "")
+      .replaceAll("Essence Of ", "")
+      .replaceAll("Delirium Orb ", "");
   }
 
   return new ImageResponse(

@@ -10,6 +10,7 @@ import {
   StashViewStashSummary,
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
+import { StashViewUtil } from "@utils/stash-view-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
 
 import { usePoeStackAuth } from "./user-context";
@@ -191,7 +192,11 @@ export function StashViewContextProvider({
   useEffect(() => {
     if (stashViewSettings?.selectedTabId && league && profile?.userId) {
       fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/tabs/${profile?.userId}/${league}/${stashViewSettings.selectedTabId}.json`
+        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
+          profile?.opaqueKey
+        }/${league}/tabs/${
+          stashViewSettings.selectedTabId
+        }.json?ms=${Date.now()}`
       )
         .then((v) => {
           if (v.ok) {
@@ -249,44 +254,11 @@ export function StashViewContextProvider({
   >(null);
   async function pullStashSummary() {
     try {
-      const summaryResp = await fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
-          profile?.opaqueKey
-        }/${league}/summary.json?ms=${Date.now()}`
+      const summary = await StashViewUtil.fetchStashSummary(
+        stashViewSettings?.league!,
+        profile?.opaqueKey!
       );
-
-      const itemGroupsResp = await fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
-          profile?.opaqueKey
-        }/${league}/summary_item_groups.json?ms=${Date.now()}`
-      );
-      if (summaryResp.status === 403 || itemGroupsResp.status === 403) {
-        setTabSummary({
-          itemGroups: [],
-          items: [],
-        });
-      } else {
-        const summaryJson = await summaryResp.json();
-        const itemGroupsJson = await itemGroupsResp.json();
-        console.log("summary", summaryJson);
-        console.log("groups", itemGroupsJson);
-
-        const items: any[] = Object.values(summaryJson.tabs).flatMap(
-          (e: any) => e.itemSummaries
-        );
-
-        setTabSummary({
-          itemGroups: Object.values(itemGroupsJson.itemGroups),
-          updatedAtTimestamp: itemGroupsJson.updatedAtTimestamp,
-          items: items.map((e) => ({
-            ...e,
-            league: league as string,
-            itemGroup: e.itemGroupHashString
-              ? itemGroupsJson.itemGroups[e.itemGroupHashString]
-              : null,
-          })),
-        });
-      }
+      setTabSummary(summary);
     } catch (error) {
       console.log("Error loading summary", error);
     }
@@ -294,7 +266,7 @@ export function StashViewContextProvider({
   useEffect(() => {
     pullStashSummary();
   }, [
-    league,
+    stashViewSettings?.league,
     profile?.userId,
     router.basePath,
     stashViewSettings?.lastSnapshotJobCompleteTimestamp,

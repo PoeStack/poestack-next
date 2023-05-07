@@ -6,9 +6,6 @@ import client from "poe-stack-apollo-client";
 import { CookiesProvider } from "react-cookie";
 
 import { ApolloProvider } from "@apollo/client";
-import StyledFooter from "@components/library/styled-footer";
-import StyledNavBar from "@components/library/styled-nav-bar";
-import StyledNavTop from "@components/nav/styled-nav-top";
 import { PageLayout } from "@components/page-layout";
 import { PoeStackOptionsProvider } from "@contexts/options-context";
 

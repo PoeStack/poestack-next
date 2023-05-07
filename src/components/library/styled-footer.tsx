@@ -24,7 +24,7 @@ export default function StyledFooter() {
             Games in any way
           </span>
           <span className="absolute left-0 text-xs bottom-0 text-slate-300">
-            {POE_STACK_VERSION}
+            v{POE_STACK_VERSION}
           </span>
         </div>
 

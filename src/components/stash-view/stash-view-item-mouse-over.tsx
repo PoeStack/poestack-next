@@ -8,6 +8,7 @@ import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   CharacterSnapshotItem,
   ItemGroupListing,
+  LivePricingResult,
   StashViewItemSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
@@ -43,39 +44,48 @@ export function StashViewItemMouseOver({
   const [baseHover, setIsHovering] = useState(false);
   const [extraHover, setIsExtraHovering] = useState(false);
 
-  const [listings, setListings] = useState<ItemGroupListing[] | null>(null);
+  const [livePricingResult, setLivePricingResult] =
+    useState<LivePricingResult | null>(null);
   const [fetchListings, { loading }] = useLazyQuery(
     gql`
-      query ItemGroupListings(
-        $hashString: String!
-        $league: String!
-        $minStock: Float
-      ) {
-        itemGroupListings(
-          hashString: $hashString
-          league: $league
-          minStock: $minStock
-        ) {
-          listedAtTimestamp
-          quantity
-          listedValue
+      query LivePriceItemGroups($config: LivePricingConfig!) {
+        livePriceItemGroups(config: $config) {
+          genericValuation {
+            value
+            valueIndex
+            validListings {
+              listedAtTimestamp
+              quantity
+              listedValue
+            }
+            validListingsLength
+          }
+          stockBasedValuation {
+            value
+            valueIndex
+            validListingsLength
+          }
+          allListingsLength
         }
       }
     `,
     {
       variables: {
-        hashString: itemSummary?.itemGroupHashString,
-        league: "Crucible",
-        minStock: stock,
+        config: {
+          itemGroupHashString: itemSummary?.itemGroupHashString,
+          league: "Crucible",
+          quantity: stock,
+          targetPValuePercent: 10,
+        },
       },
       onCompleted(data) {
-        setListings(data.itemGroupListings);
+        setLivePricingResult(data.livePriceItemGroups);
       },
     }
   );
 
   useEffect(() => {
-    if (!listings && (baseHover || extraHover)) {
+    if (!livePricingResult && (baseHover || extraHover)) {
       fetchListings();
     }
   }, [baseHover, extraHover]);
@@ -173,21 +183,23 @@ export function StashViewItemMouseOver({
                     <div className="max-h-[100px] col-span-4">Loading...</div>
                   ) : (
                     <>
-                      {listings?.slice(0, 20).map((listing) => (
-                        <>
-                          <div>x{listing.quantity}</div>
+                      {livePricingResult?.genericValuation?.validListings.map(
+                        (listing) => (
+                          <>
+                            <div>x{listing.quantity}</div>
 
-                          <div>
-                            <CurrencyValueDisplay
-                              pValue={listing.listedValue}
-                              league={itemSummary?.league}
-                            />
-                          </div>
-                          <div>
-                            {moment(listing.listedAtTimestamp).fromNow()}
-                          </div>
-                        </>
-                      ))}
+                            <div>
+                              <CurrencyValueDisplay
+                                pValue={listing.listedValue}
+                                league={itemSummary?.league}
+                              />
+                            </div>
+                            <div>
+                              {moment(listing.listedAtTimestamp).fromNow()}
+                            </div>
+                          </>
+                        )
+                      )}
                     </>
                   )}
                 </div>

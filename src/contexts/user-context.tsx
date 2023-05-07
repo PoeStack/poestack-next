@@ -69,6 +69,7 @@ export function PoeStackAuthProvider({ children }) {
           discordUsername
           discordUserId
           createdAtTimestamp
+          roles
           opaqueKey
         }
         checkTftMembership(forcePull: $forcePull)
@@ -121,6 +122,7 @@ export function PoeStackAuthProvider({ children }) {
     localStorage.removeItem(localStorageJwtName);
     setJwt(null);
     setProfile(null);
+    router.reload();
   }
 
   const value = {

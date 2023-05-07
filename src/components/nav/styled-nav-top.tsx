@@ -47,7 +47,7 @@ export default function StyledNavTop() {
   return (
     <>
       <div className="h-[70px] bg-surface-primary flex items-center">
-        <div className="flex items-center text-center justify-center min-h-[50px]">
+        <div className="flex items-center text-center justify-center pl-5 min-h-[50px]">
           <Link href="/">
             <Image
               width={48}

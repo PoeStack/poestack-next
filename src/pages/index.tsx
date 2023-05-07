@@ -44,7 +44,7 @@ export default function LandingPage() {
 
 export function Hero() {
   return (
-    <div className="relative isolate overflow-hidden bg-surface-primary">
+    <div className="relative isolate overflow-hidden pb-16 bg-surface-primary">
       <svg
         className="absolute inset-0 -z-10 h-full w-full stroke-white/10 [mask-image:radial-gradient(100%_100%_at_top_right,white,transparent)]"
         aria-hidden="true"
@@ -197,25 +197,25 @@ export function StatsCard() {
             <div className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
               <dt className="text-sm leading-6">PoeStack Users</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight">
-                {data?.poestackStats?.users ?? "-"}
+                {data?.poestackStats?.users?.toLocaleString() ?? "-"}
               </dd>
             </div>
             <div className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
               <dt className="text-sm leading-6">Ladder Characters</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight">
-                {data?.poestackStats?.poeCharacters ?? "-"}
+                {data?.poestackStats?.poeCharacters?.toLocaleString() ?? "-"}
               </dd>
             </div>
             <div className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
               <dt className="text-sm leading-6">Tracked Item Groups</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight">
-                {data?.poestackStats?.items ?? "-"}
+                {data?.poestackStats?.items?.toLocaleString() ?? "-"}
               </dd>
             </div>
             <div className="flex flex-col gap-y-3 border-l border-white/10 pl-6">
               <dt className="text-sm leading-6">TFT One-Click Messages</dt>
               <dd className="order-first text-3xl font-semibold tracking-tight">
-                {data?.poestackStats?.oneClickMessages ?? "-"}
+                {data?.poestackStats?.oneClickMessages?.toLocaleString() ?? "-"}
               </dd>
             </div>
           </dl>
