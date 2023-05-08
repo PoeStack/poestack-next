@@ -27,9 +27,8 @@ export default function TftLiveSearcgFiveWays() {
   const [listings, setListings] = useState<TftLiveListing[] | null>(null);
   useQuery(
     gql`
-      query TftLiveListings {
+      query TftFiveWayLiveListings {
         tftLiveListings {
-          channelId
           messageId
           userDiscordId
           userDiscordName
@@ -37,15 +36,13 @@ export default function TftLiveSearcgFiveWays() {
           userDiscordDisplayRoleColor
           userDiscordHighestRole
           updatedAtTimestamp
-          delistedAtTimestamp
-          tag
           body
           properties
         }
       }
     `,
     {
-      pollInterval: 2000,
+      pollInterval: 4000,
       onCompleted(data) {
         setListings(data.tftLiveListings);
       },

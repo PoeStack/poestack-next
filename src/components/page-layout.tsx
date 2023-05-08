@@ -4,6 +4,7 @@ import Link from "next/link";
 import FixedAds from "./ads/styled-square-responsive-ad";
 import StyledFooter from "./library/styled-footer";
 import StyledNavTop from "./nav/styled-nav-top";
+import UserActivityGuard from "./user-activity-guard";
 
 export function PageLayout({ Component, pageProps }: AppProps) {
   return (
@@ -31,7 +32,9 @@ export function PageLayout({ Component, pageProps }: AppProps) {
                     </Link>{" "}
                     for winning the SSFHC Ruthless race!
                   </div>
-                  <Component {...pageProps} />
+                  <UserActivityGuard>
+                    <Component {...pageProps} />
+                  </UserActivityGuard>
                 </div>
                 <div className="basis-[15%] min-w-[180px]"></div>
               </div>

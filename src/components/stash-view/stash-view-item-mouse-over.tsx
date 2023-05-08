@@ -51,28 +51,15 @@ export function StashViewItemMouseOver({
         livePriceSimple(config: $config) {
           allListingsLength
           stockValuation {
-            listingPercent
-            quantity
             value
-            valueIndex
-            validListings {
-              listedAtTimestamp
-              quantity
-              listedValue
-            }
-            validListingsLength
           }
           valuation {
-            listingPercent
-            quantity
             value
-            valueIndex
             validListings {
               listedAtTimestamp
               quantity
               listedValue
             }
-            validListingsLength
           }
         }
       }
