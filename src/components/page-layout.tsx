@@ -1,4 +1,5 @@
 import { AppProps } from "next/app";
+import Link from "next/link";
 
 import FixedAds from "./ads/styled-square-responsive-ad";
 import StyledFooter from "./library/styled-footer";
@@ -20,6 +21,16 @@ export function PageLayout({ Component, pageProps }: AppProps) {
               <div className="flex w-full">
                 <div className="basis-[15%] min-w-[180px]"></div>
                 <div className="flex-1 flex flex-col pb-[150px] min-h-screen pt-4">
+                  <div className="text-center pb-4">
+                    Congratulations to{" "}
+                    <Link
+                      className="text-content-accent font-bold"
+                      href={"https://www.twitch.tv/playlifee"}
+                    >
+                      twitch.tv/playlifee
+                    </Link>{" "}
+                    for winning the SSFHC Ruthless race!
+                  </div>
                   <Component {...pageProps} />
                 </div>
                 <div className="basis-[15%] min-w-[180px]"></div>

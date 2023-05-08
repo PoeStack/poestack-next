@@ -7,8 +7,7 @@ import CurrencyValueDisplay from "@components/currency-value-display";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   CharacterSnapshotItem,
-  ItemGroupListing,
-  LivePricingResult,
+  LivePricingSimpleResult,
   StashViewItemSummary,
 } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
@@ -45,12 +44,15 @@ export function StashViewItemMouseOver({
   const [extraHover, setIsExtraHovering] = useState(false);
 
   const [livePricingResult, setLivePricingResult] =
-    useState<LivePricingResult | null>(null);
+    useState<LivePricingSimpleResult | null>(null);
   const [fetchListings, { loading }] = useLazyQuery(
     gql`
-      query LivePriceItemGroups($config: LivePricingConfig!) {
-        livePriceItemGroups(config: $config) {
-          genericValuation {
+      query LivePriceSimple($config: LivePricingSimpleConfig!) {
+        livePriceSimple(config: $config) {
+          allListingsLength
+          stockValuation {
+            listingPercent
+            quantity
             value
             valueIndex
             validListings {
@@ -60,26 +62,32 @@ export function StashViewItemMouseOver({
             }
             validListingsLength
           }
-          stockBasedValuation {
+          valuation {
+            listingPercent
+            quantity
             value
             valueIndex
+            validListings {
+              listedAtTimestamp
+              quantity
+              listedValue
+            }
             validListingsLength
           }
-          allListingsLength
         }
       }
     `,
     {
+      fetchPolicy: "cache-first",
       variables: {
         config: {
           itemGroupHashString: itemSummary?.itemGroupHashString,
-          league: "Crucible",
+          league: itemSummary?.league,
           quantity: stock,
-          targetPValuePercent: 10,
         },
       },
       onCompleted(data) {
-        setLivePricingResult(data.livePriceItemGroups);
+        setLivePricingResult(data.livePriceSimple);
       },
     }
   );
@@ -142,6 +150,22 @@ export function StashViewItemMouseOver({
                     />
                   </div>
                 </div>
+                <div className="flex space-x-4">
+                  <div className="flex space-x-1 items-center">
+                    <div>Live</div>
+                    <CurrencyValueDisplay
+                      pValue={livePricingResult?.valuation?.value ?? 0}
+                      league={itemSummary?.league}
+                    />
+                  </div>
+                  <div className="flex space-x-1 items-center">
+                    <div>Stock</div>
+                    <CurrencyValueDisplay
+                      pValue={livePricingResult?.stockValuation?.value ?? 0}
+                      league={itemSummary?.league}
+                    />
+                  </div>
+                </div>
                 <div className="flex space-x-1">
                   <div>
                     {StashViewExporters.getWholeFractionString(
@@ -183,11 +207,10 @@ export function StashViewItemMouseOver({
                     <div className="max-h-[100px] col-span-4">Loading...</div>
                   ) : (
                     <>
-                      {livePricingResult?.genericValuation?.validListings.map(
+                      {livePricingResult?.valuation?.validListings.map(
                         (listing) => (
                           <>
                             <div>x{listing.quantity}</div>
-
                             <div>
                               <CurrencyValueDisplay
                                 pValue={listing.listedValue}

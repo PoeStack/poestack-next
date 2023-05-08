@@ -1,4 +1,5 @@
-import { useState } from "react";
+import moment from "moment";
+import { useEffect, useState } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
 import StyledButton from "@components/library/styled-button";
@@ -19,6 +20,7 @@ export function StashViewSnapshotJobCard() {
     }
   `);
 
+  const [now, setNow] = useState<Date>(new Date());
   const [jobStatus, setJobStatus] = useState<StashViewJob | null>(null);
   useQuery(
     gql`
@@ -27,8 +29,8 @@ export function StashViewSnapshotJobCard() {
           id
           userId
           status
-          totalStahes
           timestamp
+          rateLimitEndTimestamp
         }
       }
     `,
@@ -58,6 +60,13 @@ export function StashViewSnapshotJobCard() {
     }
   );
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <>
       <div className="flex flex-col space-y-1">
@@ -81,7 +90,21 @@ export function StashViewSnapshotJobCard() {
           }}
         />
 
-        {!!jobStatus?.status && <div>{jobStatus?.status}</div>}
+        {!!jobStatus?.status && (
+          <div>
+            {jobStatus?.status}
+            {jobStatus.rateLimitEndTimestamp && (
+              <span className="pl-1">
+                {Math.round(
+                  (new Date(jobStatus.rateLimitEndTimestamp).getTime() -
+                    now.getTime()) /
+                    1000
+                )}{" "}
+                seconds remaining.
+              </span>
+            )}
+          </div>
+        )}
       </div>
     </>
   );
