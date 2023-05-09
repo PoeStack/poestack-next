@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 
+import { gql, useQuery } from "@apollo/client";
 import LeagueSelect from "@components/league-select";
 import StyledCard from "@components/library/styled-card";
 import LivePriceRow from "@components/live-price/live-price-row";
-import { SearchableItemGroupSummary } from "@generated/graphql";
+import { LivePricingSummaryEntry } from "@generated/graphql";
+
+export interface ItemGroupSummary {
+  hash: string;
+  properties: any;
+  searchableString: string;
+}
 
 const ITEM_GROUP_CATEGORIES = [
   { tag: "currency" },
@@ -43,12 +50,10 @@ export default function LivePricingPage() {
     selectedTag: string;
   }>({ selectedTag: "gem" });
 
-  const [summaries, setSummaries] = useState<{
-    summaries: SearchableItemGroupSummary[];
-  } | null>(null);
+  const [summaries, setSummaries] = useState<ItemGroupSummary[] | null>(null);
   useEffect(() => {
     fetch(
-      `https://poe-stack-public.nyc3.digitaloceanspaces.com/item-groups/all-summaries.json`
+      `https://poe-stack-public.nyc3.digitaloceanspaces.com/item-groups/tag_${livePricingConfig.selectedTag}.json`
     )
       .then((v) => {
         if (v.ok) {
@@ -58,10 +63,56 @@ export default function LivePricingPage() {
         }
       })
       .then((v) => {
-        setSummaries(v);
+        setSummaries(
+          v.entries.map((e) => ({
+            hash: e[0],
+            searchableString: e[1],
+            properties: e[2],
+          }))
+        );
       });
-  }, []);
+  }, [livePricingConfig.selectedTag]);
 
+  function selectedSummaries() {
+    return summaries?.slice(0, 50);
+  }
+
+  const [pricingSummaryMap, setPricingSummaryMap] = useState<
+    Record<string, LivePricingSummaryEntry>
+  >({});
+  useQuery(
+    gql`
+      query LivePricingSummary($config: LivePricingKeySummaryConfig!) {
+        livePricingSummary(config: $config) {
+          entries {
+            itemGroupKey
+            itemGroupHashString
+            icon
+            value
+            stockValue
+          }
+        }
+      }
+    `,
+    {
+      skip: !livePricingConfig.selectedTag || !summaries,
+      variables: {
+        config: {
+          itemGroupHashStrings: selectedSummaries()?.map((e) => e.hash),
+          league: "Crucible",
+        },
+      },
+      onCompleted(data) {
+        const map = { ...pricingSummaryMap };
+        data?.livePricingSummary?.entries?.map((e) => {
+          map[e.itemGroupHashString] = e;
+        });
+        setPricingSummaryMap(map);
+      },
+    }
+  );
+
+  //Make stock # confiureable, add things to url not state, make last URL save local state, add clear
   return (
     <>
       <StyledCard className="flex-0">
@@ -84,12 +135,13 @@ export default function LivePricingPage() {
           </div>
 
           <div className="flex flex-col space-y-2">
-            {summaries?.summaries
-              .filter((e) => e.tag === livePricingConfig.selectedTag)
-              .slice(0, 50)
-              .map((e) => (
-                <LivePriceRow key={e.key} itemGroupSummary={e} />
-              ))}
+            {selectedSummaries()?.map((e) => (
+              <LivePriceRow
+                key={e.hash}
+                itemGroupSummary={e}
+                pricingSummary={pricingSummaryMap?.[e.hash]}
+              />
+            ))}
           </div>
         </div>
       </StyledCard>

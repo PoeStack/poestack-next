@@ -18,7 +18,7 @@ import {
 
 import { usePoeLeagueCtx } from "../contexts/league-context";
 import { usePoeStackAuth } from "../contexts/user-context";
-import Support from "./poe-stack/support";
+import Support from "./support";
 
 export default function LandingPage() {
   const { profile } = usePoeStackAuth();

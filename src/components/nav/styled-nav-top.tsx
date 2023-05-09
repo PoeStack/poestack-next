@@ -76,16 +76,6 @@ export default function StyledNavTop() {
           ))}
         </div>
         <div className="flex-1"></div>
-        <li
-          className={`block text-md font-semibold leading-6 rounded-md hover:bg-color-primary pr-2`}
-        >
-          <Link
-            href={"/poe-stack/support"}
-            className="block py-3 px-2 leading-6"
-          >
-            Become a Supporter
-          </Link>
-        </li>
         <div className="pr-2">
           <GggAuthBtn />
         </div>

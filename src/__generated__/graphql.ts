@@ -291,6 +291,11 @@ export type ItemGroupValueTimeseriesSearchInput = {
   stockStartingRanges: Array<Scalars['Int']>;
 };
 
+export type LivePricingKeySummaryConfig = {
+  itemGroupHashStrings: Array<Scalars['String']>;
+  league: Scalars['String'];
+};
+
 export type LivePricingSimpleConfig = {
   itemGroupHashString: Scalars['String'];
   league: Scalars['String'];
@@ -303,6 +308,20 @@ export type LivePricingSimpleResult = {
   allListingsLength: Scalars['Float'];
   stockValuation: LivePricingValuation;
   valuation: LivePricingValuation;
+};
+
+export type LivePricingSummary = {
+  __typename?: 'LivePricingSummary';
+  entries: Array<LivePricingSummaryEntry>;
+};
+
+export type LivePricingSummaryEntry = {
+  __typename?: 'LivePricingSummaryEntry';
+  icon: Scalars['String'];
+  itemGroupHashString: Scalars['String'];
+  itemGroupKey: Scalars['String'];
+  stockValue?: Maybe<Scalars['Float']>;
+  value?: Maybe<Scalars['Float']>;
 };
 
 export type LivePricingValuation = {
@@ -508,13 +527,14 @@ export type Query = {
   customLadderGroup: CustomLadderGroup;
   customLadderGroupsByOwner: Array<CustomLadderGroup>;
   globalSearch: GlobalSearchResponse;
-  itemGroupInfo: Array<SearchableItemGroupSummary>;
+  itemGroupInfo: Scalars['Boolean'];
   itemGroupTags: Array<Scalars['String']>;
   itemGroupValueChaos: Scalars['Float'];
   itemGroupValueTimeseriesSearch: ItemGroupValueTimeseriesResult;
   leagueActvityTimeseries: GenericAggregation;
   leagues: Array<PoeLeague>;
   livePriceSimple: LivePricingSimpleResult;
+  livePricingSummary: LivePricingSummary;
   myProfile: UserProfile;
   passiveTree: PassiveTreeResponse;
   poeCharacters: Array<PoeCharacter>;
@@ -603,6 +623,11 @@ export type QueryLivePriceSimpleArgs = {
 };
 
 
+export type QueryLivePricingSummaryArgs = {
+  config: LivePricingKeySummaryConfig;
+};
+
+
 export type QueryPassiveTreeArgs = {
   passiveTreeVersion: Scalars['String'];
 };
@@ -641,15 +666,6 @@ export type QueryStashViewValueSnapshotSeriesArgs = {
 
 export type QueryTftLiveListingSearchArgs = {
   search: TftLiveListingSearch;
-};
-
-export type SearchableItemGroupSummary = {
-  __typename?: 'SearchableItemGroupSummary';
-  displayName?: Maybe<Scalars['String']>;
-  icon?: Maybe<Scalars['String']>;
-  key: Scalars['String'];
-  tag: Scalars['String'];
-  value: Scalars['Float'];
 };
 
 export type StashViewAutomaticSnapshotSettings = {
@@ -691,7 +707,6 @@ export type StashViewJob = {
   rateLimitEndTimestamp?: Maybe<Scalars['DateTime']>;
   status: Scalars['String'];
   timestamp: Scalars['DateTime'];
-  totalStahes: Scalars['Float'];
   userId: Scalars['String'];
 };
 
@@ -816,7 +831,7 @@ export type LivePriceSimpleQueryVariables = Exact<{
 }>;
 
 
-export type LivePriceSimpleQuery = { __typename?: 'Query', livePriceSimple: { __typename?: 'LivePricingSimpleResult', allListingsLength: number, stockValuation: { __typename?: 'LivePricingValuation', listingPercent: number, quantity: number, value: number, valueIndex: number, validListingsLength: number, validListings: Array<{ __typename?: 'ItemGroupListing', listedAtTimestamp: any, quantity: number, listedValue: number }> }, valuation: { __typename?: 'LivePricingValuation', listingPercent: number, quantity: number, value: number, valueIndex: number, validListingsLength: number, validListings: Array<{ __typename?: 'ItemGroupListing', listedAtTimestamp: any, quantity: number, listedValue: number }> } } };
+export type LivePriceSimpleQuery = { __typename?: 'Query', livePriceSimple: { __typename?: 'LivePricingSimpleResult', allListingsLength: number, stockValuation: { __typename?: 'LivePricingValuation', value: number }, valuation: { __typename?: 'LivePricingValuation', value: number, validListings: Array<{ __typename?: 'ItemGroupListing', listedAtTimestamp: any, quantity: number, listedValue: number }> } } };
 
 export type FilterableTimeTableTimeseriesSearchQueryVariables = Exact<{
   search: ItemGroupValueTimeseriesSearchInput;
@@ -837,12 +852,12 @@ export type StashViewJobStatQueryVariables = Exact<{
 }>;
 
 
-export type StashViewJobStatQuery = { __typename?: 'Query', stashViewJobStat: { __typename?: 'StashViewJob', id: string, userId: string, status: string, totalStahes: number, timestamp: any } };
+export type StashViewJobStatQuery = { __typename?: 'Query', stashViewJobStat: { __typename?: 'StashViewJob', id: string, userId: string, status: string, timestamp: any, rateLimitEndTimestamp?: any | null } };
 
-export type TftLiveListingsQueryVariables = Exact<{ [key: string]: never; }>;
+export type TftFiveWayLiveListingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type TftLiveListingsQuery = { __typename?: 'Query', tftLiveListings: Array<{ __typename?: 'TftLiveListing', channelId: string, messageId: string, userDiscordId: string, userDiscordName: string, userDiscordDisplayRole?: string | null, userDiscordDisplayRoleColor?: string | null, userDiscordHighestRole?: string | null, updatedAtTimestamp: any, delistedAtTimestamp?: any | null, tag: string, body: string, properties: any }> };
+export type TftFiveWayLiveListingsQuery = { __typename?: 'Query', tftLiveListings: Array<{ __typename?: 'TftLiveListing', messageId: string, userDiscordId: string, userDiscordName: string, userDiscordDisplayRole?: string | null, userDiscordDisplayRoleColor?: string | null, userDiscordHighestRole?: string | null, updatedAtTimestamp: any, body: string, properties: any }> };
 
 export type TftLiveListingSearchQueryVariables = Exact<{
   search: TftLiveListingSearch;
@@ -1070,11 +1085,11 @@ export const CurrenyValuePullDivAndExDocument = {"kind":"Document","definitions"
 export const GetAllItemGroupTagsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllItemGroupTags"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemGroupTags"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}]}]}}]} as unknown as DocumentNode<GetAllItemGroupTagsQuery, GetAllItemGroupTagsQueryVariables>;
 export const StashViewOneClickPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewOneClickPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSettings"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewOneClickPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewOneClickPostMutation, StashViewOneClickPostMutationVariables>;
 export const StashViewOneClickMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewOneClickMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSettings"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewOneClickMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewOneClickMessageMutation, StashViewOneClickMessageMutationVariables>;
-export const LivePriceSimpleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LivePriceSimple"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LivePricingSimpleConfig"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"livePriceSimple"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allListingsLength"}},{"kind":"Field","name":{"kind":"Name","value":"stockValuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listingPercent"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"valueIndex"}},{"kind":"Field","name":{"kind":"Name","value":"validListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"listedValue"}}]}},{"kind":"Field","name":{"kind":"Name","value":"validListingsLength"}}]}},{"kind":"Field","name":{"kind":"Name","value":"valuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listingPercent"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"valueIndex"}},{"kind":"Field","name":{"kind":"Name","value":"validListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"listedValue"}}]}},{"kind":"Field","name":{"kind":"Name","value":"validListingsLength"}}]}}]}}]}}]} as unknown as DocumentNode<LivePriceSimpleQuery, LivePriceSimpleQueryVariables>;
+export const LivePriceSimpleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LivePriceSimple"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LivePricingSimpleConfig"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"livePriceSimple"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allListingsLength"}},{"kind":"Field","name":{"kind":"Name","value":"stockValuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"valuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"validListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"listedValue"}}]}}]}}]}}]}}]} as unknown as DocumentNode<LivePriceSimpleQuery, LivePriceSimpleQueryVariables>;
 export const FilterableTimeTableTimeseriesSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FilterableTimeTableTimeseriesSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ItemGroupValueTimeseriesSearchInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemGroupValueTimeseriesSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"series"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"itemGroup"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hashString"}}]}}]}}]}}]}}]} as unknown as DocumentNode<FilterableTimeTableTimeseriesSearchQuery, FilterableTimeTableTimeseriesSearchQueryVariables>;
 export const TakeStashViewSanpshotDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TakeStashViewSanpshot"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewSnapshot"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<TakeStashViewSanpshotMutation, TakeStashViewSanpshotMutationVariables>;
-export const StashViewJobStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewJobStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewJobStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"jobId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"totalStahes"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}}]}}]}}]} as unknown as DocumentNode<StashViewJobStatQuery, StashViewJobStatQueryVariables>;
-export const TftLiveListingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"delistedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftLiveListingsQuery, TftLiveListingsQueryVariables>;
+export const StashViewJobStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewJobStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewJobStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"jobId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitEndTimestamp"}}]}}]}}]} as unknown as DocumentNode<StashViewJobStatQuery, StashViewJobStatQueryVariables>;
+export const TftFiveWayLiveListingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftFiveWayLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftFiveWayLiveListingsQuery, TftFiveWayLiveListingsQueryVariables>;
 export const TftLiveListingSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftLiveListingSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TftLiveListingSearch"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListingSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"delistedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftLiveListingSearchQuery, TftLiveListingSearchQueryVariables>;
 export const TftOneClickMessageHistoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"exportType"}},{"kind":"Field","name":{"kind":"Name","value":"exportSubType"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitExpires"}}]}}]}}]} as unknown as DocumentNode<TftOneClickMessageHistoryQuery, TftOneClickMessageHistoryQueryVariables>;
 export const DeleteTftOneClickMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteTftOneClickMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTftOneClickMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"messageId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}}}]}]}}]} as unknown as DocumentNode<DeleteTftOneClickMessageMutation, DeleteTftOneClickMessageMutationVariables>;

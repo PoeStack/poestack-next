@@ -13,7 +13,7 @@ export default function UserActivityGuard({ children }) {
     }
     timeout = setTimeout(() => {
       setLocked(true);
-    }, 1000 * 60 * 15);
+    }, 1000 * 60 * 30);
   }
 
   restartAutoReset();
