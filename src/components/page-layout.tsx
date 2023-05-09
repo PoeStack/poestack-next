@@ -19,7 +19,7 @@ export function PageLayout({ Component, pageProps }: AppProps) {
         }
       >
         <FixedAds />
-        <div className="flex flex-col backdrop-brightness-[25%]">
+        <div className="flex flex-col">
           <div className="flex w-full">
             <div className="flex flex-col w-full">
               <StyledNavTop />
