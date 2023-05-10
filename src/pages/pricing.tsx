@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
 import LeagueSelect from "@components/league-select";
+import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
 import LivePriceRow from "@components/live-price/live-price-row";
 import { LivePricingSummaryEntry } from "@generated/graphql";
@@ -50,6 +51,13 @@ export default function LivePricingPage() {
     selectedTag: string;
   }>({ selectedTag: "gem" });
 
+  const [loadingOffset, setLoadingOffset] = useState<number>(25);
+  const [targetCount, setTargetCount] = useState<number>(25);
+
+  const [validItemGroupSummaries, setValidItemGroupSummaries] = useState<
+    ItemGroupSummary[]
+  >([]);
+
   const [summaries, setSummaries] = useState<ItemGroupSummary[] | null>(null);
   useEffect(() => {
     fetch(
@@ -73,10 +81,6 @@ export default function LivePricingPage() {
       });
   }, [livePricingConfig.selectedTag]);
 
-  function selectedSummaries() {
-    return summaries?.slice(0, 50);
-  }
-
   const [pricingSummaryMap, setPricingSummaryMap] = useState<
     Record<string, LivePricingSummaryEntry>
   >({});
@@ -85,11 +89,17 @@ export default function LivePricingPage() {
       query LivePricingSummary($config: LivePricingKeySummaryConfig!) {
         livePricingSummary(config: $config) {
           entries {
+            valuation {
+              value
+              validListingsLength
+            }
+            stockValuation {
+              value
+              validListingsLength
+            }
             itemGroupKey
             itemGroupHashString
             icon
-            value
-            stockValue
           }
         }
       }
@@ -98,7 +108,9 @@ export default function LivePricingPage() {
       skip: !livePricingConfig.selectedTag || !summaries,
       variables: {
         config: {
-          itemGroupHashStrings: selectedSummaries()?.map((e) => e.hash),
+          itemGroupHashStrings: summaries
+            ?.slice(0, loadingOffset)
+            .map((e) => e.hash),
           league: "Crucible",
         },
       },
@@ -112,6 +124,22 @@ export default function LivePricingPage() {
     }
   );
 
+  useEffect(() => {
+    const validSummaries: ItemGroupSummary[] = [];
+    for (const summary of summaries ?? []) {
+      const pricingSummary = pricingSummaryMap[summary.hash];
+      if ((pricingSummary?.valuation?.validListingsLength ?? 0) >= 7) {
+        validSummaries.push(summary);
+      }
+    }
+
+    setValidItemGroupSummaries(validSummaries);
+
+    if (validSummaries.length <= targetCount) {
+      setLoadingOffset(loadingOffset + 20);
+    }
+  }, [pricingSummaryMap, targetCount]);
+
   //Make stock # confiureable, add things to url not state, make last URL save local state, add clear
   return (
     <>
@@ -122,26 +150,72 @@ export default function LivePricingPage() {
             {ITEM_GROUP_CATEGORIES.map((category) => (
               <div
                 key={category.tag}
-                onClick={() =>
+                onClick={() => {
+                  setLoadingOffset(25);
+                  setTargetCount(25);
                   setLivePricingConfig({
                     ...livePricingConfig,
                     selectedTag: category.tag,
-                  })
-                }
+                  });
+                }}
               >
                 {category.tag}
               </div>
             ))}
           </div>
 
-          <div className="flex flex-col space-y-2">
-            {selectedSummaries()?.map((e) => (
-              <LivePriceRow
-                key={e.hash}
-                itemGroupSummary={e}
-                pricingSummary={pricingSummaryMap?.[e.hash]}
-              />
-            ))}
+          <div className="flex flex-col space-y-2 w-full">
+            <table className="divide-y divide-gray-700">
+              <thead>
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0"
+                  >
+                    Icon
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                  >
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                  >
+                    Properties
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                  >
+                    Value
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                  >
+                    Stock Value (25+)
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-800">
+                {validItemGroupSummaries?.map((e) => (
+                  <LivePriceRow
+                    key={e.hash}
+                    itemGroupSummary={e}
+                    pricingSummary={pricingSummaryMap?.[e.hash]}
+                  />
+                ))}
+              </tbody>
+            </table>
+            <StyledButton
+              text={"Load More"}
+              onClick={() => {
+                setTargetCount(targetCount + 25);
+              }}
+            />
           </div>
         </div>
       </StyledCard>

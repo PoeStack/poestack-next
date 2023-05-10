@@ -18,28 +18,36 @@ export default function LivePriceRow({
 
   return (
     <>
-      <div className="flex space-x-2">
-        <div>
+      <tr key={itemGroupSummary.hash}>
+        <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
           <Image
             loader={myLoader}
-            height={30}
-            width={30}
+            height={24}
+            width={24}
             className="scale-150"
             src={pricingSummary.icon}
             alt={""}
           />
-        </div>
-        <div className="mr-auto px-2">
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
           {GeneralUtils.capitalize(itemGroupSummary.searchableString)}
-        </div>
-        <div className="ml-auto px-2">
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
           <ItemGroupPropertiesDisplay
             properties={itemGroupSummary.properties}
           />
-        </div>
-        <div>{pricingSummary.value ?? "-"}</div>
-        <div>{pricingSummary.stockValue ?? "-"}</div>
-      </div>
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+          <div>{pricingSummary?.valuation?.value ?? "-"}</div>
+          <div>{pricingSummary?.valuation?.validListingsLength ?? "-"}</div>
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
+          <div>{pricingSummary?.stockValuation?.value ?? "-"}</div>
+          <div>
+            {pricingSummary?.stockValuation?.validListingsLength ?? "-"}
+          </div>
+        </td>
+      </tr>
     </>
   );
 }

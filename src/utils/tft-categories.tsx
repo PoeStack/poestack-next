@@ -13,8 +13,8 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
     filter: (item) =>
-      [4, 16].includes(
-        item.itemGroup?.properties?.find((e) => e["key"] === "uses")?.value
+      ["4", "16"].includes(
+        `${item.itemGroup?.properties?.find((e) => e["key"] === "uses")?.value}`
       ),
   },
   "essence high": {
