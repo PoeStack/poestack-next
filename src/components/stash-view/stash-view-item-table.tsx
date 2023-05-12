@@ -417,6 +417,12 @@ export function StashViewItemTable({
         <div className="flex space-x-4 items-center">
           <div className="flex space-x-2">
             <StyledButton
+              text={"First"}
+              onClick={() => {
+                setPage(0);
+              }}
+            />
+            <StyledButton
               text={"Previous"}
               onClick={() => {
                 setPage(Math.max(0, page - 1));
@@ -429,6 +435,12 @@ export function StashViewItemTable({
               text={"Next"}
               onClick={() => {
                 setPage(Math.min(maxPage - 1, page + 1));
+              }}
+            />
+            <StyledButton
+              text={"Last"}
+              onClick={() => {
+                setPage(maxPage);
               }}
             />
           </div>
