@@ -16,7 +16,7 @@ export default function StyledButton({
       <button
         disabled={disabled}
         className={
-          "bg-color-secondary hover:bg-color-accent-variant py-1 px-1 text-white rounded-lg pr-5 pl-5" +
+          "bg-color-secondary hover:bg-color-accent-variant py-1 px-1 text-white rounded-lg " +
           (className ?? "")
         }
         onClick={onClick}
