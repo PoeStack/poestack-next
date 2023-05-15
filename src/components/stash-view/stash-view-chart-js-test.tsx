@@ -192,17 +192,31 @@ export function StashViewNetValueChart() {
       )
       .filter((e) => e.values.some((v) => v > 0));
 
-    const flatSeries = filteredSeries
-      .flatMap((s) =>
-        s.timestamps.map((t, i) => ({
+    const stashValueCache: Record<string, number> = {};
+    const groupedSeries: Record<
+      number,
+      { timestamp: number; value: number; stashId: string }[]
+    > = {};
+    filteredSeries.forEach((s) =>
+      s.timestamps.forEach((t, i) => {
+        const v = {
           stashId: s.stashId,
           value: s.values[i],
           timestamp: new Date(t).valueOf(),
-        }))
-      )
-      .sort((a, b) => a.timestamp - b.timestamp);
+        };
+        if (!stashValueCache[v.stashId]) {
+          stashValueCache[v.stashId] = v.value;
+        }
+        if (!groupedSeries[v.timestamp]) {
+          groupedSeries[v.timestamp] = [];
+        }
+        groupedSeries[v.timestamp].push(v);
+      })
+    );
 
-    const stashValueCache = {};
+    const flatSeries = [...Object.values(groupedSeries)].sort(
+      (a, b) => a[0].timestamp - b[0].timestamp
+    );
 
     const minTimestamp = !stashViewSettings.relativeTimerseriesFilterMins
       ? 0
@@ -210,12 +224,14 @@ export function StashViewNetValueChart() {
         stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
     const finalSeries = flatSeries
       .map((e) => {
-        stashValueCache[e.stashId] = e.value;
+        for (const v of e) {
+          stashValueCache[v.stashId] = v.value;
+        }
         const netValue = Object.values(stashValueCache).reduce(
           (p: number, c) => p + (c as number),
           0
         );
-        return { x: new Date(e.timestamp), y: netValue };
+        return { x: new Date(e[0].timestamp), y: netValue };
       })
       .filter((e) => e.x.getTime() > minTimestamp);
 
