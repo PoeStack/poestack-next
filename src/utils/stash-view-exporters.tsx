@@ -1,12 +1,13 @@
 import { StashViewSettings } from "@contexts/stash-view-context";
 import { PoeStashTab, StashViewStashSummary } from "@generated/graphql";
+import { StashViewTab } from "@models/stash-view-models";
 
 import { StashViewUtil } from "./stash-view-util";
 
 export class StashViewExporters {
   public static exportToForumShop(
     summary: StashViewStashSummary,
-    tabs: PoeStashTab[],
+    tabs: StashViewTab[],
     stashSettings: StashViewSettings
   ): string {
     let output: string[] = [];

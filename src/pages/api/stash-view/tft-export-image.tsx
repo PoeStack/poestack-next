@@ -9,7 +9,7 @@ import { StashViewUtil } from "@utils/stash-view-util";
 import { ImageResponse } from "@vercel/og";
 
 export const config = {
-  runtime: "experimental-edge",
+  runtime: "edge",
 };
 
 export default async function TftExportImage(req) {
@@ -21,12 +21,16 @@ export default async function TftExportImage(req) {
 
   const opaqueKey = searchParams.get("opaqueKey");
 
-  const stashSummary: StashViewStashSummary =
-    await StashViewUtil.fetchStashSummary(
+  const stashSummary: StashViewStashSummary | null =
+    await StashViewUtil.fetchMostRecentStashSummary(
       stashViewSettings.league!,
       opaqueKey!
     );
-  const items = StashViewUtil.searchItems(stashViewSettings, stashSummary, true)
+  const items = StashViewUtil.searchItems(
+    stashViewSettings,
+    stashSummary!,
+    true
+  )
     .filter((e) => !!e.itemGroupHashString)
     .sort(
       (a, b) =>
@@ -34,6 +38,7 @@ export default async function TftExportImage(req) {
         StashViewUtil.itemStackTotalValue(stashViewSettings, a)
     );
 
+  console.log("items", items.length);
   const cols = Math.ceil(items.length / 15);
 
   function cleanText(e: string): string {
@@ -62,10 +67,15 @@ export default async function TftExportImage(req) {
             {items?.map((igs, i) => (
               <>
                 <div key={i} tw="flex flex-row pr-2">
-                  <img width="25" height="25" src={igs.icon!} alt="x" />
+                  <img
+                    width="25"
+                    height="25"
+                    src={igs?.itemGroup?.icon!}
+                    alt="x"
+                  />
                   <div tw="flex flex-row">
                     x{igs.quantity}{" "}
-                    {cleanText(GeneralUtils.capitalize(igs.searchableString)!)}{" "}
+                    {cleanText(StashViewUtil.itemEntryToName(igs)!)}{" "}
                     {GeneralUtils.roundToFirstNoneZeroN(
                       StashViewUtil.itemValue(stashViewSettings, igs)
                     )}

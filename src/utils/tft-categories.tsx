@@ -1,5 +1,7 @@
 import { StashViewItemSummary } from "@generated/graphql";
 
+import { StashViewUtil } from "./stash-view-util";
+
 export interface TftCategory {
   tags: string[];
   icon: string;
@@ -28,7 +30,9 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
         "insanity",
         "horror",
         "delirium",
-      ].some((s) => item.searchableString.includes(s)),
+      ].some(
+        (s) => !!StashViewUtil.itemEntryToName(item)?.toLowerCase()?.includes(s)
+      ),
   },
   essence: {
     tags: ["essence"],

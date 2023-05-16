@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ItemGroupSummary } from "pages/pricing";
 
 import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
 import { LivePricingSummaryEntry } from "@generated/graphql";
@@ -9,7 +8,7 @@ export default function LivePriceRow({
   itemGroupSummary,
   pricingSummary,
 }: {
-  itemGroupSummary: ItemGroupSummary;
+  itemGroupSummary: any;
   pricingSummary: LivePricingSummaryEntry;
 }) {
   if (!pricingSummary) {
@@ -25,7 +24,7 @@ export default function LivePriceRow({
             height={24}
             width={24}
             className="scale-150"
-            src={pricingSummary.icon}
+            src={pricingSummary["icon"]}
             alt={""}
           />
         </td>

@@ -1,9 +1,20 @@
+import client from "poe-stack-apollo-client";
+
+import { gql } from "@apollo/client";
 import { StashViewSettings } from "@contexts/stash-view-context";
 import {
   StashViewItemSummary,
+  StashViewSnapshotRecord,
   StashViewStashSummary,
 } from "@generated/graphql";
+import {
+  StashViewSnapshotGrouped,
+  StashViewSnapshotItemGroups,
+  StashViewSnapshotUntracked,
+  StashViewTrackedItemEntry,
+} from "@models/stash-view-models";
 
+import { GeneralUtils } from "./general-util";
 import { TFT_CATEGORIES } from "./tft-categories";
 
 export class StashViewUtil {
@@ -97,7 +108,9 @@ export class StashViewUtil {
     const filters: ((item: StashViewItemSummary) => boolean)[] = [
       (e) =>
         settings.searchString.trim().length === 0 ||
-        e.searchableString.includes(settings.searchString.toLowerCase()),
+        !!StashViewUtil.itemEntryToName(e)
+          ?.toLocaleLowerCase()
+          ?.includes(settings.searchString.toLowerCase()),
       (e) =>
         !settings.excludedItemGroupIds ||
         !e.itemGroupHashString ||
@@ -121,7 +134,7 @@ export class StashViewUtil {
 
           return (
             !settings.checkedTags ||
-            settings.checkedTags.some((t) => t === e.itemGroupTag)
+            settings.checkedTags.some((t) => t === e.itemGroup?.tag)
           );
         }
         return true;
@@ -158,43 +171,155 @@ export class StashViewUtil {
     return Object.values(groups);
   }
 
-  public static async fetchStashSummary(
+  public static itemEntryToName(item) {
+    return GeneralUtils.capitalize(
+      item.searchableString ??
+        item?.itemGroup?.displayName ??
+        item?.itemGroup?.key
+    );
+  }
+
+  public static async fetchTab(
+    league: string,
+    opaqueKey: string,
+    tabId: string
+  ) {
+    const tabResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/tabs/${tabId}.json?ms=${Date.now()}`
+    );
+
+    if (tabResp.ok) {
+      return await tabResp.json();
+    } else {
+      return null;
+    }
+  }
+
+  public static async fetchSnapshotRecords(
+    league: string
+  ): Promise<StashViewSnapshotRecord[] | null> {
+    const snapshotRecords = await client.query({
+      query: gql`
+        query StashViewSnapshotRecords($league: String!) {
+          stashViewSnapshotRecords(league: $league) {
+            userId
+            league
+            timestamp
+            favorited
+            name
+          }
+        }
+      `,
+      variables: { league: league },
+    });
+    return snapshotRecords?.data?.stashViewSnapshotRecords;
+  }
+
+  public static async fetchStashTabs(league: string, opaqueKey: string) {
+    const stashTabsResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/tabs.json?ms=${Date.now()}`
+    );
+
+    if (stashTabsResp.ok) {
+      const json = await stashTabsResp.json();
+      return json?.tabs;
+    } else {
+      return null;
+    }
+  }
+
+  public async fetchSnapshotValueSeries(league: string) {
+    const snapshotSeries = await client.query({
+      query: gql`
+        query StashViewValueSnapshotSeries($league: String!) {
+          stashViewValueSnapshotSeries(league: $league) {
+            stashId
+            values
+            timestamps
+          }
+        }
+      `,
+      variables: { league: league },
+    });
+  }
+
+  public static async fetchMostRecentStashSummary(
     league: string,
     opaqueKey: string
+  ): Promise<(StashViewStashSummary & { updatedAtTimestamp?: string }) | null> {
+    const currentSnapshotResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/snapshots/current_snapshot.json`
+    );
+
+    if (currentSnapshotResp.ok) {
+      const currentSnapshot = await currentSnapshotResp.json();
+      return await this.fetchStashSummary(
+        league,
+        opaqueKey,
+        currentSnapshot.timestamp
+      );
+    }
+
+    return null;
+  }
+
+  public static async fetchStashSummary(
+    league: string,
+    opaqueKey: string,
+    timestampISO: string
   ): Promise<StashViewStashSummary & { updatedAtTimestamp?: string }> {
-    const summaryResp = await fetch(
-      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${opaqueKey}/${league}/summary.json?ms=${Date.now()}`
+    const trackedResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/snapshots/${timestampISO}/tracked.json`
     );
-
+    const untrackedResp = await fetch(
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/snapshots/${timestampISO}/untracked.json`
+    );
     const itemGroupsResp = await fetch(
-      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${opaqueKey}/${league}/summary_item_groups.json?ms=${Date.now()}`
+      `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/snapshots/${timestampISO}/item_groups.json`
     );
 
-    if (summaryResp.status === 403 || itemGroupsResp.status === 403) {
+    if (
+      trackedResp.status === 403 ||
+      untrackedResp.status === 403 ||
+      itemGroupsResp.status === 403
+    ) {
       return {
         itemGroups: [],
         items: [],
       };
     } else {
-      const summaryJson = await summaryResp.json();
-      const itemGroupsJson = await itemGroupsResp.json();
-      console.log("summary", summaryJson);
-      console.log("groups", itemGroupsJson);
+      const trackedJson: StashViewSnapshotGrouped = await trackedResp.json();
+      const untrackedJson: StashViewSnapshotUntracked =
+        await untrackedResp.json();
+      const itemGroupsJson: StashViewSnapshotItemGroups =
+        await itemGroupsResp.json();
 
-      const items: any[] = Object.values(summaryJson.tabs).flatMap(
-        (e: any) => e.itemSummaries
-      );
+      const items: any[] = [];
+
+      for (const [stashId, entries] of [
+        ...Object.entries(trackedJson.entriesByTab),
+        ...Object.entries(untrackedJson.entriesByTab),
+      ]) {
+        for (const item of entries) {
+          const itemGroup =
+            "itemGroupHashString" in item
+              ? itemGroupsJson.itemGroups.find(
+                  (ig) => ig.hashString === item.itemGroupHashString
+                )
+              : null;
+          items.push({
+            ...item,
+            stashId: stashId,
+            league: league as string,
+            itemGroup: itemGroup,
+          });
+        }
+      }
 
       return {
-        itemGroups: Object.values(itemGroupsJson.itemGroups),
-        updatedAtTimestamp: itemGroupsJson.updatedAtTimestamp,
-        items: items.map((e) => ({
-          ...e,
-          league: league as string,
-          itemGroup: e.itemGroupHashString
-            ? itemGroupsJson.itemGroups[e.itemGroupHashString]
-            : null,
-        })),
+        itemGroups: itemGroupsJson.itemGroups,
+        updatedAtTimestamp: trackedJson.timestamp,
+        items: items,
       };
     }
   }

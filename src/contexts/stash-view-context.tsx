@@ -7,12 +7,15 @@ import {
   CharacterSnapshotItem,
   PoeStashTab,
   StashViewItemSummary,
+  StashViewSnapshotRecord,
   StashViewStashSummary,
   StashViewValueSnapshotSeries,
 } from "@generated/graphql";
+import { StashViewTab } from "@models/stash-view-models";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
 
+import { useStashViewTabs } from "./stash-view-tabs-context";
 import { usePoeStackAuth } from "./user-context";
 
 export interface StashViewSettings {
@@ -114,26 +117,28 @@ export interface StashViewContext {
     items: CharacterSnapshotItem[] & { x: number; y: number };
     type: string | null;
   } | null;
-  stashTabs: PoeStashTab[];
+  stashTabs: StashViewTab[] | null;
   stashSummary:
     | (StashViewStashSummary & { updatedAtTimestamp?: string })
     | null;
   valueSnapshots: StashViewValueSnapshotSeries[];
+  snapshotRecords: StashViewSnapshotRecord[];
   refetchStashTabs: () => void;
-  refetchSummaries: () => void;
   refetchValueSnapshots: () => void;
+  refetchSnapshotRecords: () => void;
 }
 
 const initalContext: StashViewContext = {
   stashViewSettings: defaultStashViewSettings,
   setStashViewSettings: (e: StashViewSettings) => {},
   tab: null,
-  stashTabs: [],
+  stashTabs: null,
   stashSummary: null,
   valueSnapshots: [],
+  snapshotRecords: [],
   refetchStashTabs: () => {},
-  refetchSummaries: () => {},
   refetchValueSnapshots: () => {},
+  refetchSnapshotRecords: () => {},
 };
 
 export const StashViewContext = createContext(initalContext);
@@ -149,6 +154,8 @@ export function StashViewContextProvider({
 
   const router = useRouter();
   const { league } = router.query;
+
+  const { stashTabs } = useStashViewTabs();
 
   const [stashViewSettings, setStashViewSettings] =
     useState<StashViewSettings | null>(null);
@@ -191,23 +198,11 @@ export function StashViewContextProvider({
   } | null | null>(null);
   useEffect(() => {
     if (stashViewSettings?.selectedTabId && league && profile?.userId) {
-      fetch(
-        `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/stash/${
-          profile?.opaqueKey
-        }/${league}/tabs/${
-          stashViewSettings.selectedTabId
-        }.json?ms=${Date.now()}`
-      )
-        .then((v) => {
-          if (v.ok) {
-            return v.json();
-          } else {
-            setTab(null);
-          }
-        })
-        .then((v) => {
-          setTab(v);
-        });
+      StashViewUtil.fetchTab(
+        league as string,
+        profile?.opaqueKey!,
+        stashViewSettings.selectedTabId
+      ).then((v) => setTab(v));
     }
   }, [
     stashViewSettings?.selectedTabId,
@@ -216,35 +211,23 @@ export function StashViewContextProvider({
     profile?.userId,
   ]);
 
-  const [stashTabs, setStashTabs] = useState<PoeStashTab[]>([]);
-  const { refetch: refetchStashTabs } = useQuery<{
-    stashTabs: PoeStashTab[];
-  }>(
+  const [snapshotRecords, setSnapshotRecords] = useState<
+    StashViewSnapshotRecord[]
+  >([]);
+  const { refetch: refetchSnapshotRecords } = useQuery(
     gql`
-      query StashTabs($league: String!, $forcePull: Boolean) {
-        stashTabs(league: $league, forcePull: $forcePull) {
-          id
-          userId
-          league
-          parent
+      query StashViewSnapshotRecords($league: String!) {
+        stashViewSnapshotRecords(league: $league) {
+          timestamp
+          favorited
           name
-          type
-          index
-          flatIndex
         }
       }
     `,
     {
-      skip: !league,
-      variables: {
-        league: league,
-        forcePull: false,
-      },
+      variables: { league: league },
       onCompleted(data) {
-        setStashTabs(data.stashTabs);
-      },
-      onError(error) {
-        setStashTabs([]);
+        setSnapshotRecords(data.stashViewSnapshotRecords);
       },
     }
   );
@@ -254,11 +237,14 @@ export function StashViewContextProvider({
   >(null);
   async function pullStashSummary() {
     try {
-      const summary = await StashViewUtil.fetchStashSummary(
-        stashViewSettings?.league!,
-        profile?.opaqueKey!
-      );
-      setTabSummary(summary);
+      if (snapshotRecords.length) {
+        const summary = await StashViewUtil.fetchStashSummary(
+          stashViewSettings?.league!,
+          profile?.opaqueKey!,
+          snapshotRecords[0].timestamp
+        );
+        setTabSummary(summary);
+      }
     } catch (error) {
       console.log("Error loading summary", error);
     }
@@ -270,6 +256,7 @@ export function StashViewContextProvider({
     profile?.userId,
     router.basePath,
     stashViewSettings?.lastSnapshotJobCompleteTimestamp,
+    snapshotRecords,
   ]);
 
   const [valueSnapshots, setValueSnapshots] = useState<
@@ -336,23 +323,16 @@ export function StashViewContextProvider({
     tab: tab,
     stashTabs: stashTabs,
     stashSummary: stashSummary,
+    snapshotRecords: snapshotRecords,
     valueSnapshots: valueSnapshots,
-    refetchStashTabs: () => {
-      refetchStashTabs({
-        league: league,
-        forcePull: true,
-      });
-    },
-    refetchSummaries: pullStashSummary,
+    refetchStashTabs: () => {},
+    refetchSnapshotRecords: refetchSnapshotRecords,
     refetchValueSnapshots: refetchValueSnapshots,
   };
 
   let loading: string | null = null;
   if (!stashTabs) {
     loading = "Loading stash tabs";
-  }
-  if (!stashSummary) {
-    loading = "Loading summary";
   }
   if (!league) {
     loading = "Loading league";

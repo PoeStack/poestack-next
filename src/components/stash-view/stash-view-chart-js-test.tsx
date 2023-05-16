@@ -163,7 +163,7 @@ export function StashViewTabValueChart() {
     : Date.now() - stashViewSettings.relativeTimerseriesFilterMins * 1000 * 60;
   const datasets = filteredSeries.map((s) => {
     return {
-      label: stashTabs.find((e) => e.id === s.stashId)?.name,
+      label: stashTabs!.find((e) => e.id === s.stashId)?.name,
       data: s.values
         .map((v, i) => ({ x: new Date(s.timestamps[i]), y: v }))
         .filter((e) => e.x.getTime() > minTimestamp)

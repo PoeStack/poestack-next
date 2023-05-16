@@ -143,7 +143,7 @@ export function StashViewAutomaticSnapshotSettings() {
       {!!automaticSnapshotSettings?.stashIds?.length ? (
         <div>
           {(automaticSnapshotSettings?.stashIds ?? []).map((e, i) => (
-            <div key={i}>{stashTabs.find((t) => t.id === e)?.name ?? "NA"}</div>
+            <div key={i}>{stashTabs!.find((t) => t.id === e)?.name ?? "NA"}</div>
           ))}
         </div>
       ) : (

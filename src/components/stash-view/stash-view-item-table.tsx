@@ -249,7 +249,7 @@ export function StashViewItemTable({
             {sortedItems
               .slice(page * pageSize, page * pageSize + pageSize)
               .map((item) => {
-                const tab = stashTabs.find((e) => e.id === item.stashId);
+                const tab = stashTabs?.find((e) => e.id === item.stashId);
                 return (
                   <>
                     <tr className="h-[36px] group">
@@ -292,15 +292,15 @@ export function StashViewItemTable({
                         />
                       </td>
                       <td>
-                        <img style={{ height: 30 }} src={item.icon!} />
+                        <img
+                          style={{ height: 30 }}
+                          src={item.icon ?? item.itemGroup?.icon!}
+                        />
                       </td>
                       <td>
                         <StashViewItemMouseOver item={null} itemSummary={item}>
                           <div className="group-hover:text-content-accent">
-                            {GeneralUtils.capitalize(
-                              item.itemGroup?.displayName ??
-                                item.searchableString
-                            )}
+                            {StashViewUtil.itemEntryToName(item)}
                           </div>
                         </StashViewItemMouseOver>
                       </td>

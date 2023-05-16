@@ -23,8 +23,8 @@ export function StashViewTabBreakdownTable() {
 
       nextCache.tabValueCache[e.stashId] =
         (nextCache.tabValueCache[e.stashId] ?? 0) + totalStackValue;
-      nextCache.tagValueCache[e.itemGroupTag ?? "na"] =
-        (nextCache.tagValueCache[e.itemGroupTag ?? "na"] ?? 0) +
+      nextCache.tagValueCache[e.itemGroup?.tag ?? "na"] =
+        (nextCache.tagValueCache[e.itemGroup?.tag ?? "na"] ?? 0) +
         totalStackValue;
     });
 
@@ -40,7 +40,7 @@ export function StashViewTabBreakdownTable() {
             {Object.entries(cache.tabValueCache)
               .sort((a, b) => b[1] - a[1])
               .map(([stashId, value]) => {
-                const stash = stashTabs.find((e) => e.id === stashId);
+                const stash = stashTabs!.find((e) => e.id === stashId);
                 return (
                   <>
                     <div className="grid grid-cols-2 group">

@@ -66,7 +66,7 @@ export function StashViewTabSelectionCard() {
                   } else {
                     setStashViewSettings({
                       ...stashViewSettings,
-                      checkedTabIds: stashTabs?.map((t) => t.id),
+                      checkedTabIds: stashTabs?.map((t) => t.id) ?? [],
                     });
                   }
                 }}

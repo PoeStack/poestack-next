@@ -21,7 +21,8 @@
       "@contexts/*": ["contexts/*"],
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
-      "@generated/*": ["__generated__/*"]
+      "@generated/*": ["__generated__/*"],
+      "@models/*": ["models/*"]
     }
   },
   "include": [

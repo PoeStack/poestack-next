@@ -63,7 +63,7 @@ export function StashViewForumShopExporterCard() {
             navigator.clipboard.writeText(
               StashViewExporters.exportToForumShop(
                 stashSummary!,
-                stashTabs,
+                stashTabs!,
                 stashViewSettings
               )
             );

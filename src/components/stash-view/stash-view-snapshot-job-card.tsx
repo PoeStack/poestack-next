@@ -11,7 +11,7 @@ export function StashViewSnapshotJobCard() {
     stashViewSettings,
     setStashViewSettings,
     refetchValueSnapshots,
-    refetchSummaries,
+    refetchSnapshotRecords,
   } = useStashViewContext();
 
   const [takeSnapshot] = useMutation(gql`
@@ -48,8 +48,8 @@ export function StashViewSnapshotJobCard() {
             setJobStatus(null);
           }, 5000);
 
+          refetchSnapshotRecords();
           refetchValueSnapshots();
-          refetchSummaries();
           setStashViewSettings({
             ...stashViewSettings,
             lastSnapshotJobCompleteTimestamp: new Date(),
@@ -95,10 +95,13 @@ export function StashViewSnapshotJobCard() {
             {jobStatus?.status}
             {jobStatus.rateLimitEndTimestamp && (
               <span className="pl-1">
-                {Math.round(
-                  (new Date(jobStatus.rateLimitEndTimestamp).getTime() -
-                    now.getTime()) /
-                    1000
+                {Math.max(
+                  0,
+                  Math.round(
+                    (new Date(jobStatus.rateLimitEndTimestamp).getTime() -
+                      now.getTime()) /
+                      1000
+                  )
                 )}{" "}
                 seconds remaining.
               </span>

@@ -11,6 +11,7 @@ import { StashViewTabSelectionCard } from "./stash-view/stash-view-tab-selection
 
 export default function TftBulkToolPanel() {
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();
+  const { stashSummary } = useStashViewContext();
 
   useEffect(() => {
     setStashViewSettings({
@@ -30,12 +31,20 @@ export default function TftBulkToolPanel() {
           />
           <StashViewTabSelectionCard />
           <StashViewSnapshotJobCard />
-          <StashViewGenericTftExporterCard />
-          <StashViewInfoCard />
+          {!!stashSummary && (
+            <>
+              <StashViewGenericTftExporterCard />
+              <StashViewInfoCard />
+            </>
+          )}
         </div>
-        <div className="flex-1">
-          <StashViewItemTable forceReducer={true} />
-        </div>
+        {!stashSummary ? (
+          <div>Load some tabs to get started.</div>
+        ) : (
+          <div className="flex-1">
+            <StashViewItemTable forceReducer={true} />
+          </div>
+        )}
       </div>
     </>
   );
