@@ -110,7 +110,7 @@ export function Hero() {
             Path of Exile Made Easier
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            All of your POE data in one place along with convient tools to find
+            All of your POE data in one place along with convenient tools to find
             builds, value/sell items, and discover new currency strategies.
           </p>
           <div className="mt-10 flex items-center gap-x-6">
@@ -190,7 +190,7 @@ export function StatsCard() {
             </p>
             <p className="mt-6 text-lg leading-8 text-gray-300">
               We have a large userbase of players already using our site to
-              track their characters, value their stash, and sell thier items.
+              track their characters, value their stash, and sell their items.
             </p>
           </div>
           <dl className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-10 text-white sm:mt-20 sm:grid-cols-2 sm:gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-4">
@@ -229,7 +229,7 @@ const features = [
   {
     name: "Live Pricing.",
     description:
-      "We constaly index all public stashes to keep our price data up to date.",
+      "We constantly index all public stashes to keep our price data up to date.",
     icon: CloudArrowUpIcon,
   },
   {
@@ -253,7 +253,7 @@ const features = [
   {
     name: "Bring your own prices.",
     description:
-      "Enable overrides and enter your own prices, they&apos;ll apply to all exports and totals.",
+      "Enable overrides and enter your own prices, they'll apply to all exports and totals.",
     icon: Cog6ToothIcon,
   },
   {
@@ -318,7 +318,7 @@ const ladderFeatures = [
   {
     name: "Snapshots on Demand",
     description:
-      "Get a big upgrade? Take a snapshot you can view snapshots of all the characters on the ladder to see how their gear progressed through a league.",
+      "Got a big upgrade? Take a snapshot! You can view snapshots of all the characters on the ladder to see how their gear progressed throughout a league.",
     icon: CloudArrowUpIcon,
   },
   {
@@ -350,8 +350,8 @@ export function Ladder() {
               </p>
               <p className="mt-6 text-lg leading-8 ">
                 When you connect your account our system will start tracking and
-                snapshoting all of your characters. They will appear on the
-                ladder no matter there level or when they were made.
+                snapshotting all of your characters. They will appear on the
+                ladder no matter their level or time of creation.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7  lg:max-w-none">
                 {ladderFeatures.map((feature) => (
@@ -394,7 +394,7 @@ const tftFeatures = [
   {
     name: "TFT Live-Search",
     description:
-      "TFT has over 300 channels, we index many of them and let you search them in once place. Buy bulk compasses, find five-way carries, and soon much more.",
+      "TFT has over 300 channels, we index many of them and let you search them in one place. Buy bulk compasses, find five-way carries, and soon much more.",
     icon: LockClosedIcon,
   },
   {
@@ -421,7 +421,7 @@ export function TftFeatures() {
               <p className="mt-6 text-lg leading-8 text-gray-300">
                 The Forbidden Trove is the largest POE Discord with 400 thousand
                 members, offering many services from bulk selling to boss
-                carries. We integrate with TFT give you a smoother and safer
+                carries. We integrate with TFT to give you a smoother and safer
                 trade experince.
               </p>
               <dl className="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-300 lg:max-w-none">
@@ -459,15 +459,15 @@ export function GeneralFeatures() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="mx-auto">
           <h2 className="text-base font-semibold leading-7 text-indigo-400">
-            Consisten Updates
+            Consistent Updates
           </h2>
           <p className="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
             Future Plans
           </p>
           <p className="mt-6 text-lg leading-8 text-gray-300">
-            As you explore the site you&apos;ll find a variety of features that
+            As you explore the site you&apos;ll find a variety of features,
             all with the aim of increasing information and making your POE
-            experience more enjoyable. We are commited to continuing to expand
+            experience more enjoyable. We are committed to continuing to expand
             the site and would love feedback. Feel free to log an issue or join
             our Discord to let us know what you would like to see on the site
             next.
