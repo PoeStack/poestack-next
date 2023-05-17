@@ -69,14 +69,14 @@ const defaultStashViewSettings: StashViewSettings = {
   chaosToDivRate: null,
 
   searchString: "",
-  filterCheckedTabs: false,
+  filterCheckedTabs: true,
 
   checkedTabIds: [],
   selectedTabId: null,
   snapshotJobId: null,
   lastSnapshotJobCompleteTimestamp: null,
 
-  stackReducerEnabled: null,
+  stackReducerEnabled: true,
   checkedTags: null,
 
   stashTabGroups: {},
@@ -330,6 +330,11 @@ export function StashViewContextProvider({
       ) {
         e.valueOverridesEnabled = false;
       }
+
+      if (stashTabs?.length && !e.selectedTabId) {
+        e.selectedTabId = stashTabs[0].id;
+      }
+
       setStashViewSettings(e);
     },
     tab: tab,
