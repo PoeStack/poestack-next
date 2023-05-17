@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
 import HSparkline from "@components/hsparkline";
+import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
 import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
 import StyledButton from "@components/library/styled-button";
 import StyledInput from "@components/library/styled-input";
@@ -198,6 +199,7 @@ export function StashViewItemTable({
               >
                 Name
               </th>
+              <th>Properties</th>
               {!forceReducer && !stashViewSettings.stackReducerEnabled && (
                 <th
                   className="cursor-pointer"
@@ -322,6 +324,11 @@ export function StashViewItemTable({
                             {tab?.name}
                           </td>
                         )}
+                      <td>
+                        <ItemGroupPropertiesDisplay
+                          properties={item?.itemGroup?.properties as any}
+                        />
+                      </td>
                       <td>
                         {!!item.itemGroupHashString && (
                           <div className="flex">

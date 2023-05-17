@@ -195,26 +195,6 @@ export class StashViewUtil {
     }
   }
 
-  public static async fetchSnapshotRecords(
-    league: string
-  ): Promise<StashViewSnapshotRecord[] | null> {
-    const snapshotRecords = await client.query({
-      query: gql`
-        query StashViewSnapshotRecords($league: String!) {
-          stashViewSnapshotRecords(league: $league) {
-            userId
-            league
-            timestamp
-            favorited
-            name
-          }
-        }
-      `,
-      variables: { league: league },
-    });
-    return snapshotRecords?.data?.stashViewSnapshotRecords;
-  }
-
   public static async fetchStashTabs(league: string, opaqueKey: string) {
     const stashTabsResp = await fetch(
       `https://poe-stack-stash-view.nyc3.digitaloceanspaces.com/v1/stash/${opaqueKey}/${league}/tabs.json?ms=${Date.now()}`

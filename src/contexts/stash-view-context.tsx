@@ -122,7 +122,10 @@ export interface StashViewContext {
     | (StashViewStashSummary & { updatedAtTimestamp?: string })
     | null;
   valueSnapshots: StashViewValueSnapshotSeries[];
-  snapshotRecords: StashViewSnapshotRecord[];
+
+  snapshotRecords: StashViewSnapshotRecord[] | null;
+  selectedSnapshotRecord: StashViewSnapshotRecord | null;
+  setSelectedSnapshotRecord: (e: StashViewSnapshotRecord | null) => void;
   refetchStashTabs: () => void;
   refetchValueSnapshots: () => void;
   refetchSnapshotRecords: () => void;
@@ -135,7 +138,9 @@ const initalContext: StashViewContext = {
   stashTabs: null,
   stashSummary: null,
   valueSnapshots: [],
-  snapshotRecords: [],
+  snapshotRecords: null,
+  selectedSnapshotRecord: null,
+  setSelectedSnapshotRecord: () => {},
   refetchStashTabs: () => {},
   refetchValueSnapshots: () => {},
   refetchSnapshotRecords: () => {},
@@ -211,6 +216,8 @@ export function StashViewContextProvider({
     profile?.userId,
   ]);
 
+  const [selectedSnapshotRecord, setSelectedSnapshotRecord] =
+    useState<StashViewSnapshotRecord | null>(null);
   const [snapshotRecords, setSnapshotRecords] = useState<
     StashViewSnapshotRecord[]
   >([]);
@@ -221,11 +228,15 @@ export function StashViewContextProvider({
           timestamp
           favorited
           name
+          fixedValue
+          lpValue
+          lpStockValue
         }
       }
     `,
     {
       variables: { league: league },
+      pollInterval: 1000 * 60,
       onCompleted(data) {
         setSnapshotRecords(data.stashViewSnapshotRecords);
       },
@@ -237,11 +248,11 @@ export function StashViewContextProvider({
   >(null);
   async function pullStashSummary() {
     try {
-      if (snapshotRecords.length) {
+      if (snapshotRecords) {
         const summary = await StashViewUtil.fetchStashSummary(
           stashViewSettings?.league!,
           profile?.opaqueKey!,
-          snapshotRecords[0].timestamp
+          selectedSnapshotRecord?.timestamp ?? snapshotRecords[0].timestamp
         );
         setTabSummary(summary);
       }
@@ -257,6 +268,7 @@ export function StashViewContextProvider({
     router.basePath,
     stashViewSettings?.lastSnapshotJobCompleteTimestamp,
     snapshotRecords,
+    selectedSnapshotRecord,
   ]);
 
   const [valueSnapshots, setValueSnapshots] = useState<
@@ -324,7 +336,9 @@ export function StashViewContextProvider({
     stashTabs: stashTabs,
     stashSummary: stashSummary,
     snapshotRecords: snapshotRecords,
+    selectedSnapshotRecord: selectedSnapshotRecord,
     valueSnapshots: valueSnapshots,
+    setSelectedSnapshotRecord: setSelectedSnapshotRecord,
     refetchStashTabs: () => {},
     refetchSnapshotRecords: refetchSnapshotRecords,
     refetchValueSnapshots: refetchValueSnapshots,

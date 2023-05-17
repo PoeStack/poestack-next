@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
@@ -16,100 +17,65 @@ export interface ItemGroupSummary {
 }
 
 export default function LivePricingPage() {
-  const [livePricingConfig, setLivePricingConfig] = useState<{
-    selectedTag: string;
-  }>({ selectedTag: "gem" });
+  const router = useRouter();
 
-  const [loadingOffset, setLoadingOffset] = useState<number>(25);
-  const [targetCount, setTargetCount] = useState<number>(25);
-
-  const [validItemGroupSummaries, setValidItemGroupSummaries] = useState<
-    ItemGroupSummary[]
-  >([]);
-
-  const [summaries, setSummaries] = useState<ItemGroupSummary[] | null>(null);
   useEffect(() => {
-    fetch(
-      `https://poe-stack-public.nyc3.digitaloceanspaces.com/item-groups/tag_${livePricingConfig.selectedTag}.json`
-    )
-      .then((v) => {
-        if (v.ok) {
-          return v.json();
-        } else {
-          setSummaries(null);
+    if (router.query && !router.query.league) {
+      router.push(
+        {
+          query: { ...router.query, league: "Crucible" },
+        },
+        undefined,
+        {
+          shallow: true,
         }
-      })
-      .then((v) => {
-        setSummaries(
-          v.entries.map((e) => ({
-            hash: e[0],
-            searchableString: e[1],
-            properties: e[2],
-          }))
-        );
-      });
-  }, [livePricingConfig.selectedTag]);
+      );
+    }
+  }, []);
 
-  const [pricingSummaryMap, setPricingSummaryMap] = useState<
-    Record<string, LivePricingSummaryEntry>
-  >({});
+  const [livePricingEntires, setLivePricingEntires] = useState<
+    LivePricingSummaryEntry[]
+  >([]);
   useQuery(
     gql`
-      query LivePricingSummary($config: LivePricingKeySummaryConfig!) {
-        livePricingSummary(config: $config) {
+      query Query($search: LivePricingSummarySearch!) {
+        livePricingSummarySearch(search: $search) {
           entries {
+            itemGroup {
+              hashString
+              key
+              properties
+              icon
+              displayName
+            }
             valuation {
               value
               validListingsLength
             }
             stockValuation {
+              listingPercent
               value
               validListingsLength
             }
-            itemGroupKey
-            itemGroupHashString
-            icon
           }
         }
       }
     `,
     {
-      skip: !livePricingConfig.selectedTag || !summaries,
       variables: {
-        config: {
-          itemGroupHashStrings: summaries
-            ?.slice(0, loadingOffset)
-            .map((e) => e.hash),
-          league: "Crucible",
+        search: {
+          league: router.query.league,
+          offSet: 0,
+          searchString: null,
+          tag: router.query.tag ?? "currency",
         },
       },
       onCompleted(data) {
-        const map = { ...pricingSummaryMap };
-        data?.livePricingSummary?.entries?.map((e) => {
-          map[e.itemGroupHashString] = e;
-        });
-        setPricingSummaryMap(map);
+        setLivePricingEntires(data.livePricingSummarySearch?.entries);
       },
     }
   );
 
-  useEffect(() => {
-    const validSummaries: ItemGroupSummary[] = [];
-    for (const summary of summaries ?? []) {
-      const pricingSummary = pricingSummaryMap[summary.hash];
-      if ((pricingSummary?.valuation?.validListingsLength ?? 0) >= 7) {
-        validSummaries.push(summary);
-      }
-    }
-
-    setValidItemGroupSummaries(validSummaries);
-
-    if (validSummaries.length <= targetCount) {
-      setLoadingOffset(loadingOffset + 20);
-    }
-  }, [pricingSummaryMap, targetCount]);
-
-  //Make stock # confiureable, add things to url not state, make last URL save local state, add clear
   return (
     <>
       <StyledCard className="flex-0">
@@ -121,12 +87,15 @@ export default function LivePricingPage() {
                 key={category.tag}
                 className="flex space-x-1 cursor-pointer"
                 onClick={() => {
-                  setLoadingOffset(25);
-                  setTargetCount(25);
-                  setLivePricingConfig({
-                    ...livePricingConfig,
-                    selectedTag: category.tag,
-                  });
+                  router.push(
+                    {
+                      query: { ...router.query, tag: category.tag },
+                    },
+                    undefined,
+                    {
+                      shallow: true,
+                    }
+                  );
                 }}
               >
                 <div>
@@ -182,21 +151,20 @@ export default function LivePricingPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-800">
-                {validItemGroupSummaries?.map((e) => (
+                {livePricingEntires?.map((e) => (
                   <LivePriceRow
-                    key={e.hash}
-                    itemGroupSummary={e}
-                    pricingSummary={pricingSummaryMap?.[e.hash]}
+                    key={e.itemGroup.hashString}
+                    pricingSummary={e}
                   />
                 ))}
               </tbody>
             </table>
-            <StyledButton
+            {/*             <StyledButton
               text={"Load More"}
               onClick={() => {
                 setTargetCount(targetCount + 25);
               }}
-            />
+            /> */}
           </div>
         </div>
       </StyledCard>

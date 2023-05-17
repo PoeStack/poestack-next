@@ -19,10 +19,12 @@ import { StashViewTabViewerCard } from "@components/stash-view/stash-view-tab-vi
 import { StashViewValueChangeCard } from "@components/stash-view/stash-view-value-change-card";
 import { useStashViewContext } from "@contexts/stash-view-context";
 
+import StashViewHeaderCard from "./stash-view-header-card";
+
 export default function StashViewLayout() {
   const [advancedSettingsOpen, setAdvancedSettingsOpen] = useState(false);
 
-  const { stashSummary } = useStashViewContext();
+  const { stashSummary, selectedSnapshotRecord } = useStashViewContext();
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const handleToggleCollapse = () => {
@@ -74,6 +76,7 @@ export default function StashViewLayout() {
             <div>Load some tabs to get started.</div>
           ) : (
             <>
+              <StashViewHeaderCard />
               <StyledCard className="col-span-1 2xl:col-span-2 max-h-[600px] pb-12 grow">
                 <StashViewChartJsTest />
               </StyledCard>

@@ -16,7 +16,7 @@ export default function ItemGroupPropertiesDisplay({
           .map((p) => (
             <div
               key={p.key}
-              className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
+              className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20"
             >
               {p.value === true
                 ? GeneralUtils.capitalize(p.key)

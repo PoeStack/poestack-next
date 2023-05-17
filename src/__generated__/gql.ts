@@ -27,8 +27,10 @@ const documents = {
     "\n      mutation DeleteTftOneClickMessage($messageId: String!) {\n        deleteTftOneClickMessage(messageId: $messageId)\n      }\n    ": types.DeleteTftOneClickMessageDocument,
     "\n  query PassiveAtlasTree($passiveTreeVersion: String!) {\n    atlasTree(passiveTreeVersion: $passiveTreeVersion) {\n      constants {\n        minX\n        minY\n        maxX\n        maxY\n        skillsPerOrbit\n        orbitRadii\n      }\n      nodeMap\n      connectionMap\n    }\n  }\n": types.PassiveAtlasTreeDocument,
     "\n  query PassiveTree($passiveTreeVersion: String!) {\n    passiveTree(passiveTreeVersion: $passiveTreeVersion) {\n      constants {\n        minX\n        minY\n        maxX\n        maxY\n        skillsPerOrbit\n        orbitRadii\n      }\n      nodeMap\n      connectionMap\n    }\n  }\n": types.PassiveTreeDocument,
+    "\n      query StashViewSnapshotRecords($league: String!) {\n        stashViewSnapshotRecords(league: $league) {\n          timestamp\n          favorited\n          name\n          fixedValue\n          lpValue\n          lpStockValue\n        }\n      }\n    ": types.StashViewSnapshotRecordsDocument,
     "\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    ": types.StashViewValueSnapshotSeriesDocument,
     "\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    ": types.CurrenyValuePullDivDocument,
+    "\n      mutation StashViewRefreshTabs($league: String!) {\n        stashViewRefreshTabs(league: $league)\n      }\n    ": types.StashViewRefreshTabsDocument,
     "\n      mutation ExchangeAuthCode($authCode: String!) {\n        exchangeAuthCode(authCode: $authCode)\n      }\n    ": types.ExchangeAuthCodeDocument,
     "\n      query MyProfile($forcePull: Boolean) {\n        myProfile {\n          userId\n          poeProfileName\n          patreonUserId\n          patreonTier\n          oAuthTokenUpdatedAtTimestamp\n          lastConnectedTimestamp\n          discordUsername\n          discordUserId\n          createdAtTimestamp\n          roles\n          opaqueKey\n        }\n        checkTftMembership(forcePull: $forcePull)\n      }\n    ": types.MyProfileDocument,
     "\n    mutation RouteChange($path: String!, $pathname: String!) {\n      routeChange(path: $path, pathname: $pathname)\n    }\n  ": types.RouteChangeDocument,
@@ -53,6 +55,8 @@ const documents = {
     "\n      query EconSearch1($search: ItemGroupValueTimeseriesSearchInput!) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              type\n            }\n            itemGroup {\n              icon\n              displayName\n              key\n              hashString\n            }\n          }\n        }\n      }\n    ": types.EconSearch1Document,
     "\n      query Entries($search: ItemGroupValueTimeseriesSearchInput!) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              type\n            }\n            itemGroup {\n              icon\n              displayName\n              key\n              hashString\n              properties\n            }\n          }\n        }\n      }\n    ": types.EntriesDocument,
     "\n      query EconOneItemGroupSearch(\n        $search: ItemGroupValueTimeseriesSearchInput!\n      ) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              stockRangeStartInclusive\n              type\n            }\n            itemGroup {\n              hashString\n              displayName\n              key\n              tag\n              properties\n            }\n          }\n        }\n      }\n    ": types.EconOneItemGroupSearchDocument,
+    "\n      query Query($search: LivePricingSummarySearch!) {\n        livePricingSummarySearch(search: $search) {\n          entries {\n            itemGroup {\n              hashString\n              key\n              properties\n              icon\n              displayName\n            }\n            valuation {\n              value\n              validListingsLength\n            }\n            stockValuation {\n              listingPercent\n              value\n              validListingsLength\n            }\n          }\n        }\n      }\n    ": types.QueryDocument,
+    "\n        query StashViewValueSnapshotSeries($league: String!) {\n          stashViewValueSnapshotSeries(league: $league) {\n            stashId\n            values\n            timestamps\n          }\n        }\n      ": types.StashViewValueSnapshotSeriesDocument,
 };
 
 /**
@@ -128,11 +132,19 @@ export function gql(source: "\n  query PassiveTree($passiveTreeVersion: String!)
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
+export function gql(source: "\n      query StashViewSnapshotRecords($league: String!) {\n        stashViewSnapshotRecords(league: $league) {\n          timestamp\n          favorited\n          name\n          fixedValue\n          lpValue\n          lpStockValue\n        }\n      }\n    "): (typeof documents)["\n      query StashViewSnapshotRecords($league: String!) {\n        stashViewSnapshotRecords(league: $league) {\n          timestamp\n          favorited\n          name\n          fixedValue\n          lpValue\n          lpStockValue\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
 export function gql(source: "\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    "): (typeof documents)["\n      query StashViewValueSnapshotSeries($league: String!) {\n        stashViewValueSnapshotSeries(league: $league) {\n          stashId\n          values\n          timestamps\n        }\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    "): (typeof documents)["\n      query CurrenyValuePullDiv($key: String!, $league: String!) {\n        div: itemGroupValueChaos(key: $key, league: $league)\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      mutation StashViewRefreshTabs($league: String!) {\n        stashViewRefreshTabs(league: $league)\n      }\n    "): (typeof documents)["\n      mutation StashViewRefreshTabs($league: String!) {\n        stashViewRefreshTabs(league: $league)\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -229,6 +241,14 @@ export function gql(source: "\n      query Entries($search: ItemGroupValueTimese
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      query EconOneItemGroupSearch(\n        $search: ItemGroupValueTimeseriesSearchInput!\n      ) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              stockRangeStartInclusive\n              type\n            }\n            itemGroup {\n              hashString\n              displayName\n              key\n              tag\n              properties\n            }\n          }\n        }\n      }\n    "): (typeof documents)["\n      query EconOneItemGroupSearch(\n        $search: ItemGroupValueTimeseriesSearchInput!\n      ) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              stockRangeStartInclusive\n              type\n            }\n            itemGroup {\n              hashString\n              displayName\n              key\n              tag\n              properties\n            }\n          }\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      query Query($search: LivePricingSummarySearch!) {\n        livePricingSummarySearch(search: $search) {\n          entries {\n            itemGroup {\n              hashString\n              key\n              properties\n              icon\n              displayName\n            }\n            valuation {\n              value\n              validListingsLength\n            }\n            stockValuation {\n              listingPercent\n              value\n              validListingsLength\n            }\n          }\n        }\n      }\n    "): (typeof documents)["\n      query Query($search: LivePricingSummarySearch!) {\n        livePricingSummarySearch(search: $search) {\n          entries {\n            itemGroup {\n              hashString\n              key\n              properties\n              icon\n              displayName\n            }\n            valuation {\n              value\n              validListingsLength\n            }\n            stockValuation {\n              listingPercent\n              value\n              validListingsLength\n            }\n          }\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n        query StashViewValueSnapshotSeries($league: String!) {\n          stashViewValueSnapshotSeries(league: $league) {\n            stashId\n            values\n            timestamps\n          }\n        }\n      "): (typeof documents)["\n        query StashViewValueSnapshotSeries($league: String!) {\n          stashViewValueSnapshotSeries(league: $league) {\n            stashId\n            values\n            timestamps\n          }\n        }\n      "];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

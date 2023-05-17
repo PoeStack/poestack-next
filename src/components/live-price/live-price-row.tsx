@@ -5,10 +5,8 @@ import { LivePricingSummaryEntry } from "@generated/graphql";
 import { GeneralUtils, myLoader } from "@utils/general-util";
 
 export default function LivePriceRow({
-  itemGroupSummary,
   pricingSummary,
 }: {
-  itemGroupSummary: any;
   pricingSummary: LivePricingSummaryEntry;
 }) {
   if (!pricingSummary) {
@@ -17,23 +15,25 @@ export default function LivePriceRow({
 
   return (
     <>
-      <tr key={itemGroupSummary.hash}>
+      <tr key={pricingSummary.itemGroup.hashString}>
         <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">
           <Image
             loader={myLoader}
             height={24}
             width={24}
             className="scale-150"
-            src={pricingSummary["icon"]}
+            src={pricingSummary.itemGroup.icon!}
             alt={""}
           />
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
-          {GeneralUtils.capitalize(itemGroupSummary.searchableString)}
+          {GeneralUtils.capitalize(
+            pricingSummary.itemGroup.displayName ?? pricingSummary.itemGroup.key
+          )}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
           <ItemGroupPropertiesDisplay
-            properties={itemGroupSummary.properties}
+            properties={pricingSummary.itemGroup.properties as any}
           />
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-300">
