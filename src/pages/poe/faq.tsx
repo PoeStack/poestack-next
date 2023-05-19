@@ -128,15 +128,15 @@ export default function FAQPage() {
                               </span>
                               <span className="flex items-center ml-6 h-7">
                                 {open ? (
-                                  <PlusSmallIcon
-                                    className="w-6 h-6"
-                                    aria-hidden="true"
-                                  />
-                                ) : (
                                   <MinusSmallIcon
-                                    className="w-6 h-6"
-                                    aria-hidden="true"
-                                  />
+                                  className="w-6 h-6"
+                                  aria-hidden="true"
+                                />
+                                ) : (
+                                  <PlusSmallIcon
+                                  className="w-6 h-6"
+                                  aria-hidden="true"
+                                />
                                 )}
                               </span>
                             </Disclosure.Button>
