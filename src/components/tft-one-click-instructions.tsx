@@ -60,7 +60,7 @@ export function TftOneClickInstructions() {
             </ul>
           </div>
 
-          <div className="flex space-x-2">
+          <div className="grid grid-cols-2 gap-2">
             <YouTube
               videoId={"v2BVj0pl0Io"}
               opts={{
@@ -74,6 +74,17 @@ export function TftOneClickInstructions() {
             />
             <YouTube
               videoId={"caQvSe4W3Ro"}
+              opts={{
+                height: "360",
+                width: "680",
+                playerVars: {
+                  autoplay: 0,
+                },
+              }}
+              className=""
+            />
+            <YouTube
+              videoId={"OqbzZNLnd0g"}
               opts={{
                 height: "360",
                 width: "680",

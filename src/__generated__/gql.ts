@@ -21,6 +21,7 @@ const documents = {
     "\n      query FilterableTimeTableTimeseriesSearch(\n        $search: ItemGroupValueTimeseriesSearchInput!\n      ) {\n        itemGroupValueTimeseriesSearch(search: $search) {\n          results {\n            series {\n              entries {\n                timestamp\n                value\n              }\n              type\n            }\n            itemGroup {\n              hashString\n            }\n          }\n        }\n      }\n    ": types.FilterableTimeTableTimeseriesSearchDocument,
     "\n    mutation TakeStashViewSanpshot($input: StashViewSnapshotInput!) {\n      stashViewSnapshot(input: $input)\n    }\n  ": types.TakeStashViewSanpshotDocument,
     "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          timestamp\n          rateLimitEndTimestamp\n        }\n      }\n    ": types.StashViewJobStatDocument,
+    "\n      mutation StashViewUpdateSnapshotRecord(\n        $input: StashViewSnapshotRecordUpdateInput!\n      ) {\n        stashViewUpdateSnapshotRecord(input: $input)\n      }\n    ": types.StashViewUpdateSnapshotRecordDocument,
     "\n      query TftFiveWayLiveListings {\n        tftLiveListings {\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordDisplayRoleColor\n          userDiscordHighestRole\n          updatedAtTimestamp\n          body\n          properties\n        }\n      }\n    ": types.TftFiveWayLiveListingsDocument,
     "\n      query TftLiveListingSearch($search: TftLiveListingSearch!) {\n        tftLiveListingSearch(search: $search) {\n          channelId\n          messageId\n          userDiscordId\n          userDiscordName\n          userDiscordDisplayRole\n          userDiscordHighestRole\n          userDiscordDisplayRoleColor\n          updatedAtTimestamp\n          delistedAtTimestamp\n          tag\n          properties\n        }\n      }\n    ": types.TftLiveListingSearchDocument,
     "\n      query TftOneClickMessageHistory {\n        tftOneClickMessageHistory {\n          messageId\n          channelId\n          userId\n          timestamp\n          exportType\n          exportSubType\n          rateLimitExpires\n        }\n      }\n    ": types.TftOneClickMessageHistoryDocument,
@@ -105,6 +106,10 @@ export function gql(source: "\n    mutation TakeStashViewSanpshot($input: StashV
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          timestamp\n          rateLimitEndTimestamp\n        }\n      }\n    "): (typeof documents)["\n      query StashViewJobStat($jobId: String!) {\n        stashViewJobStat(jobId: $jobId) {\n          id\n          userId\n          status\n          timestamp\n          rateLimitEndTimestamp\n        }\n      }\n    "];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n      mutation StashViewUpdateSnapshotRecord(\n        $input: StashViewSnapshotRecordUpdateInput!\n      ) {\n        stashViewUpdateSnapshotRecord(input: $input)\n      }\n    "): (typeof documents)["\n      mutation StashViewUpdateSnapshotRecord(\n        $input: StashViewSnapshotRecordUpdateInput!\n      ) {\n        stashViewUpdateSnapshotRecord(input: $input)\n      }\n    "];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

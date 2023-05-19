@@ -19,11 +19,7 @@ export default function StyledLoading({
             ></Image>
           </div>
         </div>
-        {message && (
-          <>
-            <div>{message}</div>
-          </>
-        )}
+        <div>{message ?? "Loading"}</div>
       </div>
     </>
   );

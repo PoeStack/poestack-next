@@ -85,19 +85,19 @@ export default function CurrencyValueDisplay({
         placement={"auto"}
       >
         <div
-          className="grid w-full grid-cols-2 text-center place-content-center place-items-center"
+          className="flex space-x-1 content-baseline"
           onClick={() => {
             onClick?.(display);
           }}
         >
-          <div className="w-full mr-4 text-right ">{display}</div>
-          <div className="flex justify-start w-full text-left place-items-start place-content-start">
+          <div>{display}</div>
+          <div className="">
             <Image
               loader={myLoader}
               src={icon}
               alt={""}
-              width={30}
-              height={30}
+              width={24}
+              height={24}
             />
           </div>
         </div>

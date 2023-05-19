@@ -6,7 +6,7 @@ import { gql, useQuery } from "@apollo/client";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
-import LivePriceRow from "@components/live-price/live-price-row";
+import LivePriceRow from "@components/live-pricing/live-pricing-row";
 import { LivePricingSummaryEntry } from "@generated/graphql";
 import { GeneralUtils, myLoader } from "@utils/general-util";
 

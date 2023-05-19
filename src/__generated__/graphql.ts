@@ -291,6 +291,37 @@ export type ItemGroupValueTimeseriesSearchInput = {
   stockStartingRanges: Array<Scalars['Int']>;
 };
 
+export type LivePricingHistoryConfig = {
+  itemGroupHashStrings: Array<Scalars['String']>;
+  league: Scalars['String'];
+  minQuantities: Array<Scalars['Float']>;
+  types: Array<Scalars['String']>;
+};
+
+export type LivePricingHistoryEntry = {
+  __typename?: 'LivePricingHistoryEntry';
+  timestamp: Scalars['DateTime'];
+  value: Scalars['Float'];
+};
+
+export type LivePricingHistoryGroup = {
+  __typename?: 'LivePricingHistoryGroup';
+  itemGroup: ItemGroup;
+  series: Array<LivePricingHistorySeries>;
+};
+
+export type LivePricingHistoryResult = {
+  __typename?: 'LivePricingHistoryResult';
+  results: Array<LivePricingHistoryGroup>;
+};
+
+export type LivePricingHistorySeries = {
+  __typename?: 'LivePricingHistorySeries';
+  entries: Array<LivePricingHistoryEntry>;
+  stockRangeStartInclusive: Scalars['Float'];
+  type: Scalars['String'];
+};
+
 export type LivePricingSimpleConfig = {
   itemGroupHashString: Scalars['String'];
   league: Scalars['String'];
@@ -546,6 +577,7 @@ export type Query = {
   leagueActvityTimeseries: GenericAggregation;
   leagues: Array<PoeLeague>;
   livePriceSimple: LivePricingSimpleResult;
+  livePricingHistory: LivePricingHistoryResult;
   livePricingSummarySearch: LivePricingSummary;
   myProfile: UserProfile;
   passiveTree: PassiveTreeResponse;
@@ -633,6 +665,11 @@ export type QueryItemGroupValueTimeseriesSearchArgs = {
 
 export type QueryLivePriceSimpleArgs = {
   config: LivePricingSimpleConfig;
+};
+
+
+export type QueryLivePricingHistoryArgs = {
+  config: LivePricingHistoryConfig;
 };
 
 
@@ -891,6 +928,13 @@ export type StashViewJobStatQueryVariables = Exact<{
 
 export type StashViewJobStatQuery = { __typename?: 'Query', stashViewJobStat: { __typename?: 'StashViewJob', id: string, userId: string, status: string, timestamp: any, rateLimitEndTimestamp?: any | null } };
 
+export type StashViewUpdateSnapshotRecordMutationVariables = Exact<{
+  input: StashViewSnapshotRecordUpdateInput;
+}>;
+
+
+export type StashViewUpdateSnapshotRecordMutation = { __typename?: 'Mutation', stashViewUpdateSnapshotRecord: boolean };
+
 export type TftFiveWayLiveListingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -1139,6 +1183,7 @@ export const LivePriceSimpleDocument = {"kind":"Document","definitions":[{"kind"
 export const FilterableTimeTableTimeseriesSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"FilterableTimeTableTimeseriesSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ItemGroupValueTimeseriesSearchInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"itemGroupValueTimeseriesSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"series"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"type"}}]}},{"kind":"Field","name":{"kind":"Name","value":"itemGroup"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"hashString"}}]}}]}}]}}]}}]} as unknown as DocumentNode<FilterableTimeTableTimeseriesSearchQuery, FilterableTimeTableTimeseriesSearchQueryVariables>;
 export const TakeStashViewSanpshotDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TakeStashViewSanpshot"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewSnapshot"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<TakeStashViewSanpshotMutation, TakeStashViewSanpshotMutationVariables>;
 export const StashViewJobStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewJobStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewJobStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"jobId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitEndTimestamp"}}]}}]}}]} as unknown as DocumentNode<StashViewJobStatQuery, StashViewJobStatQueryVariables>;
+export const StashViewUpdateSnapshotRecordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewUpdateSnapshotRecord"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotRecordUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewUpdateSnapshotRecord"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewUpdateSnapshotRecordMutation, StashViewUpdateSnapshotRecordMutationVariables>;
 export const TftFiveWayLiveListingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftFiveWayLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftFiveWayLiveListingsQuery, TftFiveWayLiveListingsQueryVariables>;
 export const TftLiveListingSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftLiveListingSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TftLiveListingSearch"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListingSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"delistedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftLiveListingSearchQuery, TftLiveListingSearchQueryVariables>;
 export const TftOneClickMessageHistoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"exportType"}},{"kind":"Field","name":{"kind":"Name","value":"exportSubType"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitExpires"}}]}}]}}]} as unknown as DocumentNode<TftOneClickMessageHistoryQuery, TftOneClickMessageHistoryQueryVariables>;
