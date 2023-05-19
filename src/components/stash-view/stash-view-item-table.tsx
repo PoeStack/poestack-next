@@ -15,6 +15,7 @@ import {
   ItemGroupValueTimeseries,
   StashViewItemSummary,
 } from "@generated/graphql";
+import useWindowDimensions from "@hooks/user-window-dimensions";
 import { GeneralUtils } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
 
@@ -29,6 +30,7 @@ export function StashViewItemTable({
     useStashViewContext();
 
   const { league } = usePoeLeagueCtx();
+  const { width } = useWindowDimensions();
 
   const pageSize = 25;
 
@@ -330,7 +332,7 @@ export function StashViewItemTable({
                         />
                       </td>
                       <td>
-                        {!!item.itemGroupHashString && (
+                        {!!item.itemGroupHashString && width > 1600 && (
                           <div className="flex">
                             <HSparkline
                               series={itemValueTimeseries

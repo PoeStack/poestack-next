@@ -3,9 +3,11 @@ import { useEffect, useState } from "react";
 
 import { usePoeStackAuth } from "@contexts/user-context";
 import { Adsense } from "@ctrl/react-adsense";
+import useWindowDimensions from "@hooks/user-window-dimensions";
 
 export default function FixedAds() {
   const { profile } = usePoeStackAuth();
+  const { width } = useWindowDimensions();
   const router = useRouter();
 
   const [key, setKey] = useState(router.pathname);
@@ -14,7 +16,7 @@ export default function FixedAds() {
     setKey(router.pathname);
   }, [setKey, router.pathname]);
 
-  if (profile?.patreonTier) {
+  if (profile?.patreonTier || width < 900) {
     return <></>;
   }
 
