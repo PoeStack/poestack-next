@@ -129,14 +129,14 @@ export default function FAQPage() {
                               <span className="flex items-center ml-6 h-7">
                                 {open ? (
                                   <MinusSmallIcon
-                                  className="w-6 h-6"
-                                  aria-hidden="true"
-                                />
+                                    className="w-6 h-6"
+                                    aria-hidden="true"
+                                  />
                                 ) : (
                                   <PlusSmallIcon
-                                  className="w-6 h-6"
-                                  aria-hidden="true"
-                                />
+                                    className="w-6 h-6"
+                                    aria-hidden="true"
+                                  />
                                 )}
                               </span>
                             </Disclosure.Button>
