@@ -1,8 +1,12 @@
+import moment from "moment";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
+import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
 import StyledCard from "@components/library/styled-card";
 import StyledLoading from "@components/library/styled-loading";
 import LivePricingHistoryChart from "@components/live-pricing/live-pricing-history-chart";
@@ -10,6 +14,7 @@ import {
   LivePricingHistoryGroup,
   LivePricingSimpleResult,
 } from "@generated/graphql";
+import { myLoader } from "@utils/general-util";
 import { StashViewUtil } from "@utils/stash-view-util";
 
 export default function PricingItemPage() {
@@ -106,19 +111,88 @@ export default function PricingItemPage() {
   return (
     <>
       <div className="grid grid-cols-2 w-full gap-4">
-        <StyledCard className="col-span-2">
-          <div>{StashViewUtil.itemEntryToName(livePricingHistoryGroup)}</div>
-          <div>
-            <CurrencyValueDisplay
-              pValue={livePricingResult.valuation.value}
-              league={league as string}
-            />
+        <StyledCard className="col-span-1 space--3">
+          <div className="grid grid-cols-2 gap-4 w-fit">
+            <div className="col-span-2 flex text-3xl">
+              <Image
+                loader={myLoader}
+                height={24 * 3.5}
+                width={24 * 3.5}
+                src={livePricingHistoryGroup.itemGroup.icon ?? ""}
+                alt={""}
+              />
+              <div>
+                {StashViewUtil.itemEntryToName(livePricingHistoryGroup)}
+              </div>
+            </div>
+            <div>Value</div>
+            <div>
+              <CurrencyValueDisplay
+                pValue={livePricingResult.valuation?.value}
+                league={league as string}
+              />
+            </div>
+            <div>Value (Stock 25+)</div>
+            <div>
+              <CurrencyValueDisplay
+                pValue={livePricingResult.stockValuation?.value}
+                league={league as string}
+              />
+            </div>
+            <div>
+              <ItemGroupPropertiesDisplay
+                properties={livePricingHistoryGroup.itemGroup.properties ?? []}
+              />
+            </div>
           </div>
+          <div className="h-full"></div>
+          <div className="flex space-x-2">
+            <Link
+              href={`https://www.poewiki.net/wiki/${encodeURIComponent(
+                (livePricingHistoryGroup.itemGroup?.baseType ?? "")?.replaceAll(
+                  " ",
+                  "_"
+                )
+              )}`}
+            >
+              <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                Wiki
+              </div>
+            </Link>
+            <Link
+              href={`https://www.pathofexile.com/trade/search/Crucible?q={"query":{"type":"${livePricingHistoryGroup.itemGroup?.baseType}"}}`}
+            >
+              <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                Trade
+              </div>
+            </Link>
+          </div>
+        </StyledCard>
+        <StyledCard className="col-span-1">
+          <div>Recent Listings</div>
           <div>
-            <CurrencyValueDisplay
-              pValue={livePricingResult.stockValuation.value}
-              league={league as string}
-            />
+            <div className="grid grid-cols-3 gap-1 w-fit">
+              {!livePricingResult ? (
+                <div className="max-h-[100px] col-span-4">Loading...</div>
+              ) : (
+                <>
+                  {livePricingResult?.valuation?.validListings.map(
+                    (listing) => (
+                      <>
+                        <div>x{listing.quantity}</div>
+                        <div>
+                          <CurrencyValueDisplay
+                            pValue={listing.listedValue}
+                            league={league as string}
+                          />
+                        </div>
+                        <div>{moment(listing.listedAtTimestamp).fromNow()}</div>
+                      </>
+                    )
+                  )}
+                </>
+              )}
+            </div>
           </div>
         </StyledCard>
 

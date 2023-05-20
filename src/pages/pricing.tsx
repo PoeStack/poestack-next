@@ -6,6 +6,7 @@ import { gql, useQuery } from "@apollo/client";
 import LeagueSelect from "@components/league-select";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
+import StyledInput from "@components/library/styled-input";
 import LivePriceRow from "@components/live-pricing/live-pricing-row";
 import { LivePricingSummaryEntry } from "@generated/graphql";
 import { GeneralUtils, myLoader } from "@utils/general-util";
@@ -66,7 +67,7 @@ export default function LivePricingPage() {
         search: {
           league: router.query.league,
           offSet: 0,
-          searchString: null,
+          searchString: router.query.searchString ?? null,
           tag: router.query.tag ?? null,
         },
       },
@@ -87,7 +88,10 @@ export default function LivePricingPage() {
                 key={category.tag}
                 className="flex space-x-1 cursor-pointer"
                 onClick={() => {
-                  const nextQuery = { ...router.query, tag: category.tag };
+                  const nextQuery: { tag?: string } = {
+                    ...router.query,
+                    tag: category.tag,
+                  };
                   if (category.tag === router.query.tag) {
                     delete nextQuery["tag"];
                   }
@@ -119,50 +123,61 @@ export default function LivePricingPage() {
           </div>
 
           <div className="flex flex-col space-y-2 w-full">
-            <table className="divide-y divide-gray-700">
-              <thead>
-                <tr>
-                  <th
-                    scope="col"
-                    className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0"
-                  >
-                    Icon
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                  >
-                    Name
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                  >
-                    Properties
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                  >
-                    Value
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-3 py-3.5 text-left text-sm font-semibold text-white"
-                  >
-                    Stock Value (25+)
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-800">
-                {livePricingEntires?.map((e) => (
-                  <LivePriceRow
-                    key={e.itemGroup.hashString}
-                    pricingSummary={e}
-                  />
-                ))}
-              </tbody>
-            </table>
+            <div className="flex-0">
+              <StyledInput
+                value={(router.query.searchString as string) ?? ""}
+                placeholder="Search..."
+                onChange={(e) => {
+                  router.push({ query: { ...router.query, searchString: e } });
+                }}
+              />
+            </div>
+            <div className="flex-1 w-full">
+              <table className="divide-y divide-gray-700 w-full">
+                <thead>
+                  <tr>
+                    <th
+                      scope="col"
+                      className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0"
+                    >
+                      Icon
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                    >
+                      Properties
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                    >
+                      Value
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-3 py-3.5 text-left text-sm font-semibold text-white"
+                    >
+                      Stock Value (25+)
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-800">
+                  {livePricingEntires?.map((e) => (
+                    <LivePriceRow
+                      key={e.itemGroup.hashString}
+                      pricingSummary={e}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </div>
             {/*             <StyledButton
               text={"Load More"}
               onClick={() => {
