@@ -53,7 +53,7 @@ export default function PricingItemPage() {
           itemGroupHashStrings: [itemGroupHashString],
           league: league,
           minQuantities: [1],
-          types: ["lp10"],
+          types: ["lp10", "totalListings"],
         },
       },
       onCompleted(data) {
@@ -105,8 +105,8 @@ export default function PricingItemPage() {
 
   return (
     <>
-      <div className="">
-        <StyledCard>
+      <div className="grid grid-cols-2 w-full gap-4">
+        <StyledCard className="col-span-2">
           <div>{StashViewUtil.itemEntryToName(livePricingHistoryGroup)}</div>
           <div>
             <CurrencyValueDisplay
@@ -122,9 +122,19 @@ export default function PricingItemPage() {
           </div>
         </StyledCard>
 
-        <div className="">
-          <LivePricingHistoryChart historyGroup={livePricingHistoryGroup} />
-        </div>
+        <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
+          <LivePricingHistoryChart
+            historyGroup={livePricingHistoryGroup}
+            seriesFilter={(s) => s.type !== "totalListings"}
+          />
+        </StyledCard>
+
+        <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
+          <LivePricingHistoryChart
+            historyGroup={livePricingHistoryGroup}
+            seriesFilter={(s) => s.type === "totalListings"}
+          />
+        </StyledCard>
       </div>
     </>
   );

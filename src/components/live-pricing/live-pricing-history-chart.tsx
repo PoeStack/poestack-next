@@ -12,7 +12,10 @@ import "chartjs-adapter-moment";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
 
-import { LivePricingHistoryGroup } from "@generated/graphql";
+import {
+  LivePricingHistoryGroup,
+  LivePricingHistorySeries,
+} from "@generated/graphql";
 
 ChartJS.register(
   TimeScale,
@@ -23,27 +26,6 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-
-export default function LivePricingHistoryChart({
-  historyGroup,
-}: {
-  historyGroup: LivePricingHistoryGroup;
-}) {
-  const datasets = historyGroup.series.map((s) => {
-    return {
-      label: `${historyGroup.itemGroup.key} - ${s.type}`,
-      data: s.entries
-        .map((v) => ({ x: new Date(v.timestamp), y: v.value }))
-        .sort((a, b) => a.x.getTime() - b.x.getTime()),
-    };
-  });
-
-  const data = {
-    datasets: datasets,
-  };
-
-  return <Line options={options} data={data} />;
-}
 
 const options: any = {
   responsive: true,
@@ -96,3 +78,28 @@ const options: any = {
     },
   },
 };
+
+export default function LivePricingHistoryChart({
+  historyGroup,
+  seriesFilter,
+}: {
+  historyGroup: LivePricingHistoryGroup;
+  seriesFilter?: ((series: LivePricingHistorySeries) => boolean) | null;
+}) {
+  const datasets = historyGroup.series
+    .filter((e) => !seriesFilter || seriesFilter(e))
+    .map((s) => {
+      return {
+        label: `${historyGroup.itemGroup.key} - ${s.type}`,
+        data: s.entries
+          .map((v) => ({ x: new Date(v.timestamp), y: v.value }))
+          .sort((a, b) => a.x.getTime() - b.x.getTime()),
+      };
+    });
+
+  const data = {
+    datasets: datasets,
+  };
+
+  return <Line options={options} data={data} />;
+}

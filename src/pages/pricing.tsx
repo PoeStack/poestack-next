@@ -31,7 +31,7 @@ export default function LivePricingPage() {
         }
       );
     }
-  }, []);
+  }, [router]);
 
   const [livePricingEntires, setLivePricingEntires] = useState<
     LivePricingSummaryEntry[]
@@ -67,7 +67,7 @@ export default function LivePricingPage() {
           league: router.query.league,
           offSet: 0,
           searchString: null,
-          tag: router.query.tag ?? "currency",
+          tag: router.query.tag ?? null,
         },
       },
       onCompleted(data) {
@@ -87,9 +87,13 @@ export default function LivePricingPage() {
                 key={category.tag}
                 className="flex space-x-1 cursor-pointer"
                 onClick={() => {
+                  const nextQuery = { ...router.query, tag: category.tag };
+                  if (category.tag === router.query.tag) {
+                    delete nextQuery["tag"];
+                  }
                   router.push(
                     {
-                      query: { ...router.query, tag: category.tag },
+                      query: nextQuery,
                     },
                     undefined,
                     {
