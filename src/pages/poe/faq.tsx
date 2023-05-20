@@ -128,12 +128,12 @@ export default function FAQPage() {
                               </span>
                               <span className="flex items-center ml-6 h-7">
                                 {open ? (
-                                  <PlusSmallIcon
+                                  <MinusSmallIcon
                                     className="w-6 h-6"
                                     aria-hidden="true"
                                   />
                                 ) : (
-                                  <MinusSmallIcon
+                                  <PlusSmallIcon
                                     className="w-6 h-6"
                                     aria-hidden="true"
                                   />
