@@ -12,6 +12,7 @@ import "chartjs-adapter-moment";
 import moment from "moment";
 import { Line } from "react-chartjs-2";
 
+import { useCurrencyConversion } from "@contexts/currency-conversion-context";
 import {
   LivePricingHistoryGroup,
   LivePricingHistorySeries,
@@ -86,13 +87,21 @@ export default function LivePricingHistoryChart({
   historyGroup: LivePricingHistoryGroup;
   seriesFilter?: ((series: LivePricingHistorySeries) => boolean) | null;
 }) {
+  const { divValueFromChaos } = useCurrencyConversion();
   const datasets = historyGroup.series
     .filter((e) => !seriesFilter || seriesFilter(e))
     .map((s) => {
       return {
-        label: `${historyGroup.itemGroup.key} - ${s.type}`,
+        label: `${historyGroup.itemGroup.key} - ${s.type}${
+          s.stockRangeStartInclusive === 1
+            ? ""
+            : ` ${s.stockRangeStartInclusive}+`
+        }`,
         data: s.entries
-          .map((v) => ({ x: new Date(v.timestamp), y: v.value }))
+          .map((v) => ({
+            x: new Date(v.timestamp),
+            y: divValueFromChaos(v.value, new Date(v.timestamp)),
+          }))
           .sort((a, b) => a.x.getTime() - b.x.getTime()),
       };
     });

@@ -3,13 +3,21 @@ import { useRouter } from "next/router";
 
 import CurrencyValueDisplay from "@components/currency-value-display";
 import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
-import { LivePricingSummaryEntry } from "@generated/graphql";
+import { POE_LEAGUES } from "@contexts/league-context";
+import {
+  LivePricingHistoryGroup,
+  LivePricingSummaryEntry,
+} from "@generated/graphql";
 import { GeneralUtils, myLoader } from "@utils/general-util";
+
+import LivePricingSparkline from "./live-pricing-sparklive";
 
 export default function LivePriceRow({
   pricingSummary,
+  historyGroup,
 }: {
   pricingSummary: LivePricingSummaryEntry;
+  historyGroup: LivePricingHistoryGroup | null | undefined;
 }) {
   const router = useRouter();
 
@@ -37,7 +45,9 @@ export default function LivePriceRow({
           className="whitespace-nowrap px-3 py-4 text-sm  cursor-pointer group-hover:text-content-accent"
           onClick={() => {
             router.push(
-              `/pricing/${pricingSummary.itemGroup.hashString}?league=${router.query.league}`
+              `/pricing/${pricingSummary.itemGroup.hashString}?league=${
+                router.query.league ?? POE_LEAGUES[0]
+              }`
             );
           }}
         >
@@ -51,10 +61,13 @@ export default function LivePriceRow({
           />
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm group-hover:text-content-accent">
+          <LivePricingSparkline historyGroup={historyGroup} />
+        </td>
+        <td className="whitespace-nowrap px-3 py-4 text-sm group-hover:text-content-accent">
           {pricingSummary?.valuation?.value ? (
             <CurrencyValueDisplay
               pValue={pricingSummary?.valuation?.value}
-              league={router.query.league as string}
+              league={(router.query.league as string) ?? POE_LEAGUES[0]}
             />
           ) : (
             "-"
@@ -68,7 +81,7 @@ export default function LivePriceRow({
             {pricingSummary?.stockValuation?.value ? (
               <CurrencyValueDisplay
                 pValue={pricingSummary?.stockValuation?.value}
-                league={router.query.league as string}
+                league={(router.query.league as string) ?? POE_LEAGUES[0]}
               />
             ) : (
               "-"

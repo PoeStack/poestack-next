@@ -10,6 +10,8 @@ import ItemGroupPropertiesDisplay from "@components/item-group-properties-displa
 import StyledCard from "@components/library/styled-card";
 import StyledLoading from "@components/library/styled-loading";
 import LivePricingHistoryChart from "@components/live-pricing/live-pricing-history-chart";
+import LivePricingLayout from "@components/live-pricing/live-pricing-layout";
+import { POE_LEAGUES } from "@contexts/league-context";
 import {
   LivePricingHistoryGroup,
   LivePricingSimpleResult,
@@ -52,11 +54,11 @@ export default function PricingItemPage() {
       }
     `,
     {
-      skip: !league || !itemGroupHashString,
+      skip: !itemGroupHashString,
       variables: {
         config: {
           itemGroupHashStrings: [itemGroupHashString],
-          league: league,
+          league: league ?? POE_LEAGUES[0],
           minQuantities: [1],
           types: ["lp10", "totalListings"],
         },
@@ -90,11 +92,11 @@ export default function PricingItemPage() {
     `,
     {
       fetchPolicy: "cache-first",
-      skip: !league || !itemGroupHashString,
+      skip: !itemGroupHashString,
       variables: {
         config: {
           itemGroupHashString: itemGroupHashString,
-          league: league,
+          league: league ?? POE_LEAGUES[0],
           quantity: 25,
         },
       },
@@ -110,106 +112,111 @@ export default function PricingItemPage() {
 
   return (
     <>
-      <div className="grid grid-cols-2 w-full gap-4">
-        <StyledCard className="col-span-1 space--3">
-          <div className="grid grid-cols-2 gap-4 w-fit">
-            <div className="col-span-2 flex text-3xl">
-              <Image
-                loader={myLoader}
-                height={24 * 3.5}
-                width={24 * 3.5}
-                src={livePricingHistoryGroup.itemGroup.icon ?? ""}
-                alt={""}
-              />
+      <LivePricingLayout>
+        <div className="grid grid-cols-2 w-full gap-4">
+          <StyledCard className="col-span-1 space--3">
+            <div className="grid grid-cols-2 gap-4 w-fit">
+              <div className="col-span-2 flex text-3xl">
+                <Image
+                  loader={myLoader}
+                  height={24 * 3.5}
+                  width={24 * 3.5}
+                  src={livePricingHistoryGroup.itemGroup.icon ?? ""}
+                  alt={""}
+                />
+                <div>
+                  {StashViewUtil.itemEntryToName(livePricingHistoryGroup)}
+                </div>
+              </div>
+              <div>Value</div>
               <div>
-                {StashViewUtil.itemEntryToName(livePricingHistoryGroup)}
+                <CurrencyValueDisplay
+                  pValue={livePricingResult.valuation?.value ?? 0}
+                  league={league as string}
+                />
+              </div>
+              <div>Value (Stock 25+)</div>
+              <div>
+                <CurrencyValueDisplay
+                  pValue={livePricingResult.stockValuation?.value ?? 0}
+                  league={league as string}
+                />
+              </div>
+              <div>
+                <ItemGroupPropertiesDisplay
+                  properties={
+                    livePricingHistoryGroup.itemGroup.properties ?? []
+                  }
+                />
               </div>
             </div>
-            <div>Value</div>
-            <div>
-              <CurrencyValueDisplay
-                pValue={livePricingResult.valuation?.value}
-                league={league as string}
-              />
+            <div className="h-full"></div>
+            <div className="flex space-x-2">
+              <Link
+                href={`https://www.poewiki.net/wiki/${encodeURIComponent(
+                  (
+                    livePricingHistoryGroup.itemGroup?.baseType ?? ""
+                  )?.replaceAll(" ", "_")
+                )}`}
+              >
+                <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                  Wiki
+                </div>
+              </Link>
+              <Link
+                href={`https://www.pathofexile.com/trade/search/Crucible?q={"query":{"type":"${livePricingHistoryGroup.itemGroup?.baseType}"}}`}
+              >
+                <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
+                  Trade
+                </div>
+              </Link>
             </div>
-            <div>Value (Stock 25+)</div>
+          </StyledCard>
+          <StyledCard className="col-span-1">
+            <div>Recent Listings</div>
             <div>
-              <CurrencyValueDisplay
-                pValue={livePricingResult.stockValuation?.value}
-                league={league as string}
-              />
-            </div>
-            <div>
-              <ItemGroupPropertiesDisplay
-                properties={livePricingHistoryGroup.itemGroup.properties ?? []}
-              />
-            </div>
-          </div>
-          <div className="h-full"></div>
-          <div className="flex space-x-2">
-            <Link
-              href={`https://www.poewiki.net/wiki/${encodeURIComponent(
-                (livePricingHistoryGroup.itemGroup?.baseType ?? "")?.replaceAll(
-                  " ",
-                  "_"
-                )
-              )}`}
-            >
-              <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                Wiki
+              <div className="grid grid-cols-3 gap-1 w-fit">
+                {!livePricingResult ? (
+                  <div className="max-h-[100px] col-span-4">Loading...</div>
+                ) : (
+                  <>
+                    {livePricingResult?.valuation?.validListings.map(
+                      (listing) => (
+                        <>
+                          <div>x{listing.quantity}</div>
+                          <div>
+                            <CurrencyValueDisplay
+                              pValue={listing.listedValue}
+                              league={league as string}
+                            />
+                          </div>
+                          <div>
+                            {moment(listing.listedAtTimestamp).fromNow()}
+                          </div>
+                        </>
+                      )
+                    )}
+                  </>
+                )}
               </div>
-            </Link>
-            <Link
-              href={`https://www.pathofexile.com/trade/search/Crucible?q={"query":{"type":"${livePricingHistoryGroup.itemGroup?.baseType}"}}`}
-            >
-              <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
-                Trade
-              </div>
-            </Link>
-          </div>
-        </StyledCard>
-        <StyledCard className="col-span-1">
-          <div>Recent Listings</div>
-          <div>
-            <div className="grid grid-cols-3 gap-1 w-fit">
-              {!livePricingResult ? (
-                <div className="max-h-[100px] col-span-4">Loading...</div>
-              ) : (
-                <>
-                  {livePricingResult?.valuation?.validListings.map(
-                    (listing) => (
-                      <>
-                        <div>x{listing.quantity}</div>
-                        <div>
-                          <CurrencyValueDisplay
-                            pValue={listing.listedValue}
-                            league={league as string}
-                          />
-                        </div>
-                        <div>{moment(listing.listedAtTimestamp).fromNow()}</div>
-                      </>
-                    )
-                  )}
-                </>
-              )}
             </div>
-          </div>
-        </StyledCard>
+          </StyledCard>
 
-        <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
-          <LivePricingHistoryChart
-            historyGroup={livePricingHistoryGroup}
-            seriesFilter={(s) => s.type !== "totalListings"}
-          />
-        </StyledCard>
+          <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
+            <LivePricingHistoryChart
+              historyGroup={livePricingHistoryGroup}
+              seriesFilter={(s) => s.type !== "totalListings"}
+            />
+          </StyledCard>
 
-        <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
-          <LivePricingHistoryChart
-            historyGroup={livePricingHistoryGroup}
-            seriesFilter={(s) => s.type === "totalListings"}
-          />
-        </StyledCard>
-      </div>
+          <StyledCard className="col-span-2 max-h-[600px] pb-12 grow">
+            <LivePricingHistoryChart
+              historyGroup={livePricingHistoryGroup}
+              seriesFilter={(s) => s.type === "totalListings"}
+            />
+          </StyledCard>
+        </div>
+      </LivePricingLayout>
     </>
   );
 }

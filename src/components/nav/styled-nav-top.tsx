@@ -24,7 +24,7 @@ export default function StyledNavTop() {
     },
     {
       name: "Economy",
-      href: `/poe/economy/${league}?tag=currency`,
+      href: `/pricing`,
     },
     /*     {
       name: "Atlas",
