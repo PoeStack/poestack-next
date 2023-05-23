@@ -20,10 +20,12 @@ export default function CurrencyValueDisplay({
   pValue,
   onClick = null,
   league,
+  forceChaosDisplay,
 }: {
   pValue: number;
   league: string | null | undefined;
   onClick?: null | ((n) => void);
+  forceChaosDisplay?: boolean;
 }) {
   const [display, setDisplay] = useState<string>("");
   const [icon, setIcon] = useState<string>(CHAOS_ICON);
@@ -64,7 +66,11 @@ export default function CurrencyValueDisplay({
     let newDisplay = "" + round(absValue);
     if (league?.toLowerCase()?.includes("ruthless")) {
       setIcon(ALCH_ICON);
-    } else if (chaosRates?.div && absValue >= chaosRates?.div) {
+    } else if (
+      chaosRates?.div &&
+      absValue >= chaosRates?.div &&
+      !forceChaosDisplay
+    ) {
       newDisplay = "" + round(absValue / chaosRates?.div);
       setIcon(DIV_ICON);
     } else {

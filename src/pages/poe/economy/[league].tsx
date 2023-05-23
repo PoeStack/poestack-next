@@ -224,6 +224,11 @@ export default function Economy() {
                                   ?.value ?? 0
                               }
                               league={league}
+                              forceChaosDisplay={
+                                GeneralUtils.itemGroupToDisplayName(
+                                  groupSeries.itemGroup!
+                                ) === "Divine Orb"
+                              }
                             />
                           </>
                         );
