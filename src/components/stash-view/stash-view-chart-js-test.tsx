@@ -140,6 +140,7 @@ export function StashViewChartJsTest() {
             60 * 24,
             60 * 24 * 3,
             60 * 24 * 7,
+            60 * 24 * 14,
           ]}
         />
       </div>

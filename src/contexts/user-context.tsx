@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { createContext, useContext, useEffect, useState } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { UserProfile } from "@generated/graphql";
+import { UserNotification, UserProfile } from "@generated/graphql";
 
 const initalContext: {
   jwt: string | null;
@@ -11,10 +11,12 @@ const initalContext: {
   connect: any | null;
   logout: any | null;
   refetchMyProfile: any | null;
+  notifications: UserNotification[];
 } = {
   jwt: null,
   profile: null,
   tftMember: null,
+  notifications: [],
   connect: (code: string) => {},
   logout: () => {},
   refetchMyProfile: () => {},
@@ -33,6 +35,7 @@ export function PoeStackAuthProvider({ children }) {
       : null
   );
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [notifications, setNotifications] = useState<UserNotification[]>([]);
   const [tftMember, setTftMember] = useState<boolean | null>(null);
 
   const [code, setCode] = useState<string | null>(null);
@@ -73,6 +76,15 @@ export function PoeStackAuthProvider({ children }) {
           opaqueKey
         }
         checkTftMembership(forcePull: $forcePull)
+        myNotifications {
+          id
+          timestamp
+          userId
+          type
+          title
+          body
+          href
+        }
       }
     `,
     {
@@ -86,6 +98,7 @@ export function PoeStackAuthProvider({ children }) {
         ) {
           setProfile(p);
         }
+        setNotifications(data.myNotifications);
         setTftMember(data.checkTftMembership);
       },
     }
@@ -132,6 +145,7 @@ export function PoeStackAuthProvider({ children }) {
     connect: connect,
     logout: logout,
     refetchMyProfile: refetchMyProfile,
+    notifications: notifications,
   };
 
   return (
