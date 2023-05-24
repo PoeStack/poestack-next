@@ -15,6 +15,7 @@ import { Line } from "react-chartjs-2";
 
 import StyledButton from "@components/library/styled-button";
 import StyledSelect2 from "@components/library/styled-select-2";
+import { useCurrencyConversion } from "@contexts/currency-conversion-context";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { PoeStashTab, StashViewValueSnapshotSeries } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
@@ -126,7 +127,7 @@ export function StashViewChartJsTest() {
               relativeTimerseriesFilterMins: e,
             })
           }
-          mapToText={(e) => (!!e ? `Last ${timeConvert(e)}` : "All")}
+          mapToText={(e) => (!!e ? `Last ${timeConvert(e)}` : "Full History")}
           items={[
             null,
             10,
@@ -147,15 +148,12 @@ export function StashViewChartJsTest() {
 }
 
 export function StashViewTabValueChart() {
+  const { divValueFromChaos } = useCurrencyConversion();
   const { stashTabs, valueSnapshots, stashViewSettings } =
     useStashViewContext();
 
   const filteredSeries = valueSnapshots
-    .filter(
-      (e) =>
-        !stashViewSettings.filterCheckedTabs ||
-        stashViewSettings.checkedTabIds.includes(e.stashId)
-    )
+    .filter((e) => stashViewSettings.checkedTabIds.includes(e.stashId))
     .filter((e) => e.values.some((v) => v > 0));
 
   const minTimestamp = !stashViewSettings.relativeTimerseriesFilterMins
@@ -165,7 +163,10 @@ export function StashViewTabValueChart() {
     return {
       label: stashTabs!.find((e) => e.id === s.stashId)?.name,
       data: s.values
-        .map((v, i) => ({ x: new Date(s.timestamps[i]), y: v }))
+        .map((v, i) => {
+          const timestamp = new Date(s.timestamps[i]);
+          return { x: timestamp, y: divValueFromChaos(v) };
+        })
         .filter((e) => e.x.getTime() > minTimestamp)
         .sort((a, b) => a.x.getTime() - b.x.getTime()),
     };
@@ -179,17 +180,14 @@ export function StashViewTabValueChart() {
 }
 
 export function StashViewNetValueChart() {
+  const { divValueFromChaos } = useCurrencyConversion();
   const { valueSnapshots, stashViewSettings } = useStashViewContext();
 
   const [netValueSeries, setNetValueSeries] = useState<any[]>([]);
 
   useEffect(() => {
     const filteredSeries = valueSnapshots
-      .filter(
-        (e) =>
-          !stashViewSettings.filterCheckedTabs ||
-          stashViewSettings.checkedTabIds?.includes(e.stashId)
-      )
+      .filter((e) => stashViewSettings.checkedTabIds?.includes(e.stashId))
       .filter((e) => e.values.some((v) => v > 0));
 
     const stashValueCache: Record<string, number> = {};
@@ -231,7 +229,8 @@ export function StashViewNetValueChart() {
           (p: number, c) => p + (c as number),
           0
         );
-        return { x: new Date(e[0].timestamp), y: netValue };
+        const timestamp = new Date(e[0].timestamp);
+        return { x: timestamp, y: divValueFromChaos(netValue, timestamp) };
       })
       .filter((e) => e.x.getTime() > minTimestamp);
 

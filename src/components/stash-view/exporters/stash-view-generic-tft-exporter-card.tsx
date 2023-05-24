@@ -23,7 +23,6 @@ export function StashViewGenericTftExporterCard() {
       league: stashViewSettings.league,
       chaosToDivRate: stashViewSettings.chaosToDivRate,
       searchString: stashViewSettings.searchString,
-      filterCheckedTabs: stashViewSettings.filterCheckedTabs,
       selectedTabId: stashViewSettings.selectedTabId,
       checkedTabIds: stashViewSettings.checkedTabIds,
       checkedTags: stashViewSettings.checkedTags,

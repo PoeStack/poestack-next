@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 import CurrencyValueDisplay from "@components/currency-value-display";
 import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
+import { DIV_HASH_STRING } from "@contexts/currency-conversion-context";
 import { POE_LEAGUES } from "@contexts/league-context";
 import {
   LivePricingHistoryGroup,
@@ -68,6 +69,9 @@ export default function LivePriceRow({
             <CurrencyValueDisplay
               pValue={pricingSummary?.valuation?.value}
               league={(router.query.league as string) ?? POE_LEAGUES[0]}
+              forceChaosDisplay={
+                pricingSummary.itemGroup.hashString === DIV_HASH_STRING
+              }
             />
           ) : (
             "-"
@@ -82,6 +86,9 @@ export default function LivePriceRow({
               <CurrencyValueDisplay
                 pValue={pricingSummary?.stockValuation?.value}
                 league={(router.query.league as string) ?? POE_LEAGUES[0]}
+                forceChaosDisplay={
+                  pricingSummary.itemGroup.hashString === DIV_HASH_STRING
+                }
               />
             ) : (
               "-"

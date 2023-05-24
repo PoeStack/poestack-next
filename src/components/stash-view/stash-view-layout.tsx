@@ -20,54 +20,17 @@ import { StashViewValueChangeCard } from "@components/stash-view/stash-view-valu
 import { useStashViewContext } from "@contexts/stash-view-context";
 
 import StashViewHeaderCard from "./stash-view-header-card";
+import StashViewSideBar from "./stash-view-side-bar";
 
 export default function StashViewLayout() {
-  const [advancedSettingsOpen, setAdvancedSettingsOpen] = useState(false);
+  const { stashSummary } = useStashViewContext();
 
-  const { stashSummary, selectedSnapshotRecord } = useStashViewContext();
-
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const handleToggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
   return (
     <>
-      <StashViewAdvancedSettingPanel
-        open={advancedSettingsOpen}
-        setOpen={setAdvancedSettingsOpen}
-      />
-
       <div className="flex space-x-4 pb-[70px]">
         <div className="min-h-full">
           <div className="w-[200px] sticky top-4 flex flex-col space-y-2 h-fit">
-            <StyledCard className="flex flex-col space-y-2">
-              <button onClick={handleToggleCollapse}>
-                {isCollapsed ? "Expand" : "Hide"}
-              </button>
-              <div style={{ display: isCollapsed ? "none" : "block" }}>
-                <LeagueSelect />
-                <StashViewTabSelectionCard />
-                <StashViewSnapshotJobCard />
-
-                <div className="flex flex-col space-y-2 mt-2">
-                  <StyledButton
-                    text="Settings"
-                    onClick={() => {
-                      setAdvancedSettingsOpen(true);
-                    }}
-                  />
-                </div>
-              </div>
-            </StyledCard>
-
-            {!!stashSummary && (
-              <>
-                <StashViewSearchCard />
-
-                <StashViewTabGroupsPanel />
-                <StashViewExportCard />
-              </>
-            )}
+            <StashViewSideBar />
           </div>
         </div>
 
@@ -87,6 +50,7 @@ export default function StashViewLayout() {
                 <StashViewValueChangeCard />
               </StyledCard>
               <StyledCard className="col-span-1 2xl:col-span-2">
+                <StashViewSearchCard />
                 <StashViewItemTable />
               </StyledCard>
               <StashViewTabViewerCard />

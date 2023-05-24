@@ -213,6 +213,7 @@ export default function PricingItemPage() {
             <LivePricingHistoryChart
               historyGroup={livePricingHistoryGroup}
               seriesFilter={(s) => s.type === "totalListings"}
+              skipConversion={true}
             />
           </StyledCard>
         </div>

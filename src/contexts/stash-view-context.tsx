@@ -23,7 +23,6 @@ export interface StashViewSettings {
   chaosToDivRate: number | null;
 
   searchString: string;
-  filterCheckedTabs: boolean;
 
   selectedTabId: string | null;
   checkedTabIds: string[];
@@ -69,7 +68,6 @@ const defaultStashViewSettings: StashViewSettings = {
   chaosToDivRate: null,
 
   searchString: "",
-  filterCheckedTabs: true,
 
   checkedTabIds: [],
   selectedTabId: null,

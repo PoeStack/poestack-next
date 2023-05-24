@@ -9,10 +9,12 @@ import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-char
 import StyledButton from "@components/library/styled-button";
 import StyledInput from "@components/library/styled-input";
 import StyledPopover from "@components/library/styled-popover";
+import LivePricingSparkline from "@components/live-pricing/live-pricing-sparklive";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
   ItemGroupValueTimeseries,
+  LivePricingHistoryGroup,
   StashViewItemSummary,
 } from "@generated/graphql";
 import useWindowDimensions from "@hooks/user-window-dimensions";
@@ -36,6 +38,7 @@ export function StashViewItemTable({
 
   const [page, setPage] = useState(0);
 
+  const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false);
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
   useEffect(() => {
@@ -79,6 +82,16 @@ export function StashViewItemTable({
         : sortValue;
     });
 
+    setSelectAllChecked(
+      stashViewSettings.excludedItemGroupIds.length === 0 ||
+        !res.some(
+          (e) =>
+            e.itemGroupHashString &&
+            stashViewSettings.excludedItemGroupIds.includes(
+              e.itemGroupHashString
+            )
+        )
+    );
     setSortedItems(res);
   }, [
     stashSummary,
@@ -91,55 +104,43 @@ export function StashViewItemTable({
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);
 
-  const [itemValueTimeseries, setItemValueTimeseries] = useState<
-    ItemGroupValueTimeseries[]
-  >([]);
+  const [livePricingHistoryGroups, setLivePricingHistoryGroups] = useState<
+    LivePricingHistoryGroup[] | null
+  >(null);
   useQuery(
     gql`
-      query FilterableTimeTableTimeseriesSearch(
-        $search: ItemGroupValueTimeseriesSearchInput!
-      ) {
-        itemGroupValueTimeseriesSearch(search: $search) {
+      query LivePricingHistories($config: LivePricingHistoryConfig!) {
+        livePricingHistory(config: $config) {
           results {
+            itemGroup {
+              hashString
+            }
             series {
+              type
+              stockRangeStartInclusive
               entries {
                 timestamp
                 value
               }
-              type
-            }
-            itemGroup {
-              hashString
             }
           }
         }
       }
     `,
     {
-      skip: !league || !sortedItems?.length,
       variables: {
-        search: {
-          seriesTypes: ["p5", "p10", "p20", "p50"],
-          stockStartingRanges: [0],
-          itemGroupSearch: {
-            itemGroupHashStrings: sortedItems
-              .slice(page * pageSize, page * pageSize + pageSize)
-              .map((e) => e.itemGroupHashString)
-              .filter((e) => !!e),
-            itemGroupHashKeys: [],
-            league: league,
-            skip: null,
-            limit: null,
-            searchString: null,
-            sortDirection: null,
-            itemGroupHashTags: [],
-          },
+        config: {
+          itemGroupHashStrings: sortedItems
+            .slice(page * pageSize, page * pageSize + pageSize)
+            .map((e) => e.itemGroupHashString)
+            .filter((e) => !!e),
+          league: league,
+          minQuantities: [1],
+          types: ["lp10"],
         },
       },
       onCompleted(data) {
-        setItemValueTimeseries(
-          data?.itemGroupValueTimeseriesSearch?.results ?? []
-        );
+        setLivePricingHistoryGroups(data.livePricingHistory.results);
       },
     }
   );
@@ -174,19 +175,28 @@ export function StashViewItemTable({
                 <input
                   type="checkbox"
                   className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
-                  checked={stashViewSettings.excludedItemGroupIds.length === 0}
+                  checked={selectAllChecked}
                   onChange={(e) => {
-                    if (stashViewSettings.excludedItemGroupIds.length === 0) {
+                    if (selectAllChecked) {
                       setStashViewSettings({
                         ...stashViewSettings,
-                        excludedItemGroupIds: sortedItems
-                          .map((e) => e.itemGroupHashString)
-                          .filter((e) => !!e) as string[],
+                        excludedItemGroupIds: [
+                          ...stashViewSettings.excludedItemGroupIds,
+                          ...(sortedItems
+                            .map((e) => e.itemGroupHashString)
+                            .filter((e) => !!e) as string[]),
+                        ],
                       });
                     } else {
                       setStashViewSettings({
                         ...stashViewSettings,
-                        excludedItemGroupIds: [],
+                        excludedItemGroupIds:
+                          stashViewSettings.excludedItemGroupIds.filter(
+                            (g) =>
+                              !sortedItems.some(
+                                (e) => e.itemGroupHashString === g
+                              )
+                          ),
                       });
                     }
                   }}
@@ -202,6 +212,7 @@ export function StashViewItemTable({
                 Name
               </th>
               <th>Properties</th>
+              <th>History</th>
               {!forceReducer && !stashViewSettings.stackReducerEnabled && (
                 <th
                   className="cursor-pointer"
@@ -212,7 +223,6 @@ export function StashViewItemTable({
                   Stash
                 </th>
               )}
-              <th></th>
               <th
                 className="cursor-pointer"
                 onClick={() => {
@@ -304,7 +314,7 @@ export function StashViewItemTable({
                       <td>
                         <StashViewItemMouseOver item={null} itemSummary={item}>
                           <div className="group-hover:text-content-accent">
-                            {StashViewUtil.itemEntryToName(item)}
+                            {StashViewUtil.itemEntryToDisplayName(item)}
                           </div>
                         </StashViewItemMouseOver>
                       </td>
@@ -332,30 +342,13 @@ export function StashViewItemTable({
                         />
                       </td>
                       <td>
-                        {!!item.itemGroupHashString && width > 1600 && (
-                          <div className="flex">
-                            <HSparkline
-                              series={itemValueTimeseries
-                                ?.find(
-                                  (h) =>
-                                    h?.itemGroup.hashString ===
-                                    item.itemGroupHashString
-                                )
-                                ?.series?.find((e) => e.type === "p10")}
-                            />
-                            <StyledPopover>
-                              <ItemGroupTimeseriesChart
-                                timeseries={
-                                  itemValueTimeseries?.find(
-                                    (h) =>
-                                      h?.itemGroup.hashString ===
-                                      item.itemGroupHashString
-                                  )?.series
-                                }
-                              />
-                            </StyledPopover>
-                          </div>
-                        )}
+                        <LivePricingSparkline
+                          historyGroup={livePricingHistoryGroups?.find(
+                            (g) =>
+                              g.itemGroup.hashString ===
+                              item.itemGroupHashString
+                          )}
+                        />
                       </td>
                       <td className="group-hover:text-content-accent">
                         {item.quantity}

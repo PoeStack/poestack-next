@@ -12,6 +12,8 @@ import { StashViewUtil } from "@utils/stash-view-util";
 import { POE_LEAGUES, usePoeLeagueCtx } from "./league-context";
 import { usePoeStackAuth } from "./user-context";
 
+export const DIV_HASH_STRING = "cceb40e33d9237cb6a06037e739e40aa9a548c70";
+
 const initalContext: {
   divValueFromChaos: (e: number, date?: Date | null) => number | null;
 } = {

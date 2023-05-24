@@ -141,10 +141,8 @@ export class StashViewUtil {
       },
     ];
 
-    const prefilter = [...summary.items].filter(
-      (e) =>
-        !settings.filterCheckedTabs ||
-        settings.checkedTabIds.includes(e.stashId)
+    const prefilter = [...summary.items].filter((e) =>
+      settings.checkedTabIds.includes(e.stashId)
     );
 
     const result = (
@@ -177,6 +175,27 @@ export class StashViewUtil {
         item?.itemGroup?.displayName ??
         item?.itemGroup?.key
     );
+  }
+
+  public static itemEntryToDisplayName(item) {
+    let name = StashViewUtil.itemEntryToName(item);
+    if (!name) {
+      return name;
+    }
+
+    name = name
+      .replaceAll(" Scarab", "")
+      .replaceAll("Essence Of ", "")
+      .replaceAll("Delirium Orb ", "")
+      .replaceAll("Orb Of ", "")
+      .replaceAll(" Orb", "")
+      .replaceAll("Maven's Invitation: ", "")
+      .replaceAll(" Fossil", "");
+
+    if (name.length > 20) {
+      return `${name.slice(0, 20)}...`;
+    }
+    return name;
   }
 
   public static async fetchTab(

@@ -18,7 +18,6 @@ export default function TftBulkToolPanel() {
       ...stashViewSettings,
       selectedExporter: "TFT-Bulk",
       valueOverridesEnabled: true,
-      filterCheckedTabs: true,
     });
   }, []);
 

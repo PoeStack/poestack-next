@@ -83,9 +83,11 @@ const options: any = {
 export default function LivePricingHistoryChart({
   historyGroup,
   seriesFilter,
+  skipConversion = false,
 }: {
   historyGroup: LivePricingHistoryGroup;
   seriesFilter?: ((series: LivePricingHistorySeries) => boolean) | null;
+  skipConversion?: boolean;
 }) {
   const { divValueFromChaos } = useCurrencyConversion();
   const datasets = historyGroup.series
@@ -100,7 +102,9 @@ export default function LivePricingHistoryChart({
         data: s.entries
           .map((v) => ({
             x: new Date(v.timestamp),
-            y: divValueFromChaos(v.value, new Date(v.timestamp)),
+            y: skipConversion
+              ? v.value
+              : divValueFromChaos(v.value, new Date(v.timestamp)),
           }))
           .sort((a, b) => a.x.getTime() - b.x.getTime()),
       };
