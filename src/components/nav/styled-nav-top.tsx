@@ -5,6 +5,8 @@ import GggAuthBtn from "@components/ggg-auth-btn";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 
+import NotificationButton from "./notification-button";
+
 export default function StyledNavTop() {
   const { profile } = usePoeStackAuth();
   const { league } = usePoeLeagueCtx();
@@ -76,7 +78,8 @@ export default function StyledNavTop() {
           ))}
         </div>
         <div className="flex-1"></div>
-        <div className="pr-2">
+        <NotificationButton />
+        <div className="pr-2 pl-4">
           <GggAuthBtn />
         </div>
       </div>
