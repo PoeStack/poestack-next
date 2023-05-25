@@ -147,7 +147,7 @@ export function StashViewItemMouseOver({
                 </div>
                 <div className="flex space-x-2">
                   <Link
-                    href={`/poe/economy/${itemSummary?.league}/item-group/${itemSummary?.itemGroupHashString}`}
+                    href={`/pricing/${itemSummary?.itemGroupHashString}?league=${itemSummary?.league}`}
                   >
                     <div className="bg-surface-primary rounded-lg p-1">
                       Economy

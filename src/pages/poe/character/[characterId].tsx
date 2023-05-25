@@ -1,12 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import client from "poe-stack-apollo-client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { gql, useMutation, useQuery } from "@apollo/client";
-import FixedAds from "@components/ads/styled-square-responsive-ad";
-import CharacterLevelChart from "@components/character-level-chart";
 import CharacterStatsDisplay from "@components/character-stats-display";
 import EquipmentDisplay from "@components/equipment-display";
 import StyledButton from "@components/library/styled-button";
@@ -14,11 +11,7 @@ import StyledCard from "@components/library/styled-card";
 import StyledSelect2 from "@components/library/styled-select-2";
 import SecondaryEquipmentDisplay from "@components/secondary-equipment-display";
 import SkillTree from "@components/trees/skill-tree";
-import {
-  CharacterSnapshot,
-  CharacterSnapshotRecord,
-  PassiveTreeResponse,
-} from "@generated/graphql";
+import { CharacterSnapshot, CharacterSnapshotRecord } from "@generated/graphql";
 import { GeneralUtils } from "@utils/general-util";
 
 const snapshotQuery = gql`
@@ -381,33 +374,9 @@ export default function Character() {
                 </div>
               </div>
             </StyledCard>
-            <StyledCard title={"Progression"} className="flex-1 w-full ">
-              <CharacterLevelChart snapshots={characterSnapshots} props />
-            </StyledCard>
           </div>
         </div>
       </div>
     </>
   );
 }
-
-/* export async function getServerSideProps(context) {
-  const { characterId, snapshotId } = context.query;
-
-  if (characterId && snapshotId) {
-    const resp: any = await client.query({
-      query: snapshotQuery,
-      variables: { snapshotId: snapshotId },
-    });
-
-    if (resp?.data?.characterSnapshot) {
-      return {
-        props: { characterSnapshot: resp?.data?.characterSnapshot },
-      };
-    }
-  }
-
-  return {
-    props: {},
-  };
-} */

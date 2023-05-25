@@ -6,49 +6,54 @@ import StyledCard from "@components/library/styled-card";
 import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 
+import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter-card";
 import StashViewAdvancedSettingPanel, {
   StashViewAutomaticSnapshotSettings,
   StashViewValueSeriesSettings,
 } from "./stash-view-advanced-settings-panel";
-import { StashViewExportCard } from "./stash-view-export-card";
 import { StashViewSnapshotJobCard } from "./stash-view-snapshot-job-card";
 import { StashViewTabGroupsPanel } from "./stash-view-tab-groups-panel";
 import { StashViewTabSelectionCard } from "./stash-view-tab-selection-card";
 
 export default function StashViewSideBar() {
-  const { stashSummary, selectedSnapshotRecord } = useStashViewContext();
-
-  const [selectedTab, setSelectedTab] = useState<string>("Tabs");
+  const { stashViewSettings, setStashViewSettings } = useStashViewContext();
 
   return (
     <>
       <StyledCard className="flex flex-col space-y-2">
         <StyledSelect2
-          selected={selectedTab}
+          selected={stashViewSettings.selectedView ?? "Tabs"}
           onSelectChange={(e) => {
-            setSelectedTab(e);
+            setStashViewSettings({ ...stashViewSettings, selectedView: e });
           }}
           items={[
             "Tabs",
             "Tab Groups",
-            "Export",
+            "Forum Shop",
             "Automatic Snapshots",
             "Value Series",
           ]}
         />
-        {selectedTab === "Tabs" && (
+        {(!stashViewSettings.selectedView ||
+          stashViewSettings.selectedView === "Tabs") && (
           <div>
             <LeagueSelect />
             <StashViewTabSelectionCard />
             <StashViewSnapshotJobCard />
           </div>
         )}
-        {selectedTab === "Tab Groups" && <StashViewTabGroupsPanel />}
-        {selectedTab === "Export" && <StashViewExportCard />}
-        {selectedTab === "Automatic Snapshots" && (
+        {stashViewSettings.selectedView === "Tab Groups" && (
+          <StashViewTabGroupsPanel />
+        )}
+        {stashViewSettings.selectedView === "Forum Shop" && (
+          <StashViewForumShopExporterCard />
+        )}
+        {stashViewSettings.selectedView === "Automatic Snapshots" && (
           <StashViewAutomaticSnapshotSettings />
         )}
-        {selectedTab === "Value Series" && <StashViewValueSeriesSettings />}
+        {stashViewSettings.selectedView === "Value Series" && (
+          <StashViewValueSeriesSettings />
+        )}
       </StyledCard>
     </>
   );

@@ -1,4 +1,3 @@
-import { chart } from "highcharts";
 import _ from "lodash";
 import Image from "next/image";
 import Link from "next/link";

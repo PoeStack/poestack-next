@@ -12,7 +12,7 @@ export function StashViewExportCard() {
   return (
     <>
       <StyledCard>
-        <div className="flex flex-col space-y-2">
+        {/* <div className="flex flex-col space-y-2">
           <div>Post Items</div>
           <div>
             <StyledSelect2
@@ -39,7 +39,7 @@ export function StashViewExportCard() {
           {stashViewSettings?.selectedExporter === "TFT-Bulk" && (
             <StashViewGenericTftExporterCard />
           )}
-        </div>
+        </div> */}
       </StyledCard>
     </>
   );

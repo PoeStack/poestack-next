@@ -16,7 +16,7 @@ export default function TftBulkToolPanel() {
   useEffect(() => {
     setStashViewSettings({
       ...stashViewSettings,
-      selectedExporter: "TFT-Bulk",
+      selectedView: "TFT-Bulk",
       valueOverridesEnabled: true,
     });
   }, []);

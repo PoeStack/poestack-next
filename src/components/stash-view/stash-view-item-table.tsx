@@ -3,17 +3,13 @@ import { useEffect, useState } from "react";
 
 import { gql, useQuery } from "@apollo/client";
 import CurrencyValueDisplay from "@components/currency-value-display";
-import HSparkline from "@components/hsparkline";
 import ItemGroupPropertiesDisplay from "@components/item-group-properties-display";
-import { ItemGroupTimeseriesChart } from "@components/item-group-timeseries-chart";
 import StyledButton from "@components/library/styled-button";
 import StyledInput from "@components/library/styled-input";
-import StyledPopover from "@components/library/styled-popover";
 import LivePricingSparkline from "@components/live-pricing/live-pricing-sparklive";
 import { usePoeLeagueCtx } from "@contexts/league-context";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import {
-  ItemGroupValueTimeseries,
   LivePricingHistoryGroup,
   StashViewItemSummary,
 } from "@generated/graphql";

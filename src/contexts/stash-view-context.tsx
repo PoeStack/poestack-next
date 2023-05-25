@@ -39,11 +39,12 @@ export interface StashViewSettings {
   selectedGraph: string;
 
   stackReducerEnabled: boolean | null;
-  selectedExporter: string | null;
   exporterListedValueMultipler: number;
 
   forumShopMaxStackSizeSetting: string;
   forumShopTabIndexOffset: number;
+
+  selectedView: string | null;
 
   relativeTimerseriesFilterMins: number | null;
 
@@ -84,7 +85,7 @@ const defaultStashViewSettings: StashViewSettings = {
 
   selectedGraph: "net value",
 
-  selectedExporter: null,
+  selectedView: null,
   exporterListedValueMultipler: 100,
 
   forumShopMaxStackSizeSetting: "max",
@@ -323,7 +324,7 @@ export function StashViewContextProvider({
     stashViewSettings: stashViewSettings ?? defaultStashViewSettings,
     setStashViewSettings: (e) => {
       if (
-        e.selectedExporter === "TFT-Bulk" &&
+        e.selectedView === "TFT-Bulk" &&
         !TFT_CATEGORIES[e.tftSelectedCategory!]?.overrideEnabled
       ) {
         e.valueOverridesEnabled = false;

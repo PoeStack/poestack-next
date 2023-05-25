@@ -28,7 +28,7 @@ export function StashViewGenericTftExporterCard() {
       checkedTags: stashViewSettings.checkedTags,
       valueOverridesEnabled: stashViewSettings.valueOverridesEnabled,
       itemGroupValueOverrides: stashViewSettings.itemGroupValueOverrides,
-      selectedExporter: stashViewSettings.selectedExporter,
+      selectedView: stashViewSettings.selectedView,
       exporterListedValueMultipler:
         stashViewSettings.exporterListedValueMultipler,
       ign: stashViewSettings.ign,

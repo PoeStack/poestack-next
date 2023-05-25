@@ -57,7 +57,7 @@ export class StashViewUtil {
       }
     }
 
-    if (["TFT-Bulk", "Forum Shop"].includes(settings.selectedExporter ?? "")) {
+    if (["TFT-Bulk", "Forum Shop"].includes(settings.selectedView ?? "")) {
       value = value * ((settings.exporterListedValueMultipler ?? 100) / 100);
     }
 
@@ -124,7 +124,7 @@ export class StashViewUtil {
           settings.minItemValue < StashViewUtil.itemValue(settings, e)),
       (e) => {
         if (
-          settings.selectedExporter === "TFT-Bulk" &&
+          settings.selectedView === "TFT-Bulk" &&
           settings.tftSelectedCategory
         ) {
           const category = TFT_CATEGORIES[settings.tftSelectedCategory!]!;
