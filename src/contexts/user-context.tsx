@@ -73,6 +73,7 @@ export function PoeStackAuthProvider({ children }) {
           discordUserId
           createdAtTimestamp
           roles
+          preferences
           opaqueKey
         }
         checkTftMembership(forcePull: $forcePull)

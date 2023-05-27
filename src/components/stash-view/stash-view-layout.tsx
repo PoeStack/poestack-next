@@ -1,20 +1,12 @@
 import "moment-timezone";
-import { useState } from "react";
 
-import LeagueSelect from "@components/league-select";
-import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
-import StashViewAdvancedSettingPanel from "@components/stash-view/stash-view-advanced-settings-panel";
 import { StashViewChartJsTest } from "@components/stash-view/stash-view-chart-js-test";
-import { StashViewExportCard } from "@components/stash-view/stash-view-export-card";
 import { StashViewInfoCard } from "@components/stash-view/stash-view-info-card";
 import { StashViewItemTable } from "@components/stash-view/stash-view-item-table";
 import { StashViewSearchCard } from "@components/stash-view/stash-view-search-card";
-import { StashViewSnapshotJobCard } from "@components/stash-view/stash-view-snapshot-job-card";
 import StashViewSnapshotsCard from "@components/stash-view/stash-view-snapshots-card";
 import { StashViewTabBreakdownTable } from "@components/stash-view/stash-view-tab-breakdown-card";
-import { StashViewTabGroupsPanel } from "@components/stash-view/stash-view-tab-groups-panel";
-import { StashViewTabSelectionCard } from "@components/stash-view/stash-view-tab-selection-card";
 import { StashViewTabViewerCard } from "@components/stash-view/stash-view-tab-viewer-card";
 import { StashViewValueChangeCard } from "@components/stash-view/stash-view-value-change-card";
 import { useStashViewContext } from "@contexts/stash-view-context";

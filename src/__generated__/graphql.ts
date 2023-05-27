@@ -351,6 +351,7 @@ export type LivePricingSummaryEntry = {
 export type LivePricingSummarySearch = {
   itemGroupHashStrings?: InputMaybe<Array<Scalars['String']>>;
   league: Scalars['String'];
+  limit?: InputMaybe<Scalars['Float']>;
   offSet?: InputMaybe<Scalars['Float']>;
   quantityMin?: InputMaybe<Scalars['Float']>;
   searchString?: InputMaybe<Scalars['String']>;
@@ -385,6 +386,7 @@ export type Mutation = {
   updateCustomLadderGroup: CustomLadderGroup;
   updateDiscordCode: Scalars['Boolean'];
   updatePatreonCode: Scalars['Boolean'];
+  updatePreferenceListingPercent: Scalars['Boolean'];
   updateStashViewAutomaticSnapshotSettings: Scalars['Boolean'];
 };
 
@@ -457,6 +459,11 @@ export type MutationUpdateDiscordCodeArgs = {
 
 export type MutationUpdatePatreonCodeArgs = {
   code: Scalars['String'];
+};
+
+
+export type MutationUpdatePreferenceListingPercentArgs = {
+  listingPercent: Scalars['Float'];
 };
 
 
@@ -782,6 +789,8 @@ export type StashViewSettings = {
   minItemValue?: InputMaybe<Scalars['Float']>;
   searchString?: InputMaybe<Scalars['String']>;
   selectedTabId?: InputMaybe<Scalars['String']>;
+  selectedValuationLP?: InputMaybe<Scalars['Float']>;
+  selectedValuationType?: InputMaybe<Scalars['String']>;
   selectedView?: InputMaybe<Scalars['String']>;
   tftSelectedCategory?: InputMaybe<Scalars['String']>;
   tftSelectedSubCategory?: InputMaybe<Scalars['String']>;
@@ -879,6 +888,7 @@ export type UserProfile = {
   patreonTier?: Maybe<Scalars['String']>;
   patreonUserId?: Maybe<Scalars['String']>;
   poeProfileName: Scalars['String'];
+  preferences: Scalars['JSON'];
   roles: Array<Scalars['String']>;
   userId: Scalars['String'];
 };

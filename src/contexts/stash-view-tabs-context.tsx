@@ -8,7 +8,10 @@ import { StashViewUtil } from "@utils/stash-view-util";
 import { usePoeLeagueCtx } from "./league-context";
 import { usePoeStackAuth } from "./user-context";
 
-const initalContext: { stashTabs: StashViewTab[] | null } = { stashTabs: null };
+const initalContext: {
+  stashTabs: StashViewTab[] | null;
+  refreshTabs: () => void;
+} = { stashTabs: null, refreshTabs: () => {} };
 
 export const StashViewTabContext = createContext(initalContext);
 
@@ -48,6 +51,7 @@ export function StashViewTabProvider({ children }) {
 
   const value = {
     stashTabs: stashTabs,
+    refreshTabs: refreshTabs,
   };
 
   return (

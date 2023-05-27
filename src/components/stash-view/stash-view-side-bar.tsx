@@ -7,13 +7,14 @@ import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 
 import { StashViewForumShopExporterCard } from "./exporters/stash-view-forum-shop-exporter-card";
-import StashViewAdvancedSettingPanel, {
+import {
   StashViewAutomaticSnapshotSettings,
   StashViewValueSeriesSettings,
 } from "./stash-view-advanced-settings-panel";
 import { StashViewSnapshotJobCard } from "./stash-view-snapshot-job-card";
 import { StashViewTabGroupsPanel } from "./stash-view-tab-groups-panel";
 import { StashViewTabSelectionCard } from "./stash-view-tab-selection-card";
+import StashViewValuationSettingsPanel from "./stash-view-valuation-settings-panel";
 
 export default function StashViewSideBar() {
   const { stashViewSettings, setStashViewSettings } = useStashViewContext();
@@ -31,6 +32,7 @@ export default function StashViewSideBar() {
             "Tab Groups",
             "Forum Shop",
             "Automatic Snapshots",
+            "Valuation",
             "Value Series",
           ]}
         />
@@ -50,6 +52,9 @@ export default function StashViewSideBar() {
         )}
         {stashViewSettings.selectedView === "Automatic Snapshots" && (
           <StashViewAutomaticSnapshotSettings />
+        )}
+        {stashViewSettings.selectedView === "Valuation" && (
+          <StashViewValuationSettingsPanel />
         )}
         {stashViewSettings.selectedView === "Value Series" && (
           <StashViewValueSeriesSettings />

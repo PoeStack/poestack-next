@@ -5,32 +5,6 @@ import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewAutomaticSnapshotSettings } from "@generated/graphql";
 import { useState } from "react";
 
-export default function StashViewAdvancedSettingPanel() {
-  const [selectedSetting, setSelectedSetting] = useState("Automatic Snapshots");
-
-
-
-  return             <div className="relative p-6 flex-auto">
-  <div className="flex flex-col space-y-2">
-    <StyledSelect2
-      selected={selectedSetting}
-      onSelectChange={(e) => {
-        setSelectedSetting(e);
-      }}
-      items={["Automatic Snapshots", "Value Series"]}
-    />
-
-    {selectedSetting === "Automatic Snapshots" && (
-      <StashViewAutomaticSnapshotSettings />
-    )}
-
-    {selectedSetting === "Value Series" && (
-      <StashViewValueSeriesSettings />
-    )}
-  </div>
-</div>;
-}
-
 export function StashViewValueSeriesSettings() {
   const { refetchValueSnapshots } = useStashViewContext();
 

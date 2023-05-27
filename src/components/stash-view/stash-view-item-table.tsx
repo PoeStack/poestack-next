@@ -51,9 +51,11 @@ export function StashViewItemTable({
       key = key ?? "stackValue";
       let sortValue: number | string = 0;
       if (key === "stackValue") {
-        sortValue = (item.valueChaos ?? 0) * item.quantity;
+        sortValue =
+          (StashViewUtil.itemValue(stashViewSettings, item) ?? 0) *
+          item.quantity;
       } else if (key === "value") {
-        sortValue = item.valueChaos ?? 0;
+        sortValue = StashViewUtil.itemValue(stashViewSettings, item) ?? 0;
       } else if (key === "name") {
         sortValue = item.itemGroup?.displayName ?? item.searchableString;
       } else {
@@ -95,7 +97,6 @@ export function StashViewItemTable({
     stashTabs,
     page,
     stashSummary?.updatedAtTimestamp,
-    stashViewSettings?.lastSnapshotJobCompleteTimestamp,
   ]);
 
   const maxPage = Math.ceil(sortedItems.length / pageSize);

@@ -38,6 +38,7 @@ export function StashViewGenericTftExporterCard() {
       minItemQuantity: stashViewSettings.minItemQuantity,
       minItemValue: stashViewSettings.minItemValue,
       minItemStackValue: stashViewSettings.minItemStackValue,
+      selectedValuationType: stashViewSettings.selectedValuationType,
     };
   }
 

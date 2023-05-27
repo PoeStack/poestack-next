@@ -13,6 +13,7 @@ export default function CompassesEv() {
 
   const [sextantValue, setSextantValue] = useState<number>(7);
   const [minSaleValue, setMinSaleValue] = useState<number>(0);
+  const [blockedWeight, setBlockedWeight] = useState<number>(3000);
   const [valueMultiplier, setValueMultiplier] = useState<number>(100);
 
   const [livePricingEntires, setLivePricingEntires] = useState<
@@ -66,7 +67,9 @@ export default function CompassesEv() {
     return <StyledLoading />;
   }
 
-  const totalWeight = COMPASSES.reduce((p, c) => p + c.weight, 0);
+  const totalWeight =
+    COMPASSES.reduce((p, c) => p + c.weight, 0) - blockedWeight;
+
   COMPASSES.forEach((e) => {
     e.probability = e.weight / totalWeight;
     e.value =
@@ -85,7 +88,10 @@ export default function CompassesEv() {
     <>
       <StyledCard>
         <div className="flex flex-col space-y-2">
-          <div>Chaos Value Per Click: {totalWeightedValue - sextantValue}</div>
+          <div>
+            Expected Value Per Click: {totalWeightedValue - sextantValue - 1}{" "}
+            Chaos
+          </div>
           <div className="flex space-x-2 items-center">
             <div>Sextant Value</div>
             <StyledInput
@@ -103,6 +109,16 @@ export default function CompassesEv() {
               value={valueMultiplier}
               onChange={(e) => {
                 setValueMultiplier(e);
+              }}
+            />
+          </div>
+          <div className="flex space-x-2 items-center">
+            <div>Blocked Weight</div>
+            <StyledInput
+              type="number"
+              value={blockedWeight}
+              onChange={(e) => {
+                setBlockedWeight(e);
               }}
             />
           </div>
@@ -421,6 +437,12 @@ const COMPASSES: {
     hashString: "26797cd38c9a2fe5b6a23ce400cabe8c868c5e4a",
     displayName: "Essence",
     weight: 500,
+  },
+  {
+    key: "final map boss in each map drops an additional conqueror map map bosses have 200% more life map bosses deal 100% more damage compass",
+    hashString: "d43769b6ceccfb6b23afc80da6dd8499ad30a4ba",
+    displayName: "Conqueror Map",
+    weight: 50,
   },
   {
     key: "map bosses deal 20% increased damage your maps have 20% quality compass",

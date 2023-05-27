@@ -14,12 +14,17 @@ export default function TftBulkToolPanel() {
   const { stashSummary } = useStashViewContext();
 
   useEffect(() => {
-    setStashViewSettings({
-      ...stashViewSettings,
-      selectedView: "TFT-Bulk",
-      valueOverridesEnabled: true,
-    });
-  }, []);
+    if (
+      stashViewSettings?.selectedView !== "TFT-Bulk" ||
+      !stashViewSettings?.valueOverridesEnabled
+    ) {
+      setStashViewSettings({
+        ...stashViewSettings,
+        selectedView: "TFT-Bulk",
+        valueOverridesEnabled: true,
+      });
+    }
+  }, [stashViewSettings]);
 
   return (
     <>

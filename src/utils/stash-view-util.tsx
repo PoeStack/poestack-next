@@ -47,7 +47,14 @@ export class StashViewUtil {
     settings: StashViewSettings,
     item: StashViewItemSummary
   ): number {
-    let value = item.valueChaos ?? 0;
+    let value = 0;
+    if (settings.selectedView === "TFT-Bulk") {
+      value = item["fixedValue"];
+    } else if (settings.selectedValuationType === "stock") {
+      value = Math.max(item["lpStockValue"] ?? 0, item["lpValue"] ?? 0);
+    } else {
+      value = item["lpValue"] ?? 0;
+    }
 
     if (settings.valueOverridesEnabled) {
       const overrideValue =

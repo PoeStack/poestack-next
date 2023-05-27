@@ -62,6 +62,8 @@ export interface StashViewSettings {
   tftSelectedSubCategory: string | null;
 
   valueToFractionMode: string;
+
+  selectedValuationType: string | null;
 }
 
 const defaultStashViewSettings: StashViewSettings = {
@@ -107,6 +109,8 @@ const defaultStashViewSettings: StashViewSettings = {
   sortDirection: "desc",
 
   valueToFractionMode: "Max",
+
+  selectedValuationType: "stock",
 };
 
 export interface StashViewContext {
@@ -159,7 +163,7 @@ export function StashViewContextProvider({
   const router = useRouter();
   const { league } = router.query;
 
-  const { stashTabs } = useStashViewTabs();
+  const { stashTabs, refreshTabs } = useStashViewTabs();
 
   const [stashViewSettings, setStashViewSettings] =
     useState<StashViewSettings | null>(null);
@@ -343,15 +347,14 @@ export function StashViewContextProvider({
     selectedSnapshotRecord: selectedSnapshotRecord,
     valueSnapshots: valueSnapshots,
     setSelectedSnapshotRecord: setSelectedSnapshotRecord,
-    refetchStashTabs: () => {},
+    refetchStashTabs: () => {
+      refreshTabs();
+    },
     refetchSnapshotRecords: refetchSnapshotRecords,
     refetchValueSnapshots: refetchValueSnapshots,
   };
 
   let loading: string | null = null;
-  if (!stashTabs) {
-    loading = "Loading stash tabs";
-  }
   if (!league) {
     loading = "Loading league";
   }

@@ -115,24 +115,18 @@ export function StashViewItemMouseOver({
                   <div className="flex space-x-1 items-center">
                     <div>Value</div>
                     <CurrencyValueDisplay
-                      pValue={StashViewUtil.itemValue(
-                        stashViewSettings,
-                        itemSummary!
-                      )}
+                      pValue={itemSummary["lpValue"] ?? 0}
                       league={itemSummary?.league}
                     />
                   </div>
                   <div className="flex space-x-1 items-center">
-                    <div>Stock</div>
+                    <div>Quantity</div>
                     <div>{stock}</div>
                   </div>
                   <div className="flex space-x-1 items-center">
-                    <div>Total</div>
+                    <div>Stock Value</div>
                     <CurrencyValueDisplay
-                      pValue={
-                        stock *
-                        StashViewUtil.itemValue(stashViewSettings, itemSummary!)
-                      }
+                      pValue={itemSummary["lpStockValue"] ?? 0}
                       league={itemSummary?.league}
                     />
                   </div>
