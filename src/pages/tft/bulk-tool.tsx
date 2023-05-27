@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import FixedAds from "@components/ads/styled-square-responsive-ad";
 import StyledButton from "@components/library/styled-button";
 import StyledCard from "@components/library/styled-card";
+import StyledLoading from "@components/library/styled-loading";
 import TftBulkToolPanel from "@components/tft-bulk-tool-panel";
 import { TftOneClickInstructions } from "@components/tft-one-click-instructions";
 import TftOneClickMessageHistoryCard from "@components/tft-oneclick-message-history-card";
@@ -13,7 +14,12 @@ import TftGuardPanel from "../../components/item-table/tft-guard-panel";
 
 export default function BulkTool() {
   const router = useRouter();
+  const { league } = router.query;
   const { profile } = usePoeStackAuth();
+
+  if (!profile?.userId || !league) {
+    return <StyledLoading />;
+  }
 
   return (
     <>
@@ -21,7 +27,9 @@ export default function BulkTool() {
         <TftGuardPanel>
           <div className="flex flex-col space-y-4">
             <StyledCard title="Tool">
-              <StashViewContextProvider cacheId={"tft-bulk-tool-1"}>
+              <StashViewContextProvider
+                cacheId={`bulk_tool_page_${profile?.userId}_${league}_v_1`}
+              >
                 <TftBulkToolPanel />
               </StashViewContextProvider>
             </StyledCard>

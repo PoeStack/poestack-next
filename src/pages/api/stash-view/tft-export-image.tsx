@@ -38,7 +38,6 @@ export default async function TftExportImage(req) {
         StashViewUtil.itemStackTotalValue(stashViewSettings, a)
     );
 
-  console.log("items", items.length);
   const cols = Math.ceil(items.length / 15);
 
   function cleanText(e: string): string {

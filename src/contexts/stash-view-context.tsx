@@ -169,36 +169,29 @@ export function StashViewContextProvider({
     useState<StashViewSettings | null>(null);
 
   useEffect(() => {
-    if (league) {
-      const loadedStashSettings = JSON.parse(
-        localStorage.getItem(
-          `${cacheId}_${profile?.userId}_${league}_stash_view_settings_3`
-        ) ?? "{}"
-      );
+    const loadedStashSettings = JSON.parse(
+      localStorage.getItem(cacheId) ?? "{}"
+    );
+    const combinedSettings = {
+      ...defaultStashViewSettings,
+      ...loadedStashSettings,
+      league: league,
+    };
 
-      console.log("loaded stash settings", league, loadedStashSettings);
-      const combinedSettings = {
-        ...defaultStashViewSettings,
-        ...loadedStashSettings,
-        league: league,
-      };
-      setStashViewSettings(combinedSettings);
-
-      console.log("set stash settings", league, combinedSettings);
-    } else {
-      router.push({ query: { league: "Crucible" } });
+    if (stashTabs?.length && !combinedSettings.selectedTabId) {
+      combinedSettings.selectedTabId = stashTabs?.find(
+        (e) => !["MapStash", "UniqueStash"].includes(e?.type)
+      )?.id;
     }
-  }, [league, profile?.userId, router.basePath, cacheId]);
+
+    setStashViewSettings(combinedSettings);
+  }, []);
 
   useEffect(() => {
-    if (stashViewSettings && league) {
-      console.log("storing settings", league, stashViewSettings);
-      localStorage.setItem(
-        `${cacheId}_${profile?.userId}_${league}_stash_view_settings_3`,
-        JSON.stringify(stashViewSettings)
-      );
+    if (stashViewSettings) {
+      localStorage.setItem(cacheId, JSON.stringify(stashViewSettings));
     }
-  }, [stashViewSettings, league, cacheId]);
+  }, [stashViewSettings]);
 
   const [tab, setTab] = useState<{
     items: CharacterSnapshotItem[] & { x: number; y: number };
@@ -332,10 +325,6 @@ export function StashViewContextProvider({
         !TFT_CATEGORIES[e.tftSelectedCategory!]?.overrideEnabled
       ) {
         e.valueOverridesEnabled = false;
-      }
-
-      if (stashTabs?.length && !e.selectedTabId) {
-        e.selectedTabId = stashTabs[0].id;
       }
 
       setStashViewSettings(e);

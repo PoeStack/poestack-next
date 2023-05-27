@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import CurrencyValueDisplay from "@components/currency-value-display";
+import StyledLoading from "@components/library/styled-loading";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewUtil } from "@utils/stash-view-util";
 
@@ -30,6 +31,10 @@ export function StashViewTabBreakdownTable() {
 
     setCache(nextCache);
   }, [stashSummary, stashViewSettings]);
+
+  if (!stashTabs) {
+    return <></>;
+  }
 
   return (
     <>

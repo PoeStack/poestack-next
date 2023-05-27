@@ -174,12 +174,6 @@ export function StashViewGenericTftExporterCard() {
                 {
                   text: "Copy Image",
                   onClick: () => {
-                    console.log(
-                      "asdasd",
-                      `/api/stash-view/tft-export-image?input=${encodeURIComponent(
-                        JSON.stringify(generateInput())
-                      )}&opaqueKey=${profile?.opaqueKey}`
-                    );
                     const cpy = async () => {
                       if (!stashViewSettings.tftSelectedCategory) {
                         setError("You must select a TFT category.");
@@ -196,12 +190,6 @@ export function StashViewGenericTftExporterCard() {
                           }),
                         ]);
                       }
-                      console.log(
-                        "asdasd",
-                        `/api/stash-view/tft-export-image?input=${encodeURIComponent(
-                          JSON.stringify(generateInput())
-                        )}&opaqueKey=${profile?.opaqueKey}`
-                      );
                     };
                     setStatusText("Loading Image");
                     cpy().finally(() => {

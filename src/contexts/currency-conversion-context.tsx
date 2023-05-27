@@ -65,7 +65,6 @@ export function CurrencyConversionProvider({ children }) {
 
   function divValueFromChaos(e: number, date?: Date | null): number | null {
     const length = livePricingHistoryGroup?.entries?.length;
-    console.log("divValueFromChaos", livePricingHistoryGroup?.entries);
     if (length) {
       const latestDivValueC = livePricingHistoryGroup?.entries[length - 1];
 
