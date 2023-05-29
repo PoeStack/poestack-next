@@ -4,6 +4,7 @@ import StyledSelect2 from "@components/library/styled-select-2";
 import { useStashViewContext } from "@contexts/stash-view-context";
 import { StashViewAutomaticSnapshotSettings } from "@generated/graphql";
 import { useState } from "react";
+import StashViewTabSelectVertical from "./stash-view-tab-select-vertical";
 
 export function StashViewValueSeriesSettings() {
   const { refetchValueSnapshots } = useStashViewContext();
@@ -34,7 +35,7 @@ export function StashViewValueSeriesSettings() {
 }
 
 export function StashViewAutomaticSnapshotSettings() {
-  const { stashTabs, stashViewSettings } = useStashViewContext();
+  const { stashViewSettings } = useStashViewContext();
 
   const [automaticSnapshotSettings, setAutomaticSnapshotSettings] =
     useState<StashViewAutomaticSnapshotSettings>({
@@ -89,53 +90,50 @@ export function StashViewAutomaticSnapshotSettings() {
 
   return (
     <>
-      <div>Current Automatic Snapshot Tabs:</div>
-      {!!automaticSnapshotSettings?.stashIds?.length ? (
-        <div>
-          {(automaticSnapshotSettings?.stashIds ?? []).map((e, i) => (
-            <div key={i}>{stashTabs!.find((t) => t.id === e)?.name ?? "NA"}</div>
-          ))}
+      <div className="flex flex-col space-y-2">
+        <div className="max-h-[200px] overflow-y-auto">
+          <StashViewTabSelectVertical
+            selectedTabIds={automaticSnapshotSettings?.stashIds}
+            onSelectChange={(tab) => {
+              if (automaticSnapshotSettings?.stashIds?.includes(tab.id)) {
+                setAutomaticSnapshotSettings({
+                  ...automaticSnapshotSettings,
+                  stashIds: automaticSnapshotSettings.stashIds.filter(
+                    (e) => e !== tab.id
+                  ),
+                });
+              } else {
+                setAutomaticSnapshotSettings({
+                  ...automaticSnapshotSettings,
+                  stashIds: [...automaticSnapshotSettings.stashIds, tab.id],
+                });
+              }
+            }}
+          />
         </div>
-      ) : (
-        <div>None</div>
-      )}
-      <StyledButton
-        text="Clear"
-        onClick={() => {
-          setAutomaticSnapshotSettings({
-            ...automaticSnapshotSettings,
-            stashIds: [],
-          });
-        }}
-      />
-      <StyledButton
-        text={`Set to (${stashViewSettings.checkedTabIds.length}) Selected Tabs`}
-        onClick={() => {
-          setAutomaticSnapshotSettings({
-            ...automaticSnapshotSettings,
-            stashIds: stashViewSettings.checkedTabIds,
-          });
-        }}
-      />
-      <StyledSelect2
-        selected={
-          automaticSnapshotSettings.durationBetweenSnapshotsSeconds / 60
-        }
-        mapToText={(e) => `${e} Mins Between Snapshots`}
-        onSelectChange={(e) => {
-          setAutomaticSnapshotSettings({
-            ...automaticSnapshotSettings,
-            durationBetweenSnapshotsSeconds: e * 60,
-          });
-        }}
-        items={[10, 15, 30, 60, 120]}
-      />
-      <StyledButton
-        text={updatingAutomaticSnapshotSettings ? "Saving" : `Save`}
-        onClick={() => {
-          updateAutomaticSnapshotSettings();
-        }}
-      />
+        <div className="flex flex-col space-y-2 pt-2">
+          <StyledSelect2
+            className="text-sm"
+            selected={
+              automaticSnapshotSettings.durationBetweenSnapshotsSeconds / 60
+            }
+            mapToText={(e) => `${e} Min Interval`}
+            onSelectChange={(e) => {
+              setAutomaticSnapshotSettings({
+                ...automaticSnapshotSettings,
+                durationBetweenSnapshotsSeconds: e * 60,
+              });
+            }}
+            items={[10, 15, 30, 60, 120]}
+          />
+          <StyledButton
+            text={updatingAutomaticSnapshotSettings ? "Saving" : `Save`}
+            onClick={() => {
+              updateAutomaticSnapshotSettings();
+            }}
+          />
+        </div>
+      </div>
     </>
   );
 }

@@ -14,17 +14,10 @@ import {
   METAMORPH_LAYOUT,
 } from "./stash-layouts";
 import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
+import StashViewTabSelect from "./stash-view-tab-select";
 
 export function StashViewTabViewerCard() {
   const { tab } = useStashViewContext();
-
-  if (!tab) {
-    return (
-      <>
-        <StyledLoading />
-      </>
-    );
-  }
 
   const tabLayoutMap = {
     FragmentStash: FRAGMENT_LAYOUT,
@@ -36,36 +29,19 @@ export function StashViewTabViewerCard() {
     CurrencyStash: CURRENCY_LAYOUT,
   };
 
-  if (
-    [
-      "UniqueStash",
-      "MapStash",
-      "GemStash",
-      "FlaskStash",
-      "DivinationCardStash",
-    ].includes(tab.type!)
-  ) {
-    return (
-      <>
-        <div
-          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
-        >
-          Tab type not yet supported.
-        </div>
-      </>
-    );
-  }
-
   let scale = 12;
-  if (tab.type === "QuadStash") {
+  if (tab?.type === "QuadStash") {
     scale = 24;
-  } else if (!!tabLayoutMap[tab.type!]) {
+  } else if (!!tabLayoutMap[tab?.type ?? ""]) {
     return (
       <>
-        <div
-          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
-        >
-          <StashViewPoeLayoutTabViewer layout={tabLayoutMap[tab.type!]} />
+        <div className="flex flex-col space-y-2 bg-surface-primary p-2">
+          <StashViewTabSelect />
+          <div className="relative aspect-square max-h-[800px]">
+            {tab && (
+              <StashViewPoeLayoutTabViewer layout={tabLayoutMap[tab.type!]} />
+            )}
+          </div>
         </div>
       </>
     );
@@ -73,10 +49,11 @@ export function StashViewTabViewerCard() {
 
   return (
     <>
-      <div
-        className={`bg-surface-primary relative aspect-square max-h-[800px]`}
-      >
-        <StashViewBasicTabViewer scale={scale} />
+      <div className="flex flex-col space-y-2 bg-surface-primary p-2">
+        <StashViewTabSelect />
+        <div className={`relative aspect-square max-h-[800px]`}>
+          {tab && <StashViewBasicTabViewer scale={scale} />}
+        </div>
       </div>
     </>
   );
@@ -171,6 +148,26 @@ export function StashViewPoeLayoutTabViewer({ layout }: { layout: any }) {
 
 export function StashViewBasicTabViewer({ scale }: { scale: number }) {
   const { tab, stashViewSettings } = useStashViewContext();
+
+  if (
+    [
+      "UniqueStash",
+      "MapStash",
+      "GemStash",
+      "FlaskStash",
+      "DivinationCardStash",
+    ].includes(tab?.type ?? "")
+  ) {
+    return (
+      <>
+        <div
+          className={`bg-surface-primary relative aspect-square max-h-[800px]`}
+        >
+          Tab type not yet supported.
+        </div>
+      </>
+    );
+  }
 
   const scaleP = 100 / scale;
   return (

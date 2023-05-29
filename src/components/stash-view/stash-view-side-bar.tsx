@@ -23,6 +23,7 @@ export default function StashViewSideBar() {
     <>
       <StyledCard className="flex flex-col space-y-2">
         <StyledSelect2
+          className="text-xs"
           selected={stashViewSettings.selectedView ?? "Tabs"}
           onSelectChange={(e) => {
             setStashViewSettings({ ...stashViewSettings, selectedView: e });
