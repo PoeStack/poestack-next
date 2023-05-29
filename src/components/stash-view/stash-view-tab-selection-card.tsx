@@ -88,6 +88,7 @@ export function StashViewTabSelectionCard() {
                 <div className="flex items-center space-x-1">
                   <input
                     type="checkbox"
+                    id={tab.id}
                     className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
                     checked={stashViewSettings.checkedTabIds.includes(tab.id)}
                     onChange={(e) => {
@@ -109,7 +110,8 @@ export function StashViewTabSelectionCard() {
                       }
                     }}
                   />
-                  <div
+                  <label
+                    htmlFor={tab.id}
                     className={`${
                       stashViewSettings.selectedTabId === tab.id
                         ? "text-content-accent"
@@ -123,7 +125,7 @@ export function StashViewTabSelectionCard() {
                     }}
                   >
                     {tab.name}
-                  </div>
+                  </label>
                   <div>
                     <img src={typeToIconMap[tab.type]} alt="" />
                   </div>

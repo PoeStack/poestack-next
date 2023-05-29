@@ -139,7 +139,7 @@ export function StashViewGenericTftExporterCard() {
               <div className="text-red-600">Error: {error}</div>
             </>
           )}
-          <div className="flex">
+          <div className="flex w-full">
             <StyledButton
               className="flex-1 rounded-r-none"
               disabled={(stashViewSettings?.ign?.length ?? 0) < 3}

@@ -38,7 +38,9 @@ export default function StyledDropdown({
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <Menu.Items className="absolute z-10 mt-2 origin-top-right divide-y divide-gray-100 rounded-md shadow-lg -top-2 right-28 ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <Menu.Items
+            className={`min-w-full absolute z-10 top-8 mt-2 p-1 bg-neutral-700 origin-top-right rounded-md shadow-lg right-0 ring-1 ring-black ring-opacity-5 focus:outline-none`}
+          >
             {items.map((item) => (
               <>
                 <Menu.Item>
@@ -48,7 +50,7 @@ export default function StyledDropdown({
                         active
                           ? "bg-neutral-500 text-content-accent"
                           : "bg-neutral-700 text-white"
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm`}
+                      } group flex w-full items-center rounded-md px-6 py-2 text-sm`}
                       onClick={item.onClick}
                     >
                       {item.text}
