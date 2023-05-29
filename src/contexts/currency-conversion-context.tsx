@@ -5,6 +5,7 @@ import { gql, useMutation, useQuery } from "@apollo/client";
 import {
   LivePricingHistoryGroup,
   LivePricingHistorySeries,
+  LivePricingValuation,
 } from "@generated/graphql";
 import { StashViewTab } from "@models/stash-view-models";
 import { StashViewUtil } from "@utils/stash-view-util";
@@ -16,16 +17,46 @@ export const DIV_HASH_STRING = "cceb40e33d9237cb6a06037e739e40aa9a548c70";
 
 const initalContext: {
   divValueFromChaos: (e: number, date?: Date | null) => number | null;
+  divValueChaos: number | null | undefined;
 } = {
   divValueFromChaos: (e, t) => {
     return null;
   },
+  divValueChaos: null,
 };
 
 export const CurrencyConversionContext = createContext(initalContext);
 
 export function CurrencyConversionProvider({ children }) {
   const { league } = usePoeLeagueCtx();
+
+  const [divSimpleValuation, setDivSimpleValuation] =
+    useState<LivePricingValuation | null>(null);
+  useQuery(
+    gql`
+      query LivePriceDivConvSimple($config: LivePricingSimpleConfig!) {
+        livePriceSimple(config: $config) {
+          valuation {
+            value
+          }
+        }
+      }
+    `,
+    {
+      variables: {
+        config: {
+          itemGroupHashString: "cceb40e33d9237cb6a06037e739e40aa9a548c70",
+          league: league,
+          listingPercent: 10,
+          quantity: 1,
+        },
+      },
+      onCompleted(data) {
+        console.log("asdasd, ", data.livePriceSimple);
+        setDivSimpleValuation(data.livePriceSimple?.valuation);
+      },
+    }
+  );
 
   const [livePricingHistoryGroup, setLivePricingHistoryGroup] =
     useState<LivePricingHistorySeries | null>(null);
@@ -92,6 +123,7 @@ export function CurrencyConversionProvider({ children }) {
 
   const value = {
     divValueFromChaos: divValueFromChaos,
+    divValueChaos: divSimpleValuation?.value,
   };
 
   return (

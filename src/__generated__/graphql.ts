@@ -249,48 +249,6 @@ export type ItemGroupListing = {
   quantity: Scalars['Float'];
 };
 
-export type ItemGroupSearchInput = {
-  itemGroupHashKeys?: InputMaybe<Array<Scalars['String']>>;
-  itemGroupHashStrings?: InputMaybe<Array<Scalars['String']>>;
-  itemGroupHashTags?: InputMaybe<Array<Scalars['String']>>;
-  league: Scalars['String'];
-  limit?: InputMaybe<Scalars['Float']>;
-  searchString?: InputMaybe<Scalars['String']>;
-  skip?: InputMaybe<Scalars['Float']>;
-  sortDirection?: InputMaybe<Scalars['Float']>;
-};
-
-export type ItemGroupValueTimeseries = {
-  __typename?: 'ItemGroupValueTimeseries';
-  itemGroup: ItemGroup;
-  series: Array<ItemGroupValueTimeseriesGroupSeries>;
-};
-
-export type ItemGroupValueTimeseriesGroupEntry = {
-  __typename?: 'ItemGroupValueTimeseriesGroupEntry';
-  timestamp: Scalars['DateTime'];
-  value: Scalars['Float'];
-};
-
-export type ItemGroupValueTimeseriesGroupSeries = {
-  __typename?: 'ItemGroupValueTimeseriesGroupSeries';
-  entries: Array<ItemGroupValueTimeseriesGroupEntry>;
-  stockRangeStartInclusive: Scalars['Float'];
-  type: Scalars['String'];
-};
-
-export type ItemGroupValueTimeseriesResult = {
-  __typename?: 'ItemGroupValueTimeseriesResult';
-  results: Array<ItemGroupValueTimeseries>;
-};
-
-export type ItemGroupValueTimeseriesSearchInput = {
-  bucketType?: InputMaybe<Scalars['String']>;
-  itemGroupSearch: ItemGroupSearchInput;
-  seriesTypes: Array<Scalars['String']>;
-  stockStartingRanges: Array<Scalars['Int']>;
-};
-
 export type LivePricingHistoryConfig = {
   itemGroupHashStrings: Array<Scalars['String']>;
   league: Scalars['String'];
@@ -579,10 +537,6 @@ export type Query = {
   customLadderGroup: CustomLadderGroup;
   customLadderGroupsByOwner: Array<CustomLadderGroup>;
   globalSearch: GlobalSearchResponse;
-  itemGroupInfo: Scalars['Boolean'];
-  itemGroupTags: Array<Scalars['String']>;
-  itemGroupValueChaos: Scalars['Float'];
-  itemGroupValueTimeseriesSearch: ItemGroupValueTimeseriesResult;
   leagueActvityTimeseries: GenericAggregation;
   leagues: Array<PoeLeague>;
   livePriceSimple: LivePricingSimpleResult;
@@ -654,22 +608,6 @@ export type QueryCustomLadderGroupsByOwnerArgs = {
 
 export type QueryGlobalSearchArgs = {
   search: GlobalSearch;
-};
-
-
-export type QueryItemGroupTagsArgs = {
-  league: Scalars['String'];
-};
-
-
-export type QueryItemGroupValueChaosArgs = {
-  key: Scalars['String'];
-  league: Scalars['String'];
-};
-
-
-export type QueryItemGroupValueTimeseriesSearchArgs = {
-  search: ItemGroupValueTimeseriesSearchInput;
 };
 
 
@@ -789,7 +727,6 @@ export type StashViewSettings = {
   minItemValue?: InputMaybe<Scalars['Float']>;
   searchString?: InputMaybe<Scalars['String']>;
   selectedTabId?: InputMaybe<Scalars['String']>;
-  selectedValuationLP?: InputMaybe<Scalars['Float']>;
   selectedValuationType?: InputMaybe<Scalars['String']>;
   selectedView?: InputMaybe<Scalars['String']>;
   tftSelectedCategory?: InputMaybe<Scalars['String']>;
@@ -893,15 +830,6 @@ export type UserProfile = {
   userId: Scalars['String'];
 };
 
-export type CurrenyValuePullDivAndExQueryVariables = Exact<{
-  key: Scalars['String'];
-  key2: Scalars['String'];
-  league: Scalars['String'];
-}>;
-
-
-export type CurrenyValuePullDivAndExQuery = { __typename?: 'Query', div: number, ex: number };
-
 export type StashViewOneClickPostMutationVariables = Exact<{
   input: StashViewSettings;
 }>;
@@ -951,6 +879,13 @@ export type StashViewUpdateSnapshotRecordMutationVariables = Exact<{
 
 export type StashViewUpdateSnapshotRecordMutation = { __typename?: 'Mutation', stashViewUpdateSnapshotRecord: boolean };
 
+export type UpdatePreferenceListingPercentMutationVariables = Exact<{
+  listingPercent: Scalars['Float'];
+}>;
+
+
+export type UpdatePreferenceListingPercentMutation = { __typename?: 'Mutation', updatePreferenceListingPercent: boolean };
+
 export type TftFiveWayLiveListingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -989,6 +924,13 @@ export type PassiveTreeQueryVariables = Exact<{
 
 export type PassiveTreeQuery = { __typename?: 'Query', passiveTree: { __typename?: 'PassiveTreeResponse', nodeMap: any, connectionMap: any, constants: { __typename?: 'PassiveTreeConstants', minX: number, minY: number, maxX: number, maxY: number, skillsPerOrbit: Array<number>, orbitRadii: Array<number> } } };
 
+export type LivePriceDivConvSimpleQueryVariables = Exact<{
+  config: LivePricingSimpleConfig;
+}>;
+
+
+export type LivePriceDivConvSimpleQuery = { __typename?: 'Query', livePriceSimple: { __typename?: 'LivePricingSimpleResult', valuation?: { __typename?: 'LivePricingValuation', value: number } | null } };
+
 export type LivePricingHistoriesDivsQueryVariables = Exact<{
   config: LivePricingHistoryConfig;
 }>;
@@ -1010,14 +952,6 @@ export type StashViewValueSnapshotSeriesQueryVariables = Exact<{
 
 export type StashViewValueSnapshotSeriesQuery = { __typename?: 'Query', stashViewValueSnapshotSeries: Array<{ __typename?: 'StashViewValueSnapshotSeries', stashId: string, values: Array<number>, timestamps: Array<any> }> };
 
-export type CurrenyValuePullDivQueryVariables = Exact<{
-  key: Scalars['String'];
-  league: Scalars['String'];
-}>;
-
-
-export type CurrenyValuePullDivQuery = { __typename?: 'Query', div: number };
-
 export type StashViewRefreshTabsMutationVariables = Exact<{
   league: Scalars['String'];
 }>;
@@ -1037,7 +971,7 @@ export type MyProfileQueryVariables = Exact<{
 }>;
 
 
-export type MyProfileQuery = { __typename?: 'Query', checkTftMembership: boolean, myProfile: { __typename?: 'UserProfile', userId: string, poeProfileName: string, patreonUserId?: string | null, patreonTier?: string | null, oAuthTokenUpdatedAtTimestamp?: any | null, lastConnectedTimestamp?: any | null, discordUsername?: string | null, discordUserId?: string | null, createdAtTimestamp?: any | null, roles: Array<string>, opaqueKey?: string | null }, myNotifications: Array<{ __typename?: 'UserNotification', id: number, timestamp: any, userId?: string | null, type: string, title?: string | null, body?: string | null, href?: string | null }> };
+export type MyProfileQuery = { __typename?: 'Query', checkTftMembership: boolean, myProfile: { __typename?: 'UserProfile', userId: string, poeProfileName: string, patreonUserId?: string | null, patreonTier?: string | null, oAuthTokenUpdatedAtTimestamp?: any | null, lastConnectedTimestamp?: any | null, discordUsername?: string | null, discordUserId?: string | null, createdAtTimestamp?: any | null, roles: Array<string>, preferences: any, opaqueKey?: string | null }, myNotifications: Array<{ __typename?: 'UserNotification', id: number, timestamp: any, userId?: string | null, type: string, title?: string | null, body?: string | null, href?: string | null }> };
 
 export type RouteChangeMutationVariables = Exact<{
   path: Scalars['String'];
@@ -1191,7 +1125,6 @@ export type LivePricingHistoryQueryVariables = Exact<{
 export type LivePricingHistoryQuery = { __typename?: 'Query', livePricingHistory: { __typename?: 'LivePricingHistoryResult', results: Array<{ __typename?: 'LivePricingHistoryGroup', itemGroup: { __typename?: 'ItemGroup', hashString: string, key: string, tag: string, properties?: Array<any> | null, baseType?: string | null, icon?: string | null, inventoryMaxStackSize?: number | null, displayName?: string | null, createdAtTimestamp: any }, series: Array<{ __typename?: 'LivePricingHistorySeries', type: string, stockRangeStartInclusive: number, entries: Array<{ __typename?: 'LivePricingHistoryEntry', timestamp: any, value: number }> }> }> } };
 
 
-export const CurrenyValuePullDivAndExDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrenyValuePullDivAndEx"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"key"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"key2"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"div"},"name":{"kind":"Name","value":"itemGroupValueChaos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"key"},"value":{"kind":"Variable","name":{"kind":"Name","value":"key"}}},{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}]},{"kind":"Field","alias":{"kind":"Name","value":"ex"},"name":{"kind":"Name","value":"itemGroupValueChaos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"key"},"value":{"kind":"Variable","name":{"kind":"Name","value":"key2"}}},{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}]}]}}]} as unknown as DocumentNode<CurrenyValuePullDivAndExQuery, CurrenyValuePullDivAndExQueryVariables>;
 export const StashViewOneClickPostDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewOneClickPost"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSettings"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewOneClickPost"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewOneClickPostMutation, StashViewOneClickPostMutationVariables>;
 export const StashViewOneClickMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewOneClickMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSettings"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewOneClickMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewOneClickMessageMutation, StashViewOneClickMessageMutationVariables>;
 export const LivePriceSimpleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LivePriceSimple"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LivePricingSimpleConfig"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"livePriceSimple"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"allListingsLength"}},{"kind":"Field","name":{"kind":"Name","value":"stockValuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}},{"kind":"Field","name":{"kind":"Name","value":"valuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}},{"kind":"Field","name":{"kind":"Name","value":"validListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"listedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"quantity"}},{"kind":"Field","name":{"kind":"Name","value":"listedValue"}}]}}]}}]}}]}}]} as unknown as DocumentNode<LivePriceSimpleQuery, LivePriceSimpleQueryVariables>;
@@ -1199,19 +1132,20 @@ export const LivePricingHistoriesDocument = {"kind":"Document","definitions":[{"
 export const TakeStashViewSanpshotDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"TakeStashViewSanpshot"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewSnapshot"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<TakeStashViewSanpshotMutation, TakeStashViewSanpshotMutationVariables>;
 export const StashViewJobStatDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewJobStat"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewJobStat"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"jobId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"jobId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitEndTimestamp"}}]}}]}}]} as unknown as DocumentNode<StashViewJobStatQuery, StashViewJobStatQueryVariables>;
 export const StashViewUpdateSnapshotRecordDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewUpdateSnapshotRecord"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"input"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StashViewSnapshotRecordUpdateInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewUpdateSnapshotRecord"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"input"},"value":{"kind":"Variable","name":{"kind":"Name","value":"input"}}}]}]}}]} as unknown as DocumentNode<StashViewUpdateSnapshotRecordMutation, StashViewUpdateSnapshotRecordMutationVariables>;
+export const UpdatePreferenceListingPercentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdatePreferenceListingPercent"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"listingPercent"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Float"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updatePreferenceListingPercent"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"listingPercent"},"value":{"kind":"Variable","name":{"kind":"Name","value":"listingPercent"}}}]}]}}]} as unknown as DocumentNode<UpdatePreferenceListingPercentMutation, UpdatePreferenceListingPercentMutationVariables>;
 export const TftFiveWayLiveListingsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftFiveWayLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListings"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftFiveWayLiveListingsQuery, TftFiveWayLiveListingsQueryVariables>;
 export const TftLiveListingSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftLiveListingSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"search"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"TftLiveListingSearch"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftLiveListingSearch"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"search"},"value":{"kind":"Variable","name":{"kind":"Name","value":"search"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordId"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordName"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordHighestRole"}},{"kind":"Field","name":{"kind":"Name","value":"userDiscordDisplayRoleColor"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"delistedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"tag"}},{"kind":"Field","name":{"kind":"Name","value":"properties"}}]}}]}}]} as unknown as DocumentNode<TftLiveListingSearchQuery, TftLiveListingSearchQueryVariables>;
 export const TftOneClickMessageHistoryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"TftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"tftOneClickMessageHistory"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"messageId"}},{"kind":"Field","name":{"kind":"Name","value":"channelId"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"exportType"}},{"kind":"Field","name":{"kind":"Name","value":"exportSubType"}},{"kind":"Field","name":{"kind":"Name","value":"rateLimitExpires"}}]}}]}}]} as unknown as DocumentNode<TftOneClickMessageHistoryQuery, TftOneClickMessageHistoryQueryVariables>;
 export const DeleteTftOneClickMessageDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteTftOneClickMessage"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTftOneClickMessage"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"messageId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"messageId"}}}]}]}}]} as unknown as DocumentNode<DeleteTftOneClickMessageMutation, DeleteTftOneClickMessageMutationVariables>;
 export const PassiveAtlasTreeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PassiveAtlasTree"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"passiveTreeVersion"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"atlasTree"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"passiveTreeVersion"},"value":{"kind":"Variable","name":{"kind":"Name","value":"passiveTreeVersion"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"constants"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minX"}},{"kind":"Field","name":{"kind":"Name","value":"minY"}},{"kind":"Field","name":{"kind":"Name","value":"maxX"}},{"kind":"Field","name":{"kind":"Name","value":"maxY"}},{"kind":"Field","name":{"kind":"Name","value":"skillsPerOrbit"}},{"kind":"Field","name":{"kind":"Name","value":"orbitRadii"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nodeMap"}},{"kind":"Field","name":{"kind":"Name","value":"connectionMap"}}]}}]}}]} as unknown as DocumentNode<PassiveAtlasTreeQuery, PassiveAtlasTreeQueryVariables>;
 export const PassiveTreeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"PassiveTree"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"passiveTreeVersion"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"passiveTree"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"passiveTreeVersion"},"value":{"kind":"Variable","name":{"kind":"Name","value":"passiveTreeVersion"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"constants"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"minX"}},{"kind":"Field","name":{"kind":"Name","value":"minY"}},{"kind":"Field","name":{"kind":"Name","value":"maxX"}},{"kind":"Field","name":{"kind":"Name","value":"maxY"}},{"kind":"Field","name":{"kind":"Name","value":"skillsPerOrbit"}},{"kind":"Field","name":{"kind":"Name","value":"orbitRadii"}}]}},{"kind":"Field","name":{"kind":"Name","value":"nodeMap"}},{"kind":"Field","name":{"kind":"Name","value":"connectionMap"}}]}}]}}]} as unknown as DocumentNode<PassiveTreeQuery, PassiveTreeQueryVariables>;
+export const LivePriceDivConvSimpleDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LivePriceDivConvSimple"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LivePricingSimpleConfig"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"livePriceSimple"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"valuation"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]} as unknown as DocumentNode<LivePriceDivConvSimpleQuery, LivePriceDivConvSimpleQueryVariables>;
 export const LivePricingHistoriesDivsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"LivePricingHistoriesDivs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"config"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"LivePricingHistoryConfig"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"livePricingHistory"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"config"},"value":{"kind":"Variable","name":{"kind":"Name","value":"config"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"results"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"series"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"stockRangeStartInclusive"}},{"kind":"Field","name":{"kind":"Name","value":"entries"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"value"}}]}}]}}]}}]}}]}}]} as unknown as DocumentNode<LivePricingHistoriesDivsQuery, LivePricingHistoriesDivsQueryVariables>;
 export const StashViewSnapshotRecordsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewSnapshotRecords"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewSnapshotRecords"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"favorited"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"fixedValue"}},{"kind":"Field","name":{"kind":"Name","value":"lpValue"}},{"kind":"Field","name":{"kind":"Name","value":"lpStockValue"}}]}}]}}]} as unknown as DocumentNode<StashViewSnapshotRecordsQuery, StashViewSnapshotRecordsQueryVariables>;
 export const StashViewValueSnapshotSeriesDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StashViewValueSnapshotSeries"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewValueSnapshotSeries"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashId"}},{"kind":"Field","name":{"kind":"Name","value":"values"}},{"kind":"Field","name":{"kind":"Name","value":"timestamps"}}]}}]}}]} as unknown as DocumentNode<StashViewValueSnapshotSeriesQuery, StashViewValueSnapshotSeriesQueryVariables>;
-export const CurrenyValuePullDivDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"CurrenyValuePullDiv"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"key"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","alias":{"kind":"Name","value":"div"},"name":{"kind":"Name","value":"itemGroupValueChaos"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"key"},"value":{"kind":"Variable","name":{"kind":"Name","value":"key"}}},{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}]}]}}]} as unknown as DocumentNode<CurrenyValuePullDivQuery, CurrenyValuePullDivQueryVariables>;
 export const StashViewRefreshTabsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"StashViewRefreshTabs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"league"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"stashViewRefreshTabs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"league"},"value":{"kind":"Variable","name":{"kind":"Name","value":"league"}}}]}]}}]} as unknown as DocumentNode<StashViewRefreshTabsMutation, StashViewRefreshTabsMutationVariables>;
 export const ExchangeAuthCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ExchangeAuthCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"authCode"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"exchangeAuthCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"authCode"},"value":{"kind":"Variable","name":{"kind":"Name","value":"authCode"}}}]}]}}]} as unknown as DocumentNode<ExchangeAuthCodeMutation, ExchangeAuthCodeMutationVariables>;
-export const MyProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"forcePull"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"poeProfileName"}},{"kind":"Field","name":{"kind":"Name","value":"patreonUserId"}},{"kind":"Field","name":{"kind":"Name","value":"patreonTier"}},{"kind":"Field","name":{"kind":"Name","value":"oAuthTokenUpdatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"lastConnectedTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"discordUsername"}},{"kind":"Field","name":{"kind":"Name","value":"discordUserId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"roles"}},{"kind":"Field","name":{"kind":"Name","value":"opaqueKey"}}]}},{"kind":"Field","name":{"kind":"Name","value":"checkTftMembership"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"forcePull"},"value":{"kind":"Variable","name":{"kind":"Name","value":"forcePull"}}}]},{"kind":"Field","name":{"kind":"Name","value":"myNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"href"}}]}}]}}]} as unknown as DocumentNode<MyProfileQuery, MyProfileQueryVariables>;
+export const MyProfileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyProfile"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"forcePull"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"poeProfileName"}},{"kind":"Field","name":{"kind":"Name","value":"patreonUserId"}},{"kind":"Field","name":{"kind":"Name","value":"patreonTier"}},{"kind":"Field","name":{"kind":"Name","value":"oAuthTokenUpdatedAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"lastConnectedTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"discordUsername"}},{"kind":"Field","name":{"kind":"Name","value":"discordUserId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAtTimestamp"}},{"kind":"Field","name":{"kind":"Name","value":"roles"}},{"kind":"Field","name":{"kind":"Name","value":"preferences"}},{"kind":"Field","name":{"kind":"Name","value":"opaqueKey"}}]}},{"kind":"Field","name":{"kind":"Name","value":"checkTftMembership"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"forcePull"},"value":{"kind":"Variable","name":{"kind":"Name","value":"forcePull"}}}]},{"kind":"Field","name":{"kind":"Name","value":"myNotifications"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"timestamp"}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"type"}},{"kind":"Field","name":{"kind":"Name","value":"title"}},{"kind":"Field","name":{"kind":"Name","value":"body"}},{"kind":"Field","name":{"kind":"Name","value":"href"}}]}}]}}]} as unknown as DocumentNode<MyProfileQuery, MyProfileQueryVariables>;
 export const RouteChangeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RouteChange"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"path"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"pathname"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"routeChange"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"path"},"value":{"kind":"Variable","name":{"kind":"Name","value":"path"}}},{"kind":"Argument","name":{"kind":"Name","value":"pathname"},"value":{"kind":"Variable","name":{"kind":"Name","value":"pathname"}}}]}]}}]} as unknown as DocumentNode<RouteChangeMutation, RouteChangeMutationVariables>;
 export const LoginAsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginAs"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"userId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginAs"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"userId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"userId"}}}]}]}}]} as unknown as DocumentNode<LoginAsMutation, LoginAsMutationVariables>;
 export const UpdateDiscordCodeDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"UpdateDiscordCode"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"code"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"updateDiscordCode"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"code"},"value":{"kind":"Variable","name":{"kind":"Name","value":"code"}}}]}]}}]} as unknown as DocumentNode<UpdateDiscordCodeMutation, UpdateDiscordCodeMutationVariables>;

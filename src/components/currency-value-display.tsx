@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 
 import { gql, useQuery } from "@apollo/client";
+import { useCurrencyConversion } from "@contexts/currency-conversion-context";
 import { myLoader } from "@utils/general-util";
 
 import { StyledTooltip } from "./library/styled-tooltip";
@@ -29,35 +30,7 @@ export default function CurrencyValueDisplay({
 }) {
   const [display, setDisplay] = useState<string>("");
   const [icon, setIcon] = useState<string>(CHAOS_ICON);
-
-  const [chaosRates, setChaosRates] = useState<{
-    div: number;
-    ex: number;
-  } | null>(null);
-  useQuery(
-    gql`
-      query CurrenyValuePullDivAndEx(
-        $key: String!
-        $key2: String!
-        $league: String!
-      ) {
-        div: itemGroupValueChaos(key: $key, league: $league)
-        ex: itemGroupValueChaos(key: $key2, league: $league)
-      }
-    `,
-    {
-      skip: !league,
-      variables: {
-        league: league,
-        key: "divine orb",
-        key2: "exalted orb",
-      },
-      fetchPolicy: "cache-first",
-      onCompleted(data) {
-        setChaosRates(data);
-      },
-    }
-  );
+  const { divValueChaos } = useCurrencyConversion();
 
   useEffect(() => {
     const round = (v) => +(v ?? 0).toFixed(1);
@@ -67,11 +40,11 @@ export default function CurrencyValueDisplay({
     if (league?.toLowerCase()?.includes("ruthless")) {
       setIcon(ALCH_ICON);
     } else if (
-      chaosRates?.div &&
-      absValue >= chaosRates?.div &&
+      divValueChaos &&
+      absValue >= divValueChaos &&
       !forceChaosDisplay
     ) {
-      newDisplay = "" + round(absValue / chaosRates?.div);
+      newDisplay = "" + round(absValue / divValueChaos);
       setIcon(DIV_ICON);
     } else {
       setIcon(CHAOS_ICON);
@@ -82,12 +55,12 @@ export default function CurrencyValueDisplay({
     }
 
     setDisplay(newDisplay);
-  }, [chaosRates, pValue, setIcon, league]);
+  }, [divValueChaos, pValue, setIcon, league]);
 
   return (
     <>
       <StyledTooltip
-        texts={[`${pValue}c`, `${chaosRates?.div}c/div`]}
+        texts={[`${pValue}c`, `${divValueChaos}c/div`]}
         placement={"auto"}
       >
         <div

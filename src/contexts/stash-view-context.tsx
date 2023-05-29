@@ -15,12 +15,13 @@ import { StashViewTab } from "@models/stash-view-models";
 import { StashViewUtil } from "@utils/stash-view-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
 
+import { useCurrencyConversion } from "./currency-conversion-context";
 import { useStashViewTabs } from "./stash-view-tabs-context";
 import { usePoeStackAuth } from "./user-context";
 
 export interface StashViewSettings {
   league: string | undefined | null;
-  chaosToDivRate: number | null;
+  chaosToDivRate: number | null | undefined;
 
   searchString: string;
 
@@ -165,6 +166,8 @@ export function StashViewContextProvider({
 
   const { stashTabs, refreshTabs } = useStashViewTabs();
 
+  const { divValueChaos } = useCurrencyConversion();
+
   const [stashViewSettings, setStashViewSettings] =
     useState<StashViewSettings | null>(null);
 
@@ -175,6 +178,7 @@ export function StashViewContextProvider({
     const combinedSettings = {
       ...defaultStashViewSettings,
       ...loadedStashSettings,
+      chaosToDivRate: divValueChaos,
       league: league,
     };
 
@@ -192,6 +196,15 @@ export function StashViewContextProvider({
       localStorage.setItem(cacheId, JSON.stringify(stashViewSettings));
     }
   }, [stashViewSettings]);
+
+  useEffect(() => {
+    if (stashViewSettings) {
+      setStashViewSettings({
+        ...stashViewSettings,
+        chaosToDivRate: divValueChaos,
+      });
+    }
+  }, [divValueChaos]);
 
   const [tab, setTab] = useState<{
     items: CharacterSnapshotItem[] & { x: number; y: number };
@@ -290,29 +303,6 @@ export function StashViewContextProvider({
       },
       onError(error) {
         setValueSnapshots([]);
-      },
-    }
-  );
-
-  useQuery(
-    gql`
-      query CurrenyValuePullDiv($key: String!, $league: String!) {
-        div: itemGroupValueChaos(key: $key, league: $league)
-      }
-    `,
-    {
-      skip: !league || !stashViewSettings,
-      variables: {
-        league: league,
-        key: "divine orb",
-      },
-      fetchPolicy: "cache-first",
-      onCompleted(data) {
-        const div: number | null = data?.div ?? null;
-        setStashViewSettings({
-          ...(stashViewSettings as StashViewSettings),
-          chaosToDivRate: div,
-        });
       },
     }
   );

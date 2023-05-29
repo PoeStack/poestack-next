@@ -52,10 +52,16 @@ export function StashViewItemTable({
       let sortValue: number | string = 0;
       if (key === "stackValue") {
         sortValue =
-          (StashViewUtil.itemValue(stashViewSettings, item) ?? 0) *
-          item.quantity;
+          StashViewUtil.itemStackTotalValue(
+            { ...stashViewSettings, valueOverridesEnabled: false },
+            item
+          ) ?? 0;
       } else if (key === "value") {
-        sortValue = StashViewUtil.itemValue(stashViewSettings, item) ?? 0;
+        sortValue =
+          StashViewUtil.itemValue(
+            { ...stashViewSettings, valueOverridesEnabled: false },
+            item
+          ) ?? 0;
       } else if (key === "name") {
         sortValue = item.itemGroup?.displayName ?? item.searchableString;
       } else {
