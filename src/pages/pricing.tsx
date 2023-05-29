@@ -125,7 +125,12 @@ export default function LivePricingPage() {
                 value={(router.query.searchString as string) ?? ""}
                 placeholder="Search..."
                 onChange={(e) => {
-                  router.push({ query: { ...router.query, searchString: e } });
+                  GeneralUtils.debounce(
+                    router.push({
+                      query: { ...router.query, searchString: e },
+                    }),
+                    300
+                  );
                 }}
               />
             </div>
