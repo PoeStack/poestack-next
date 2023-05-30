@@ -21,8 +21,10 @@ import { StashViewItemMouseOver } from "./stash-view-item-mouse-over";
 
 export function StashViewItemTable({
   forceReducer = false,
+  disableOverrideToggle = false,
 }: {
   forceReducer?: boolean;
+  disableOverrideToggle?: boolean;
 }) {
   const { stashTabs, stashViewSettings, stashSummary, setStashViewSettings } =
     useStashViewContext();
@@ -170,14 +172,14 @@ export function StashViewItemTable({
 
   return (
     <>
-      <div className="flex flex-col space-y-2 min-h-[826px]">
+      <div className="flex min-h-[826px] flex-col space-y-2">
         <table className="w-full table-auto text-left">
           <thead>
             <tr>
               <th>
                 <input
                   type="checkbox"
-                  className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
+                  className="peer h-4 w-4 rounded border-gray-300 bg-gray-100 text-content-accent "
                   checked={selectAllChecked}
                   onChange={(e) => {
                     if (selectAllChecked) {
@@ -269,11 +271,11 @@ export function StashViewItemTable({
                 const tab = stashTabs?.find((e) => e.id === item.stashId);
                 return (
                   <>
-                    <tr className="h-[36px] group">
+                    <tr className="group h-[36px]">
                       <td>
                         <input
                           type="checkbox"
-                          className="w-4 h-4 bg-gray-100 border-gray-300 rounded peer text-content-accent "
+                          className="peer h-4 w-4 rounded border-gray-300 bg-gray-100 text-content-accent "
                           checked={
                             !item.itemGroupHashString ||
                             !stashViewSettings.excludedItemGroupIds?.includes(
@@ -419,7 +421,7 @@ export function StashViewItemTable({
           </tbody>
         </table>
         <div className="flex-1"></div>
-        <div className="flex space-x-4 items-center">
+        <div className="flex items-center space-x-4">
           <div className="flex space-x-2">
             <StyledButton
               text={"First"}
@@ -449,27 +451,29 @@ export function StashViewItemTable({
               }}
             />
           </div>
-          <div className="flex space-x-4 items-center">
-            <div className="flex space-x-1 items-center">
-              <input
-                type="checkbox"
-                className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
-                checked={stashViewSettings.valueOverridesEnabled}
-                onChange={(e) => {
-                  setStashViewSettings({
-                    ...stashViewSettings,
-                    valueOverridesEnabled:
-                      !stashViewSettings.valueOverridesEnabled,
-                  });
-                }}
-              />
-              <div>Enabled Overrides</div>
-            </div>
-            {!forceReducer && (
-              <div className="flex space-x-1 items-center">
+          <div className="flex items-center space-x-4">
+            {!disableOverrideToggle && (
+              <div className="flex items-center space-x-1">
                 <input
                   type="checkbox"
-                  className="w-4 h-4 text-content-accent bg-gray-100 border-gray-300 rounded"
+                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-content-accent"
+                  checked={stashViewSettings.valueOverridesEnabled}
+                  onChange={(e) => {
+                    setStashViewSettings({
+                      ...stashViewSettings,
+                      valueOverridesEnabled:
+                        !stashViewSettings.valueOverridesEnabled,
+                    });
+                  }}
+                />
+                <div>Enabled Overrides</div>
+              </div>
+            )}
+            {!forceReducer && (
+              <div className="flex items-center space-x-1">
+                <input
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300 bg-gray-100 text-content-accent"
                   checked={!!stashViewSettings.stackReducerEnabled}
                   onChange={(e) => {
                     setStashViewSettings({

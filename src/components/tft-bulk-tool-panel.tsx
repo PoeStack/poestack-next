@@ -46,7 +46,10 @@ export default function TftBulkToolPanel() {
           <div>Load some tabs to get started.</div>
         ) : (
           <div className="flex-1">
-            <StashViewItemTable forceReducer={true} />
+            <StashViewItemTable
+              forceReducer={true}
+              disableOverrideToggle={true}
+            />
           </div>
         )}
       </div>

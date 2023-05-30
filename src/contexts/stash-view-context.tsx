@@ -257,7 +257,7 @@ export function StashViewContextProvider({
   >(null);
   async function pullStashSummary() {
     try {
-      if (snapshotRecords) {
+      if (snapshotRecords?.length) {
         const summary = await StashViewUtil.fetchStashSummary(
           stashViewSettings?.league!,
           profile?.opaqueKey!,
@@ -316,7 +316,6 @@ export function StashViewContextProvider({
       ) {
         e.valueOverridesEnabled = false;
       }
-
       setStashViewSettings(e);
     },
     tab: tab,
