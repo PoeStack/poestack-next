@@ -249,6 +249,12 @@ export type ItemGroupListing = {
   quantity: Scalars['Float'];
 };
 
+export type LadderViewVectorRecord = {
+  __typename?: 'LadderViewVectorRecord';
+  league: Scalars['String'];
+  timestamp: Scalars['DateTime'];
+};
+
 export type LivePricingHistoryConfig = {
   itemGroupHashStrings: Array<Scalars['String']>;
   league: Scalars['String'];
@@ -537,6 +543,7 @@ export type Query = {
   customLadderGroup: CustomLadderGroup;
   customLadderGroupsByOwner: Array<CustomLadderGroup>;
   globalSearch: GlobalSearchResponse;
+  ladderViewVectorRecords: Array<LadderViewVectorRecord>;
   leagueActvityTimeseries: GenericAggregation;
   leagues: Array<PoeLeague>;
   livePriceSimple: LivePricingSimpleResult;
@@ -608,6 +615,11 @@ export type QueryCustomLadderGroupsByOwnerArgs = {
 
 export type QueryGlobalSearchArgs = {
   search: GlobalSearch;
+};
+
+
+export type QueryLadderViewVectorRecordsArgs = {
+  league: Scalars['String'];
 };
 
 
