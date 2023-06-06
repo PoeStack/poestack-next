@@ -86,4 +86,15 @@ export const LADDER_VIEW_RAW_FIELD_KEYS = [
   "characterOpaqueKey",
   "level",
   "rank",
+
+  "life",
+  "energyShield",
+  "accuracy",
+  "armour",
+  "evasion",
+  "dex",
+  "int",
+  "str",
+  "combinedDPS",
+  "ward",
 ];
