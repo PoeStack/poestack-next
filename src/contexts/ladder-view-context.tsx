@@ -6,6 +6,7 @@ import StyledLoading from "@components/library/styled-loading";
 import { usePoeStackAuth } from "./user-context";
 import { LadderViewVectorRecord } from "@generated/graphql";
 import { gql, useLazyQuery } from "@apollo/client";
+import { LadderViewVectorParser } from "@utils/ladder-view-vector-parser";
 
 export interface LadderViewSettings {
   league: string | undefined | null;
@@ -56,24 +57,6 @@ export function LadderViewContextProvider({ children }: { children: any }) {
   );
 
   const [characters, setCharacters] = useState<any[]>([]);
-  async function loadCharacters(timestamp: string) {
-    const bucket = `https://poe-stack-ladder-view.nyc3.digitaloceanspaces.com/v1/vectors/${ladderViewSettings.league}/vectors/${timestamp}`;
-    const headerResp = await fetch(`${bucket}/header.json`);
-    const valuesResp = await fetch(`${bucket}/values.json`);
-
-    if (headerResp.ok && valuesResp.ok) {
-      const header = await headerResp.json();
-      const values = await valuesResp.json();
-      const entries: any[][] = [];
-      for (let chunk = 0; chunk < Math.min(header.totalChunks, 3); chunk++) {
-        const chunkResp = await fetch(`${bucket}/entries_${chunk}.json`);
-        if (chunkResp.ok) {
-          const chunkJson = await chunkResp.json();
-          entries.push(...chunkJson.entries);
-        }
-      }
-    }
-  }
 
   const value: LadderViewContext = {
     ladderViewSettings: ladderViewSettings,
@@ -85,7 +68,10 @@ export function LadderViewContextProvider({ children }: { children: any }) {
           setVectorRecords(data.ladderViewVectorRecords);
           const vRecord = data.ladderViewVectorRecords[0];
           if (vRecord) {
-            loadCharacters(vRecord.timestamp);
+            new LadderViewVectorParser().loadCharacters(
+              ladderViewSettings.league!,
+              vRecord.timestamp
+            );
           }
         },
       });
