@@ -11,7 +11,7 @@ export class LadderViewVectorParser {
     };
     values: Record<number, Record<number, any>>;
   } | null = null;
-  private entries: LadderViewVectorFields[] = [];
+  public entries: LadderViewVectorFields[] = [];
 
   private parseVectorField(entry: any[][]): LadderViewVectorFields {
     const vectorFields: LadderViewVectorFields = {};
@@ -51,7 +51,6 @@ export class LadderViewVectorParser {
       this.header = await headerResp.json();
 
       this.values = await valuesResp.json();
-      const entries: any[][] = [];
       for (
         let chunk = 0;
         chunk < Math.min(this.header.totalChunks, 3);

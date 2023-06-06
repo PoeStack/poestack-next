@@ -1,5 +1,6 @@
 export interface LadderViewVectorFields {
   name?: string;
+  class?: string;
   weaponCategory?: string;
   experience?: number;
   totalValueChaos?: number;

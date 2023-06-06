@@ -7,6 +7,7 @@ import { usePoeStackAuth } from "./user-context";
 import { LadderViewVectorRecord } from "@generated/graphql";
 import { gql, useLazyQuery } from "@apollo/client";
 import { LadderViewVectorParser } from "@utils/ladder-view-vector-parser";
+import { LadderViewVectorFields } from "@models/ladder-view-models";
 
 export interface LadderViewSettings {
   league: string | undefined | null;
@@ -20,6 +21,7 @@ export interface LadderViewContext {
   ladderViewSettings: LadderViewSettings;
   setLadderViewSettings: (e: LadderViewSettings) => void;
   vectorRecords: LadderViewVectorRecord[];
+  allCharacters: LadderViewVectorFields[];
   load: () => void;
 }
 
@@ -27,6 +29,7 @@ const initalContext: LadderViewContext = {
   ladderViewSettings: defaultLadderViewSettings,
   setLadderViewSettings: (e: LadderViewSettings) => {},
   vectorRecords: [],
+  allCharacters: [],
   load: () => {},
 };
 
@@ -56,22 +59,25 @@ export function LadderViewContextProvider({ children }: { children: any }) {
     }
   );
 
-  const [characters, setCharacters] = useState<any[]>([]);
+  const [characters, setCharacters] = useState<LadderViewVectorFields[]>([]);
 
   const value: LadderViewContext = {
     ladderViewSettings: ladderViewSettings,
     setLadderViewSettings: setLadderViewSettings,
     vectorRecords: vectorRecords,
+    allCharacters: characters,
     load: () => {
       fetchVectors({
         onCompleted(data) {
           setVectorRecords(data.ladderViewVectorRecords);
           const vRecord = data.ladderViewVectorRecords[0];
           if (vRecord) {
-            new LadderViewVectorParser().loadCharacters(
-              ladderViewSettings.league!,
-              vRecord.timestamp
-            );
+            const parser = new LadderViewVectorParser();
+            parser
+              .loadCharacters(ladderViewSettings.league!, vRecord.timestamp)
+              .then(() => {
+                setCharacters(parser.entries);
+              });
           }
         },
       });
