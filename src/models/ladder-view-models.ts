@@ -1,5 +1,6 @@
 export interface LadderViewVectorFields {
-  name?: string;
+  characterName?: string;
+  profileName?: string;
   class?: string;
   weaponCategory?: string;
   experience?: number;
@@ -13,8 +14,23 @@ export interface LadderViewVectorFields {
   enchant?: string;
   helmCategory?: string;
   helmBaseType?: string;
+  patreonTier?: string;
+  rank?: number;
 
   bandit?: string;
   pantheonMajor?: string;
   pantheonMinor?: string;
+
+  life?: number;
+  energyShield?: number;
+  accuracy?: number;
+  armour?: number;
+  evasion?: number;
+  dex?: number;
+  int?: number;
+  str?: number;
+  combinedDPS?: number;
+  ward?: number;
+
+  topAtlasNodeTypes?: string[];
 }

@@ -83,6 +83,8 @@ export const LADDER_VIEW_GENERAL_FIELD_KEYS = [
 
 export const LADDER_VIEW_RAW_FIELD_KEYS = [
   "characterOpaqueKey",
+  "characterName",
+  "profileName",
   "level",
   "rank",
 
