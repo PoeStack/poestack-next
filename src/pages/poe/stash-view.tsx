@@ -2,7 +2,7 @@ import "moment-timezone";
 import { useRouter } from "next/router";
 
 import StyledLoading from "@components/library/styled-loading";
-import PoeAccountConnectedGaurdPanel from "@components/poe-account-connected-guard-panel";
+import PoeAccountConnectedGuardPanel from "@components/poe-account-connected-guard-panel";
 import StashViewLayout from "@components/stash-view/stash-view-layout";
 import { StashViewContextProvider } from "@contexts/stash-view-context";
 import { usePoeStackAuth } from "@contexts/user-context";
@@ -19,13 +19,13 @@ export default function StashView() {
 
   return (
     <>
-      <PoeAccountConnectedGaurdPanel>
+      <PoeAccountConnectedGuardPanel>
         <StashViewContextProvider
           cacheId={`stash_view_page_${profile?.userId}_${league}_v_1`}
         >
           <StashViewLayout />
         </StashViewContextProvider>
-      </PoeAccountConnectedGaurdPanel>
+      </PoeAccountConnectedGuardPanel>
     </>
   );
 }
