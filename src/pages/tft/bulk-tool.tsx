@@ -41,11 +41,10 @@ export default function BulkTool() {
               <div className="flex flex-col space-y-2 w-fit">
                 <div>Settings (Optional)</div>
                 <div>
-                  Current Discord: {`${profile?.discordUsername}`} (
-                  {profile?.discordUserId})
+                  {profile?.discordUsername ? `Current Discord: {${profile?.discordUsername}} (${profile?.discordUserId})` : `Discord account not connected yet`}
                 </div>
                 <StyledButton
-                  text={"Connect a Different Discord"}
+                  text={`Connect a ${profile?.discordUsername ? 'different ' : ''}Discord`}
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
