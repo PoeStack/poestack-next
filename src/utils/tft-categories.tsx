@@ -62,6 +62,10 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
   },
   fragments: {
     tags: ["fragment"],
+    icon: "https://web.poecdn.com/image/Art/2DItems/Maps/AtlasMaps/FragmentPhoenix.png",
+  },
+  breach: {
+    tags: ["fragment"],
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQnJlYWNoL0JyZWFjaEZyYWdtZW50c0NoYW9zIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/04b5c032f4/BreachFragmentsChaos.png",
   },
   cards: {
