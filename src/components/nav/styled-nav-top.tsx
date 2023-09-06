@@ -48,8 +48,8 @@ export default function StyledNavTop() {
 
   return (
     <>
-      <div className="h-[70px] bg-surface-primary flex items-center">
-        <div className="flex items-center text-center justify-center pl-5 min-h-[50px]">
+      <div className="flex h-[70px] items-center bg-surface-primary">
+        <div className="flex min-h-[50px] items-center justify-center pl-5 text-center">
           <Link href="/">
             <Image
               width={48}
@@ -59,7 +59,7 @@ export default function StyledNavTop() {
             />
           </Link>
           <Link href="/">
-            <div className="self-center text-2xl font-semibold whitespace-nowrap text-content-base">
+            <div className="self-center whitespace-nowrap text-2xl font-semibold text-content-base">
               PoeStack
             </div>
           </Link>
@@ -69,7 +69,7 @@ export default function StyledNavTop() {
           {navigation.map((item) => (
             <li
               key={item.name}
-              className={`block text-md font-semibold leading-6 rounded-md hover:bg-color-primary`}
+              className={`text-md block rounded-md font-semibold leading-6 hover:bg-color-primary`}
             >
               <Link href={item.href} className="block py-3 px-2 leading-6">
                 {item.name}
