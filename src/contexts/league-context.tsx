@@ -5,7 +5,7 @@ const initalContext: {
   league: string;
   setLeague: any;
 } = {
-  league: "Sanctum",
+  league: "Ancestor",
   setLeague: (league: string) => {},
 };
 
