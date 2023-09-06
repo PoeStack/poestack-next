@@ -160,7 +160,7 @@ export function StashViewItemMouseOver({
                     </div>
                   </Link>
                   <Link
-                    href={`https://www.pathofexile.com/trade/search/Crucible?q={"query":{"type":"${itemSummary?.itemGroup?.baseType}"}}`}
+                    href={`https://www.pathofexile.com/trade/search/Ancestor?q={"query":{"type":"${itemSummary?.itemGroup?.baseType}"}}`}
                   >
                     <div className="bg-surface-primary rounded-lg p-1">
                       Trade

@@ -5,11 +5,15 @@ const initalContext: {
   league: string;
   setLeague: any;
 } = {
-  league: "Sanctum",
+  league: "Ancestor",
   setLeague: (league: string) => {},
 };
 
 export const POE_LEAGUES = [
+  "Ancestor",
+  "Hardcore Ancestor",
+  "Ruthless Ancestor",
+  "HC Ruthless Ancestor",
   "Crucible",
   "Hardcore Crucible",
   "Sanctum",
