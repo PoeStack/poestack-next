@@ -48,14 +48,14 @@ function DesktopNavBar() {
     },
     {
       name: "TFT Bulk Tool",
-      href: `/tft/bulk-tool?league=Crucible`,
+      href: `/tft/bulk-tool?league=Ancestor`,
       current: false,
     },
   ];
 
   return (
     <>
-      <div className="flex flex-col bg-surface-primary px-2 sticky inset-0 min-h-screen">
+      <div className="sticky inset-0 flex min-h-screen flex-col bg-surface-primary px-2">
         {/* Profile */}
         {/* Navgiation */}
         <ul role="list" className="space-y-2"></ul>
@@ -70,7 +70,7 @@ function DesktopNavBar() {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-content-accent  block font-semibold"
+              className="block  font-semibold hover:text-content-accent"
             >
               Patreon
             </a>
@@ -79,7 +79,7 @@ function DesktopNavBar() {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-content-accent  block font-semibold"
+              className="block  font-semibold hover:text-content-accent"
             >
               Join the Discord
             </a>

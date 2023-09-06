@@ -14,7 +14,7 @@ export interface LadderViewSettings {
 }
 
 const defaultLadderViewSettings: LadderViewSettings = {
-  league: "Crucible",
+  league: "Ancestor",
 };
 
 export interface LadderViewContext {

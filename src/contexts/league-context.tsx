@@ -10,18 +10,12 @@ const initalContext: {
 };
 
 export const POE_LEAGUES = [
-  "Crucible",
-  "Hardcore Crucible",
+  "Ancestor",
+  "Hardcore Ancestor",
   "Sanctum",
-  "Ruthless with Gold",
-  "Ziz Sanctum HCSSF Class Gauntlet",
-  "Hardcore Sanctum",
-  "SSF Sanctum",
   "SSF Standard",
   "Standard",
   "Hardcore",
-  "Ruthless Sanctum",
-  "HC Ruthless Sanctum",
 ];
 
 export const PoeStackLeagueContext = createContext(initalContext);
