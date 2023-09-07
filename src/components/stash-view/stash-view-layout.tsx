@@ -19,7 +19,6 @@ import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 const iconStyleProps = {
   height: '2rem',
   width: '2rem',
-  style: { cursor: "pointer" },
 }
 
 export default function StashViewLayout() {
@@ -43,8 +42,8 @@ export default function StashViewLayout() {
             <>
               <StashViewHeaderCard />
               <StyledCard className={`col-span-1 2xl:col-span-2 max-h-[600px] ${showChart ? 'pb-24' : ''} grow`}>
-              <div>
-                {showChart ? <ChevronDownIcon  {...iconStyleProps} onClick={() => setShowChart(false)} /> : <ChevronRightIcon {...iconStyleProps} onClick={() => setShowChart(true)} />}
+              <div onClick={() => setShowChart(!showChart)} className="cursor-pointer">
+                {showChart ? <ChevronDownIcon  {...iconStyleProps}  /> : <ChevronRightIcon {...iconStyleProps} onClick={() => setShowChart(true)} />}
               </div>
                 {showChart ? <StashViewChartJsTest /> : undefined}
               </StyledCard>
