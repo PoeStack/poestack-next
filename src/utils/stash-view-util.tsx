@@ -68,7 +68,7 @@ export class StashViewUtil {
       value = value * ((settings.exporterListedValueMultipler ?? 100) / 100);
     }
 
-    return value;
+    return Number.isNaN(value) ? 0 : value;
   }
 
   public static findItemsToSell(numItems: number, itemValue: number): string {
