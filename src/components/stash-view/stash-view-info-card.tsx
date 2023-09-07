@@ -17,7 +17,8 @@ export function StashViewInfoCard() {
       stashViewSettings,
       stashSummary!
     )) {
-      totalValue += StashViewUtil.itemStackTotalValue(stashViewSettings, item);
+      const itemValue = StashViewUtil.itemStackTotalValue(stashViewSettings, item);
+      totalValue += Number.isNaN(itemValue) ? 0 : itemValue;
     }
     setInfo({ totalValue: totalValue });
   }, [stashSummary, stashViewSettings]);
