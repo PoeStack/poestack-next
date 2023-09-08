@@ -10,7 +10,7 @@ export interface TftCategory {
 }
 
 export const TFT_CATEGORIES: Record<string, TftCategory> = {
-  compasses: {
+  "compasses max (4/16)": {
     tags: ["compass"],
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
@@ -18,6 +18,11 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
       ["4", "16"].includes(
         `${item.itemGroup?.properties?.find((e) => e["key"] === "uses")?.value}`
       ),
+  },
+  compasses: {
+    tags: ["compass"],
+    overrideEnabled: true,
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU3VydmV5b3JzQ29tcGFzcyIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/e8443c2996/SurveyorsCompass.png",
   },
   "essence high": {
     tags: ["essence"],
@@ -46,6 +51,10 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
     tags: ["contract", "blueprint"],
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSGVpc3QvQ29udHJhY3RJdGVtIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/8262f2ca0e/ContractItem.png",
+  },
+  currency: {
+    tags: ["currency"],
+    icon: "https://web.poecdn.com/image/Art/2DItems/Currency/CurrencyRerollRare.png",
   },
   beast: {
     tags: ["beast"],
