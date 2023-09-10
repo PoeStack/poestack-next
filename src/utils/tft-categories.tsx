@@ -10,7 +10,7 @@ export interface TftCategory {
 }
 
 export const TFT_CATEGORIES: Record<string, TftCategory> = {
-  "compasses max (4/16)": {
+  "compasses (4/16 uses)": {
     tags: ["compass"],
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
@@ -18,11 +18,6 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
       ["4", "16"].includes(
         `${item.itemGroup?.properties?.find((e) => e["key"] === "uses")?.value}`
       ),
-  },
-  compasses: {
-    tags: ["compass"],
-    overrideEnabled: true,
-    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU3VydmV5b3JzQ29tcGFzcyIsInciOjEsImgiOjEsInNjYWxlIjoxfV0/e8443c2996/SurveyorsCompass.png",
   },
   "essence high": {
     tags: ["essence"],
