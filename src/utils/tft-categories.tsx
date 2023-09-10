@@ -10,28 +10,28 @@ export interface TftCategory {
 }
 
 export const TFT_CATEGORIES: Record<string, TftCategory> = {
-  "essence high": {
-    tags: ["essence"],
-    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9Ib3Jyb3IxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/748d594bde/Horror1.png",
-    filter: (item) =>
-    [
-      "shrieking",
-      "deafening",
-      "hysteria",
-      "insanity",
-      "horror",
-      "delirium",
-    ].some(
-      (s) => !!StashViewUtil.itemEntryToName(item)?.toLowerCase()?.includes(s)
-      ),
-    },
-  "compasses (4/16 uses)": {
+  "compasses": {
     tags: ["compass"],
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
     filter: (item) =>
       ["4", "16"].includes(
         `${item.itemGroup?.properties?.find((e) => e["key"] === "uses")?.value}`
+      ),
+  },
+  "essence high": {
+    tags: ["essence"],
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvRXNzZW5jZS9Ib3Jyb3IxIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/748d594bde/Horror1.png",
+    filter: (item) =>
+      [
+        "shrieking",
+        "deafening",
+        "hysteria",
+        "insanity",
+        "horror",
+        "delirium",
+      ].some(
+        (s) => !!StashViewUtil.itemEntryToName(item)?.toLowerCase()?.includes(s)
       ),
   },
   essence: {
