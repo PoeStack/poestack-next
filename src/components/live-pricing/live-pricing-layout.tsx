@@ -18,7 +18,7 @@ export default function LivePricingLayout({ children }) {
             {ITEM_GROUP_CATEGORIES.map((category) => (
               <div
                 key={category.tag}
-                className="flex space-x-1 cursor-pointer"
+                className="flex cursor-pointer space-x-1"
                 onClick={() => {
                   router.replace({
                     pathname: "/pricing",
@@ -67,6 +67,10 @@ const ITEM_GROUP_CATEGORIES = [
   {
     tag: "scarab",
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvU2NhcmFicy9Ob3JtYWxTY2FyYWJEaXZpbmF0aW9uIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/7fb7abf05a/NormalScarabDivination.png",
+  },
+  {
+    tag: "tattoo",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQW5jZXN0b3JzL1JhcmVEZXhUYXR0dG9vRXF1aXBtZW50IiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/a2e28f4b6c/RareDexTatttooEquipment.png",
   },
   {
     tag: "compass",
