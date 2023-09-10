@@ -13,9 +13,18 @@ import { useStashViewContext } from "@contexts/stash-view-context";
 
 import StashViewHeaderCard from "./stash-view-header-card";
 import StashViewSideBar from "./stash-view-side-bar";
+import { useState } from "react";
+import { ChevronDownIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
+
+const iconStyleProps = {
+  height: '2rem',
+  width: '2rem',
+}
 
 export default function StashViewLayout() {
   const { stashSummary } = useStashViewContext();
+
+  const [showChart, setShowChart] = useState(true);
 
   return (
     <>
@@ -32,8 +41,11 @@ export default function StashViewLayout() {
           ) : (
             <>
               <StashViewHeaderCard />
-              <StyledCard className="col-span-1 2xl:col-span-2 max-h-[600px] pb-12 grow">
-                <StashViewChartJsTest />
+              <StyledCard className={`col-span-1 2xl:col-span-2 max-h-[600px] ${showChart ? 'pb-24' : ''} grow`}>
+              <div onClick={() => setShowChart(!showChart)} className="cursor-pointer">
+                {showChart ? <ChevronDownIcon  {...iconStyleProps}  /> : <ChevronRightIcon {...iconStyleProps} onClick={() => setShowChart(true)} />}
+              </div>
+                {showChart ? <StashViewChartJsTest /> : undefined}
               </StyledCard>
               <StyledCard>
                 <StashViewInfoCard />

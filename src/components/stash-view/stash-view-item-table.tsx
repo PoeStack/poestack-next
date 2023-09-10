@@ -39,6 +39,8 @@ export function StashViewItemTable({
   const [selectAllChecked, setSelectAllChecked] = useState<boolean>(false);
   const [sortedItems, setSortedItems] = useState<StashViewItemSummary[]>([]);
 
+  const selectedCategory = stashViewSettings.tftSelectedCategory;
+
   useEffect(() => {
     const res = StashViewUtil.searchItems(
       { ...stashViewSettings, excludedItemGroupIds: [] },
@@ -265,6 +267,15 @@ export function StashViewItemTable({
             </tr>
           </thead>
           <tbody>
+            {sortedItems.length === 0 && selectedCategory?.includes('compasses') && (
+              <tr>
+                <td colSpan={10}>
+                  <div className="flex flex-col items-center">
+                    <div className="py-12">No compasses with 4 or 16 uses Found</div>
+                  </div>
+                </td>
+              </tr>
+            )}
             {sortedItems
               .slice(page * pageSize, page * pageSize + pageSize)
               .map((item) => {
