@@ -19,15 +19,19 @@ export default function PoeStackSettings() {
             <ThemeChanger />
           </div>
           <div>
-            <div>Connect Patreon</div>
-            <StyledButton
-              text={"Connect"}
-              onClick={() => {
-                router.push(
-                  "https://www.patreon.com/oauth2/authorize?response_type=code&client_id=E5M8jm9CyVp1tRXqkZEFCDS3iHrAP2MJYPzgvMbxBBRrB_ZFO_Hdu50wSxqzrrBC&redirect_uri=https://poestack.com/patreon/connected"
-                );
-              }}
-            />
+          {!profile?.patreonTier || !profile?.patreonUserId ? (
+            <>
+              <div>Connect Patreon</div>
+              <StyledButton
+                text={"Connect"}
+                onClick={() => {
+                  router.push(
+                    "https://www.patreon.com/oauth2/authorize?response_type=code&client_id=E5M8jm9CyVp1tRXqkZEFCDS3iHrAP2MJYPzgvMbxBBRrB_ZFO_Hdu50wSxqzrrBC&redirect_uri=https://poestack.com/patreon/connected"
+                  );
+                }}
+              />
+            </>
+          ) : <div>Patreon connected.</div>}
           </div>
           <div>
             <div>Clear Cache</div>
