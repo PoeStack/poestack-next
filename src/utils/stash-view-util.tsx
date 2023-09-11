@@ -177,6 +177,13 @@ export class StashViewUtil {
   }
 
   public static itemEntryToName(item) {
+    const itemName = item.searchableString ??
+      item?.itemGroup?.displayName ??
+      item?.itemGroup?.key;
+
+    if (!itemName) {
+      return 'Unimplemented item';
+    }
     return GeneralUtils.capitalize(
       item.searchableString ??
         item?.itemGroup?.displayName ??
