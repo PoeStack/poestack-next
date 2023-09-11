@@ -181,14 +181,7 @@ export class StashViewUtil {
       item?.itemGroup?.displayName ??
       item?.itemGroup?.key;
 
-    if (!itemName) {
-      return 'Unimplemented item';
-    }
-    return GeneralUtils.capitalize(
-      item.searchableString ??
-        item?.itemGroup?.displayName ??
-        item?.itemGroup?.key
-    );
+    return GeneralUtils.capitalize(itemName.trim());
   }
 
   public static itemEntryToDisplayName(item) {
