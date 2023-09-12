@@ -105,7 +105,7 @@ export function PoeStackAuthProvider({ children }) {
     }
   );
 
-  const [routeChange] = useMutation(gql`
+  /*  const [routeChange] = useMutation(gql`
     mutation RouteChange($path: String!, $pathname: String!) {
       routeChange(path: $path, pathname: $pathname)
     }
@@ -114,7 +114,7 @@ export function PoeStackAuthProvider({ children }) {
     routeChange({
       variables: { pathname: router.pathname, path: router.asPath },
     });
-  }, [router.pathname]);
+  }, [router.pathname]); */
 
   useEffect(() => {
     if (code?.length) {
