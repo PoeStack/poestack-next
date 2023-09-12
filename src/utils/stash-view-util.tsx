@@ -177,11 +177,11 @@ export class StashViewUtil {
   }
 
   public static itemEntryToName(item) {
-    return GeneralUtils.capitalize(
-      item.searchableString ??
-        item?.itemGroup?.displayName ??
-        item?.itemGroup?.key
-    );
+    const itemName = item.searchableString ??
+      item?.itemGroup?.displayName ??
+      item?.itemGroup?.key;
+
+    return GeneralUtils.capitalize(itemName?.trim());
   }
 
   public static itemEntryToDisplayName(item) {
