@@ -12,18 +12,18 @@ export default function StyledNavTop() {
   const { league } = usePoeLeagueCtx();
 
   const navigation = [
-    {
+    /*     {
       name: "Builds",
       href: `/poe/characters?league=${league}`,
-    },
+    }, */
     {
       name: "Stash View",
       href: `/poe/stash-view?league=${league}`,
     },
-    {
+    /*     {
       name: "Profile",
       href: `/poe/characters/${profile?.userId}`,
-    },
+    }, */
     {
       name: "Economy",
       href: `/pricing`,
