@@ -181,7 +181,7 @@ export class StashViewUtil {
       item?.itemGroup?.displayName ??
       item?.itemGroup?.key;
 
-    return GeneralUtils.capitalize(itemName.trim());
+    return GeneralUtils.capitalize(itemName?.trim());
   }
 
   public static itemEntryToDisplayName(item) {
