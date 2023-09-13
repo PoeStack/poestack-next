@@ -10,6 +10,7 @@ import { useStashViewContext } from "@contexts/stash-view-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 import { GeneralUtils } from "@utils/general-util";
 import { TFT_CATEGORIES } from "@utils/tft-categories";
+import { useMessagePostedContext } from "@contexts/post-message-events-context";
 
 export function StashViewGenericTftExporterCard() {
   const { profile } = usePoeStackAuth();
@@ -17,6 +18,8 @@ export function StashViewGenericTftExporterCard() {
 
   const [error, setError] = useState<string | null>(null);
   const [statusText, setStatusText] = useState<string | null>(null);
+
+  const { setMessagePosted } = useMessagePostedContext();
 
   function generateInput() {
     return {
@@ -55,6 +58,7 @@ export function StashViewGenericTftExporterCard() {
       onCompleted() {
         setError(null);
         setStatusText(null);
+        setMessagePosted(true);
       },
       onError(error) {
         setError(error.message);
