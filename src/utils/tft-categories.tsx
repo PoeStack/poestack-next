@@ -10,7 +10,7 @@ export interface TftCategory {
 }
 
 export const TFT_CATEGORIES: Record<string, TftCategory> = {
-  "compasses": {
+  compasses: {
     tags: ["compass"],
     overrideEnabled: true,
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQ2hhcmdlZENvbXBhc3MiLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ea8fcc3e35/ChargedCompass.png",
@@ -92,5 +92,9 @@ export const TFT_CATEGORIES: Record<string, TftCategory> = {
   incubators: {
     tags: ["incubator"],
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvSW5jdWJhdGlvbi9JbmN1YmF0aW9uQXJtb3VyIiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/637c41a730/IncubationArmour.png",
+  },
+  tattoos: {
+    tags: ["tattoo"],
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvQW5jZXN0b3JzL1JhcmVEZXhUYXR0dG9vRXF1aXBtZW50IiwidyI6MSwiaCI6MSwic2NhbGUiOjF9XQ/a2e28f4b6c/RareDexTatttooEquipment.png",
   },
 };
