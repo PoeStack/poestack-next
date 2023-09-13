@@ -166,4 +166,8 @@ const ITEM_GROUP_CATEGORIES = [
     tag: "vial",
     icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvQ3VycmVuY3kvVmlhbFRlbXBlcmVkRmxlc2giLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/ff6f1f931e/VialTemperedFlesh.png",
   },
+  {
+    tag: "timeless jewel",
+    icon: "https://web.poecdn.com/gen/image/WzI1LDE0LHsiZiI6IjJESXRlbXMvSmV3ZWxzL1ZhYWxDaXZpbGl6YXRpb24iLCJ3IjoxLCJoIjoxLCJzY2FsZSI6MX1d/568c0e7c98/VaalCivilization.png",
+  },
 ];
