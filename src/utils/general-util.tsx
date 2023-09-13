@@ -38,6 +38,28 @@ export class GeneralUtils {
     );
   }
 
+  public static chaosToDivPlusChaos(
+    divRate: number,
+    totalChaos: number,
+    useEmotes: boolean = true
+  ): string {
+    if (totalChaos < divRate) {
+      return `${GeneralUtils.roundToFirstNoneZeroN(totalChaos!)}${
+        useEmotes ? " :chaos:" : "c"
+      }`;
+    }
+
+    const div = Math.floor(totalChaos / divRate);
+    const chaos = Math.round(totalChaos % divRate);
+    const divMsg = `${Math.floor(totalChaos / divRate)}${
+      useEmotes ? " :divine:" : " div"
+    }`;
+    return (
+      (div > 0 ? divMsg : "") +
+      (chaos > 0 ? ` + ${chaos}${useEmotes ? " :chaos:" : "c"}` : "")
+    );
+  }
+
   public static debounce(func, delay = 80) {
     let timerId;
     return (...args) => {

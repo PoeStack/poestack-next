@@ -214,9 +214,11 @@ export function TftLiveSearchCompasses() {
                           if (divValueChaos) {
                             const divV = listing.totalC / divValueChaos;
                             if (divV >= 0.5) {
-                              msg += ` (${+(
-                                listing.totalC / divValueChaos
-                              ).toFixed(1)}d)`;
+                              msg += ` (${+GeneralUtils.chaosToDivPlusChaos(
+                                divValueChaos,
+                                listing.totalC,
+                                false
+                              )})`;
                             }
                           }
                           navigator.clipboard.writeText(msg);
