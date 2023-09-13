@@ -157,7 +157,7 @@ export function TftLiveSearchCompasses() {
           </div>
         </StyledCard>
         <div className="grid grid-cols-3 gap-2">
-          {listings
+          {[...listings]
             .map((listing) => {
               let totalC = 0;
               const core = Object.values(filters)
@@ -170,7 +170,7 @@ export function TftLiveSearchCompasses() {
                 .join(", ");
               return { ...listing, totalC, core };
             })
-            .toSorted((a, b) => {
+            .sort((a, b) => {
               if (sortType === "Newest") return 0;
               return a.totalC - b.totalC;
             })
