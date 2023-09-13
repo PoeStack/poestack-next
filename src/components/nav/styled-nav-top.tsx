@@ -6,10 +6,13 @@ import { usePoeLeagueCtx } from "@contexts/league-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 
 import NotificationButton from "./notification-button";
+import StyledDropdown from "@components/library/styled-dropdown";
+import { useRouter } from "next/router";
 
 export default function StyledNavTop() {
   const { profile } = usePoeStackAuth();
   const { league } = usePoeLeagueCtx();
+  const router = useRouter();
 
   const navigation = [
     /*     {
@@ -79,6 +82,22 @@ export default function StyledNavTop() {
         </div>
         <div className="flex-1"></div>
         <NotificationButton />
+        <div className="pr-2 pl-4">
+          <StyledDropdown
+            items={[
+              {
+                text: `Connect a ${profile?.discordUsername ? 'different ' : ''}Discord`,
+                onClick: () => {
+                  localStorage.setItem("variable-redirect", router.asPath);
+                  router.push(
+                    "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
+                  );
+                },
+              },
+            ]}
+            text={profile?.discordUsername ? `Discord connected: ${profile?.discordUsername}` : "No discord connected"}
+          />
+        </div>
         <div className="pr-2 pl-4">
           <GggAuthBtn />
         </div>
