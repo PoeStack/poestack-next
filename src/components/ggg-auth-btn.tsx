@@ -11,7 +11,7 @@ export default function GggAuthBtn() {
 
   if (!profile) {
     return (
-      <StyledButton
+      <StyledButton className="py-1.5 px-2"
         text={"Connect POE Account"}
         onClick={() => {
           localStorage.setItem("variable-redirect", router.asPath);
@@ -37,7 +37,7 @@ export default function GggAuthBtn() {
           onClick: logout,
         },
       ]}
-      text={profile.poeProfileName ?? "Issue"}
+      text={profile.poeProfileName ? `POE connected: ${profile.poeProfileName}` : "Issue"}
     />
   );
 }
