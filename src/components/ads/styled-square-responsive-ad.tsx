@@ -23,7 +23,7 @@ export default function FixedAds() {
   return (
     <>
       <div key={`key_${key}`}>
-        <div className="fixed z-50 top-[15%] right-0 w-[180px] h-[500px]">
+        <div className="fixed top-[15%] right-0 z-50 h-[500px] w-[180px]">
           <Adsense
             client="ca-pub-1917075558725173"
             slot="4469612839"
@@ -32,19 +32,10 @@ export default function FixedAds() {
             responsive="true"
           />
         </div>
-        <div className="fixed z-50 top-[15%] left-0 w-[180px] h-[500px]">
+        <div className="fixed top-[15%] left-0 z-50 h-[500px] w-[180px]">
           <Adsense
             client="ca-pub-1917075558725173"
             slot="4469612839"
-            style={{ display: "block" }}
-            format="auto"
-            responsive="true"
-          />
-        </div>
-        <div className="fixed z-50 bottom-0 right-0 w-[500px] h-[500px] ">
-          <Adsense
-            client="ca-pub-1917075558725173"
-            slot="4522170456"
             style={{ display: "block" }}
             format="auto"
             responsive="true"
