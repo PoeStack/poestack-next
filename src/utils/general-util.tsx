@@ -20,6 +20,7 @@ export class GeneralUtils {
     if (!str) return str;
 
     return str
+      ?.trim()
       ?.split(" ")
       .map((w) => {
         return w[0].toUpperCase() + w.slice(1);

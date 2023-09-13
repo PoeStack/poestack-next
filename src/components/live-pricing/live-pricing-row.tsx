@@ -53,9 +53,7 @@ export default function LivePriceRow({
           }}
         >
           {GeneralUtils.capitalize(
-            pricingSummary.itemGroup.displayName ??
-              pricingSummary.itemGroup.key ??
-              "NA"
+            pricingSummary.itemGroup.displayName ?? pricingSummary.itemGroup.key
           )}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm group-hover:text-content-accent">
