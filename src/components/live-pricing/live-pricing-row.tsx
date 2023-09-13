@@ -43,7 +43,7 @@ export default function LivePriceRow({
           />
         </td>
         <td
-          className="whitespace-nowrap px-3 py-4 text-sm  cursor-pointer group-hover:text-content-accent"
+          className="cursor-pointer whitespace-nowrap px-3 py-4  text-sm group-hover:text-content-accent"
           onClick={() => {
             router.push(
               `/pricing/${pricingSummary.itemGroup.hashString}?league=${
@@ -53,7 +53,9 @@ export default function LivePriceRow({
           }}
         >
           {GeneralUtils.capitalize(
-            pricingSummary.itemGroup.displayName ?? pricingSummary.itemGroup.key
+            pricingSummary.itemGroup.displayName ??
+              pricingSummary.itemGroup.key ??
+              "NA"
           )}
         </td>
         <td className="whitespace-nowrap px-3 py-4 text-sm group-hover:text-content-accent">
