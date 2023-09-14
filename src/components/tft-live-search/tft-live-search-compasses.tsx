@@ -214,7 +214,7 @@ export function TftLiveSearchCompasses() {
                           if (divValueChaos) {
                             const divV = listing.totalC / divValueChaos;
                             if (divV >= 0.5) {
-                              msg += ` (${+GeneralUtils.chaosToDivPlusChaos(
+                              msg += ` (${GeneralUtils.chaosToDivPlusChaos(
                                 divValueChaos,
                                 listing.totalC,
                                 false
