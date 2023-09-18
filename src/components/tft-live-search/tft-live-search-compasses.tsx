@@ -1,6 +1,6 @@
 import { nanoid } from "nanoid";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { gql, useQuery } from "@apollo/client";
 import StyledButton from "@components/library/styled-button";
@@ -23,12 +23,53 @@ import { GeneralUtils } from "@utils/general-util";
 export function TftLiveSearchCompasses() {
   const [filters, setFilters] = useState<
     Record<string, TftLiveListingSearchProperty>
-  >({
-    testId: {
-      key: "compasses,Breach,quantity",
-      value: "1",
-    },
+  >(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const filterParam = urlParams.get("filters");
+
+    if (filterParam && filterParam !== "null") {
+      let filters = {};
+      filterParam.split(",").forEach((e) => {
+        const [key, value] = e.split("-");
+        filters[nanoid()] = {
+          key: `compasses,${key.replace("_", " ")},quantity`,
+          value,
+        };
+      });
+      return filters;
+    }
+    return {
+      testId: {
+        key: "compasses,Breach,quantity",
+        value: "1",
+      },
+    };
   });
+
+  // Add the filters to the url string
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (Object.keys(filters).length > 0) {
+      let filterString = "";
+
+      Object.entries(filters).forEach(([key, filter]) => {
+        const filterKey = filter.key?.split(",")?.[1];
+        filterString += `${filterKey.replace(" ", "_")}-${filter.value},`;
+      });
+      filterString = filterString.slice(0, -1);
+
+      urlParams.set("filters", filterString);
+    } else {
+      urlParams.delete("filters");
+    }
+
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${urlParams.toString()}`
+    );
+  }, [filters]);
 
   const [sortType, setSortType] = useState<string>("Newest");
 
@@ -137,7 +178,10 @@ export function TftLiveSearchCompasses() {
                 onClick={() => {
                   setFilters({
                     ...filters,
-                    [nanoid()]: { key: "compasses,Alva,quantity", value: "0" },
+                    [nanoid()]: {
+                      key: "compasses,Alva,quantity",
+                      value: "0",
+                    },
                   });
                 }}
               />
