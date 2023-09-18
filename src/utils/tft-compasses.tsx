@@ -151,13 +151,13 @@ export const TFT_COMPASSES = {
   "Sextant Players and their Minions cannot take Reflected Damage Your Maps contain 5 additional Packs with Mirrored Rare Monsters":
     "Reflected 5 Packs",
   "Sextant The First 3 Possessed Monsters drop an additional Gilded Scarab Your Maps contain an additional Tormented Betrayer":
-    "Gilded Scarab",
+    "Possesed Gilded Scarab",
   "Sextant The first 3 possessed monsters drop an additional winged scarab your maps contain an additional tormented betrayer":
-    "Winged Scarab",
+    "Possesed Winged Scarab",
   "Sextant The First 3 Possessed Monsters drop an additional Polished Scarab Your Maps contain an additional Tormented Betrayer":
-    "Polished Scarab",
+    "Possesed Polished Scarab",
   "Sextant The First 3 Possessed Monsters drop an additional Rusted Scarab Your Maps contain an additional Tormented Betrayer":
-    "Rusted Scarab",
+    "Possesed Rusted Scarab",
   "Sextant Map Bosses have 20% increased Life Quality bonus of your Maps also applies to Rarity of Items found":
     "Map Quality to Rarity",
   "Sextant Your Magic Maps contain 4 additional packs of Magic Monsters Your Normal Maps contain 4 additional packs of Normal Monsters Your Rare Maps contain 4 additional Rare Monster packs":
