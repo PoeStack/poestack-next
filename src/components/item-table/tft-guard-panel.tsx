@@ -31,7 +31,7 @@ export default function TftGuardPanel({
             <div className="flex flex-row place-items-center">
               <div
                 className={
-                  "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
+                  "mr-1.5 flex h-2.5 w-2.5 flex-shrink-0 rounded-full " +
                   (poeAccountConnected ? "bg-green-600" : "bg-red-600")
                 }
               ></div>
@@ -40,11 +40,11 @@ export default function TftGuardPanel({
             {!poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent cursor-pointer"
+                  className="cursor-pointer text-content-accent"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
-                      "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:league_accounts&state=closeafter&redirect_uri=https://poestack.com/ggg/connected&prompt=consent"
+                      "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:leagues account:league_accounts&state=teststate1000&redirect_uri=https://poestack.com/ggg/connected&prompt=consent"
                     );
                   }}
                 >
@@ -57,7 +57,7 @@ export default function TftGuardPanel({
             <div className="flex flex-row place-items-center">
               <div
                 className={
-                  "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
+                  "mr-1.5 flex h-2.5 w-2.5 flex-shrink-0 rounded-full " +
                   (discordAccountId ? "bg-green-600" : "bg-red-600")
                 }
               ></div>
@@ -70,7 +70,7 @@ export default function TftGuardPanel({
             {poeAccountConnected && (
               <>
                 <div
-                  className="text-content-accent cursor-pointer"
+                  className="cursor-pointer text-content-accent"
                   onClick={() => {
                     localStorage.setItem("variable-redirect", router.asPath);
                     router.push(
@@ -88,7 +88,7 @@ export default function TftGuardPanel({
               <div className="flex flex-row place-items-center">
                 <div
                   className={
-                    "flex w-2.5 h-2.5 rounded-full mr-1.5 flex-shrink-0 " +
+                    "mr-1.5 flex h-2.5 w-2.5 flex-shrink-0 rounded-full " +
                     (tftMember ? "bg-green-600" : "bg-red-600")
                   }
                 ></div>
@@ -97,7 +97,7 @@ export default function TftGuardPanel({
               {!tftMember && (
                 <>
                   <div
-                    className="text-content-accent cursor-pointer"
+                    className="cursor-pointer text-content-accent"
                     onClick={() => {
                       window.open(
                         "https://discord.com/invite/tftrove",

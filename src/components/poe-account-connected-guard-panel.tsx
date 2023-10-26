@@ -15,11 +15,11 @@ export default function PoeAccountConnectedGaurdPanel({ children }) {
           <div>You must connect your POE account to view this page.</div>
 
           <div
-            className="text-content-accent cursor-pointer"
+            className="cursor-pointer text-content-accent"
             onClick={() => {
               localStorage.setItem("variable-redirect", router.asPath);
               router.push(
-                "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:league_accounts&state=closeafter&redirect_uri=https://poestack.com/ggg/connected&prompt=consent"
+                "https://www.pathofexile.com/oauth/authorize?client_id=poestack&response_type=code&scope=account:profile account:stashes account:characters account:leagues account:league_accounts&state=teststate1000&redirect_uri=https://poestack.com/ggg/connected&prompt=consent"
               );
             }}
           >
