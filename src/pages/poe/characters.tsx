@@ -80,6 +80,8 @@ export default function Characters() {
   const router = useRouter();
   const { customLadderGroupId, league } = router.query;
 
+  const [loading, setLoading] = useState<boolean>(true);
+
   const [localSearchString, setLocalSearchString] = useState<string>("");
 
   const [timemachineDate, setTimemachineDate] = useState<Date | null>(null);
@@ -101,9 +103,14 @@ export default function Characters() {
           if (v.ok) {
             return v.json();
           }
+          throw new Error("Failed to fetch ladder vector");
         })
         .then((v) => {
           setBaseVector(LadderVectorUtil.parse(v));
+          setLoading(false);
+        })
+        .catch(() => {
+          setLoading(false);
         });
     }
   }, [league, timemachineDate]);
@@ -160,7 +167,7 @@ export default function Characters() {
     router.push({ query: { ...router.query, [searchKey]: nextQuery } });
   }
 
-  if (!displayVector) {
+  if (loading) {
     return (
       <>
         <StyledLoading />
@@ -168,6 +175,11 @@ export default function Characters() {
     );
   }
 
+  if (!loading && !displayVector) {
+    return (
+      <div className="font-bold text-red-500 text-center p-24">No characters found</div>
+    )
+  }
   return (
     <div className="flex flex-col sm:space-y-4 lg:space-y-0 lg:flex-row lg:space-x-4">
       {/* Column 1 on Desktop */}
