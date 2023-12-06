@@ -31,7 +31,7 @@ export default function TftBulkToolPanel() {
       <div className="flex space-x-2">
         <div className="flex flex-col space-y-2">
           <LeagueSelect
-            leagueFilter={(e) => ["Ancestor", "Standard"].includes(e)}
+            leagueFilter={(e) => ["Affliction", "Standard"].includes(e)}
           />
           <StashViewTabSelectionCard />
           <StashViewSnapshotJobCard />
