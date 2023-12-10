@@ -164,7 +164,7 @@ export default function PricingItemPage() {
                 </div>
               </Link>
               <Link
-                href={`https://www.pathofexile.com/trade/search/Ancestor?q={"query":{"type":"${livePricingHistoryGroup.itemGroup?.baseType}"}}`}
+                href={`https://www.pathofexile.com/trade/search/Affliction?q={"query":{"type":"${livePricingHistoryGroup.itemGroup?.baseType}"}}`}
               >
                 <div className="rounded-full bg-indigo-500/10 px-1 py-1 text-sm font-semibold text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
                   Trade
