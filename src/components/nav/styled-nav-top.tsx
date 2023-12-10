@@ -37,7 +37,7 @@ export default function StyledNavTop() {
     }, */
     {
       name: "TFT Bulk Tool",
-      href: `/tft/bulk-tool?league=Ancestor`,
+      href: `/tft/bulk-tool?league=Affliction`,
     },
     {
       name: "TFT Compasses",
