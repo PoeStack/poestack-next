@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 import { OneClickMessageHistory } from "@generated/graphql";
 
 import StyledButton from "./library/styled-button";
+import { useMessagePostedContext } from "@contexts/post-message-events-context";
 
 export default function TftOneClickMessageHistoryCard() {
+  const { messagePosted, setMessagePosted } = useMessagePostedContext();
   const [messages, setMessages] = useState<OneClickMessageHistory[] | null>(
     null
   );
@@ -30,6 +32,12 @@ export default function TftOneClickMessageHistoryCard() {
       },
     }
   );
+
+  useEffect(() => {
+    if (messagePosted) {
+      fetch().finally(() => setMessagePosted(false));
+    }
+  }, [messagePosted, setMessagePosted, fetch])
 
   const [deleteMessage] = useMutation(
     gql`

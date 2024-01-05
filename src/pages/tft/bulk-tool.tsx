@@ -11,6 +11,8 @@ import { StashViewContextProvider } from "@contexts/stash-view-context";
 import { usePoeStackAuth } from "@contexts/user-context";
 
 import TftGuardPanel from "../../components/item-table/tft-guard-panel";
+import { createContext, useState } from "react";
+import { MessagePostedProvider } from "@contexts/post-message-events-context";
 
 export default function BulkTool() {
   const router = useRouter();
@@ -26,34 +28,36 @@ export default function BulkTool() {
       <div>
         <TftGuardPanel>
           <div className="flex flex-col space-y-4">
-            <StyledCard title="Tool">
-              <StashViewContextProvider
-                cacheId={`bulk_tool_page_${profile?.userId}_${league}_v_1`}
-              >
-                <TftBulkToolPanel />
-              </StashViewContextProvider>
-            </StyledCard>
-            <StyledCard>
-              <TftOneClickMessageHistoryCard />
-            </StyledCard>
-            <TftOneClickInstructions />
-            <StyledCard>
-              <div className="flex flex-col space-y-2 w-fit">
-                <div>Settings (Optional)</div>
-                <div>
-                  {profile?.discordUsername ? `Current Discord: {${profile?.discordUsername}} (${profile?.discordUserId})` : `Discord account not connected yet`}
+            <MessagePostedProvider>
+              <StyledCard title="Tool">
+                <StashViewContextProvider
+                  cacheId={`bulk_tool_page_${profile?.userId}_${league}_v_1`}
+                >
+                  <TftBulkToolPanel />
+                </StashViewContextProvider>
+              </StyledCard>
+              <StyledCard>
+                <TftOneClickMessageHistoryCard />
+              </StyledCard>
+              <TftOneClickInstructions />
+              <StyledCard>
+                <div className="flex flex-col space-y-2 w-fit">
+                  <div>Settings (Optional)</div>
+                  <div>
+                    {profile?.discordUsername ? `Current Discord: {${profile?.discordUsername}} (${profile?.discordUserId})` : `Discord account not connected yet`}
+                  </div>
+                  <StyledButton
+                    text={`Connect a ${profile?.discordUsername ? 'different ' : ''}Discord`}
+                    onClick={() => {
+                      localStorage.setItem("variable-redirect", router.asPath);
+                      router.push(
+                        "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
+                      );
+                    }}
+                  />
                 </div>
-                <StyledButton
-                  text={`Connect a ${profile?.discordUsername ? 'different ' : ''}Discord`}
-                  onClick={() => {
-                    localStorage.setItem("variable-redirect", router.asPath);
-                    router.push(
-                      "https://discord.com/api/oauth2/authorize?client_id=1075074940275019836&redirect_uri=https%3A%2F%2Fpoestack.com%2Fdiscord%2Fconnected&response_type=code&scope=identify"
-                    );
-                  }}
-                />
-              </div>
-            </StyledCard>
+              </StyledCard>
+              </MessagePostedProvider>
           </div>
         </TftGuardPanel>
       </div>
