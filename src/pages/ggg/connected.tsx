@@ -10,8 +10,8 @@ export default function Connected() {
   const { connect, jwt } = usePoeStackAuth();
 
   useEffect(() => {
-    const state = state.toString()
-     if(state.includes("dawncode")) {
+    const stateRaw = state.toString()
+     if(stateRaw.includes("dawncode")) {
         if(!!jwt) {
           router.push(`https://bulk.poestack.com/auth?jwt=${jwt}`);
         }
@@ -21,11 +21,11 @@ export default function Connected() {
   useEffect(() => {
     if (code?.length) {
       const codeRaw = code.toString()
-      const state = state.toString()
+      const stateRaw = state.toString()
       connect(codeRaw);
 
       if (
-        !state.includes("dawncode") && 
+        !stateRaw.includes("dawncode") && 
          typeof window !== "undefined" &&
         localStorage.getItem("variable-redirect")
       ) {
