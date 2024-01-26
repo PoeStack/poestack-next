@@ -7,14 +7,25 @@ export default function Connected() {
   const router = useRouter();
 
   const { code } = router.query;
-  const { connect } = usePoeStackAuth();
+  const { connect, jwt } = usePoeStackAuth();
+
+  useEffect(() => {
+    const codeRaw = code.toString()
+     if(codeRaw.includes("dawncode") {
+        if(!!jwt) {
+          router.push(`https://bulk.poestack.com/auth?jwt=${jwt}`);
+        }
+      }
+  }, [jwt])
 
   useEffect(() => {
     if (code?.length) {
-      connect(code.toString());
+      const codeRaw = code.toString()
+      connect(codeRaw);
 
       if (
-        typeof window !== "undefined" &&
+        !codeRaw.includes("dawncode") && 
+         typeof window !== "undefined" &&
         localStorage.getItem("variable-redirect")
       ) {
         router.push(localStorage.getItem("variable-redirect")!.toString());
