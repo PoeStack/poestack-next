@@ -10,26 +10,22 @@ export default function Connected() {
   const { connect, jwt } = usePoeStackAuth();
 
   useEffect(() => {
-    const stateRaw = state?.toString() ?? ""
-     if(stateRaw.includes("dawncode")) {
-        if(!!jwt) {
-          router.push(`https://bulk.poestack.com/auth?jwt=${jwt}`);
-        }
-      }
-  }, [jwt])
-
-  useEffect(() => {
     if (code?.length) {
       const codeRaw = code.toString()
       const stateRaw = state?.toString() ?? ""
-      connect(codeRaw);
+    
 
       if (
-        !stateRaw.includes("dawncode") && 
-         typeof window !== "undefined" &&
-        localStorage.getItem("variable-redirect")
+        !stateRaw.includes("dawncode")
       ) {
-        router.push(localStorage.getItem("variable-redirect")!.toString());
+          connect(codeRaw);
+        if(   typeof window !== "undefined" &&
+        localStorage.getItem("variable-redirect")) {
+              router.push(localStorage.getItem("variable-redirect")!.toString());
+        }
+    
+      } else {
+         router.push(`https://bulk.poestack.com/ggg/connect?code=${codeRaw}`);
       }
     }
   }, [code, connect, router]);
